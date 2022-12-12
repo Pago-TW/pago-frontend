@@ -1,0 +1,54 @@
+{
+  "name": "pago-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next start",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "@emotion/cache": "^11.10.5",
+    "@emotion/react": "^11.10.5",
+    "@emotion/server": "^11.10.0",
+    "@emotion/styled": "^11.10.5",
+    "@fontsource/noto-sans-tc": "^4.5.12",
+    "@mui/icons-material": "^5.10.16",
+    "@mui/material": "^5.10.17",
+    "next": "13.0.2",
+    "next-auth": "^4.18.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "zod": "^3.18.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@storybook/addon-a11y": "^6.5.14",
+    "@storybook/addon-actions": "^6.5.14",
+    "@storybook/addon-essentials": "^6.5.14",
+    "@storybook/addon-interactions": "^6.5.14",
+    "@storybook/addon-links": "^6.5.14",
+    "@storybook/builder-webpack5": "^6.5.14",
+    "@storybook/manager-webpack5": "^6.5.14",
+    "@storybook/react": "^6.5.14",
+    "@storybook/testing-library": "^0.0.13",
+    "@types/node": "^18.0.0",
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.5",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
+    "babel-loader": "^8.3.0",
+    "eslint": "^8.26.0",
+    "eslint-config-next": "13.0.2",
+    "eslint-plugin-storybook": "^0.6.8",
+    "prettier": "^2.8.1",
+    "storybook-addon-designs": "^6.3.1",
+    "typescript": "^4.8.4"
+  },
+  "ct3aMetadata": {
+    "initVersion": "6.11.3"
+  }
+}
