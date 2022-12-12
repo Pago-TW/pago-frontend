@@ -1,5 +1,11 @@
 import { createTheme } from "@mui/material/styles";
 
+declare module "@mui/material/Checkbox" {
+  interface CheckboxPropsSizeOverrides {
+    large: true;
+  }
+}
+
 export const theme = createTheme({
   palette: {
     primary: {
@@ -16,6 +22,16 @@ export const theme = createTheme({
       "'Segoe UI'",
       "'sans-serif'",
     ].join(","),
+  },
+  components: {
+    MuiCheckbox: {
+      variants: [
+        {
+          props: { size: "large" },
+          style: { "& .MuiSvgIcon-root": { fontSize: 28 } },
+        },
+      ],
+    },
   },
 });
 
