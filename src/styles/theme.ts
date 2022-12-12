@@ -6,6 +6,17 @@ export const theme = createTheme({
       main: "#335891",
     },
   },
+  typography: {
+    fontFamily: [
+      "'-apple-system'",
+      "'BlinkMacSystemFont'",
+      "'Noto Sans TC'",
+      "'Helvetica Neue'",
+      "'Helvetica'",
+      "'Segoe UI'",
+      "'sans-serif'",
+    ].join(","),
+  },
 });
 
 export default theme;
