@@ -22,6 +22,9 @@ export const theme = createTheme({
       "'Segoe UI'",
       "'sans-serif'",
     ].join(","),
+    button: {
+      textTransform: "none",
+    },
   },
   components: {
     MuiCheckbox: {
@@ -31,6 +34,27 @@ export const theme = createTheme({
           style: { "& .MuiSvgIcon-root": { fontSize: 28 } },
         },
       ],
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          ...(ownerState.size === "small" && {
+            minWidth: 128,
+            height: 33,
+            fontSize: 14,
+          }),
+          ...(ownerState.size === "medium" && {
+            minWidth: 144,
+            height: 39,
+            fontSize: 18,
+          }),
+          ...(ownerState.size === "large" && {
+            minWidth: 304,
+            height: 46,
+            fontSize: 20,
+          }),
+        }),
+      },
     },
   },
 });
