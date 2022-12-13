@@ -4,6 +4,12 @@ import { Button } from "./Button";
 export default {
   title: "UI/Button",
   component: Button,
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/dinIbshcxJCt2c1jtN1Gm6/Pago---UI-Kit?node-id=275%3A4458&t=8uU11S9YqZI3Y0Qs-1",
+    },
+  },
   argTypes: {
     size: {
       control: {
