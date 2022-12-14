@@ -12,16 +12,9 @@ export default {
   },
   argTypes: {
     size: {
-      control: {
-        type: "radio",
-        options: ["small", "medium"],
-      },
       defaultValue: "small",
     },
     disabled: {
-      control: {
-        type: "boolean",
-      },
       defaultValue: false,
     },
   },

@@ -1,5 +1,6 @@
 import type { RadioProps as MuiRadioProps } from "@mui/material";
 import { Radio as MuiRadio, styled } from "@mui/material";
+import PropTypes from "prop-types";
 
 type RadioProps = MuiRadioProps;
 
@@ -27,6 +28,23 @@ const StyledRadio = styled(MuiRadio, {
   },
 }));
 
-export const Radio = ({ size, ...rest }: RadioProps) => {
-  return <StyledRadio size={size} {...rest} />;
+export const Radio = ({
+  size = "small",
+  disabled = false,
+  ...rest
+}: RadioProps) => {
+  return <StyledRadio size={size} disabled={disabled} {...rest} />;
+};
+
+Radio.propTypes = {
+  /**
+   * The size of the checkbox.
+   * @default "small"
+   */
+  size: PropTypes.oneOf(["small", "medium"]),
+  /**
+   * Whether the checkbox is disabled.
+   * @default false
+   */
+  disabled: PropTypes.bool,
 };

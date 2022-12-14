@@ -6,10 +6,12 @@ module.exports = {
     "@storybook/addon-interactions",
     "@storybook/addon-a11y",
     "storybook-addon-designs",
+    "storybook-addon-pseudo-states",
   ],
   staticDirs: ["../public"],
   typescript: {
     check: true,
+    reactDocgen: "react-docgen",
   },
   framework: "@storybook/react",
   core: {

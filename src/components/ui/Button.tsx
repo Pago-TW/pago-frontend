@@ -3,6 +3,7 @@ import type {
   CircularProgressProps as MuiCircularProgressProps,
 } from "@mui/material";
 import { Button as MuiButton, CircularProgress, styled } from "@mui/material";
+import PropTypes from "prop-types";
 
 interface ButtonProps extends MuiButtonProps {
   loading?: boolean;
@@ -19,8 +20,8 @@ const circularProgressSizes: {
   };
 } = {
   small: { width: 20, height: 20 },
-  medium: { width: 24, height: 24 },
-  large: { width: 32, height: 32 },
+  medium: { width: 20, height: 20 },
+  large: { width: 30, height: 30 },
 };
 
 const StyledCircularProgress = styled(CircularProgress)<CircularProgressProps>(
@@ -32,62 +33,70 @@ const StyledCircularProgress = styled(CircularProgress)<CircularProgressProps>(
 const buttonSizes: {
   [key in NonNullable<ButtonProps["size"]>]: {
     height: number;
-    width: number;
+    minWidth: number;
     fontSize: number;
   };
 } = {
-  small: { height: 33, width: 128, fontSize: 14 },
-  medium: { height: 39, width: 144, fontSize: 18 },
-  large: { height: 46, width: 304, fontSize: 20 },
+  small: { height: 33, minWidth: 128, fontSize: 14 },
+  medium: { height: 39, minWidth: 144, fontSize: 18 },
+  large: { height: 46, minWidth: 304, fontSize: 20 },
 };
 
-const StyledButton = styled(MuiButton)<ButtonProps>(
-  ({ size = "small", theme }) => ({
-    ...(size && buttonSizes[size]),
-    textTransform: "none",
-    "& .MuiButton-endIcon": {
-      position: "absolute",
-      right: "1rem",
+const StyledButton = styled(MuiButton, {
+  shouldForwardProp: (prop) => prop !== "loading",
+})<ButtonProps>(({ size = "small", theme }) => ({
+  ...(size && buttonSizes[size]),
+  textTransform: "none",
+  "& .MuiButton-endIcon": {
+    position: "absolute",
+    ...(size === "small" && {
+      right: 10,
+    }),
+    ...(size === "medium" && {
+      right: 12,
+    }),
+    ...(size === "large" && {
+      right: 24,
+    }),
+  },
+  "&.MuiButton-contained": {
+    backgroundColor: theme.palette.pago[500],
+    "&:hover": {
+      backgroundColor: theme.palette.pago[900],
     },
-    "&.MuiButton-contained": {
-      backgroundColor: theme.palette.pago[500],
-      "&:hover": {
-        backgroundColor: theme.palette.pago[900],
-      },
-      "&:active": {
-        backgroundColor: theme.palette.pago[100],
-        "& .MuiButton-endIcon > *:first-child": {
-          color: theme.palette.pago[500],
-        },
-      },
-      "&.Mui-disabled": {
-        color: theme.palette.common.white,
-        backgroundColor: theme.palette.base[300],
-      },
-      "& .MuiButton-endIcon > *:first-child": {
-        color: theme.palette.pago[100],
-      },
-    },
-    "&.MuiButton-outlined": {
-      color: theme.palette.pago[500],
-      borderColor: theme.palette.pago[500],
-      "&:hover": {
-        backgroundColor: theme.palette.pago[25],
-      },
-      "&:active": {
-        backgroundColor: theme.palette.pago[100],
-      },
-      "&.Mui-disabled": {
-        color: theme.palette.base[300],
-        borderColor: theme.palette.base[300],
-        backgroundColor: theme.palette.common.white,
-      },
+    "&:active": {
+      backgroundColor: theme.palette.pago[100],
       "& .MuiButton-endIcon > *:first-child": {
         color: theme.palette.pago[500],
       },
     },
-  })
-);
+    "&.Mui-disabled": {
+      color: theme.palette.common.white,
+      backgroundColor: theme.palette.base[300],
+    },
+    "& .MuiButton-endIcon > *:first-child": {
+      color: theme.palette.pago[100],
+    },
+  },
+  "&.MuiButton-outlined": {
+    color: theme.palette.pago[500],
+    borderColor: theme.palette.pago[500],
+    "&:hover": {
+      backgroundColor: theme.palette.pago[25],
+    },
+    "&:active": {
+      backgroundColor: theme.palette.pago[100],
+    },
+    "&.Mui-disabled": {
+      color: theme.palette.base[300],
+      borderColor: theme.palette.base[300],
+      backgroundColor: theme.palette.common.white,
+    },
+    "& .MuiButton-endIcon > *:first-child": {
+      color: theme.palette.pago[500],
+    },
+  },
+}));
 
 export const Button = ({
   size = "small",
@@ -107,4 +116,26 @@ export const Button = ({
       {children}
     </StyledButton>
   );
+};
+
+Button.propTypes = {
+  /**
+   * The size of the button.
+   * @default "small"
+   */
+  size: PropTypes.oneOf(["small", "medium", "large"]),
+  /**
+   * The variant to use.
+   * @default "contained"
+   */
+  variant: PropTypes.oneOf(["contained", "outlined"]),
+  /**
+   * Whether the button is loading.
+   * @default false
+   */
+  loading: PropTypes.bool,
+  /**
+   * The content of the button.
+   */
+  children: PropTypes.node,
 };

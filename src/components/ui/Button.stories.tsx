@@ -12,18 +12,13 @@ export default {
   },
   argTypes: {
     size: {
-      control: {
-        type: "radio",
-        options: ["small", "medium", "large"],
-      },
       defaultValue: "small",
     },
     variant: {
-      control: {
-        type: "radio",
-        options: ["text", "outlined", "contained"],
-      },
       defaultValue: "contained",
+    },
+    loading: {
+      defaultValue: false,
     },
     children: {
       control: {

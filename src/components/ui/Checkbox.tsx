@@ -1,5 +1,6 @@
 import type { CheckboxProps as MUICheckboxProps } from "@mui/material";
 import { Checkbox as MuiCheckbox, styled } from "@mui/material";
+import PropTypes from "prop-types";
 
 declare module "@mui/material/Checkbox" {
   interface CheckboxPropsSizeOverrides {
@@ -36,6 +37,23 @@ const StyledCheckbox = styled(MuiCheckbox)<CheckboxProps>(
   })
 );
 
-export const Checkbox = ({ size = "small", ...rest }: CheckboxProps) => {
-  return <StyledCheckbox size={size} {...rest} />;
+export const Checkbox = ({
+  size = "small",
+  disabled = false,
+  ...rest
+}: CheckboxProps) => {
+  return <StyledCheckbox size={size} disabled={disabled} {...rest} />;
+};
+
+Checkbox.propTypes = {
+  /**
+   * The size of the checkbox.
+   * @default "small"
+   */
+  size: PropTypes.oneOf(["small", "medium", "large"]),
+  /**
+   * Whether the checkbox is disabled.
+   * @default false
+   */
+  disabled: PropTypes.bool,
 };
