@@ -102,7 +102,8 @@ export const Button = ({
   size = "small",
   variant = "contained",
   endIcon,
-  loading,
+  loading = false,
+  disabled = false,
   children,
   ...rest
 }: ButtonProps) => {
@@ -110,6 +111,7 @@ export const Button = ({
     <StyledButton
       size={size}
       variant={variant}
+      disabled={disabled}
       endIcon={endIcon || (loading && <StyledCircularProgress size={size} />)}
       {...rest}
     >
@@ -134,6 +136,11 @@ Button.propTypes = {
    * @default false
    */
   loading: PropTypes.bool,
+  /**
+   * Whether the checkbox is disabled.
+   * @default false
+   */
+  disabled: PropTypes.bool,
   /**
    * The content of the button.
    */

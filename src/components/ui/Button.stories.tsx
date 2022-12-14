@@ -20,6 +20,9 @@ export default {
     loading: {
       defaultValue: false,
     },
+    disabled: {
+      defaultValue: false,
+    },
     children: {
       control: {
         type: "text",
