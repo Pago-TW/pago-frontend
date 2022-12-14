@@ -19,12 +19,6 @@ declare module "@mui/material/styles" {
   }
 }
 
-declare module "@mui/material/Checkbox" {
-  interface CheckboxPropsSizeOverrides {
-    large: true;
-  }
-}
-
 const paletteTheme = createTheme({
   palette: {
     base: {
@@ -73,15 +67,6 @@ export const theme = createTheme(paletteTheme, {
     ].join(","),
     button: {
       textTransform: "none",
-    },
-  },
-  components: {
-    MuiCheckbox: {
-      variants: [
-        {
-          props: { size: "large" },
-        },
-      ],
     },
   },
 });

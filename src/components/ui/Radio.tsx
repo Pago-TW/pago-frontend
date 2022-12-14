@@ -3,7 +3,9 @@ import { Radio as MuiRadio, styled } from "@mui/material";
 
 type RadioProps = MuiRadioProps;
 
-const radioSizes = {
+const radioSizes: {
+  [k in NonNullable<RadioProps["size"]>]: { fontSize: number };
+} = {
   small: { fontSize: 20 },
   medium: { fontSize: 24 },
 };
@@ -25,6 +27,6 @@ const StyledRadio = styled(MuiRadio, {
   },
 }));
 
-export const Radio = (props: RadioProps) => {
-  return <StyledRadio {...props} />;
+export const Radio = ({ size, ...rest }: RadioProps) => {
+  return <StyledRadio size={size} {...rest} />;
 };
