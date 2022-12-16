@@ -66,7 +66,7 @@ const StyledButton = styled(MuiButton, {
     },
     "&:active": {
       backgroundColor: theme.palette.pago[100],
-      "& .MuiButton-endIcon > *:first-child": {
+      "& .MuiButton-endIcon > *:first-of-type": {
         color: theme.palette.pago[500],
       },
     },
@@ -74,7 +74,7 @@ const StyledButton = styled(MuiButton, {
       color: theme.palette.common.white,
       backgroundColor: theme.palette.base[300],
     },
-    "& .MuiButton-endIcon > *:first-child": {
+    "& .MuiButton-endIcon > *:first-of-type": {
       color: theme.palette.pago[100],
     },
   },
@@ -92,7 +92,7 @@ const StyledButton = styled(MuiButton, {
       borderColor: theme.palette.base[300],
       backgroundColor: theme.palette.common.white,
     },
-    "& .MuiButton-endIcon > *:first-child": {
+    "& .MuiButton-endIcon > *:first-of-type": {
       color: theme.palette.pago[500],
     },
   },
@@ -104,6 +104,7 @@ export const Button = ({
   endIcon,
   loading = false,
   disabled = false,
+  disableRipple = true,
   children,
   ...rest
 }: ButtonProps) => {
@@ -112,6 +113,7 @@ export const Button = ({
       size={size}
       variant={variant}
       disabled={disabled}
+      disableRipple={disableRipple}
       endIcon={endIcon || (loading && <StyledCircularProgress size={size} />)}
       {...rest}
     >
