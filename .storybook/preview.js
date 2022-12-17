@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@mui/material";
-import { addDecorator } from "@storybook/react";
+import { INITIAL_VIEWPORTS } from "@storybook/addon-viewport";
 import * as NextImage from "next/image";
 import { theme } from "../src/styles/theme";
 
@@ -21,6 +21,27 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  viewport: {
+    viewports: {
+      PC: {
+        name: "PC",
+        styles: {
+          width: "1920px",
+          height: "1080px",
+        },
+      },
+      iPhone13Pro: {
+        name: "iPhone 13 Pro",
+        styles: {
+          width: "390px",
+          height: "844px",
+        },
+      },
+      ...INITIAL_VIEWPORTS,
+    },
+  },
 };
 
-addDecorator((story) => <ThemeProvider theme={theme}>{story()}</ThemeProvider>);
+export const decorators = [
+  (story) => <ThemeProvider theme={theme}>{story()}</ThemeProvider>,
+];
