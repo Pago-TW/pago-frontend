@@ -12,7 +12,7 @@ export default {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/dinIbshcxJCt2c1jtN1Gm6/Pago---UI-Kit?node-id=120%3A3937&t=DkR7YFouQEVF69v4-1",
+      url: "https://www.figma.com/file/dinIbshcxJCt2c1jtN1Gm6/Pago---UI-Kit?node-id=48%3A133&t=mZNr7lsf9mXEs4Eq-1",
     },
   },
 } as ComponentMeta<typeof Stepper>;
