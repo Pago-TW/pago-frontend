@@ -8,7 +8,9 @@ import Head from "next/head";
 import { theme } from "../styles/theme";
 import { createEmotionCache } from "../utils/createEmotionCache";
 
-import "@fontsource/noto-sans-tc";
+import "@fontsource/noto-sans-tc/300.css";
+import "@fontsource/noto-sans-tc/400.css";
+import "@fontsource/noto-sans-tc/700.css";
 import "../styles/globals.css";
 
 // Client-side cache, shared for the whole session of the user in the browser.

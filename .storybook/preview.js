@@ -1,9 +1,11 @@
-import { ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { INITIAL_VIEWPORTS } from "@storybook/addon-viewport";
 import * as NextImage from "next/image";
 import { theme } from "../src/styles/theme";
 
-import "@fontsource/noto-sans-tc";
+import "@fontsource/noto-sans-tc/300.css";
+import "@fontsource/noto-sans-tc/400.css";
+import "@fontsource/noto-sans-tc/700.css";
 import "../src/styles/globals.css";
 
 const OriginalNextImage = NextImage.default;
@@ -43,5 +45,10 @@ export const parameters = {
 };
 
 export const decorators = [
-  (story) => <ThemeProvider theme={theme}>{story()}</ThemeProvider>,
+  (Story, ctx) => (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Story {...ctx} />
+    </ThemeProvider>
+  ),
 ];
