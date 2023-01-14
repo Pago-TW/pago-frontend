@@ -4,6 +4,12 @@ import { Typography } from "./Typography";
 export default {
   title: "UI/Typography",
   component: Typography,
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/dinIbshcxJCt2c1jtN1Gm6/Pago---UI-Kit?node-id=0%3A1&t=4QlV7gnKJWSXxMlM-1",
+    },
+  },
   argTypes: {
     children: {
       defaultValue: "Typography",
