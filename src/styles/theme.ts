@@ -19,8 +19,11 @@ declare module "@mui/material/styles" {
   }
 }
 
-const paletteTheme = createTheme({
+export const theme = createTheme({
   palette: {
+    primary: {
+      main: "#335891",
+    },
     base: {
       900: "#000000",
       800: "#262626",
@@ -45,14 +48,6 @@ const paletteTheme = createTheme({
       100: "#849ABD",
       50: "#99ABC8",
       25: "#C1CCDE",
-    },
-  },
-});
-
-export const theme = createTheme(paletteTheme, {
-  palette: {
-    primary: {
-      main: "#335891",
     },
   },
   typography: {
