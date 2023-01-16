@@ -11,6 +11,34 @@ export default {
     },
   },
   argTypes: {
+    variant: {
+      control: {
+        type: "select",
+        options: [
+          "body1",
+          "body2",
+          "button",
+          "caption",
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "inherit",
+          "overline",
+          "subtitle1",
+          "subtitle2",
+        ],
+      },
+    },
+    weightPreset: {
+      control: {
+        type: "select",
+        options: ["light", "normal", "bold"],
+      },
+      defaultValue: "normal",
+    },
     children: {
       defaultValue: "Typography",
     },
@@ -31,4 +59,19 @@ const FontWeightStory = () => {
 
 export const FontWeight: Story = {
   render: () => <FontWeightStory />,
+};
+
+export const Headings: Story = {
+  args: {
+    variant: "h1",
+    children: "Heading",
+  },
+  argTypes: {
+    variant: {
+      control: {
+        type: "select",
+        options: ["h1", "h2", "h3", "h4", "h5", "h6"],
+      },
+    },
+  },
 };
