@@ -1,12 +1,6 @@
 import MenuIcon from "@mui/icons-material/Menu";
-import {
-  AppBar,
-  Button,
-  IconButton,
-  styled,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { AppBar, Button, IconButton, styled, Toolbar } from "@mui/material";
+import { Typography } from "./ui/Typography";
 
 const LoginButton = styled(Button)(({}) => ({
   width: 128,
@@ -30,7 +24,7 @@ export const Header = () => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+        <Typography variant="h3" weightPreset="bold" sx={{ flexGrow: 1 }}>
           Pago
         </Typography>
         <LoginButton variant="outlined">登入</LoginButton>
