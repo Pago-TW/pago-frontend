@@ -3,6 +3,7 @@ import { INITIAL_VIEWPORTS } from "@storybook/addon-viewport";
 import * as NextImage from "next/image";
 import { theme } from "../src/styles/theme";
 
+import "@fontsource/mallanna/400.css";
 import "@fontsource/noto-sans-tc/300.css";
 import "@fontsource/noto-sans-tc/400.css";
 import "@fontsource/noto-sans-tc/700.css";

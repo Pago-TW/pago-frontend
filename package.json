@@ -15,6 +15,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.5",
+    "@fontsource/mallanna": "^4.5.10",
     "@fontsource/noto-sans-tc": "^4.5.12",
     "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.17",

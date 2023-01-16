@@ -1342,6 +1342,11 @@
     "@figspec/components" "^1.0.1"
     "@lit-labs/react" "^1.0.2"
 
+"@fontsource/mallanna@^4.5.10":
+  version "4.5.10"
+  resolved "https://registry.yarnpkg.com/@fontsource/mallanna/-/mallanna-4.5.10.tgz#a91c5730593679ae99d12b03bf23f48e872f2cb0"
+  integrity sha512-NEp1lX/sWL7m9Ea6CTmkfv0bDYghoZA9rOwuhWY9PvrSNVEMVyWfomclASXAxt9yKuh5vGrzPk+1986Bq+L00A==
+
 "@fontsource/noto-sans-tc@^4.5.12":
   version "4.5.12"
   resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-tc/-/noto-sans-tc-4.5.12.tgz#b404d9e4beaff90ed8d46e3eb6b9cef7e799dff0"

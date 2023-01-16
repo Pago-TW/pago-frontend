@@ -8,6 +8,7 @@ import Head from "next/head";
 import { theme } from "../styles/theme";
 import { createEmotionCache } from "../utils/createEmotionCache";
 
+import "@fontsource/mallanna/400.css";
 import "@fontsource/noto-sans-tc/300.css";
 import "@fontsource/noto-sans-tc/400.css";
 import "@fontsource/noto-sans-tc/700.css";

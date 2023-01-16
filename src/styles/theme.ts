@@ -21,11 +21,15 @@ declare module "@mui/material/styles" {
 
 export const theme = createTheme({
   palette: {
-    primary: {
-      main: "#335891",
+    background: {
+      default: "#FFFEFC",
+      paper: "#FFFEFC",
     },
     text: {
       primary: "#262626",
+    },
+    primary: {
+      main: "#335891",
     },
     base: {
       900: "#000000",
@@ -57,10 +61,11 @@ export const theme = createTheme({
     fontFamily: [
       '"-apple-system"',
       '"BlinkMacSystemFont"',
-      '"Noto Sans TC"',
       '"Helvetica Neue"',
       '"Helvetica"',
       '"Segoe UI"',
+      '"Mallanna"',
+      '"Noto Sans TC"',
       '"sans-serif"',
     ].join(","),
     button: {
