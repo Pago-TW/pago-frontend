@@ -44,9 +44,13 @@ const buttonSizes: {
 
 const StyledButton = styled(MuiButton, {
   shouldForwardProp: (prop) => prop !== "loading",
-})<ButtonProps>(({ size = "small", theme }) => ({
+})<ButtonProps>(({ size = "large", theme }) => ({
   ...(size && buttonSizes[size]),
   textTransform: "none",
+  "& .MuiButton-startIcon": {
+    position: "absolute",
+    left: 16,
+  },
   "& .MuiButton-endIcon": {
     position: "absolute",
     ...(size === "small" && {
@@ -99,7 +103,7 @@ const StyledButton = styled(MuiButton, {
 }));
 
 export const Button = ({
-  size = "small",
+  size = "large",
   variant = "contained",
   endIcon,
   loading = false,
