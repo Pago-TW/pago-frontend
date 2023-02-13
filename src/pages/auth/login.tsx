@@ -1,7 +1,7 @@
-import { Divider } from "@components/Divider";
 import { Header } from "@components/Header";
-import { Link } from "@components/Link";
 import { Button } from "@components/ui/Button";
+import { Divider } from "@components/ui/Divider";
+import { Link } from "@components/ui/Link";
 import { Typography } from "@components/ui/Typography";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
