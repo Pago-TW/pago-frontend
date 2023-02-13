@@ -4,7 +4,7 @@ import NextLink from "next/link";
 import React from "react";
 
 export const Link = React.forwardRef<HTMLAnchorElement, MuiLinkProps>(
-  function ComposedLink({ href = "/", rel, underline = "none", ...rest }, ref) {
+  function ComposedLink({ href = "#", rel, underline = "none", ...rest }, ref) {
     const isExternal =
       typeof href === "string" &&
       (href.indexOf("http") === 0 || href.indexOf("mailto:") === 0);
