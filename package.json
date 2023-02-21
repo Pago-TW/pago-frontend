@@ -18,6 +18,7 @@
     "@fontsource/mallanna": "^4.5.10",
     "@fontsource/noto-sans-tc": "^4.5.12",
     "@mui/icons-material": "^5.10.16",
+    "@mui/lab": "^5.0.0-alpha.119",
     "@mui/material": "^5.10.17",
     "next": "13.0.2",
     "next-auth": "^4.18.3",
