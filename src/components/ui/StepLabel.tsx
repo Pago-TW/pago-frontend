@@ -1,10 +1,7 @@
-import type { StepLabelProps as MuiStepLabelProps } from "@mui/material";
-import {
-  stepIconClasses,
-  StepLabel as MuiStepLabel,
-  stepLabelClasses,
-  styled,
-} from "@mui/material";
+import { stepIconClasses } from "@mui/material/StepIcon";
+import type { StepLabelProps as MuiStepLabelProps } from "@mui/material/StepLabel";
+import MuiStepLabel, { stepLabelClasses } from "@mui/material/StepLabel";
+import { styled } from "@mui/material/styles";
 
 type StepLabelProps = MuiStepLabelProps;
 

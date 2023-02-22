@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
 import type { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import { Typography } from "./Typography";
 export default {

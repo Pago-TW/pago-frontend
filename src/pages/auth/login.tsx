@@ -1,16 +1,14 @@
-import { Divider } from "@components/Divider";
 import { Header } from "@components/Header";
-import { Link } from "@components/Link";
 import { Button } from "@components/ui/Button";
+import { Divider } from "@components/ui/Divider";
+import { Link } from "@components/ui/Link";
 import { Typography } from "@components/ui/Typography";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import {
-  Box,
-  IconButton,
-  InputAdornment,
-  Stack,
-  TextField,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
 import type { NextPage } from "next";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";

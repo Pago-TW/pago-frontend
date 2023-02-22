@@ -1,7 +1,10 @@
 import { Divider } from "@components/ui/Divider";
 import { FlexCenter } from "@components/ui/FlexCenter";
 import { Typography } from "@components/ui/Typography";
-import { Box, Paper, Stack, useMediaQuery } from "@mui/material";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import Image from "next/image";
 import type { Theme } from "src/styles/theme";
 

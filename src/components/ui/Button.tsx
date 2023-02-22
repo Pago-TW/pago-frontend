@@ -1,8 +1,9 @@
-import type {
-  ButtonProps as MuiButtonProps,
-  CircularProgressProps as MuiCircularProgressProps,
-} from "@mui/material";
-import { Button as MuiButton, CircularProgress, styled } from "@mui/material";
+import type { ButtonProps as MuiButtonProps } from "@mui/material/Button";
+import MuiButton from "@mui/material/Button";
+import type { CircularProgressProps as MuiCircularProgressProps } from "@mui/material/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
+import { styled } from "@mui/material/styles";
+
 import PropTypes from "prop-types";
 
 interface ButtonProps extends MuiButtonProps {

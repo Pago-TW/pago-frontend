@@ -1,5 +1,8 @@
 import { useStepper } from "@hooks/useStepper";
-import { Box, Stack, Step, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Step from "@mui/material/Step";
+import Typography from "@mui/material/Typography";
 import type { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import { Button } from "./Button";
 import { StepConnector } from "./StepConnector";

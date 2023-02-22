@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Tab from "@mui/material/Tab";
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 type Tab = {
@@ -75,7 +76,10 @@ const COMMISSIONS: Commission[] = [
   },
 ];
 
-const CommissionsPage: NextPage = () => {
+const CommissionDetailPage: NextPage = () => {
+  const router = useRouter();
+  const { id } = router.query;
+
   const [currentTab, setCurrentTab] = useState("1");
 
   return (
@@ -154,4 +158,4 @@ const CommissionsPage: NextPage = () => {
   );
 };
 
-export default CommissionsPage;
+export default CommissionDetailPage;

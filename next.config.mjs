@@ -13,5 +13,13 @@ const config = {
     locales: ["zh-TW"],
     defaultLocale: "zh-TW",
   },
+  modularizeImports: {
+    "@mui/icons-material": {
+      transform: "@mui/icons-material/{{member}}",
+    },
+    "@mui/lab": {
+      transform: "@mui/lab/{{member}}",
+    },
+  },
 };
 export default config;

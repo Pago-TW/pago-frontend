@@ -1,5 +1,8 @@
 import MenuIcon from "@mui/icons-material/Menu";
-import { AppBar, Button, IconButton, Toolbar } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
 import { Typography } from "./ui/Typography";
 
 export const Header = () => {

@@ -1,5 +1,6 @@
-import type { RadioProps as MuiRadioProps } from "@mui/material";
-import { Radio as MuiRadio, styled } from "@mui/material";
+import type { RadioProps as MuiRadioProps } from "@mui/material/Radio";
+import MuiRadio from "@mui/material/Radio";
+import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 
 type RadioProps = MuiRadioProps;
