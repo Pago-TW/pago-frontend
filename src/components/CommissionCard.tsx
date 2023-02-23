@@ -1,5 +1,4 @@
 import { Divider } from "@components/ui/Divider";
-import { FlexCenter } from "@components/ui/FlexCenter";
 import { Typography } from "@components/ui/Typography";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -31,12 +30,10 @@ export const CommissionCard = ({
   );
 
   return (
-    <Paper
-      elevation={3}
-      sx={{ height: { xs: 124, md: 376 }, p: { xs: 1, md: 3 } }}
-    >
-      <Stack spacing={xs ? 1 : 3} sx={{ height: "100%" }}>
+    <Paper elevation={3} sx={{ p: { xs: 1, md: 3 } }}>
+      <Stack spacing={xs ? 1 : 3}>
         <Stack direction="row" spacing={1} flexGrow={1}>
+          {/* 左方圖片 */}
           <Box
             sx={{
               position: "relative",
@@ -46,20 +43,23 @@ export const CommissionCard = ({
           >
             <Image
               src={imageUrl}
-              alt={`${name}的圖片`}
+              alt={`${name} image`}
               style={{ objectFit: "cover" }}
               fill
               sizes="(max-width: 600px) 74px, 250px"
             />
           </Box>
+          {/* 右方資訊 */}
           <Stack flexGrow={1} justifyContent="space-between">
             <Stack direction="row" justifyContent="space-between">
+              {/* 名稱 */}
               <Typography
                 variant={xs ? "h5" : "h2"}
                 weightPreset={xs ? "normal" : "bold"}
               >
                 {name}
               </Typography>
+              {/* 狀態 */}
               <Typography
                 variant={xs ? "h6" : "h3"}
                 sx={{ color: (theme) => theme.palette.base[400] }}
@@ -72,14 +72,17 @@ export const CommissionCard = ({
               flexGrow={xs ? 0 : 1}
               justifyContent={xs ? "space-between" : "space-evenly"}
             >
+              {/* 描述 */}
               <Typography
                 variant={xs ? "h6" : "h3"}
                 sx={{ color: (theme) => theme.palette.base[400] }}
               >
                 {description}
               </Typography>
+              {/* 數量 */}
               <Typography variant={xs ? "h6" : "h3"}>{amount}</Typography>
             </Stack>
+            {/* 期限 */}
             {!xs ? (
               <Typography
                 variant="h4"
@@ -91,21 +94,31 @@ export const CommissionCard = ({
           </Stack>
         </Stack>
         <Divider />
-        <FlexCenter cross>
-          <Typography
-            variant={xs ? "h6" : "h4"}
-            sx={{ color: (theme) => theme.palette.base[400] }}
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
           >
-            訂單金額:{" "}
             <Typography
-              as="span"
               variant={xs ? "h6" : "h4"}
-              sx={{ color: "primary.main" }}
+              sx={{ color: (theme) => theme.palette.base[400] }}
             >
-              {amount.toLocaleString()} {currency}
+              訂單金額: 訂單金額:
+              <Typography
+                as="span"
+                variant={xs ? "h6" : "h4"}
+                sx={{ color: "primary.main" }}
+              >
+                {amount.toLocaleString()} {currency}
+              </Typography>
             </Typography>
-          </Typography>
-        </FlexCenter>
+          </Stack>
+        </Stack>
       </Stack>
     </Paper>
   );

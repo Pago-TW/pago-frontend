@@ -1,31 +1,27 @@
 import type { Commission } from "@components/CommissionCard";
 import { CommissionCard } from "@components/CommissionCard";
 import { Header } from "@components/Header";
+import { PageTitle } from "@components/PageTitle";
 import { Button } from "@components/ui/Button";
-import { FlexCenter } from "@components/ui/FlexCenter";
-import { Typography } from "@components/ui/Typography";
-import { Add, ArrowBack } from "@mui/icons-material";
+import { Add } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
+import { styled } from "@mui/material/styles";
 import Tab from "@mui/material/Tab";
 import type { NextPage } from "next";
 import { useState } from "react";
 
-type Tab = {
-  label: string;
-  value: string;
-};
+const TABS = [
+  { label: "全部", value: "ALL" },
+  { label: "待確認", value: "TO_BE_CONFIRMED" },
+  { label: "待面交", value: "TO_BE_DELIVERED" },
+  { label: "待購買", value: "TO_BE_PURCHASED" },
+  { label: "已完成", value: "DONE" },
+  { label: "不成立", value: "CANCELED" },
+] as const;
 
-const TABS_: Tab[] = [
-  { label: "全部", value: "1" },
-  { label: "待確認", value: "2" },
-  { label: "待面交", value: "3" },
-  { label: "待購買", value: "4" },
-  { label: "已完成", value: "5" },
-  { label: "不成立", value: "6" },
-];
+type Tab = (typeof TABS)[number];
 
 const COMMISSIONS: Commission[] = [
   {
@@ -75,81 +71,76 @@ const COMMISSIONS: Commission[] = [
   },
 ];
 
+const StyledTab = styled(Tab)(({ theme }) => ({
+  [theme.breakpoints.up("md")]: {
+    minWidth: "fit-content",
+  },
+  [theme.breakpoints.down("sm")]: {
+    minWidth: "calc(100% / 3)",
+  },
+  fontSize: 18,
+  flex: 1,
+}));
+
 const CommissionsPage: NextPage = () => {
-  const [currentTab, setCurrentTab] = useState("1");
+  const [currentTab, setCurrentTab] = useState<Tab["value"]>("ALL");
+
+  const filterCommissions = (status: Tab["label"]) => {
+    if (status === "全部") {
+      return COMMISSIONS;
+    }
+    return COMMISSIONS.filter((comm) => comm.orderStatus === status);
+  };
 
   return (
     <>
       <Header />
-      <Box sx={{ mx: { xs: 3, sm: 13 } }}>
+      <Box sx={{ mx: { xs: 3, sm: 13 }, my: { xs: 3, md: 8 } }}>
         <Box
           sx={{
-            my: { xs: 3, md: 8 },
             display: { xs: "block", md: "flex" },
             justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <Box sx={{ mb: { xs: 3, md: 0 } }}>
-            <IconButton
-              sx={{
-                display: { xs: "block", sm: "none" },
-                position: "absolute",
-              }}
-            >
-              <ArrowBack />
-            </IconButton>
-            <Typography
-              variant="h1"
-              weightPreset="bold"
-              sx={{
-                textAlign: { xs: "center", md: "left" },
-              }}
-            >
-              我的委託
-            </Typography>
-          </Box>
-          <FlexCenter main>
+          <PageTitle title="我的委託" />
+          {/* 新增委託按鈕 */}
+          <Stack justifyContent="center" sx={{ mt: { xs: 3, md: 0 } }}>
             <Button>
               <Add />
               新增委託
             </Button>
-          </FlexCenter>
+          </Stack>
         </Box>
-        <TabContext value={currentTab}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList
-              variant="scrollable"
-              allowScrollButtonsMobile
-              onChange={(e, v) => setCurrentTab(v)}
-            >
-              {TABS_.map((tab, idx) => (
-                <Tab
-                  key={idx}
-                  sx={{
-                    minWidth: { xs: "calc(100% / 3)", md: "fit-content" },
-                    fontSize: 18,
-                    flex: 1,
-                  }}
-                  {...tab}
-                />
-              ))}
-            </TabList>
-          </Box>
-          <TabPanel value="1" sx={{ px: 0 }}>
-            <Stack spacing={2}>
-              {COMMISSIONS.map((comm, idx) => (
-                <CommissionCard key={idx} {...comm} />
-              ))}
-            </Stack>
-          </TabPanel>
-          <TabPanel value="2" sx={{ px: 0 }}></TabPanel>
-          <TabPanel value="3" sx={{ px: 0 }}></TabPanel>
-          <TabPanel value="4" sx={{ px: 0 }}></TabPanel>
-          <TabPanel value="5" sx={{ px: 0 }}></TabPanel>
-          <TabPanel value="6" sx={{ px: 0 }}></TabPanel>
-        </TabContext>
       </Box>
+      <Stack justifyContent="center" sx={{ mx: { xs: 3, sm: 13 } }}>
+        <Box sx={{ maxWidth: 1424 }}>
+          <TabContext value={currentTab}>
+            {/* Tabs */}
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <TabList
+                variant="scrollable"
+                allowScrollButtonsMobile
+                onChange={(e, v) => setCurrentTab(v)}
+              >
+                {TABS.map((tab, idx) => (
+                  <StyledTab key={idx} {...tab} />
+                ))}
+              </TabList>
+            </Box>
+            {/* TabPanels */}
+            {TABS.map((tab, idx) => (
+              <TabPanel key={idx} value={tab.value} sx={{ px: 0 }}>
+                <Stack spacing={2}>
+                  {filterCommissions(tab.label).map((comm, idx) => (
+                    <CommissionCard key={idx} {...comm} />
+                  ))}
+                </Stack>
+              </TabPanel>
+            ))}
+          </TabContext>
+        </Box>
+      </Stack>
     </>
   );
 };

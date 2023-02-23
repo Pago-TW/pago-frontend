@@ -1,159 +1,120 @@
-import type { Commission } from "@components/CommissionCard";
-import { CommissionCard } from "@components/CommissionCard";
+import { BuyingAgent } from "@components/BuyingAgent";
+import { DetailItem } from "@components/DetailItem";
 import { Header } from "@components/Header";
-import { Button } from "@components/ui/Button";
-import { FlexCenter } from "@components/ui/FlexCenter";
+import { PageTitle } from "@components/PageTitle";
+import { Link } from "@components/ui/Link";
 import { Typography } from "@components/ui/Typography";
-import { Add, ArrowBack } from "@mui/icons-material";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { Place } from "@mui/icons-material";
+import Avatar from "@mui/material/Avatar";
+import AvatarGroup from "@mui/material/AvatarGroup";
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
+import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
-import Tab from "@mui/material/Tab";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
-
-type Tab = {
-  label: string;
-  value: string;
-};
-
-const TABS_: Tab[] = [
-  { label: "全部", value: "1" },
-  { label: "待確認", value: "2" },
-  { label: "待面交", value: "3" },
-  { label: "待購買", value: "4" },
-  { label: "已完成", value: "5" },
-  { label: "不成立", value: "6" },
-];
-
-const COMMISSIONS: Commission[] = [
-  {
-    name: "商品名稱 1",
-    imageUrl: "",
-    description: "商品規格 1",
-    orderStatus: "待確認",
-    quantity: 111111,
-    amount: 111111,
-    currency: "NT$",
-  },
-  {
-    name: "商品名稱 2",
-    imageUrl: "",
-    description: "商品規格 2",
-    orderStatus: "待面交",
-    quantity: 222222,
-    amount: 222222,
-    currency: "NT$",
-  },
-  {
-    name: "商品名稱 3",
-    imageUrl: "",
-    description: "商品規格 3",
-    orderStatus: "待購買",
-    quantity: 333333,
-    amount: 333333,
-    currency: "NT$",
-  },
-  {
-    name: "商品名稱 4",
-    imageUrl: "",
-    description: "商品規格 4",
-    orderStatus: "已完成",
-    quantity: 444444,
-    amount: 444444,
-    currency: "NT$",
-  },
-  {
-    name: "商品名稱 5",
-    imageUrl: "",
-    description: "商品規格 5",
-    orderStatus: "不成立",
-    quantity: 555555,
-    amount: 555555,
-    currency: "NT$",
-  },
-];
 
 const CommissionDetailPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const [currentTab, setCurrentTab] = useState("1");
-
   return (
     <>
       <Header />
-      <Box sx={{ mx: { xs: 3, sm: 13 } }}>
-        <Box
-          sx={{
-            my: { xs: 3, md: 8 },
-            display: { xs: "block", md: "flex" },
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Box sx={{ mb: { xs: 3, md: 0 } }}>
-            <IconButton
-              sx={{
-                display: { xs: "block", sm: "none" },
-                position: "absolute",
-              }}
-            >
-              <ArrowBack />
-            </IconButton>
-            <Typography
-              variant="h1"
-              weightPreset="bold"
-              sx={{
-                textAlign: { xs: "center", md: "left" },
-              }}
-            >
-              我的委託
-            </Typography>
-          </Box>
-          <FlexCenter main>
-            <Button>
-              <Add />
-              新增委託
-            </Button>
-          </FlexCenter>
-        </Box>
-        <TabContext value={currentTab}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList
-              variant="scrollable"
-              allowScrollButtonsMobile
-              onChange={(e, v) => setCurrentTab(v)}
-            >
-              {TABS_.map((tab, idx) => (
-                <Tab
-                  key={idx}
-                  sx={{
-                    minWidth: { xs: "calc(100% / 3)", md: "fit-content" },
-                    fontSize: 18,
-                    flex: 1,
-                  }}
-                  {...tab}
-                />
-              ))}
-            </TabList>
-          </Box>
-          <TabPanel value="1" sx={{ px: 0 }}>
-            <Stack spacing={2}>
-              {COMMISSIONS.map((comm, idx) => (
-                <CommissionCard key={idx} {...comm} />
-              ))}
-            </Stack>
-          </TabPanel>
-          <TabPanel value="2" sx={{ px: 0 }}></TabPanel>
-          <TabPanel value="3" sx={{ px: 0 }}></TabPanel>
-          <TabPanel value="4" sx={{ px: 0 }}></TabPanel>
-          <TabPanel value="5" sx={{ px: 0 }}></TabPanel>
-          <TabPanel value="6" sx={{ px: 0 }}></TabPanel>
-        </TabContext>
+      <Box sx={{ mx: { xs: 3, sm: 13 }, my: { xs: 3, md: 8 } }}>
+        <PageTitle title="委託詳情" sharable />
       </Box>
+      <Stack alignItems="center" mb={4}>
+        <Stack spacing={2} sx={{ width: 336 }}>
+          <Paper elevation={3} sx={{ p: 2 }}>
+            <Stack spacing={2}>
+              {/* 圖片 */}
+              <Skeleton variant="rectangular" height={300} width={300} />
+              {/* 名稱 */}
+              <Typography variant="h3" sx={{ textAlign: "center" }}>
+                商品名稱
+              </Typography>
+            </Stack>
+          </Paper>
+          <Paper elevation={3} sx={{ p: 2 }}>
+            <Stack spacing={4}>
+              {/* 詳細 */}
+              <DetailItem label="商品價格" value="215NT$" valueBold />
+              <DetailItem label="願付代購費" value="60NT$" valueBold />
+              <DetailItem label="關稅" value="5NT$" valueBold />
+              <DetailItem label="平台費" value="0NT$" valueBold />
+              <DetailItem
+                label="總付款金額"
+                value="280NT$"
+                valueVariant="h3"
+                valueBold
+              />
+              <DetailItem label="商品規格" value="300ml" />
+              <DetailItem label="商品數量" value="2" />
+              <DetailItem label="是否需要包裝" value="是" />
+              <DetailItem label="是否需要購買證明" value="是" />
+              <DetailItem
+                label="商品購買地點"
+                value={
+                  <Stack direction="row" alignItems="center">
+                    <Place />
+                    Forbes Pl Kawerau New Zealand
+                  </Stack>
+                }
+                multiLine
+              />
+              <DetailItem
+                label="送達地點"
+                value={
+                  <Stack direction="row" alignItems="center">
+                    <Place />
+                    338 桃園市蘆竹區大興十街6號
+                  </Stack>
+                }
+                multiLine
+              />
+              <DetailItem
+                label="最晚收到商品時間"
+                value="11/15/2022 12:00AM"
+                multiLine
+              />
+              <DetailItem
+                label="備註"
+                value="請不要造成瓶身撞凹，謝謝"
+                multiLine
+              />
+            </Stack>
+          </Paper>
+          <Stack spacing={3}>
+            {/* 代購者 */}
+            <Typography variant="h3" mt={1} sx={{ textAlign: "center" }}>
+              願意代購者
+            </Typography>
+            <BuyingAgent />
+            <BuyingAgent />
+            <Stack alignItems="center">
+              <Link fontSize={18} mt={1}>
+                顯示更多
+              </Link>
+            </Stack>
+          </Stack>
+          <Stack direction="row" spacing={2} sx={{ "&&": { mt: 5 } }}>
+            {/* 更多代購者 */}
+            <AvatarGroup total={100}>
+              <Avatar />
+              <Avatar />
+              <Avatar />
+              <Avatar />
+            </AvatarGroup>
+            <Typography
+              variant="h6"
+              sx={{ color: (theme) => theme.palette.base[500] }}
+            >
+              另有100位代購者的旅途與此委託相符
+            </Typography>
+          </Stack>
+        </Stack>
+      </Stack>
     </>
   );
 };
