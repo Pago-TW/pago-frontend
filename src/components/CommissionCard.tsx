@@ -108,7 +108,7 @@ export const CommissionCard = ({
               variant={xs ? "h6" : "h4"}
               sx={{ color: (theme) => theme.palette.base[400] }}
             >
-              訂單金額: 訂單金額:
+              訂單金額:
               <Typography
                 as="span"
                 variant={xs ? "h6" : "h4"}
