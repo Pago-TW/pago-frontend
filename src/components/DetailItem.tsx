@@ -27,10 +27,7 @@ export const DetailItem = ({
     alignItems={multiLine ? "flex-start" : "center"}
   >
     {/* 標籤 */}
-    <Typography
-      variant={labelVariant}
-      sx={{ color: (theme) => theme.palette.base[500] }}
-    >
+    <Typography variant={labelVariant} color="base.400">
       {label}
     </Typography>
     {/* 數值 */}

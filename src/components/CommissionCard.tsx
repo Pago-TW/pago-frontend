@@ -60,10 +60,7 @@ export const CommissionCard = ({
                 {name}
               </Typography>
               {/* 狀態 */}
-              <Typography
-                variant={xs ? "h6" : "h3"}
-                sx={{ color: (theme) => theme.palette.base[400] }}
-              >
+              <Typography variant={xs ? "h6" : "h3"} color="base.400">
                 {orderStatus}
               </Typography>
             </Stack>
@@ -73,10 +70,7 @@ export const CommissionCard = ({
               justifyContent={xs ? "space-between" : "space-evenly"}
             >
               {/* 描述 */}
-              <Typography
-                variant={xs ? "h6" : "h3"}
-                sx={{ color: (theme) => theme.palette.base[400] }}
-              >
+              <Typography variant={xs ? "h6" : "h3"} color="base.400">
                 {description}
               </Typography>
               {/* 數量 */}
@@ -84,10 +78,7 @@ export const CommissionCard = ({
             </Stack>
             {/* 期限 */}
             {!xs ? (
-              <Typography
-                variant="h4"
-                sx={{ color: (theme) => theme.palette.base[400] }}
-              >
+              <Typography variant="h4" color="base.400">
                 最晚收到商品時間：11/15/2022 12:00AM
               </Typography>
             ) : null}
@@ -104,10 +95,7 @@ export const CommissionCard = ({
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography
-              variant={xs ? "h6" : "h4"}
-              sx={{ color: (theme) => theme.palette.base[400] }}
-            >
+            <Typography variant={xs ? "h6" : "h4"} color="base.400">
               訂單金額:
               <Typography
                 as="span"

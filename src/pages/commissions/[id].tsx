@@ -106,10 +106,7 @@ const CommissionDetailPage: NextPage = () => {
               <Avatar />
               <Avatar />
             </AvatarGroup>
-            <Typography
-              variant="h6"
-              sx={{ color: (theme) => theme.palette.base[500] }}
-            >
+            <Typography variant="h6" color="base.400">
               另有100位代購者的旅途與此委託相符
             </Typography>
           </Stack>
