@@ -12,6 +12,7 @@ import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import type { NextPage } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 
 const CommissionDetailPage: NextPage = () => {
@@ -20,6 +21,9 @@ const CommissionDetailPage: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>委託詳情</title>
+      </Head>
       <Header />
       <Box sx={{ mx: { xs: 3, sm: 13 }, my: { xs: 3, md: 8 } }}>
         <PageTitle title="委託詳情" sharable />

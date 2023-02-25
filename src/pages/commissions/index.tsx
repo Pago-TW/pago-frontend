@@ -10,6 +10,7 @@ import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import Tab from "@mui/material/Tab";
 import type { NextPage } from "next";
+import Head from "next/head";
 import { useState } from "react";
 
 const TABS = [
@@ -94,6 +95,9 @@ const CommissionsPage: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>我的委託</title>
+      </Head>
       <Header />
       <Box sx={{ mx: { xs: 3, sm: 13 }, my: { xs: 3, md: 8 } }}>
         <Box
