@@ -113,8 +113,8 @@ const CommissionsPage: NextPage = () => {
           </Stack>
         </Box>
       </Box>
-      <Stack justifyContent="center" sx={{ mx: { xs: 3, sm: 13 } }}>
-        <Box sx={{ maxWidth: 1424 }}>
+      <Box sx={{ mx: { xs: 3, sm: 13 } }}>
+        <Box sx={{ mx: "auto", maxWidth: 1424 }}>
           <TabContext value={currentTab}>
             {/* Tabs */}
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -140,7 +140,7 @@ const CommissionsPage: NextPage = () => {
             ))}
           </TabContext>
         </Box>
-      </Stack>
+      </Box>
     </>
   );
 };
