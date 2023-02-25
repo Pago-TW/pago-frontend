@@ -1,8 +1,6 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import type { TextFieldProps } from "@mui/material/TextField";
-import TextField from "@mui/material/TextField";
+import type { TextFieldProps } from "@mui/material";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { forwardRef, useState } from "react";
 
 export const PasswordField = forwardRef<

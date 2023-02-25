@@ -1,4 +1,4 @@
-import MuiDivider from "@mui/material/Divider";
+import { Divider as MuiDivider } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const StyledDivider = styled(MuiDivider)(({ theme }) => ({

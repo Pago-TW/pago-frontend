@@ -1,5 +1,5 @@
-import type { LinkProps as MuiLinkProps } from "@mui/material/Link";
-import MuiLink from "@mui/material/Link";
+import type { LinkProps as MuiLinkProps } from "@mui/material";
+import { Link as MuiLink } from "@mui/material";
 import NextLink from "next/link";
 import React from "react";
 

@@ -1,6 +1,4 @@
-import Avatar from "@mui/material/Avatar";
-import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
+import { Avatar, Paper, Stack } from "@mui/material";
 import { Button } from "./ui/Button";
 import { Typography } from "./ui/Typography";
 

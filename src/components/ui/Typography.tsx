@@ -1,6 +1,6 @@
+import type { TypographyProps as MuiTypographyProps } from "@mui/material";
+import { Typography as MuiTypography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import type { TypographyProps as MuiTypographyProps } from "@mui/material/Typography";
-import MuiTypography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 
 export type TypographyProps = MuiTypographyProps & {

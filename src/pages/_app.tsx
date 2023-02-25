@@ -1,6 +1,6 @@
 import type { EmotionCache } from "@emotion/react";
 import { CacheProvider } from "@emotion/react";
-import CssBaseline from "@mui/material/CssBaseline";
+import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";

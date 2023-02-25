@@ -1,11 +1,8 @@
-import { Divider } from "@components/ui/Divider";
-import { Typography } from "@components/ui/Typography";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { Box, Paper, Stack, useMediaQuery } from "@mui/material";
 import Image from "next/image";
-import type { Theme } from "src/styles/theme";
+import type { Theme } from "../styles/theme";
+import { Divider } from "./ui/Divider";
+import { Typography } from "./ui/Typography";
 
 export type Commission = {
   name: string;

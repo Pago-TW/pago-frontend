@@ -13,9 +13,13 @@ const config = {
     locales: ["zh-TW"],
     defaultLocale: "zh-TW",
   },
+  transpilePackages: ["@mui/system", "@mui/material", "@mui/icons-material"],
   modularizeImports: {
     "@mui/icons-material": {
       transform: "@mui/icons-material/{{member}}",
+    },
+    "@mui/material": {
+      transform: "@mui/material/{{member}}",
     },
     "@mui/lab": {
       transform: "@mui/lab/{{member}}",

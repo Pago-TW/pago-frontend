@@ -1,4 +1,4 @@
-import Stack from "@mui/material/Stack";
+import { Stack } from "@mui/material";
 import type { ReactNode } from "react";
 import type { TypographyProps } from "./ui/Typography";
 import { Typography } from "./ui/Typography";

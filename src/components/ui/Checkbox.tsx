@@ -1,5 +1,5 @@
-import type { CheckboxProps as MUICheckboxProps } from "@mui/material/Checkbox";
-import MuiCheckbox from "@mui/material/Checkbox";
+import type { CheckboxProps as MuiCheckboxProps } from "@mui/material";
+import { Checkbox as MuiCheckbox } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 
@@ -9,7 +9,7 @@ declare module "@mui/material/Checkbox" {
   }
 }
 
-interface CheckboxProps extends Omit<MUICheckboxProps, "size"> {
+interface CheckboxProps extends Omit<MuiCheckboxProps, "size"> {
   size?: "small" | "medium" | "large";
 }
 

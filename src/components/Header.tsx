@@ -1,8 +1,5 @@
-import MenuIcon from "@mui/icons-material/Menu";
-import AppBar from "@mui/material/AppBar";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import Toolbar from "@mui/material/Toolbar";
+import { Menu } from "@mui/icons-material";
+import { AppBar, Button, IconButton, Toolbar } from "@mui/material";
 import { Typography } from "./ui/Typography";
 
 export const Header = () => {
@@ -17,7 +14,7 @@ export const Header = () => {
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+            <Menu />
           </IconButton>
           <Typography variant="h3" weightPreset="bold" sx={{ flexGrow: 1 }}>
             Pago

@@ -1,6 +1,5 @@
 import { ArrowBack, IosShare } from "@mui/icons-material";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
+import { Box, IconButton } from "@mui/material";
 import { useRouter } from "next/router";
 import { Typography } from "./ui/Typography";
 

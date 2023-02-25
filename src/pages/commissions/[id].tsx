@@ -5,12 +5,14 @@ import { PageTitle } from "@components/PageTitle";
 import { Link } from "@components/ui/Link";
 import { Typography } from "@components/ui/Typography";
 import { Place } from "@mui/icons-material";
-import Avatar from "@mui/material/Avatar";
-import AvatarGroup from "@mui/material/AvatarGroup";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Skeleton from "@mui/material/Skeleton";
-import Stack from "@mui/material/Stack";
+import {
+  Avatar,
+  AvatarGroup,
+  Box,
+  Paper,
+  Skeleton,
+  Stack,
+} from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
