@@ -1,27 +1,25 @@
 import { Header } from "@components/Header";
+import { PasswordField } from "@components/PasswordField";
 import { Button } from "@components/ui/Button";
 import { Divider } from "@components/ui/Divider";
 import { Link } from "@components/ui/Link";
 import { Typography } from "@components/ui/Typography";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import type { NextPage } from "next";
-import { useState } from "react";
+import Head from "next/head";
+import { useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 
 const LoginPage: NextPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleShowPassword = () => {
-    setShowPassword((prev) => !prev);
-  };
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   return (
     <>
+      <Head>
+        <title>登入</title>
+      </Head>
       <Header />
       <Stack sx={{ maxWidth: 400, mx: "auto", my: "12vh", p: 2, gap: 3 }}>
         <Typography variant="h1" weightPreset="bold" textAlign="center">
@@ -32,21 +30,7 @@ const LoginPage: NextPage = () => {
         </Button>
         <Divider>或</Divider>
         <TextField variant="outlined" label="帳號" required />
-        <TextField
-          type={showPassword ? "text" : "password"}
-          variant="outlined"
-          label="密碼"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={handleShowPassword}>
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-          required
-        />
+        <PasswordField label="密碼" ref={passwordRef} />
         <Button>登入</Button>
         <Box display="flex" justifyContent="space-between">
           <Typography variant="h6">
