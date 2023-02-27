@@ -1,6 +1,6 @@
 import type { CommissionCardProps } from "@components/CommissionCard";
 import { CommissionCard } from "@components/CommissionCard";
-import { Header } from "@components/Header";
+import { Container } from "@components/layouts/Container";
 import { PageTitle } from "@components/PageTitle";
 import { Button } from "@components/ui/Button";
 import { Add } from "@mui/icons-material";
@@ -96,53 +96,54 @@ const CommissionsPage: NextPage = () => {
       <Head>
         <title>我的委託</title>
       </Head>
-      <Header />
-      <Box sx={{ mx: { xs: 3, sm: 13 }, my: { xs: 3, md: 8 } }}>
-        <Box
-          sx={{
-            display: { xs: "block", md: "flex" },
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <PageTitle title="我的委託" />
-          {/* 新增委託按鈕 */}
-          <Stack justifyContent="center" sx={{ mt: { xs: 3, md: 0 } }}>
-            <Button>
-              <Add />
-              新增委託
-            </Button>
-          </Stack>
+      <Container>
+        <Box sx={{ mx: { xs: 3, sm: 13 }, my: { xs: 3, md: 8 } }}>
+          <Box
+            sx={{
+              display: { xs: "block", md: "flex" },
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <PageTitle title="我的委託" />
+            {/* 新增委託按鈕 */}
+            <Stack justifyContent="center" sx={{ mt: { xs: 3, md: 0 } }}>
+              <Button>
+                <Add />
+                新增委託
+              </Button>
+            </Stack>
+          </Box>
         </Box>
-      </Box>
-      <Box sx={{ mx: { xs: 3, sm: 13 } }}>
-        <Box sx={{ mx: "auto", maxWidth: 1424 }}>
-          <TabContext value={currentTab}>
-            {/* Tabs */}
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <TabList
-                variant="scrollable"
-                allowScrollButtonsMobile
-                onChange={(e, v) => setCurrentTab(v)}
-              >
-                {TABS.map((tab, idx) => (
-                  <StyledTab key={idx} {...tab} />
-                ))}
-              </TabList>
-            </Box>
-            {/* TabPanels */}
-            {TABS.map((tab, idx) => (
-              <TabPanel key={idx} value={tab.value} sx={{ px: 0 }}>
-                <Stack spacing={2}>
-                  {filterCommissions(tab.label).map((comm, idx) => (
-                    <CommissionCard key={idx} {...comm} />
+        <Box sx={{ mx: { xs: 3, sm: 13 } }}>
+          <Box sx={{ mx: "auto", maxWidth: 1424 }}>
+            <TabContext value={currentTab}>
+              {/* Tabs */}
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <TabList
+                  variant="scrollable"
+                  allowScrollButtonsMobile
+                  onChange={(e, v) => setCurrentTab(v)}
+                >
+                  {TABS.map((tab, idx) => (
+                    <StyledTab key={idx} {...tab} />
                   ))}
-                </Stack>
-              </TabPanel>
-            ))}
-          </TabContext>
+                </TabList>
+              </Box>
+              {/* TabPanels */}
+              {TABS.map((tab, idx) => (
+                <TabPanel key={idx} value={tab.value} sx={{ px: 0 }}>
+                  <Stack spacing={2}>
+                    {filterCommissions(tab.label).map((comm, idx) => (
+                      <CommissionCard key={idx} {...comm} />
+                    ))}
+                  </Stack>
+                </TabPanel>
+              ))}
+            </TabContext>
+          </Box>
         </Box>
-      </Box>
+      </Container>
     </>
   );
 };
