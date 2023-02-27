@@ -1,6 +1,6 @@
-import { Box, Paper, Skeleton, Stack, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@hooks/useMediaQuery";
+import { Box, Paper, Skeleton, Stack } from "@mui/material";
 import Image from "next/image";
-import type { Theme } from "../styles/theme";
 import { Divider } from "./ui/Divider";
 import { Typography } from "./ui/Typography";
 
@@ -22,13 +22,11 @@ export const CommissionCard = ({
   currency,
   amount,
 }: CommissionCardProps) => {
-  const xs = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.between("xs", "md")
-  );
+  const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   return (
     <Paper elevation={3} sx={{ p: { xs: 1, md: 3 } }}>
-      <Stack spacing={xs ? 1 : 3}>
+      <Stack spacing={mdDown ? 1 : 3}>
         <Stack direction="row" spacing={1} flexGrow={1}>
           {/* 左方圖片 */}
           <Box
@@ -55,30 +53,30 @@ export const CommissionCard = ({
             <Stack direction="row" justifyContent="space-between">
               {/* 名稱 */}
               <Typography
-                variant={xs ? "h5" : "h2"}
-                weightPreset={xs ? "normal" : "bold"}
+                variant={mdDown ? "h5" : "h2"}
+                weightPreset={mdDown ? "normal" : "bold"}
               >
                 {name}
               </Typography>
               {/* 狀態 */}
-              <Typography variant={xs ? "h6" : "h3"} color="base.400">
+              <Typography variant={mdDown ? "h6" : "h3"} color="base.400">
                 {orderStatus}
               </Typography>
             </Stack>
             <Stack
-              direction={xs ? "row" : "column"}
-              flexGrow={xs ? 0 : 1}
-              justifyContent={xs ? "space-between" : "space-evenly"}
+              direction={mdDown ? "row" : "column"}
+              flexGrow={mdDown ? 0 : 1}
+              justifyContent={mdDown ? "space-between" : "space-evenly"}
             >
               {/* 描述 */}
-              <Typography variant={xs ? "h6" : "h3"} color="base.400">
+              <Typography variant={mdDown ? "h6" : "h3"} color="base.400">
                 {description}
               </Typography>
               {/* 數量 */}
-              <Typography variant={xs ? "h6" : "h3"}>{amount}</Typography>
+              <Typography variant={mdDown ? "h6" : "h3"}>{amount}</Typography>
             </Stack>
             {/* 期限 */}
-            {!xs ? (
+            {!mdDown ? (
               <Typography variant="h4" color="base.400">
                 最晚收到商品時間：11/15/2022 12:00AM
               </Typography>
@@ -96,11 +94,11 @@ export const CommissionCard = ({
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography variant={xs ? "h6" : "h4"} color="base.400">
+            <Typography variant={mdDown ? "h6" : "h4"} color="base.400">
               訂單金額:
               <Typography
                 as="span"
-                variant={xs ? "h6" : "h4"}
+                variant={mdDown ? "h6" : "h4"}
                 sx={{ color: "primary.main" }}
               >
                 {amount.toLocaleString()} {currency}
