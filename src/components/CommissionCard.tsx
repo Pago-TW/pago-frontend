@@ -1,10 +1,10 @@
-import { Box, Paper, Stack, useMediaQuery } from "@mui/material";
+import { Box, Paper, Skeleton, Stack, useMediaQuery } from "@mui/material";
 import Image from "next/image";
 import type { Theme } from "../styles/theme";
 import { Divider } from "./ui/Divider";
 import { Typography } from "./ui/Typography";
 
-export type Commission = {
+export type CommissionCardProps = {
   name: string;
   imageUrl: string;
   description: string;
@@ -21,7 +21,7 @@ export const CommissionCard = ({
   orderStatus,
   currency,
   amount,
-}: Commission) => {
+}: CommissionCardProps) => {
   const xs = useMediaQuery((theme: Theme) =>
     theme.breakpoints.between("xs", "md")
   );
@@ -34,17 +34,21 @@ export const CommissionCard = ({
           <Box
             sx={{
               position: "relative",
+              aspectRatio: "1 / 1",
               width: { xs: 74, md: 250 },
-              height: { xs: 74, md: 250 },
             }}
           >
-            <Image
-              src={imageUrl}
-              alt={`${name} image`}
-              style={{ objectFit: "cover" }}
-              fill
-              sizes="(max-width: 600px) 74px, 250px"
-            />
+            {imageUrl ? (
+              <Image
+                src={imageUrl}
+                alt={`${name} image`}
+                style={{ objectFit: "cover" }}
+                fill
+                sizes="(max-width: 600px) 74px, 250px"
+              />
+            ) : (
+              <Skeleton variant="rectangular" width="100%" height="100%" />
+            )}
           </Box>
           {/* 右方資訊 */}
           <Stack flexGrow={1} justifyContent="space-between">

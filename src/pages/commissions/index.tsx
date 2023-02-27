@@ -1,4 +1,4 @@
-import type { Commission } from "@components/CommissionCard";
+import type { CommissionCardProps } from "@components/CommissionCard";
 import { CommissionCard } from "@components/CommissionCard";
 import { Header } from "@components/Header";
 import { PageTitle } from "@components/PageTitle";
@@ -22,7 +22,7 @@ const TABS = [
 
 type Tab = (typeof TABS)[number];
 
-const COMMISSIONS: Commission[] = [
+const COMMISSIONS: CommissionCardProps[] = [
   {
     name: "商品名稱 1",
     imageUrl: "",
