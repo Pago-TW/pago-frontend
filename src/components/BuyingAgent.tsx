@@ -7,10 +7,10 @@ export const BuyingAgent = () => (
     <Stack direction="row" alignItems="center">
       <Avatar />
       {/* 使用者名稱 */}
-      <Typography variant="h5" ml={2} noWrap>
+      <Typography variant="h5" ml={2} noWrap sx={{ mr: "auto" }}>
         使用者名稱
       </Typography>
-      <Button variant="outlined" size="small" sx={{ ml: "auto" }}>
+      <Button variant="outlined" size="small" sx={{ ml: 1 }}>
         查看代購者詳情
       </Button>
     </Stack>
