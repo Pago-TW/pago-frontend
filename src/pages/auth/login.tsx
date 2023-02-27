@@ -1,4 +1,5 @@
-import { Header } from "@components/Header";
+import { Container } from "@components/layouts/Container";
+import { FullPageCenter } from "@components/layouts/FullPageCenter";
 import { PasswordField } from "@components/PasswordField";
 import { Button } from "@components/ui/Button";
 import { Divider } from "@components/ui/Divider";
@@ -18,27 +19,33 @@ const LoginPage: NextPage = () => {
       <Head>
         <title>登入</title>
       </Head>
-      <Header />
-      <Stack sx={{ maxWidth: 400, mx: "auto", my: "12vh", p: 2, gap: 3 }}>
-        <Typography variant="h1" weightPreset="bold" textAlign="center">
-          登入
-        </Typography>
-        <Button variant="outlined" startIcon={<FcGoogle />}>
-          使用 Google 繼續
-        </Button>
-        <Divider>或</Divider>
-        <TextField variant="outlined" label="帳號" required />
-        <PasswordField label="密碼" ref={passwordRef} />
-        <Button>登入</Button>
-        <Box display="flex" justifyContent="space-between">
-          <Typography variant="h6">
-            <Link>忘記密碼？</Link>
-          </Typography>
-          <Typography variant="h6">
-            還沒有帳號嗎？<Link href="/auth/signup">立即註冊</Link>
-          </Typography>
-        </Box>
-      </Stack>
+      <Container>
+        <FullPageCenter>
+          <Stack
+            spacing={3}
+            sx={{ width: "100%", maxWidth: 400, my: "12vh", p: 2 }}
+          >
+            <Typography variant="h1" weightPreset="bold" textAlign="center">
+              登入
+            </Typography>
+            <Button variant="outlined" startIcon={<FcGoogle />}>
+              使用 Google 繼續
+            </Button>
+            <Divider>或</Divider>
+            <TextField variant="outlined" label="帳號" required />
+            <PasswordField label="密碼" ref={passwordRef} />
+            <Button>登入</Button>
+            <Box display="flex" justifyContent="space-between">
+              <Typography variant="h6">
+                <Link href="/auth/forgot-password">忘記密碼？</Link>
+              </Typography>
+              <Typography variant="h6">
+                還沒有帳號嗎？<Link href="/auth/signup">立即註冊</Link>
+              </Typography>
+            </Box>
+          </Stack>
+        </FullPageCenter>
+      </Container>
     </>
   );
 };
