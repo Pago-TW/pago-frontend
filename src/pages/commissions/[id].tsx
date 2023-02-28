@@ -63,7 +63,7 @@ const CommissionDetailPage: NextPage = () => {
       </Head>
       <Container>
         <Box sx={{ mx: { xs: 3, sm: 13 }, my: { xs: 3, md: 8 } }}>
-          <PageTitle title="委託詳情" sharable />
+          <PageTitle sharable>委託詳情</PageTitle>
         </Box>
         <Stack alignItems="center" mb={4}>
           <Stack

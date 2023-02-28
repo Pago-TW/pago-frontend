@@ -1,14 +1,15 @@
 import { ArrowBack, IosShare } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import { useRouter } from "next/router";
+import type { ReactNode } from "react";
 import { Typography } from "./ui/Typography";
 
 type PageTitleProps = {
-  title: string;
   sharable?: boolean;
+  children: ReactNode;
 };
 
-export const PageTitle = ({ title, sharable }: PageTitleProps) => {
+export const PageTitle = ({ sharable, children }: PageTitleProps) => {
   const router = useRouter();
 
   return (
@@ -33,7 +34,7 @@ export const PageTitle = ({ title, sharable }: PageTitleProps) => {
           textAlign: { xs: "center", md: "left" },
         }}
       >
-        {title}
+        {children}
       </Typography>
       {sharable ? (
         <IconButton

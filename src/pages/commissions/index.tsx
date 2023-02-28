@@ -105,7 +105,7 @@ const CommissionsPage: NextPage = () => {
               alignItems: "center",
             }}
           >
-            <PageTitle title="我的委託" />
+            <PageTitle>我的委託</PageTitle>
             {/* 新增委託按鈕 */}
             <Stack justifyContent="center" sx={{ mt: { xs: 3, md: 0 } }}>
               <Button>
