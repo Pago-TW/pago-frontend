@@ -1,9 +1,9 @@
 import type { LinkProps as MuiLinkProps } from "@mui/material";
 import { Link as MuiLink } from "@mui/material";
 import NextLink from "next/link";
-import React from "react";
+import { forwardRef } from "react";
 
-export const Link = React.forwardRef<HTMLAnchorElement, MuiLinkProps>(
+export const Link = forwardRef<HTMLAnchorElement, MuiLinkProps>(
   function ComposedLink({ href = "#", rel, underline = "none", ...rest }, ref) {
     const isExternal =
       typeof href === "string" &&

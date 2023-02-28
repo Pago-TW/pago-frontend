@@ -1,7 +1,7 @@
 import { Header } from "@components/Header";
-import React from "react";
+import type { ReactNode } from "react";
 
-export const Container = ({ children }: { children: React.ReactNode }) => {
+export const Container = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <Header />
