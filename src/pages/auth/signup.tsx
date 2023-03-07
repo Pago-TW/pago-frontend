@@ -1,6 +1,6 @@
+import { PasswordInput } from "@components/inputs/PasswordInput";
 import { Container } from "@components/layouts/Container";
 import { FullPageCenter } from "@components/layouts/FullPageCenter";
-import { PasswordField } from "@components/PasswordField";
 import { Button } from "@components/ui/Button";
 import { Link } from "@components/ui/Link";
 import { Typography } from "@components/ui/Typography";
@@ -28,8 +28,8 @@ const SignUpPage: NextPage = () => {
               註冊
             </Typography>
             <TextField variant="outlined" label="帳號" required />
-            <PasswordField label="密碼" ref={passwordRef} />
-            <PasswordField label="確認密碼" ref={confirmPasswordRef} />
+            <PasswordInput label="密碼" ref={passwordRef} />
+            <PasswordInput label="確認密碼" ref={confirmPasswordRef} />
             <TextField variant="outlined" label="真實姓名" required />
             <TextField
               type="tel"

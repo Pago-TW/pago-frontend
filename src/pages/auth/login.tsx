@@ -1,6 +1,6 @@
+import { PasswordInput } from "@components/inputs/PasswordInput";
 import { Container } from "@components/layouts/Container";
 import { FullPageCenter } from "@components/layouts/FullPageCenter";
-import { PasswordField } from "@components/PasswordField";
 import { Button } from "@components/ui/Button";
 import { Divider } from "@components/ui/Divider";
 import { Link } from "@components/ui/Link";
@@ -33,7 +33,7 @@ const LoginPage: NextPage = () => {
             </Button>
             <Divider>或</Divider>
             <TextField variant="outlined" label="帳號" required />
-            <PasswordField label="密碼" ref={passwordRef} />
+            <PasswordInput label="密碼" ref={passwordRef} />
             <Button>登入</Button>
             <Box display="flex" justifyContent="space-between">
               <Typography variant="h6">
