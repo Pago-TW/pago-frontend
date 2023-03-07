@@ -87,20 +87,12 @@ const NewCommissionPage: NextPage = () => {
     defaultValues: DEFAULT_VALUES,
     resolver: zodResolver(getStepSchema(activeStep)),
   });
-  const {
-    handleSubmit,
-    watch,
-    formState: { errors },
-    trigger,
-  } = methods;
+  const { handleSubmit, trigger } = methods;
 
   const handleNext = async () => {
     const isStepValid = await trigger();
     if (isStepValid) handleStepperNext();
   };
-
-  console.log("watch: ", watch());
-  console.log("errors: ", errors);
 
   const formSubmit = (formData: ReviewFormValues) => console.log(formData);
 
