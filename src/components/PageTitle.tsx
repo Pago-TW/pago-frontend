@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import type { ReactNode } from "react";
 import { Typography } from "./ui/Typography";
 
-type PageTitleProps = {
+export type PageTitleProps = {
   sharable?: boolean;
   children: ReactNode;
 };
