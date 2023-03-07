@@ -1,25 +1,21 @@
-import { AmountInput } from "@components/AmountInput";
+import {
+  MerchandiseForm,
+  merchandiseFormSchema,
+} from "@components/forms/MerchandiseForm";
+import { NeedsForm, needsFormSchema } from "@components/forms/NeedsForm";
+import type { ReviewFormValues } from "@components/forms/ReviewForm";
+import { ReviewForm, reviewFormSchema } from "@components/forms/ReviewForm";
 import { Container } from "@components/layouts/Container";
 import { PageTitle } from "@components/PageTitle";
 import { Button } from "@components/ui/Button";
 import { StepLabel } from "@components/ui/StepLabel";
 import { Stepper } from "@components/ui/Stepper";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useStepper } from "@hooks/useStepper";
-import { Place } from "@mui/icons-material";
-import {
-  Box,
-  FormControl,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
-  Stack,
-  Step,
-  TextField,
-} from "@mui/material";
+import { Box, Step } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { FormProvider, useForm } from "react-hook-form";
 
 const STEPS = [
   {
@@ -36,66 +32,77 @@ const STEPS = [
   },
 ];
 
-const StepOne = () => {
-  return (
-    <Stack spacing={3}>
-      <TextField
-        label="商品名稱"
-        variant="standard"
-        InputLabelProps={{ shrink: true }}
-        fullWidth
-      />
-      <TextField
-        label="商品圖片"
-        variant="standard"
-        InputLabelProps={{ shrink: true }}
-        fullWidth
-      />
-      <TextField
-        label="商品規格敘述"
-        variant="standard"
-        fullWidth
-        InputLabelProps={{ shrink: true }}
-      />
-      <Box position="relative">
-        <TextField
-          label="商品價格"
-          variant="standard"
-          InputLabelProps={{ shrink: true }}
-          fullWidth
-        />
-        <FormControl
-          size="small"
-          sx={{ minWidth: 120, position: "absolute", right: 0, bottom: 5 }}
-        >
-          <InputLabel>貨幣單位</InputLabel>
-          <Select label="貨幣單位">
-            <MenuItem>NTD</MenuItem>
-            <MenuItem>JPN</MenuItem>
-            <MenuItem>USD</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-      <Box sx={{ position: "relative" }}>
-        <TextField
-          label="購買地點"
-          variant="standard"
-          InputLabelProps={{ shrink: true }}
-          fullWidth
-        />
-        <IconButton sx={{ p: 0, position: "absolute", right: 0, bottom: 5 }}>
-          <Place />
-        </IconButton>
-      </Box>
-      <AmountInput label="商品數量" />
-    </Stack>
-  );
+const DEFAULT_VALUES: ReviewFormValues = {
+  name: "",
+  image: "",
+  description: "",
+  price: {
+    amount: 0,
+    currency: "NTD",
+  },
+  purchaseLocation: "",
+  amount: 0,
+  packing: true,
+  receipt: true,
+  fee: {
+    amount: 0,
+    currency: "NTD",
+  },
+  destination: "",
+  date: new Date(),
+  remark: "",
+};
+
+const getStepSchema = (step: number) => {
+  switch (step) {
+    case 0:
+      return merchandiseFormSchema;
+    case 1:
+      return needsFormSchema;
+    default:
+      return reviewFormSchema;
+  }
+};
+
+const getStepForm = (step: number) => {
+  switch (step) {
+    case 0:
+      return <MerchandiseForm />;
+    case 1:
+      return <NeedsForm />;
+    case 2:
+      return <ReviewForm />;
+    default:
+      return null;
+  }
 };
 
 const NewCommissionPage: NextPage = () => {
-  const { activeStep, isFinished, handlePrev, handleNext } = useStepper({
+  const { activeStep, handleNext: handleStepperNext } = useStepper({
     totalSteps: STEPS.length,
   });
+
+  const methods = useForm<ReviewFormValues>({
+    mode: "onBlur",
+    defaultValues: DEFAULT_VALUES,
+    resolver: zodResolver(getStepSchema(activeStep)),
+  });
+  const {
+    handleSubmit,
+    watch,
+    formState: { errors },
+    trigger,
+  } = methods;
+
+  const handleNext = async () => {
+    const isStepValid = await trigger();
+    if (isStepValid) handleStepperNext();
+  };
+
+  console.log("watch: ", watch());
+  console.log("errors: ", errors);
+
+  const formSubmit = (formData: ReviewFormValues) => console.log(formData);
 
   return (
     <>
@@ -106,7 +113,7 @@ const NewCommissionPage: NextPage = () => {
         <Box sx={{ mx: { xs: 3, sm: 13 }, my: { xs: 3, md: 8 } }}>
           <PageTitle>填寫委託資訊</PageTitle>
         </Box>
-        <Box sx={{ mx: { xs: 3, sm: 13 } }}>
+        <Box sx={{ mx: { xs: 3, sm: 13 }, mb: 3 }}>
           <Stepper activeStep={activeStep}>
             {STEPS.map(({ label }) => (
               <Step key={label}>
@@ -114,15 +121,25 @@ const NewCommissionPage: NextPage = () => {
               </Step>
             ))}
           </Stepper>
-          <Paper elevation={3} sx={{ mt: 3, p: 2 }}>
-            <StepOne />
-            {/* {isFinished ? <div>done!</div> : STEPS[activeStep]?.content} */}
-          </Paper>
-          <Box display="flex">
-            <Button onClick={handleNext} sx={{ mx: "auto", mt: 3 }}>
-              下一步
-            </Button>
-          </Box>
+          <FormProvider {...methods}>
+            <form>
+              {getStepForm(activeStep)}
+              <Box display="flex">
+                {activeStep === STEPS.length - 1 ? (
+                  <Button
+                    onClick={handleSubmit(formSubmit)}
+                    sx={{ mx: "auto", mt: 3 }}
+                  >
+                    發布委託
+                  </Button>
+                ) : (
+                  <Button onClick={handleNext} sx={{ mx: "auto", mt: 3 }}>
+                    下一步
+                  </Button>
+                )}
+              </Box>
+            </form>
+          </FormProvider>
         </Box>
       </Container>
     </>
