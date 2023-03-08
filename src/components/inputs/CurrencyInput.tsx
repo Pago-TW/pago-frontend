@@ -10,7 +10,15 @@ import type { ReactNode } from "react";
 import type { Control, FieldValues, Path } from "react-hook-form";
 import { useController } from "react-hook-form";
 
-export const CURRENCY_OPTIONS = ["NTD", "JPN", "USD"] as const;
+export const CURRENCY_OPTIONS = [
+  "TWD",
+  "USD",
+  "JPY",
+  "HKD",
+  "CNY",
+  "EUR",
+  "KRW",
+] as const;
 
 export type CurrencyInputProps<T extends FieldValues> = FormControlProps & {
   control: Control<T>;
