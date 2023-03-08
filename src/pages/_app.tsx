@@ -13,6 +13,8 @@ import "@fontsource/mallanna/400.css";
 import "@fontsource/noto-sans-tc/300.css";
 import "@fontsource/noto-sans-tc/400.css";
 import "@fontsource/noto-sans-tc/700.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "../styles/globals.css";
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -21,6 +23,8 @@ const clientSideEmotionCache = createEmotionCache();
 interface MyAppProps extends AppProps<{ session: Session | null }> {
   emotionCache?: EmotionCache;
 }
+
+const queryClient = new QueryClient();
 
 const MyApp = ({
   Component,
@@ -33,10 +37,13 @@ const MyApp = ({
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <SessionProvider session={session}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Component {...pageProps} />
-        </ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </ThemeProvider>
+          <ReactQueryDevtools />
+        </QueryClientProvider>
       </SessionProvider>
     </CacheProvider>
   );
