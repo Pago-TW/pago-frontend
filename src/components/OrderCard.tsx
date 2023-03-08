@@ -4,24 +4,24 @@ import Image from "next/image";
 import { Divider } from "./ui/Divider";
 import { Typography } from "./ui/Typography";
 
-export type CommissionCardProps = {
+export type OrderCardProps = {
   name: string;
   imageUrl: string;
   description: string;
-  orderStatus: "待確認" | "待面交" | "待購買" | "已完成" | "不成立";
+  orderStatus: "待確認" | "待購買" | "待面交" | "已送達" | "已完成" | "不成立";
   quantity: number;
   amount: number;
   currency: string;
 };
 
-export const CommissionCard = ({
+export const OrderCard = ({
   name,
   imageUrl,
   description,
   orderStatus,
   currency,
   amount,
-}: CommissionCardProps) => {
+}: OrderCardProps) => {
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   return (

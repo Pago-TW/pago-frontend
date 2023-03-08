@@ -1,6 +1,6 @@
-import type { CommissionCardProps } from "@components/CommissionCard";
-import { CommissionCard } from "@components/CommissionCard";
 import { Container } from "@components/layouts/Container";
+import type { OrderCardProps } from "@components/OrderCard";
+import { OrderCard } from "@components/OrderCard";
 import { PageTitle } from "@components/PageTitle";
 import { Button } from "@components/ui/Button";
 import { Add } from "@mui/icons-material";
@@ -13,16 +13,17 @@ import { useState } from "react";
 
 const TABS = [
   { label: "全部", value: "ALL" },
-  { label: "待確認", value: "TO_BE_CONFIRMED" },
-  { label: "待面交", value: "TO_BE_DELIVERED" },
+  { label: "待確認", value: "REQUESTED" },
   { label: "待購買", value: "TO_BE_PURCHASED" },
-  { label: "已完成", value: "DONE" },
+  { label: "待面交", value: "TO_BE_DELIVERED" },
+  { label: "已送達", value: "DELIVERED" },
+  { label: "已完成", value: "FINISHED" },
   { label: "不成立", value: "CANCELED" },
 ] as const;
 
 type Tab = (typeof TABS)[number];
 
-const COMMISSIONS: CommissionCardProps[] = [
+const ORDERS: OrderCardProps[] = [
   {
     name: "商品名稱 1",
     imageUrl: "",
@@ -36,7 +37,7 @@ const COMMISSIONS: CommissionCardProps[] = [
     name: "商品名稱 2",
     imageUrl: "",
     description: "商品規格 2",
-    orderStatus: "待面交",
+    orderStatus: "待購買",
     quantity: 222222,
     amount: 222222,
     currency: "NT$",
@@ -45,7 +46,7 @@ const COMMISSIONS: CommissionCardProps[] = [
     name: "商品名稱 3",
     imageUrl: "",
     description: "商品規格 3",
-    orderStatus: "待購買",
+    orderStatus: "待面交",
     quantity: 333333,
     amount: 333333,
     currency: "NT$",
@@ -54,7 +55,7 @@ const COMMISSIONS: CommissionCardProps[] = [
     name: "商品名稱 4",
     imageUrl: "",
     description: "商品規格 4",
-    orderStatus: "已完成",
+    orderStatus: "已送達",
     quantity: 444444,
     amount: 444444,
     currency: "NT$",
@@ -63,9 +64,18 @@ const COMMISSIONS: CommissionCardProps[] = [
     name: "商品名稱 5",
     imageUrl: "",
     description: "商品規格 5",
-    orderStatus: "不成立",
+    orderStatus: "已完成",
     quantity: 555555,
     amount: 555555,
+    currency: "NT$",
+  },
+  {
+    name: "商品名稱 6",
+    imageUrl: "",
+    description: "商品規格 6",
+    orderStatus: "不成立",
+    quantity: 666666,
+    amount: 666666,
     currency: "NT$",
   },
 ];
@@ -81,14 +91,18 @@ const StyledTab = styled(Tab)(({ theme }) => ({
   flex: 1,
 }));
 
-const CommissionsPage: NextPage = () => {
+const OrdersPage: NextPage = () => {
   const [currentTab, setCurrentTab] = useState<Tab["value"]>("ALL");
 
-  const filterCommissions = (status: Tab["label"]) => {
+  const orders = useQuery({
+
+  console.log(orders?.data);
+
+  const filterOrders = (status: Tab["label"]) => {
     if (status === "全部") {
-      return COMMISSIONS;
+      return ORDERS;
     }
-    return COMMISSIONS.filter((comm) => comm.orderStatus === status);
+    return ORDERS.filter((order) => order.orderStatus === status);
   };
 
   return (
@@ -134,8 +148,8 @@ const CommissionsPage: NextPage = () => {
               {TABS.map((tab, idx) => (
                 <TabPanel key={idx} value={tab.value} sx={{ px: 0 }}>
                   <Stack spacing={2}>
-                    {filterCommissions(tab.label).map((comm, idx) => (
-                      <CommissionCard key={idx} {...comm} />
+                    {filterOrders(tab.label).map((order, idx) => (
+                      <OrderCard key={idx} {...order} />
                     ))}
                   </Stack>
                 </TabPanel>
@@ -148,4 +162,4 @@ const CommissionsPage: NextPage = () => {
   );
 };
 
-export default CommissionsPage;
+export default OrdersPage;
