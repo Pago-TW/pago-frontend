@@ -20,6 +20,8 @@ export const CURRENCY_OPTIONS = [
   "KRW",
 ] as const;
 
+export type Currency = (typeof CURRENCY_OPTIONS)[number];
+
 export type CurrencyInputProps<T extends FieldValues> = FormControlProps & {
   control: Control<T>;
   name: Path<T>;

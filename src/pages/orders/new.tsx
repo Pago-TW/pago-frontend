@@ -38,7 +38,7 @@ const DEFAULT_VALUES: ReviewFormValues = {
   description: "",
   price: {
     amount: 0,
-    currency: "NTD",
+    currency: "TWD",
   },
   purchaseLocation: "",
   amount: 0,
@@ -46,7 +46,7 @@ const DEFAULT_VALUES: ReviewFormValues = {
   receipt: true,
   fee: {
     amount: 0,
-    currency: "NTD",
+    currency: "TWD",
   },
   destination: "",
   date: new Date(),
@@ -77,7 +77,7 @@ const getStepForm = (step: number) => {
   }
 };
 
-const NewCommissionPage: NextPage = () => {
+const NewOrderPage: NextPage = () => {
   const { activeStep, handleNext: handleStepperNext } = useStepper({
     totalSteps: STEPS.length,
   });
@@ -138,4 +138,4 @@ const NewCommissionPage: NextPage = () => {
   );
 };
 
-export default NewCommissionPage;
+export default NewOrderPage;
