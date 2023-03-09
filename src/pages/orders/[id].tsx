@@ -81,6 +81,7 @@ const OrderDetailPage: NextPage = () => {
                   {/* 圖片 */}
                   <Box
                     sx={{
+                      position: "relative",
                       width: { xs: 300, md: 450 },
                       height: { xs: 300, md: 450 },
                     }}

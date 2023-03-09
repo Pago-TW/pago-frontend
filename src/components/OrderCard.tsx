@@ -32,8 +32,8 @@ export const OrderCard = ({
           <Box
             sx={{
               position: "relative",
-              aspectRatio: "1 / 1",
               width: { xs: 74, md: 250 },
+              height: { xs: 74, md: 250 },
             }}
           >
             {imageUrl ? (
