@@ -103,8 +103,13 @@ export const NeedsForm = () => {
         <DatePicker
           control={control}
           name="date"
-          error={!!errors?.date}
-          helperText={errors?.date?.message}
+          minDate={new Date()}
+          slotProps={{
+            textField: {
+              error: !!errors?.date,
+              helperText: errors?.date?.message,
+            },
+          }}
         />
         <TextField
           label="備註"
