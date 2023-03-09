@@ -94,10 +94,6 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 const OrdersPage: NextPage = () => {
   const [currentTab, setCurrentTab] = useState<Tab["value"]>("ALL");
 
-  const orders = useQuery({
-
-  console.log(orders?.data);
-
   const filterOrders = (status: Tab["label"]) => {
     if (status === "全部") {
       return ORDERS;
@@ -130,33 +126,31 @@ const OrdersPage: NextPage = () => {
           </Box>
         </Box>
         <Container>
-            <TabContext value={currentTab}>
-              {/* Tabs */}
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <TabList
-                  variant="scrollable"
-                  allowScrollButtonsMobile
-                  onChange={(e, v) => setCurrentTab(v)}
-                >
-                  {TABS.map((tab, idx) => (
-                    <StyledTab key={idx} {...tab} />
+          <TabContext value={currentTab}>
+            {/* Tabs */}
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <TabList
+                variant="scrollable"
+                allowScrollButtonsMobile
+                onChange={(e, v) => setCurrentTab(v)}
+              >
+                {TABS.map((tab, idx) => (
+                  <StyledTab key={idx} {...tab} />
+                ))}
+              </TabList>
+            </Box>
+            {/* TabPanels */}
+            {TABS.map((tab, idx) => (
+              <TabPanel key={idx} value={tab.value} sx={{ px: 0 }}>
+                <Stack spacing={2}>
+                  {filterOrders(tab.label).map((order, idx) => (
+                    <OrderCard key={idx} {...order} />
                   ))}
-                </TabList>
-              </Box>
-              {/* TabPanels */}
-              {TABS.map((tab, idx) => (
-                <TabPanel key={idx} value={tab.value} sx={{ px: 0 }}>
-                  <Stack spacing={2}>
-                    {filterOrders(tab.label).map((order, idx) => (
-                      <OrderCard key={idx} {...order} />
-                    ))}
-                  </Stack>
-                </TabPanel>
-              ))}
-            </TabContext>
-          </Box>
-        </Box>
-      </Container>
+                </Stack>
+              </TabPanel>
+            ))}
+          </TabContext>
+        </Container>
       </BaseLayout>
     </>
   );

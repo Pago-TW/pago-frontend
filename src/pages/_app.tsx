@@ -15,8 +15,6 @@ import "@fontsource/mallanna/400.css";
 import "@fontsource/noto-sans-tc/300.css";
 import "@fontsource/noto-sans-tc/400.css";
 import "@fontsource/noto-sans-tc/700.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "../styles/globals.css";
 
 // Client-side cache, shared for the whole session of the user in the browser.
