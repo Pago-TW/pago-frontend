@@ -25,9 +25,9 @@ export const OrderCard = ({
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   return (
-    <Paper elevation={3} sx={{ p: { xs: 1, md: 3 } }}>
-      <Stack spacing={mdDown ? 1 : 3}>
-        <Stack direction="row" spacing={1} flexGrow={1}>
+    <Paper elevation={3} sx={{ p: { xs: 1, md: 2 } }}>
+      <Stack spacing={mdDown ? 1 : 2}>
+        <Stack direction="row" spacing={2} flexGrow={1}>
           {/* 左方圖片 */}
           <Box
             sx={{
