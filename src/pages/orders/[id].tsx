@@ -1,6 +1,6 @@
 import { BuyingAgent } from "@components/BuyingAgent";
 import { DetailItem } from "@components/DetailItem";
-import { Container } from "@components/layouts/Container";
+import { BaseLayout } from "@components/layouts/BaseLayout";
 import { PageTitle } from "@components/PageTitle";
 import { Link } from "@components/ui/Link";
 import { Typography } from "@components/ui/Typography";
@@ -50,25 +50,25 @@ const BuyingAgentArea = () => {
   );
 };
 
-const CommissionDetailPage: NextPage = () => {
+const OrderDetailPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const xs = useMediaQuery((theme) => theme.breakpoints.between("xs", "md"));
+  const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   return (
     <>
       <Head>
         <title>委託詳情</title>
       </Head>
-      <Container>
+      <BaseLayout>
         <Box sx={{ mx: { xs: 3, sm: 13 }, my: { xs: 3, md: 8 } }}>
           <PageTitle sharable>委託詳情</PageTitle>
         </Box>
         <Stack alignItems="center" mb={4}>
           <Stack
-            direction={xs ? "column" : "row"}
-            spacing={xs ? 2 : 4}
+            direction={mdDown ? "column" : "row"}
+            spacing={mdDown ? 2 : 4}
             sx={{
               width: "100%",
               maxWidth: { xs: 336, md: 1440 },
@@ -76,7 +76,7 @@ const CommissionDetailPage: NextPage = () => {
             }}
           >
             <Stack spacing={3} alignItems="center">
-              <Paper elevation={xs ? 3 : 0} sx={{ p: { xs: 2, md: 0 } }}>
+              <Paper elevation={mdDown ? 3 : 0} sx={{ p: { xs: 2, md: 0 } }}>
                 <Stack spacing={2}>
                   {/* 圖片 */}
                   <Box
@@ -92,19 +92,19 @@ const CommissionDetailPage: NextPage = () => {
                     />
                   </Box>
                   {/* 名稱 (手機) */}
-                  {xs ? (
+                  {mdDown ? (
                     <Typography variant="h3" textAlign="center">
                       商品名稱
                     </Typography>
                   ) : null}
                 </Stack>
               </Paper>
-              {!xs ? <BuyingAgentArea /> : null}
+              {!mdDown ? <BuyingAgentArea /> : null}
             </Stack>
-            <Paper elevation={xs ? 3 : 0} sx={{ p: 2, flexGrow: 1 }}>
+            <Paper elevation={mdDown ? 3 : 0} sx={{ p: 2, flexGrow: 1 }}>
               <Stack spacing={4}>
                 {/* 名稱 (電腦) */}
-                {!xs ? (
+                {!mdDown ? (
                   <Typography variant="h1" weightPreset="bold">
                     商品名稱
                   </Typography>
@@ -132,7 +132,7 @@ const CommissionDetailPage: NextPage = () => {
                       Forbes Pl Kawerau New Zealand
                     </Stack>
                   }
-                  multiLine={xs}
+                  multiLine={mdDown}
                 />
                 <DetailItem
                   label="送達地點"
@@ -142,26 +142,26 @@ const CommissionDetailPage: NextPage = () => {
                       338 桃園市蘆竹區大興十街6號
                     </Stack>
                   }
-                  multiLine={xs}
+                  multiLine={mdDown}
                 />
                 <DetailItem
                   label="最晚收到商品時間"
                   value="11/15/2022 12:00AM"
-                  multiLine={xs}
+                  multiLine={mdDown}
                 />
                 <DetailItem
                   label="備註"
                   value="請不要造成瓶身撞凹，謝謝"
-                  multiLine={xs}
+                  multiLine={mdDown}
                 />
               </Stack>
             </Paper>
-            {xs ? <BuyingAgentArea /> : null}
+            {mdDown ? <BuyingAgentArea /> : null}
           </Stack>
         </Stack>
-      </Container>
+      </BaseLayout>
     </>
   );
 };
 
-export default CommissionDetailPage;
+export default OrderDetailPage;

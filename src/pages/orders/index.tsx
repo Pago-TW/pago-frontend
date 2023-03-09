@@ -1,11 +1,11 @@
-import { Container } from "@components/layouts/Container";
+import { BaseLayout } from "@components/layouts/BaseLayout";
 import type { OrderCardProps } from "@components/OrderCard";
 import { OrderCard } from "@components/OrderCard";
 import { PageTitle } from "@components/PageTitle";
 import { Button } from "@components/ui/Button";
 import { Add } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Stack, Tab } from "@mui/material";
+import { Box, Container, Stack, Tab } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -110,7 +110,7 @@ const OrdersPage: NextPage = () => {
       <Head>
         <title>我的委託</title>
       </Head>
-      <Container>
+      <BaseLayout>
         <Box sx={{ mx: { xs: 3, sm: 13 }, my: { xs: 3, md: 8 } }}>
           <Box
             sx={{
@@ -129,8 +129,7 @@ const OrdersPage: NextPage = () => {
             </Stack>
           </Box>
         </Box>
-        <Box sx={{ mx: { xs: 3, sm: 13 } }}>
-          <Box sx={{ mx: "auto", maxWidth: 1424 }}>
+        <Container>
             <TabContext value={currentTab}>
               {/* Tabs */}
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -158,6 +157,7 @@ const OrdersPage: NextPage = () => {
           </Box>
         </Box>
       </Container>
+      </BaseLayout>
     </>
   );
 };

@@ -5,7 +5,7 @@ import {
 import { NeedsForm, needsFormSchema } from "@components/forms/NeedsForm";
 import type { ReviewFormValues } from "@components/forms/ReviewForm";
 import { ReviewForm, reviewFormSchema } from "@components/forms/ReviewForm";
-import { Container } from "@components/layouts/Container";
+import { BaseLayout } from "@components/layouts/BaseLayout";
 import { PageTitle } from "@components/PageTitle";
 import { Button } from "@components/ui/Button";
 import { StepLabel } from "@components/ui/StepLabel";
@@ -101,7 +101,7 @@ const NewCommissionPage: NextPage = () => {
       <Head>
         <title>新增委託</title>
       </Head>
-      <Container>
+      <BaseLayout>
         <Box sx={{ mx: { xs: 3, sm: 13 }, my: { xs: 3, md: 8 } }}>
           <PageTitle>填寫委託資訊</PageTitle>
         </Box>
@@ -133,7 +133,7 @@ const NewCommissionPage: NextPage = () => {
             </form>
           </FormProvider>
         </Box>
-      </Container>
+      </BaseLayout>
     </>
   );
 };

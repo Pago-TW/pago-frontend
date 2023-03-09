@@ -1,4 +1,4 @@
-import { Container } from "@components/layouts/Container";
+import { BaseLayout } from "@components/layouts/BaseLayout";
 import type { NextPage } from "next";
 import Head from "next/head";
 
@@ -10,9 +10,9 @@ const Home: NextPage = () => {
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Container>
+      <BaseLayout>
         <main>Pago Home Page</main>
-      </Container>
+      </BaseLayout>
     </>
   );
 };
