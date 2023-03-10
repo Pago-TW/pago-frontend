@@ -77,7 +77,11 @@ const getStepForm = (step: number) => {
 };
 
 const NewOrderPage: NextPage = () => {
-  const { activeStep, handleNext: handleStepperNext } = useStepper({
+  const {
+    activeStep,
+    handleNext: handleStepperNext,
+    handlePrev: handleStepperPrev,
+  } = useStepper({
     totalSteps: STEPS.length,
   });
 
@@ -116,6 +120,15 @@ const NewOrderPage: NextPage = () => {
             <form>
               {getStepForm(activeStep)}
               <Box display="flex">
+                {activeStep !== 0 ? (
+                  <Button
+                    variant="outlined"
+                    onClick={handleStepperPrev}
+                    sx={{ mx: "auto", mt: 3 }}
+                  >
+                    上一步
+                  </Button>
+                ) : null}
                 {activeStep === STEPS.length - 1 ? (
                   <Button
                     onClick={handleSubmit(formSubmit)}
