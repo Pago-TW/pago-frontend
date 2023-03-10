@@ -1,15 +1,21 @@
+import { useMediaQuery } from "@hooks/useMediaQuery";
 import { Box, Stack, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 import { AmountInput } from "../inputs/AmountInput";
 import { CurrencyInput, CURRENCY_OPTIONS } from "../inputs/CurrencyInput";
+import { ImageDropzone } from "../inputs/ImageDropzone";
 import { NumberInput } from "../inputs/NumberInput";
 import { PlaceInput } from "../inputs/PlaceInput";
 import { PaperLayout } from "../layouts/PaperLayout";
 
+const IMAGE_MIME = ["image/jpeg", "image/png"];
+
 export const merchandiseFormSchema = z.object({
   name: z.string().min(1, { message: "請輸入商品名稱" }),
-  image: z.string(),
+  image: z
+    .custom<File>((f) => f instanceof File, "請上傳商品圖片")
+    .refine((f) => IMAGE_MIME.includes(f.type), "不支援的檔案格式"),
   description: z.string().optional(),
   price: z.object({
     amount: z
@@ -47,6 +53,8 @@ export const MerchandiseForm = () => {
     formState: { errors },
   } = useFormContext<MerchandiseFormValues>();
 
+  const mdUp = useMediaQuery((theme) => theme.breakpoints.up("md"));
+
   return (
     <PaperLayout sx={{ mt: 3 }}>
       <Stack spacing={3}>
@@ -59,14 +67,20 @@ export const MerchandiseForm = () => {
           helperText={errors?.name?.message}
           {...register("name", { required: "請輸入商品名稱" })}
         />
-        <TextField
+        <ImageDropzone
+          control={control}
+          name="image"
           label="商品圖片"
-          variant="standard"
-          InputLabelProps={{ shrink: true }}
-          fullWidth
           error={!!errors?.image}
           helperText={errors?.image?.message}
-          {...register("image")}
+          sx={{
+            width: 75,
+            height: 75,
+            ...(mdUp && {
+              width: 150,
+              height: 150,
+            }),
+          }}
         />
         <TextField
           label="商品規格敘述"

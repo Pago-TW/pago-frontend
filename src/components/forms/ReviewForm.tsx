@@ -1,23 +1,29 @@
+import { useMediaQuery } from "@hooks/useMediaQuery";
 import { Place } from "@mui/icons-material";
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { format } from "date-fns";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { concatStrings } from "src/utils/concatStrings";
+import { translateBoolean } from "src/utils/translateBoolean";
 import type { z } from "zod";
 import { DetailItem } from "../DetailItem";
 import { PaperLayout } from "../layouts/PaperLayout";
 import { Typography } from "../ui/Typography";
 import { merchandiseFormSchema } from "./MerchandiseForm";
 import { needsFormSchema } from "./NeedsForm";
+
 export const reviewFormSchema = merchandiseFormSchema.merge(needsFormSchema);
 
 export type ReviewFormValues = z.infer<typeof reviewFormSchema>;
 
-const translateBoolean = (value: boolean) => {
-  return value ? "是" : "否";
-};
-
 export const ReviewForm = () => {
+  const [preview, setPreview] = useState<string>("");
+
   const { getValues } = useFormContext<ReviewFormValues>();
+
+  const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   const name = getValues("name");
   const image = getValues("image");
@@ -32,25 +38,42 @@ export const ReviewForm = () => {
   const date = getValues("date");
   const remark = getValues("remark");
 
+  useEffect(() => {
+    const previewUrl = URL.createObjectURL(image);
+    setPreview(previewUrl);
+
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [image, setPreview]);
+
   return (
     <Stack spacing={2} mt={3}>
       <PaperLayout>
-        <Stack direction="row">
-          <div
-            style={{
-              width: 72,
-              height: 72,
-              backgroundColor: "pago.500",
-              color: "common.white",
-            }}
+        <Stack direction="row" spacing={{ xs: 2, md: 3 }}>
+          <Box
+            sx={(theme) => ({
+              position: "relative",
+              width: 75,
+              height: 75,
+              borderRadius: 2,
+              [theme.breakpoints.up("md")]: {
+                width: 200,
+                height: 200,
+              },
+            })}
           >
-            {image}
-          </div>
-          <Stack justifyContent="space-between" flexGrow={1}>
-            <Typography variant="h5">{name}</Typography>
+            {preview ? <Image src={preview} alt="Preview image" fill /> : null}
+          </Box>
+          <Stack justifyContent="space-between" flexGrow={1} py={1}>
+            <Typography variant={mdDown ? "h5" : "h1"} weightPreset="bold">
+              {name}
+            </Typography>
             <Stack direction="row" justifyContent="space-between">
-              <Typography variant="h6">{description}</Typography>
-              <Typography variant="h6">{amount}</Typography>
+              <Typography variant={mdDown ? "h6" : "h3"}>
+                {description}
+              </Typography>
+              <Typography variant={mdDown ? "h6" : "h3"}>{amount}</Typography>
             </Stack>
           </Stack>
         </Stack>
@@ -94,12 +117,12 @@ export const ReviewForm = () => {
         <Stack spacing={4}>
           <DetailItem
             label="商品價格"
-            value={`${priceAmount} ${priceCurrency}`}
+            value={concatStrings([priceAmount.toString(), priceCurrency])}
             valueBold
           />
           <DetailItem
             label="願付代購費"
-            value={`${feeAmount} ${feeCurrency}`}
+            value={concatStrings([feeAmount.toString(), feeCurrency])}
             valueBold
           />
           <DetailItem label="關稅" value="5NT$" valueBold />
