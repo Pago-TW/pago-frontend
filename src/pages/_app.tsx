@@ -4,10 +4,12 @@ import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import axios from "axios";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { env } from "src/env/client.mjs";
 import { theme } from "../styles/theme";
 import { createEmotionCache } from "../utils/createEmotionCache";
 
@@ -24,6 +26,7 @@ interface MyAppProps extends AppProps<{ session: Session | null }> {
   emotionCache?: EmotionCache;
 }
 
+axios.defaults.baseURL = env.NEXT_PUBLIC_API_URL;
 const queryClient = new QueryClient();
 
 const MyApp = ({

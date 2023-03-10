@@ -1,8 +1,9 @@
 import { BaseLayout } from "@components/layouts/BaseLayout";
-import type { OrderCardProps } from "@components/OrderCard";
 import { OrderCard } from "@components/OrderCard";
 import { PageTitle } from "@components/PageTitle";
 import { Button } from "@components/ui/Button";
+import { Link } from "@components/ui/Link";
+import { useOrders } from "@hooks/api/useOrders";
 import { Add } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Container, Stack, Tab } from "@mui/material";
@@ -23,63 +24,6 @@ const TABS = [
 
 type Tab = (typeof TABS)[number];
 
-const ORDERS: OrderCardProps[] = [
-  {
-    name: "商品名稱 1",
-    imageUrl: "",
-    description: "商品規格 1",
-    orderStatus: "待確認",
-    quantity: 111111,
-    amount: 111111,
-    currency: "NT$",
-  },
-  {
-    name: "商品名稱 2",
-    imageUrl: "",
-    description: "商品規格 2",
-    orderStatus: "待購買",
-    quantity: 222222,
-    amount: 222222,
-    currency: "NT$",
-  },
-  {
-    name: "商品名稱 3",
-    imageUrl: "",
-    description: "商品規格 3",
-    orderStatus: "待面交",
-    quantity: 333333,
-    amount: 333333,
-    currency: "NT$",
-  },
-  {
-    name: "商品名稱 4",
-    imageUrl: "",
-    description: "商品規格 4",
-    orderStatus: "已送達",
-    quantity: 444444,
-    amount: 444444,
-    currency: "NT$",
-  },
-  {
-    name: "商品名稱 5",
-    imageUrl: "",
-    description: "商品規格 5",
-    orderStatus: "已完成",
-    quantity: 555555,
-    amount: 555555,
-    currency: "NT$",
-  },
-  {
-    name: "商品名稱 6",
-    imageUrl: "",
-    description: "商品規格 6",
-    orderStatus: "不成立",
-    quantity: 666666,
-    amount: 666666,
-    currency: "NT$",
-  },
-];
-
 const StyledTab = styled(Tab)(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
     minWidth: "fit-content",
@@ -94,11 +38,15 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 const OrdersPage: NextPage = () => {
   const [currentTab, setCurrentTab] = useState<Tab["value"]>("ALL");
 
-  const filterOrders = (status: Tab["label"]) => {
-    if (status === "全部") {
-      return ORDERS;
+  const { data: orders } = useOrders();
+
+  const filterOrders = (status: Tab["value"]) => {
+    if (!orders) return null;
+
+    if (status === "ALL") {
+      return orders;
     }
-    return ORDERS.filter((order) => order.orderStatus === status);
+    return orders.filter((order) => order.orderStatus === status);
   };
 
   return (
@@ -143,8 +91,10 @@ const OrdersPage: NextPage = () => {
             {TABS.map((tab, idx) => (
               <TabPanel key={idx} value={tab.value} sx={{ px: 0 }}>
                 <Stack spacing={2}>
-                  {filterOrders(tab.label).map((order, idx) => (
-                    <OrderCard key={idx} {...order} />
+                  {filterOrders(tab.value)?.map((order) => (
+                    <Link key={order.orderId} href={`/orders/${order.orderId}`}>
+                      <OrderCard {...order} />
+                    </Link>
                   ))}
                 </Stack>
               </TabPanel>

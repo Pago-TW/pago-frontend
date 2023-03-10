@@ -1,26 +1,66 @@
 import { useMediaQuery } from "@hooks/useMediaQuery";
 import { Box, Paper, Skeleton, Stack } from "@mui/material";
 import Image from "next/image";
+import type { Currency } from "./inputs/CurrencyInput";
 import { Divider } from "./ui/Divider";
 import { Typography } from "./ui/Typography";
 
-export type OrderCardProps = {
-  name: string;
-  imageUrl: string;
-  description: string;
-  orderStatus: "待確認" | "待購買" | "待面交" | "已送達" | "已完成" | "不成立";
-  quantity: number;
-  amount: number;
-  currency: string;
+type OrderStatus =
+  | "REQUESTED"
+  | "TO_BE_PURCHASED"
+  | "TO_BE_DELIVERED"
+  | "DELIVERED"
+  | "FINISHED"
+  | "CANCELED";
+
+export type Order = {
+  orderId: string;
+  orderItemId: string;
+  consumerId: string;
+  orderItem: {
+    name: string;
+    imageUrl: string;
+    description: string;
+    quantity: number;
+    unitPrice: number;
+    purchaseCountry: string;
+    purchaseCity: string;
+    purchaseDistrict: string;
+    purchaseRoad: string;
+  };
+  packaging: boolean;
+  verification: boolean;
+  destination: string;
+  travelerFee: number;
+  currency: Currency;
+  platformFee: number;
+  tariffFee: number;
+  note: string;
+  orderStatus: OrderStatus;
+  latestReceiveItemDate: string;
+  createDate: string;
+  updateDate: string;
+  totalAmount: number;
+  hasNewActivity: boolean;
+};
+
+export type OrderCardProps = Order;
+
+const orderStatusMap = {
+  REQUESTED: "待確認",
+  TO_BE_PURCHASED: "待購買",
+  TO_BE_DELIVERED: "待面交",
+  DELIVERED: "已送達",
+  FINISHED: "已完成",
+  CANCELED: "不成立",
 };
 
 export const OrderCard = ({
-  name,
-  imageUrl,
-  description,
+  orderItem: { name, imageUrl, description, quantity },
   orderStatus,
   currency,
-  amount,
+  totalAmount,
+  latestReceiveItemDate,
 }: OrderCardProps) => {
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
@@ -60,7 +100,7 @@ export const OrderCard = ({
               </Typography>
               {/* 狀態 */}
               <Typography variant={mdDown ? "h6" : "h3"} color="base.400">
-                {orderStatus}
+                {orderStatusMap[orderStatus]}
               </Typography>
             </Stack>
             <Stack
@@ -73,12 +113,12 @@ export const OrderCard = ({
                 {description}
               </Typography>
               {/* 數量 */}
-              <Typography variant={mdDown ? "h6" : "h3"}>{amount}</Typography>
+              <Typography variant={mdDown ? "h6" : "h3"}>{quantity}</Typography>
             </Stack>
             {/* 期限 */}
             {!mdDown ? (
               <Typography variant="h4" color="base.400">
-                最晚收到商品時間：11/15/2022 12:00AM
+                最晚收到商品時間: {latestReceiveItemDate}
               </Typography>
             ) : null}
           </Stack>
@@ -95,13 +135,13 @@ export const OrderCard = ({
             alignItems="center"
           >
             <Typography variant={mdDown ? "h6" : "h4"} color="base.400">
-              訂單金額:
+              訂單金額:{" "}
               <Typography
                 as="span"
                 variant={mdDown ? "h6" : "h4"}
-                sx={{ color: "primary.main" }}
+                color="primary.main"
               >
-                {amount.toLocaleString()} {currency}
+                {totalAmount.toLocaleString()} {currency}
               </Typography>
             </Typography>
           </Stack>

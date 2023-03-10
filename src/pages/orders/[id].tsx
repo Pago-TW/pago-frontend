@@ -4,6 +4,7 @@ import { BaseLayout } from "@components/layouts/BaseLayout";
 import { PageTitle } from "@components/PageTitle";
 import { Link } from "@components/ui/Link";
 import { Typography } from "@components/ui/Typography";
+import { useOrder } from "@hooks/api/useOrder";
 import { useMediaQuery } from "@hooks/useMediaQuery";
 import { Place } from "@mui/icons-material";
 import {
@@ -16,7 +17,10 @@ import {
 } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
+import Image from "next/image";
 import { useRouter } from "next/router";
+import { concatStrings } from "src/utils/concatStrings";
+import { translateBoolean } from "src/utils/translateBoolean";
 
 const BuyingAgentArea = () => {
   return (
@@ -34,7 +38,12 @@ const BuyingAgentArea = () => {
           </Link>
         </Stack>
       </Stack>
-      <Stack direction="row" spacing={2} sx={{ "&&": { mt: 5 } }}>
+      <Stack
+        direction="row"
+        spacing={2}
+        alignItems="center"
+        sx={{ "&&": { mt: 5 } }}
+      >
         {/* 更多代購者 */}
         <AvatarGroup total={100}>
           <Avatar />
@@ -55,6 +64,45 @@ const OrderDetailPage: NextPage = () => {
   const { id } = router.query;
 
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
+
+  const { data: order } = useOrder(id as string);
+
+  if (!order) return null;
+
+  const {
+    orderItem: {
+      name,
+      imageUrl,
+      description,
+      quantity,
+      unitPrice,
+      purchaseCity,
+      purchaseCountry,
+      purchaseDistrict,
+      purchaseRoad,
+    },
+    packaging,
+    verification,
+    destination,
+    travelerFee,
+    currency,
+    tariffFee,
+    platformFee,
+    note,
+    totalAmount,
+    latestReceiveItemDate,
+  } = order;
+
+  const combineCurrency = (value: number) =>
+    concatStrings([value.toString(), currency]);
+
+  const productPrice = unitPrice * quantity;
+  const purchaseAddress = [
+    purchaseCity,
+    purchaseCountry,
+    purchaseDistrict,
+    purchaseRoad,
+  ].join(" ");
 
   return (
     <>
@@ -86,16 +134,26 @@ const OrderDetailPage: NextPage = () => {
                       height: { xs: 300, md: 450 },
                     }}
                   >
-                    <Skeleton
-                      variant="rectangular"
-                      height="100%"
-                      width="100%"
-                    />
+                    {imageUrl ? (
+                      <Image
+                        src={imageUrl}
+                        alt={`${name} image`}
+                        style={{ objectFit: "cover" }}
+                        fill
+                        sizes="(max-width: 600px) 300, 450px"
+                      />
+                    ) : (
+                      <Skeleton
+                        variant="rectangular"
+                        height="100%"
+                        width="100%"
+                      />
+                    )}
                   </Box>
                   {/* 名稱 (手機) */}
                   {mdDown ? (
                     <Typography variant="h3" textAlign="center">
-                      商品名稱
+                      {name}
                     </Typography>
                   ) : null}
                 </Stack>
@@ -107,30 +165,52 @@ const OrderDetailPage: NextPage = () => {
                 {/* 名稱 (電腦) */}
                 {!mdDown ? (
                   <Typography variant="h1" weightPreset="bold">
-                    商品名稱
+                    {name}
                   </Typography>
                 ) : null}
                 {/* 詳細 */}
-                <DetailItem label="商品價格" value="215NT$" valueBold />
-                <DetailItem label="願付代購費" value="60NT$" valueBold />
-                <DetailItem label="關稅" value="5NT$" valueBold />
-                <DetailItem label="平台費" value="0NT$" valueBold />
+                <DetailItem
+                  label="商品價格"
+                  value={combineCurrency(productPrice)}
+                  valueBold
+                />
+                <DetailItem
+                  label="願付代購費"
+                  value={combineCurrency(travelerFee)}
+                  valueBold
+                />
+                <DetailItem
+                  label="關稅"
+                  value={combineCurrency(tariffFee)}
+                  valueBold
+                />
+                <DetailItem
+                  label="平台費"
+                  value={combineCurrency(platformFee)}
+                  valueBold
+                />
                 <DetailItem
                   label="總付款金額"
-                  value="280NT$"
+                  value={combineCurrency(totalAmount)}
                   valueVariant="h3"
                   valueBold
                 />
-                <DetailItem label="商品規格" value="300ml" />
-                <DetailItem label="商品數量" value="2" />
-                <DetailItem label="是否需要包裝" value="是" />
-                <DetailItem label="是否需要購買證明" value="是" />
+                <DetailItem label="商品規格" value={description} />
+                <DetailItem label="商品數量" value={quantity} />
+                <DetailItem
+                  label="是否需要包裝"
+                  value={translateBoolean(packaging)}
+                />
+                <DetailItem
+                  label="是否需要購買證明"
+                  value={translateBoolean(verification)}
+                />
                 <DetailItem
                   label="商品購買地點"
                   value={
                     <Stack direction="row" alignItems="center">
                       <Place />
-                      Forbes Pl Kawerau New Zealand
+                      {purchaseAddress}
                     </Stack>
                   }
                   multiLine={mdDown}
@@ -140,21 +220,17 @@ const OrderDetailPage: NextPage = () => {
                   value={
                     <Stack direction="row" alignItems="center">
                       <Place />
-                      338 桃園市蘆竹區大興十街6號
+                      {destination}
                     </Stack>
                   }
                   multiLine={mdDown}
                 />
                 <DetailItem
                   label="最晚收到商品時間"
-                  value="11/15/2022 12:00AM"
+                  value={latestReceiveItemDate}
                   multiLine={mdDown}
                 />
-                <DetailItem
-                  label="備註"
-                  value="請不要造成瓶身撞凹，謝謝"
-                  multiLine={mdDown}
-                />
+                <DetailItem label="備註" value={note} multiLine={mdDown} />
               </Stack>
             </Paper>
             {mdDown ? <BuyingAgentArea /> : null}
