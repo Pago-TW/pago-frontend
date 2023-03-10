@@ -32,9 +32,8 @@ const STEPS = [
   },
 ];
 
-const DEFAULT_VALUES: ReviewFormValues = {
+const DEFAULT_VALUES: Partial<ReviewFormValues> = {
   name: "",
-  image: "",
   description: "",
   price: {
     amount: 0,
