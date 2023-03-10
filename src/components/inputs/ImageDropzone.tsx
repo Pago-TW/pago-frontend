@@ -32,7 +32,7 @@ export const ImageDropzone = <T extends FieldValues>({
   const [preview, setPreview] = useState<string | null>(null);
 
   const {
-    field: { onChange },
+    field: { onChange, value },
   } = useController({ control, name });
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -49,6 +49,13 @@ export const ImageDropzone = <T extends FieldValues>({
       }
     },
   });
+
+  useEffect(() => {
+    if (value) {
+      const previewUrl = URL.createObjectURL(value);
+      setPreview(previewUrl);
+    }
+  }, [value]);
 
   useEffect(() => {
     return () => {
