@@ -140,7 +140,7 @@ const OrderDetailPage: NextPage = () => {
                         alt={`${name} image`}
                         style={{ objectFit: "cover" }}
                         fill
-                        sizes="(max-width: 600px) 300, 450px"
+                        sizes="(max-width: 600px) 300px, 450px"
                       />
                     ) : (
                       <Skeleton
