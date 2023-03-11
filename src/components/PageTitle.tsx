@@ -11,7 +11,12 @@ export type PageTitleProps = {
   children?: ReactNode;
 };
 
-export const PageTitle = ({ sharable, children }: PageTitleProps) => {
+export const PageTitle = ({
+  title,
+  sharable,
+  onBack,
+  children,
+}: PageTitleProps) => {
   const router = useRouter();
 
   const handleBack = onBack ? onBack : () => router.back();
