@@ -105,9 +105,7 @@ const NewOrderPage: NextPage = () => {
         <title>新增委託</title>
       </Head>
       <BaseLayout>
-        <Box sx={{ mx: { xs: 3, sm: 13 }, my: { xs: 3, md: 8 } }}>
-          <PageTitle>填寫委託資訊</PageTitle>
-        </Box>
+        <PageTitle title="填寫委託資訊" />
         <Box sx={{ mx: { xs: 3, sm: 13 }, mb: 3 }}>
           <Stepper activeStep={activeStep}>
             {STEPS.map(({ label }) => (

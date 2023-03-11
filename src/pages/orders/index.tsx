@@ -55,24 +55,12 @@ const OrdersPage: NextPage = () => {
         <title>我的委託</title>
       </Head>
       <BaseLayout>
-        <Box sx={{ mx: { xs: 3, sm: 13 }, my: { xs: 3, md: 8 } }}>
-          <Box
-            sx={{
-              display: { xs: "block", md: "flex" },
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <PageTitle>我的委託</PageTitle>
-            {/* 新增委託按鈕 */}
-            <Stack justifyContent="center" sx={{ mt: { xs: 3, md: 0 } }}>
-              <Button>
-                <Add />
-                新增委託
-              </Button>
-            </Stack>
-          </Box>
-        </Box>
+        <PageTitle title="我的委託">
+          <Button>
+            <Add />
+            新增委託
+          </Button>
+        </PageTitle>
         <Container>
           <TabContext value={currentTab}>
             {/* Tabs */}
