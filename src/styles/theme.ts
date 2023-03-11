@@ -22,7 +22,7 @@ declare module "@mui/material/styles" {
 export const theme = createTheme({
   palette: {
     background: {
-      default: "#FFFEFC",
+      default: "#F5F5F5",
       paper: "#FFFEFC",
     },
     text: {
