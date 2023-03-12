@@ -1,16 +1,15 @@
 import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
 import { Box, Button, IconButton, Stack } from "@mui/material";
-import type { ChangeEvent, ReactNode } from "react";
+import type { ChangeEvent, PropsWithChildren } from "react";
 import { useCallback } from "react";
 import type { Control, FieldValues, Path } from "react-hook-form";
 import { useController } from "react-hook-form";
 import type { NumberInputProps } from "./NumberInput";
 import { NumberInput } from "./NumberInput";
 
-type AmountButtonProps = {
-  children: ReactNode;
+type AmountButtonProps = PropsWithChildren<{
   onClick: () => void;
-};
+}>;
 
 const AmountButton = ({ children, onClick }: AmountButtonProps) => (
   <Button

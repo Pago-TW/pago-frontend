@@ -1,7 +1,7 @@
 import { Header } from "@/components/Header";
-import type { ReactNode } from "react";
+import type { PropsWithChildren } from "react";
 
-export const BaseLayout = ({ children }: { children: ReactNode }) => {
+export const BaseLayout = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Header />
