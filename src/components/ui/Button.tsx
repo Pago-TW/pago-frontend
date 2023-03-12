@@ -7,7 +7,7 @@ import { styled } from "@mui/material/styles";
 
 import PropTypes from "prop-types";
 
-interface ButtonProps extends MuiButtonProps {
+export interface ButtonProps extends MuiButtonProps {
   loading?: boolean;
 }
 
