@@ -1,4 +1,4 @@
-import { useMediaQuery } from "@hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Stack } from "@mui/material";
 import type { ReactNode } from "react";
 import type { TypographyProps } from "./ui/Typography";

@@ -1,4 +1,4 @@
-import { useStepper } from "@hooks/useStepper";
+import { useStepper } from "@/hooks/useStepper";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Step from "@mui/material/Step";

@@ -1,9 +1,9 @@
-import { PasswordInput } from "@components/inputs/PasswordInput";
-import { CenterLayout } from "@components/layouts/CenterLayout";
-import { Button } from "@components/ui/Button";
-import { Divider } from "@components/ui/Divider";
-import { Link } from "@components/ui/Link";
-import { Typography } from "@components/ui/Typography";
+import { PasswordInput } from "@/components/inputs/PasswordInput";
+import { CenterLayout } from "@/components/layouts/CenterLayout";
+import { Button } from "@/components/ui/Button";
+import { Divider } from "@/components/ui/Divider";
+import { Link } from "@/components/ui/Link";
+import { Typography } from "@/components/ui/Typography";
 import { Box, Stack, TextField } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";

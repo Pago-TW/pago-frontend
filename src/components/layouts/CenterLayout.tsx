@@ -1,4 +1,4 @@
-import { useAppbarHeight } from "@hooks/useAppbarHeight";
+import { useAppbarHeight } from "@/hooks/useAppbarHeight";
 import { Stack } from "@mui/material";
 import { BaseLayout } from "./BaseLayout";
 

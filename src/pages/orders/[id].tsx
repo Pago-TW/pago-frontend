@@ -1,11 +1,11 @@
-import { BuyingAgent } from "@components/BuyingAgent";
-import { DetailItem } from "@components/DetailItem";
-import { BaseLayout } from "@components/layouts/BaseLayout";
-import { PageTitle } from "@components/PageTitle";
-import { Link } from "@components/ui/Link";
-import { Typography } from "@components/ui/Typography";
-import { useOrder } from "@hooks/api/useOrder";
-import { useMediaQuery } from "@hooks/useMediaQuery";
+import { BuyingAgent } from "@/components/BuyingAgent";
+import { DetailItem } from "@/components/DetailItem";
+import { BaseLayout } from "@/components/layouts/BaseLayout";
+import { PageTitle } from "@/components/PageTitle";
+import { Link } from "@/components/ui/Link";
+import { Typography } from "@/components/ui/Typography";
+import { useOrder } from "@/hooks/api/useOrder";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Place } from "@mui/icons-material";
 import {
   Avatar,

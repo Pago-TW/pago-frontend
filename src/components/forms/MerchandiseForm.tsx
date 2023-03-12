@@ -1,4 +1,4 @@
-import { useMediaQuery } from "@hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Box, Stack, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";

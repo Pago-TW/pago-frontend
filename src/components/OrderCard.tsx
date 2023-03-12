@@ -1,4 +1,4 @@
-import { useMediaQuery } from "@hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Box, Paper, Skeleton, Stack } from "@mui/material";
 import Image from "next/image";
 import type { Currency } from "./inputs/CurrencyInput";

@@ -1,4 +1,4 @@
-import { useMediaQuery } from "@hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Place } from "@mui/icons-material";
 import { Box, Stack } from "@mui/material";
 import { format } from "date-fns";

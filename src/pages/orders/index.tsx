@@ -1,9 +1,9 @@
-import { BaseLayout } from "@components/layouts/BaseLayout";
-import { OrderCard } from "@components/OrderCard";
-import { PageTitle } from "@components/PageTitle";
-import { Button } from "@components/ui/Button";
-import { Link } from "@components/ui/Link";
-import { useOrders } from "@hooks/api/useOrders";
+import { BaseLayout } from "@/components/layouts/BaseLayout";
+import { OrderCard } from "@/components/OrderCard";
+import { PageTitle } from "@/components/PageTitle";
+import { Button } from "@/components/ui/Button";
+import { Link } from "@/components/ui/Link";
+import { useOrders } from "@/hooks/api/useOrders";
 import { Add } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Container, Stack, Tab } from "@mui/material";
