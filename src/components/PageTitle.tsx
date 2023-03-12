@@ -1,26 +1,20 @@
-import { ArrowBack, IosShare } from "@mui/icons-material";
-import { Grid, IconButton, Stack } from "@mui/material";
-import { useRouter } from "next/router";
-import type { ReactNode } from "react";
+import { Grid, Stack } from "@mui/material";
+import type { PropsWithChildren, ReactNode } from "react";
+import { BackButton } from "./BackButton";
 import { Typography } from "./ui/Typography";
 
-export type PageTitleProps = {
+export type PageTitleProps = PropsWithChildren<{
   title: ReactNode;
-  sharable?: boolean;
-  onBack?: () => void;
-  children?: ReactNode;
-};
+  startButton?: ReactNode;
+  endButton?: ReactNode;
+}>;
 
 export const PageTitle = ({
   title,
-  sharable,
-  onBack,
+  startButton,
+  endButton,
   children,
 }: PageTitleProps) => {
-  const router = useRouter();
-
-  const handleBack = onBack ? onBack : () => router.back();
-
   return (
     <Stack
       mx={{ xs: 3, sm: 13 }}
@@ -32,9 +26,11 @@ export const PageTitle = ({
       <Grid container alignItems="center">
         {/* 返回 */}
         <Grid item xs={1} sm={0}>
-          <IconButton sx={{ display: { sm: "none" } }} onClick={handleBack}>
-            <ArrowBack />
-          </IconButton>
+          {startButton ? (
+            startButton
+          ) : (
+            <BackButton sx={{ display: { sm: "none" } }} />
+          )}
         </Grid>
         {/* 頁面名稱 */}
         <Grid item xs={10} sm={12}>
@@ -48,11 +44,7 @@ export const PageTitle = ({
         </Grid>
         {/* 分享 */}
         <Grid item xs={1} sm={0}>
-          {sharable ? (
-            <IconButton sx={{ display: { sm: "none" } }}>
-              <IosShare />
-            </IconButton>
-          ) : null}
+          {endButton ? endButton : null}
         </Grid>
       </Grid>
       {children}

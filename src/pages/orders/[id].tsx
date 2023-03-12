@@ -2,6 +2,7 @@ import { BuyingAgent } from "@/components/BuyingAgent";
 import { DetailItem } from "@/components/DetailItem";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { PageTitle } from "@/components/PageTitle";
+import { ShareButton } from "@/components/ShareButton";
 import { Link } from "@/components/ui/Link";
 import { Typography } from "@/components/ui/Typography";
 import { useOrder } from "@/hooks/api/useOrder";
@@ -110,7 +111,7 @@ const OrderDetailPage: NextPage = () => {
         <title>委託詳情</title>
       </Head>
       <BaseLayout>
-        <PageTitle title="委託詳情" />
+        <PageTitle title="委託詳情" endButton={<ShareButton />} />
         <Stack alignItems="center" mb={4}>
           <Stack
             direction={mdDown ? "column" : "row"}
