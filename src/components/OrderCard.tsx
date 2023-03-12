@@ -46,7 +46,7 @@ export type Order = {
 
 export type OrderCardProps = Order;
 
-const orderStatusMap = {
+const orderStatusMap: Record<OrderStatus, string> = {
   REQUESTED: "待確認",
   TO_BE_PURCHASED: "待購買",
   TO_BE_DELIVERED: "待面交",
