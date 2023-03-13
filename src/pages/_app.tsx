@@ -17,7 +17,6 @@ import "@fontsource/mallanna/400.css";
 import "@fontsource/noto-sans-tc/300.css";
 import "@fontsource/noto-sans-tc/400.css";
 import "@fontsource/noto-sans-tc/700.css";
-import "../styles/globals.css";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -27,6 +26,9 @@ interface MyAppProps extends AppProps<{ session: Session | null }> {
 }
 
 axios.defaults.baseURL = env.NEXT_PUBLIC_API_URL;
+axios.defaults.headers.common["x-api-key"] =
+  "PMAK-63f4e547712d8c7e0362b651-f1c18c70bdeb86ec0fdc061b5c8f8bc754";
+
 const queryClient = new QueryClient();
 
 const MyApp = ({
