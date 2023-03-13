@@ -21,7 +21,6 @@ const TripsPage: NextPage = () => {
         <title>所有旅途</title>
       </Head>
       <BaseLayout>
-        {/* TODO: Make a LikeButton here */}
         <PageTitle title="所有旅途">
           <Button>
             <Add />
