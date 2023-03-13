@@ -1,4 +1,4 @@
-import { Grid, Stack } from "@mui/material";
+import { Box, Grid, Stack } from "@mui/material";
 import type { PropsWithChildren, ReactNode } from "react";
 import { BackButton } from "./BackButton";
 import { Typography } from "./ui/Typography";
@@ -29,7 +29,9 @@ export const PageTitle = ({
           {startButton ? (
             startButton
           ) : (
-            <BackButton sx={{ display: { sm: "none" } }} />
+            <Box sx={{ display: { sm: "none" } }}>
+              <BackButton />
+            </Box>
           )}
         </Grid>
         {/* 頁面名稱 */}
@@ -44,7 +46,9 @@ export const PageTitle = ({
         </Grid>
         {/* 分享 */}
         <Grid item xs={1} sm={0}>
-          {endButton ? endButton : null}
+          <Box sx={{ display: { sm: "none" } }}>
+            {endButton ? endButton : null}
+          </Box>
         </Grid>
       </Grid>
       {children}
