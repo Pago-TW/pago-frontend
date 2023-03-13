@@ -8,7 +8,6 @@ import "@fontsource/mallanna/400.css";
 import "@fontsource/noto-sans-tc/300.css";
 import "@fontsource/noto-sans-tc/400.css";
 import "@fontsource/noto-sans-tc/700.css";
-import "../src/styles/globals.css";
 
 const OriginalNextImage = NextImage.default;
 
