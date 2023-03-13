@@ -55,7 +55,7 @@ const orderStatusMap: Record<OrderStatus, string> = {
   CANCELED: "不成立",
 };
 
-export const OrderCard = ({
+export const OrderItem = ({
   orderItem: { name, imageUrl, description, quantity },
   orderStatus,
   currency,
