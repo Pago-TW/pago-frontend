@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import type { Order } from "../../components/OrderCard";
+import type { Order } from "../../components/OrderItem";
 
 const getOrders = async (): Promise<Order[]> => {
   const res = await axios.get("/orders", {

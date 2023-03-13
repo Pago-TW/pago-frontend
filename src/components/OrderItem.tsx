@@ -44,7 +44,7 @@ export type Order = {
   hasNewActivity: boolean;
 };
 
-export type OrderCardProps = Order;
+export type OrderItemProps = Order;
 
 const orderStatusMap: Record<OrderStatus, string> = {
   REQUESTED: "待確認",
@@ -61,7 +61,7 @@ export const OrderItem = ({
   currency,
   totalAmount,
   latestReceiveItemDate,
-}: OrderCardProps) => {
+}: OrderItemProps) => {
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   return (
