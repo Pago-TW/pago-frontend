@@ -118,20 +118,27 @@ export const ReviewForm = () => {
           <DetailItem
             label="商品價格"
             value={concatStrings([priceAmount.toString(), priceCurrency])}
-            valueBold
+            valueProps={{ weightPreset: "bold" }}
           />
           <DetailItem
             label="願付代購費"
             value={concatStrings([feeAmount.toString(), feeCurrency])}
-            valueBold
+            valueProps={{ weightPreset: "bold" }}
           />
-          <DetailItem label="關稅" value="5NT$" valueBold />
-          <DetailItem label="平台費" value="0NT$" valueBold />
+          <DetailItem
+            label="關稅"
+            value="5NT$"
+            valueProps={{ weightPreset: "bold" }}
+          />
+          <DetailItem
+            label="平台費"
+            value="0NT$"
+            valueProps={{ weightPreset: "bold" }}
+          />
           <DetailItem
             label="總付款金額"
             value="280NT$"
-            valueVariant="h3"
-            valueBold
+            valueProps={{ variant: "h3", weightPreset: "bold" }}
           />
         </Stack>
       </PaperLayout>

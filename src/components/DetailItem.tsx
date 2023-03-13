@@ -8,20 +8,25 @@ type DetailItemProps = {
   multiLine?: boolean;
   label: ReactNode;
   value: ReactNode;
-  valueBold?: boolean;
-  labelVariant?: TypographyProps["variant"];
-  valueVariant?: TypographyProps["variant"];
+  labelProps?: TypographyProps;
+  valueProps?: TypographyProps;
 };
 
 export const DetailItem = ({
   multiLine,
   label,
   value,
-  valueBold,
-  labelVariant,
-  valueVariant,
-}: DetailItemProps) => {
-  const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
+  labelProps: {
+    variant: labelVariant,
+    color: labelColor,
+    sx: labelSx,
+    ...labelProps
+  } = {},
+  valueProps: { variant: valueVariant, ...valueProps } = {},
+}: // labelVariant,
+// valueVariant,
+DetailItemProps) => {
+  const mdUp = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
   return (
     <Stack
@@ -32,16 +37,17 @@ export const DetailItem = ({
     >
       {/* 標籤 */}
       <Typography
-        variant={labelVariant ?? (mdDown ? "h5" : "h4")}
-        color="base.400"
-        sx={{ flexShrink: 0 }}
+        variant={labelVariant ?? (mdUp ? "h4" : "h5")}
+        color={labelColor ?? "base.400"}
+        sx={{ flexShrink: 0, ...labelSx }}
+        {...labelProps}
       >
         {label}
       </Typography>
       {/* 數值 */}
       <Typography
-        variant={valueVariant ?? (mdDown ? "h5" : "h4")}
-        weightPreset={valueBold ? "bold" : "normal"}
+        variant={valueVariant ?? (mdUp ? "h4" : "h5")}
+        {...valueProps}
       >
         {value}
       </Typography>

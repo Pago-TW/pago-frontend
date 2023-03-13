@@ -171,28 +171,27 @@ const OrderDetailPage: NextPage = () => {
                 <DetailItem
                   label="商品價格"
                   value={combineCurrency(productPrice)}
-                  valueBold
+                  valueProps={{ weightPreset: "bold" }}
                 />
                 <DetailItem
                   label="願付代購費"
                   value={combineCurrency(travelerFee)}
-                  valueBold
+                  valueProps={{ weightPreset: "bold" }}
                 />
                 <DetailItem
                   label="關稅"
                   value={combineCurrency(tariffFee)}
-                  valueBold
+                  valueProps={{ weightPreset: "bold" }}
                 />
                 <DetailItem
                   label="平台費"
                   value={combineCurrency(platformFee)}
-                  valueBold
+                  valueProps={{ weightPreset: "bold" }}
                 />
                 <DetailItem
                   label="總付款金額"
                   value={combineCurrency(totalAmount)}
-                  valueVariant="h3"
-                  valueBold
+                  valueProps={{ variant: "h3", weightPreset: "bold" }}
                 />
                 <DetailItem label="商品規格" value={description} />
                 <DetailItem label="商品數量" value={quantity} />
