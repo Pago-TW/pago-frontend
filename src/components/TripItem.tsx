@@ -1,4 +1,3 @@
-import { concatStrings } from "@/utils/concatStrings";
 import { Stack } from "@mui/material";
 import { Typography } from "./ui/Typography";
 
@@ -24,9 +23,6 @@ export const TripItem = ({
   toCity,
   arrivalDate,
 }: TripItemProps) => {
-  const from = concatStrings([fromCountry, fromCity]);
-  const to = concatStrings([toCountry, toCity]);
-
   return (
     <Stack
       sx={{
@@ -40,7 +36,7 @@ export const TripItem = ({
       alignItems="center"
     >
       <Typography variant="h4">
-        {from} → {to}
+        {fromCountry} → {toCountry}
       </Typography>
       <Typography variant="h6">抵達時間: {arrivalDate}</Typography>
     </Stack>
