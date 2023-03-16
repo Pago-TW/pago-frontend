@@ -1,10 +1,10 @@
 import type { PaperProps } from "@mui/material";
 import { Paper } from "@mui/material";
+import type { PropsWithChildren } from "react";
 
-export type PaperLayoutProps = {
+export type PaperLayoutProps = PropsWithChildren<{
   sx?: PaperProps["sx"];
-  children: React.ReactNode;
-};
+}>;
 
 export const PaperLayout = ({ sx, children }: PaperLayoutProps) => {
   return (
