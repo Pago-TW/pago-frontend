@@ -4,7 +4,10 @@ import NextLink from "next/link";
 import { forwardRef } from "react";
 
 export const Link = forwardRef<HTMLAnchorElement, MuiLinkProps>(
-  function ComposedLink({ href = "#", rel, underline = "none", ...rest }, ref) {
+  function ComposedLink(
+    { href = "#", rel, color = "inherit", underline = "none", ...rest },
+    ref
+  ) {
     const isExternal =
       typeof href === "string" &&
       (href.indexOf("http") === 0 || href.indexOf("mailto:") === 0);
@@ -17,6 +20,7 @@ export const Link = forwardRef<HTMLAnchorElement, MuiLinkProps>(
         <MuiLink
           href={href}
           rel={relValue}
+          color={color}
           underline={underline}
           ref={ref}
           {...rest}
@@ -29,6 +33,7 @@ export const Link = forwardRef<HTMLAnchorElement, MuiLinkProps>(
         component={NextLink}
         href={href}
         rel={relValue}
+        color={color}
         underline={underline}
         ref={ref}
         {...rest}
