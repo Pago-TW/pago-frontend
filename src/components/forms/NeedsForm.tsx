@@ -102,6 +102,7 @@ export const NeedsForm = () => {
         <DatePicker
           control={control}
           name="date"
+          label="最晚收到商品日期"
           minDate={new Date()}
           slotProps={{
             textField: {
