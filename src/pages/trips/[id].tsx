@@ -7,10 +7,11 @@ import { PageTitle } from "@/components/PageTitle";
 import { ShareButton } from "@/components/ShareButton";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/components/ui/Link";
+import { Tab } from "@/components/ui/Tab";
 import { Typography } from "@/components/ui/Typography";
 import { useTrip } from "@/hooks/api/useTrip";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Container, Stack, styled, Tab } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -27,17 +28,6 @@ const TABS = [
 ] as const;
 
 type Tab = (typeof TABS)[number];
-
-const StyledTab = styled(Tab)(({ theme }) => ({
-  [theme.breakpoints.up("md")]: {
-    minWidth: "fit-content",
-  },
-  [theme.breakpoints.down("sm")]: {
-    minWidth: "calc(100% / 3)",
-  },
-  fontSize: 18,
-  flex: 1,
-}));
 
 const ORDERS: Order[] = [
   {
@@ -173,15 +163,15 @@ const TripDetailPage: NextPage = () => {
                   <TabList
                     variant="scrollable"
                     allowScrollButtonsMobile
-                    onChange={(_, v) => setCurrentTab(v)}
+                    onChange={(_e, v) => setCurrentTab(v)}
                   >
-                    {TABS.map((tab, idx) => (
-                      <StyledTab key={idx} {...tab} />
+                    {TABS.map((tab) => (
+                      <Tab key={tab.value} {...tab} />
                     ))}
                   </TabList>
                 </Box>
-                {TABS.map((tab, idx) => (
-                  <TabPanel key={idx} value={tab.value} sx={{ p: 0 }}>
+                {TABS.map((tab) => (
+                  <TabPanel key={tab.value} value={tab.value} sx={{ p: 0 }}>
                     <OrderList items={filterOrders(tab.value)} />
                   </TabPanel>
                 ))}

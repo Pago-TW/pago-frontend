@@ -2,11 +2,11 @@ import { BaseLayout } from "@/components/layouts/BaseLayout";
 import OrderList from "@/components/OrderList";
 import { PageTitle } from "@/components/PageTitle";
 import { Button } from "@/components/ui/Button";
+import { Tab } from "@/components/ui/Tab";
 import { useOrders } from "@/hooks/api/useOrders";
 import { Add } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Container, Tab } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Box, Container } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
@@ -22,17 +22,6 @@ const TABS = [
 ] as const;
 
 type Tab = (typeof TABS)[number];
-
-const StyledTab = styled(Tab)(({ theme }) => ({
-  [theme.breakpoints.up("md")]: {
-    minWidth: "fit-content",
-  },
-  [theme.breakpoints.down("sm")]: {
-    minWidth: "calc(100% / 3)",
-  },
-  fontSize: 18,
-  flex: 1,
-}));
 
 const OrdersPage: NextPage = () => {
   const [currentTab, setCurrentTab] = useState<Tab["value"]>("ALL");
@@ -67,16 +56,16 @@ const OrdersPage: NextPage = () => {
               <TabList
                 variant="scrollable"
                 allowScrollButtonsMobile
-                onChange={(e, v) => setCurrentTab(v)}
+                onChange={(_e, v) => setCurrentTab(v)}
               >
-                {TABS.map((tab, idx) => (
-                  <StyledTab key={idx} {...tab} />
+                {TABS.map((tab) => (
+                  <Tab key={tab.value} {...tab} />
                 ))}
               </TabList>
             </Box>
             {/* TabPanels */}
-            {TABS.map((tab, idx) => (
-              <TabPanel key={idx} value={tab.value} sx={{ px: 0 }}>
+            {TABS.map((tab) => (
+              <TabPanel key={tab.value} value={tab.value} sx={{ px: 0 }}>
                 <OrderList items={filterOrders(tab.value)} />
               </TabPanel>
             ))}
