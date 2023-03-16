@@ -13,7 +13,7 @@ export type SelectInputProps<T extends FieldValues> = PropsWithChildren<{
   control: Control<T>;
   name: Path<T>;
   label: ReactNode;
-  error: FormControlProps["error"];
+  error?: FormControlProps["error"];
   helperText?: ReactNode;
   FormControlProps?: Omit<FormControlProps, "error">;
   SelectProps?: Omit<SelectProps, keyof UseControllerReturn["field"]>;
