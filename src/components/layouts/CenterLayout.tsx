@@ -1,8 +1,11 @@
 import { useAppbarHeight } from "@/hooks/useAppbarHeight";
 import { Stack } from "@mui/material";
+import type { PropsWithChildren } from "react";
 import { BaseLayout } from "./BaseLayout";
 
-export const CenterLayout = ({ children }: { children: React.ReactNode }) => {
+export type CenterLayoutProps = PropsWithChildren;
+
+export const CenterLayout = ({ children }: CenterLayoutProps) => {
   const appbarHeight = useAppbarHeight();
 
   return (
