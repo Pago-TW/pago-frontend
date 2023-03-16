@@ -44,7 +44,7 @@ const OrdersPage: NextPage = () => {
       </Head>
       <BaseLayout>
         <PageTitle title="我的委託">
-          <Button>
+          <Button href="/orders/new">
             <Add />
             新增委託
           </Button>

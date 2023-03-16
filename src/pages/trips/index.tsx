@@ -22,7 +22,7 @@ const TripsPage: NextPage = () => {
       </Head>
       <BaseLayout>
         <PageTitle title="所有旅途">
-          <Button>
+          <Button href="/trips/new">
             <Add />
             新增旅途
           </Button>
