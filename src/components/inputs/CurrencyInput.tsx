@@ -1,14 +1,6 @@
-import type { FormControlProps } from "@mui/material";
-import {
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
-import type { ReactNode } from "react";
-import type { Control, FieldValues, Path } from "react-hook-form";
-import { useController } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
+import type { SelectInputProps } from "./SelectInput";
+import SelectInput from "./SelectInput";
 
 export const CURRENCY_OPTIONS = [
   "TWD",
@@ -22,34 +14,22 @@ export const CURRENCY_OPTIONS = [
 
 export type Currency = (typeof CURRENCY_OPTIONS)[number];
 
-export type CurrencyInputProps<T extends FieldValues> = FormControlProps & {
-  control: Control<T>;
-  name: Path<T>;
-  label: ReactNode;
-  helperText?: ReactNode;
-};
+export type CurrencyInputProps<T extends FieldValues> = Omit<
+  SelectInputProps<T>,
+  "options"
+>;
 
-export const CurrencyInput = <T extends FieldValues>({
-  control,
-  name,
-  label,
-  helperText,
-  ...formControlProps
-}: CurrencyInputProps<T>) => {
-  const { field } = useController({ control, name });
-
+export const CurrencyInput = <T extends FieldValues>(
+  props: CurrencyInputProps<T>
+) => {
   return (
-    <FormControl {...formControlProps}>
-      <InputLabel>{label}</InputLabel>
-      <Select label={label} {...field}>
-        {CURRENCY_OPTIONS.map((option) => (
-          <MenuItem key={option} value={option}>
-            {option}
-          </MenuItem>
-        ))}
-      </Select>
-      {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
-    </FormControl>
+    <SelectInput {...props}>
+      {CURRENCY_OPTIONS.map((opt) => (
+        <option key={opt} value={opt}>
+          {opt}
+        </option>
+      ))}
+    </SelectInput>
   );
 };
 

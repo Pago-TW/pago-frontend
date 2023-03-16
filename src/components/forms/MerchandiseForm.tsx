@@ -105,10 +105,9 @@ export const MerchandiseForm = () => {
                   control={control}
                   name="price.currency"
                   label="貨幣單位"
-                  size="small"
                   error={!!errors?.price?.currency}
                   helperText={errors?.price?.currency?.message}
-                  sx={{ minWidth: 120 }}
+                  FormControlProps={{ size: "small", sx: { minWidth: 120 } }}
                 />
               ),
             }}

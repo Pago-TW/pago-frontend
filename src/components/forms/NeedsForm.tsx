@@ -89,10 +89,9 @@ export const NeedsForm = () => {
                   control={control}
                   name="fee.currency"
                   label="貨幣單位"
-                  size="small"
                   error={!!errors?.fee?.currency}
                   helperText={errors?.fee?.currency?.message}
-                  sx={{ minWidth: 120 }}
+                  FormControlProps={{ size: "small", sx: { minWidth: 120 } }}
                 />
               ),
             }}
