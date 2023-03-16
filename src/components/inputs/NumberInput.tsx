@@ -6,10 +6,7 @@ import { forwardRef } from "react";
 export type NumberInputProps = Omit<TextFieldProps, "type">;
 
 export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
-  function NumberInput(
-    { variant = "standard", sx, ...rest }: NumberInputProps,
-    ref
-  ) {
+  function NumberInput({ variant = "standard", sx, ...rest }, ref) {
     const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
       if (+e.target.value === 0) e.target.select();
     };
