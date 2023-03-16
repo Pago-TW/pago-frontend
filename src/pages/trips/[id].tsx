@@ -103,7 +103,7 @@ const ORDERS: Order[] = [
 ];
 
 const TripDetailPage: NextPage = () => {
-  const [currentTab, setCurrentTab] = useState("ALL");
+  const [currentTab, setCurrentTab] = useState<Tab["value"]>("ALL");
 
   const router = useRouter();
   const { id } = router.query;
