@@ -1,6 +1,7 @@
-import { Link, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import type { Order } from "./OrderItem";
 import { OrderItem } from "./OrderItem";
+import { Link } from "./ui/Link";
 
 export type OrderListProps = {
   items: Order[];
