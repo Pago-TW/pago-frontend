@@ -29,6 +29,11 @@ export const COUNTRY_OPTIONS = [
   { value: "其他", content: "其他" },
 ] as const;
 
+export const COUNTRY_VALUES = [
+  COUNTRY_OPTIONS[0].value,
+  ...COUNTRY_OPTIONS.slice(1).map((o) => o.value),
+] as const;
+
 export type Country = (typeof COUNTRY_OPTIONS)[number]["value"];
 
 export type CountryInputProps<T extends FieldValues> = Omit<
