@@ -115,7 +115,7 @@ const NewOrderPage: NextPage = () => {
             ))}
           </Stepper>
           <FormProvider {...methods}>
-            <form>
+            <form onSubmit={handleSubmit(formSubmit)}>
               {getStepForm(activeStep)}
               <Box display="flex">
                 {activeStep !== 0 ? (
@@ -128,10 +128,7 @@ const NewOrderPage: NextPage = () => {
                   </Button>
                 ) : null}
                 {activeStep === STEPS.length - 1 ? (
-                  <Button
-                    onClick={handleSubmit(formSubmit)}
-                    sx={{ mx: "auto", mt: 3 }}
-                  >
+                  <Button type="submit" sx={{ mx: "auto", mt: 3 }}>
                     發布委託
                   </Button>
                 ) : (
