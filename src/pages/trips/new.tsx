@@ -1,14 +1,14 @@
-import { OneWayTripForm } from "@/components/forms/OneWayTripForm";
-import { RoundTripForm } from "@/components/forms/RoundTripForm";
+import OneWayTripForm from "@/components/forms/OneWayTripForm";
+import RoundTripForm from "@/components/forms/RoundTripForm";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { PaperLayout } from "@/components/layouts/PaperLayout";
 import { PageTitle } from "@/components/PageTitle";
 import { Tab } from "@/components/ui/Tab";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Container } from "@mui/material";
+import { Container, Stack } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
+import type { SyntheticEvent } from "react";
+import { useCallback, useState } from "react";
 
 const TABS = [
   { label: "單程", value: "ONE_WAY" },
@@ -17,17 +17,26 @@ const TABS = [
 
 type Tab = (typeof TABS)[number];
 
-const getTabForm = (tabValue: Tab["value"]) => {
-  switch (tabValue) {
+const getTabForm = (tab: Tab["value"]) => {
+  switch (tab) {
     case "ONE_WAY":
       return <OneWayTripForm />;
     case "ROUND_TRIP":
       return <RoundTripForm />;
+    default:
+      return null;
   }
 };
 
 export const NewTripPage: NextPage = () => {
   const [currentTab, setCurrentTab] = useState<Tab["value"]>("ONE_WAY");
+
+  const handleTabChange = useCallback(
+    (_event: SyntheticEvent, newValue: Tab["value"]) => {
+      setCurrentTab(newValue);
+    },
+    []
+  );
 
   return (
     <>
@@ -36,11 +45,11 @@ export const NewTripPage: NextPage = () => {
       </Head>
       <BaseLayout>
         <PageTitle title="填寫旅途詳情" />
-        <Container>
-          <PaperLayout>
+        <Container sx={{ height: "100%" }}>
+          <Stack spacing={2} height="100%">
             <TabContext value={currentTab}>
               <TabList
-                onChange={(_e, v) => setCurrentTab(v)}
+                onChange={handleTabChange}
                 sx={{
                   "& .MuiTabs-flexContainer": { justifyContent: "center" },
                 }}
@@ -53,13 +62,13 @@ export const NewTripPage: NextPage = () => {
                 <TabPanel
                   key={tab.value}
                   value={tab.value}
-                  sx={{ p: 0, mt: 5, mb: 1 }}
+                  sx={{ px: 0, py: 2, flexGrow: 1 }}
                 >
                   {getTabForm(tab.value)}
                 </TabPanel>
               ))}
             </TabContext>
-          </PaperLayout>
+          </Stack>
         </Container>
       </BaseLayout>
     </>
