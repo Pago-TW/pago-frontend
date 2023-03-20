@@ -20,6 +20,20 @@ declare module "@mui/material/styles" {
 }
 
 export const theme = createTheme({
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        "html, body": {
+          height: "100vh",
+        },
+        "div#__next": {
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+        },
+      },
+    },
+  },
   palette: {
     background: {
       default: "#F5F5F5",
