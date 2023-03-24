@@ -22,7 +22,14 @@ const IMAGE_MIME = ["image/jpeg", "image/png"];
 export const merchandiseFormSchema = z.object({
   name: z.string().min(1, { message: "請輸入商品名稱" }),
   images: z
-    .custom<File[]>()
+    .custom<File[]>(
+      (files) => {
+        if (!Array.isArray(files)) return false;
+        if (files.length === 0) return false;
+        return files.map((file) => file instanceof File).every((v) => v);
+      },
+      { message: "無效的檔案" }
+    )
     .refine((files) => files?.length >= 1, "請上傳商品圖片")
     .refine(
       (files) =>
@@ -107,6 +114,28 @@ export const MerchandiseForm = () => {
             height="100%"
             sx={{ overflowX: "auto", overflowY: "visible" }}
           >
+            <Box
+              {...getRootProps({
+                sx: {
+                  height: { xs: 75, md: 150 },
+                  minWidth: { xs: 75, md: 150 },
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 1,
+                  borderRadius: 2,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center center",
+                  backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23C4C4C4FF' stroke-width='4' stroke-dasharray='9' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
+                  color: "base.300",
+                },
+              })}
+            >
+              <Add />
+              新增圖片
+              <input {...getInputProps()} />
+            </Box>
             {previews.map((preview) => (
               <Box
                 key={preview}
@@ -129,26 +158,6 @@ export const MerchandiseForm = () => {
                 />
               </Box>
             ))}
-            <Box
-              {...getRootProps({
-                sx: {
-                  height: { xs: 75, md: 150 },
-                  minWidth: { xs: 75, md: 150 },
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 1,
-                  borderRadius: 2,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center center",
-                  backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23C4C4C4FF' stroke-width='4' stroke-dasharray='9' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
-                },
-              })}
-            >
-              <Add sx={{ color: "base.300" }} />
-              <input {...getInputProps()} />
-            </Box>
           </Stack>
           {!!errors?.images ? (
             <FormHelperText error={!!errors?.images}>
