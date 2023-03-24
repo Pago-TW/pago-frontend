@@ -26,7 +26,7 @@ export const ReviewForm = () => {
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   const name = getValues("name");
-  const image = getValues("image");
+  const images = getValues("images");
   const description = getValues("description");
   const { amount: priceAmount, currency: priceCurrency } = getValues("price");
   const purchaseLocation = getValues("purchaseLocation");
@@ -39,13 +39,16 @@ export const ReviewForm = () => {
   const remark = getValues("remark");
 
   useEffect(() => {
-    const previewUrl = URL.createObjectURL(image);
-    setPreview(previewUrl);
+    let previewUrl: string;
+    if (images.length > 0 && images[0]) {
+      previewUrl = URL.createObjectURL(images[0]);
+      setPreview(previewUrl);
+    }
 
     return () => {
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      URL.revokeObjectURL(previewUrl);
     };
-  }, [image, setPreview]);
+  }, [images, setPreview]);
 
   return (
     <Stack spacing={2} mt={3}>
@@ -63,6 +66,9 @@ export const ReviewForm = () => {
               },
             })}
           >
+            {/* {previews.map((preview) => (
+              <Image key={preview} src={preview} alt="Preview image" fill />
+            ))} */}
             {preview ? <Image src={preview} alt="Preview image" fill /> : null}
           </Box>
           <Stack justifyContent="space-between" flexGrow={1} py={1}>

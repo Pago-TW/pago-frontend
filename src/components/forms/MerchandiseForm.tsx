@@ -1,21 +1,34 @@
-import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { Box, Stack, TextField } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import {
+  Box,
+  FormHelperText,
+  InputLabel,
+  Stack,
+  TextField,
+} from "@mui/material";
+import { useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 import { AmountInput } from "../inputs/AmountInput";
 import { CurrencyInput, CURRENCY_OPTIONS } from "../inputs/CurrencyInput";
-import { ImageDropzone } from "../inputs/ImageDropzone";
 import { NumberInput } from "../inputs/NumberInput";
 import { PlaceInput } from "../inputs/PlaceInput";
 import { PaperLayout } from "../layouts/PaperLayout";
+import { Image } from "../ui/Image";
 
 const IMAGE_MIME = ["image/jpeg", "image/png"];
 
 export const merchandiseFormSchema = z.object({
   name: z.string().min(1, { message: "請輸入商品名稱" }),
-  image: z
-    .custom<File>((f) => f instanceof File, "請上傳商品圖片")
-    .refine((f) => IMAGE_MIME.includes(f.type), "不支援的檔案格式"),
+  images: z
+    .custom<File[]>()
+    .refine((files) => files?.length >= 1, "請上傳商品圖片")
+    .refine(
+      (files) =>
+        files?.map((file) => IMAGE_MIME.includes(file.type)).every((v) => v),
+      "不支援的檔案格式"
+    ),
   description: z.string().optional(),
   price: z.object({
     amount: z
@@ -47,13 +60,29 @@ export const merchandiseFormSchema = z.object({
 export type MerchandiseFormValues = z.infer<typeof merchandiseFormSchema>;
 
 export const MerchandiseForm = () => {
+  const [previews, setPreviews] = useState<string[]>([]);
+
   const {
     register,
     control,
     formState: { errors },
+    setValue,
   } = useFormContext<MerchandiseFormValues>();
 
-  const mdUp = useMediaQuery((theme) => theme.breakpoints.up("md"));
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: { "image/*": [] },
+    multiple: true,
+    onDrop: (acceptedFiles: File[]) => {
+      setValue("images", acceptedFiles);
+      setPreviews(acceptedFiles.map((file) => URL.createObjectURL(file)));
+    },
+  });
+
+  useEffect(() => {
+    return () => {
+      previews.map((preview) => URL.revokeObjectURL(preview));
+    };
+  }, [previews]);
 
   return (
     <PaperLayout sx={{ mt: 3 }}>
@@ -67,21 +96,66 @@ export const MerchandiseForm = () => {
           helperText={errors?.name?.message}
           {...register("name", { required: "請輸入商品名稱" })}
         />
-        <ImageDropzone
-          control={control}
-          name="image"
-          label="商品圖片"
-          error={!!errors?.image}
-          helperText={errors?.image?.message}
-          sx={{
-            width: 75,
-            height: 75,
-            ...(mdUp && {
-              width: 150,
-              height: 150,
-            }),
-          }}
-        />
+        <Box>
+          <InputLabel error={!!errors.images} shrink>
+            商品圖片
+          </InputLabel>
+          <Stack
+            direction="row"
+            spacing={1}
+            width="100%"
+            height="100%"
+            sx={{ overflowX: "auto", overflowY: "visible" }}
+          >
+            {previews.map((preview) => (
+              <Box
+                key={preview}
+                position="relative"
+                flexShrink={0}
+                width={{ xs: 75, md: 150 }}
+                height={{ xs: 75, md: 150 }}
+              >
+                <Image
+                  src={preview}
+                  alt="Preview"
+                  onLoad={() => URL.revokeObjectURL(preview)}
+                  sx={{ borderRadius: 2, flexShrink: 0 }}
+                  fill
+                  sizes="(max-width: 900px) 75px, 150px"
+                  style={{
+                    objectFit: "cover",
+                    objectPosition: "center center",
+                  }}
+                />
+              </Box>
+            ))}
+            <Box
+              {...getRootProps({
+                sx: {
+                  height: { xs: 75, md: 150 },
+                  minWidth: { xs: 75, md: 150 },
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 1,
+                  borderRadius: 2,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center center",
+                  backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23C4C4C4FF' stroke-width='4' stroke-dasharray='9' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e")`,
+                },
+              })}
+            >
+              <Add sx={{ color: "base.300" }} />
+              <input {...getInputProps()} />
+            </Box>
+          </Stack>
+          {!!errors?.images ? (
+            <FormHelperText error={!!errors?.images}>
+              {errors?.images.message}
+            </FormHelperText>
+          ) : null}
+        </Box>
         <TextField
           label="商品規格敘述"
           variant="standard"

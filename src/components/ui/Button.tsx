@@ -7,7 +7,8 @@ import { styled } from "@mui/material/styles";
 
 import PropTypes from "prop-types";
 
-export interface ButtonProps extends MuiButtonProps {
+export interface ButtonProps
+  extends MuiButtonProps<"button", { component?: "label" }> {
   loading?: boolean;
 }
 

@@ -12,9 +12,10 @@ import { StepLabel } from "@/components/ui/StepLabel";
 import { Stepper } from "@/components/ui/Stepper";
 import { useStepper } from "@/hooks/useStepper";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Step } from "@mui/material";
+import { Box, Stack, Step } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
+import type { MouseEvent } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 const STEPS = [
@@ -92,7 +93,9 @@ const NewOrderPage: NextPage = () => {
   });
   const { handleSubmit, trigger } = methods;
 
-  const handleNext = async () => {
+  const handleNext = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
     const isStepValid = await trigger();
     if (isStepValid) handleStepperNext();
   };
@@ -117,26 +120,35 @@ const NewOrderPage: NextPage = () => {
           <FormProvider {...methods}>
             <form onSubmit={handleSubmit(formSubmit)}>
               {getStepForm(activeStep)}
-              <Box display="flex">
+              <Stack
+                direction="row"
+                spacing={2}
+                justifyContent="space-between"
+                alignItems="center"
+                my={3}
+              >
                 {activeStep !== 0 ? (
                   <Button
                     variant="outlined"
                     onClick={handleStepperPrev}
-                    sx={{ mx: "auto", mt: 3 }}
+                    sx={{ minWidth: 0, width: "100%" }}
                   >
                     上一步
                   </Button>
                 ) : null}
                 {activeStep === STEPS.length - 1 ? (
-                  <Button type="submit" sx={{ mx: "auto", mt: 3 }}>
+                  <Button type="submit" sx={{ minWidth: 0, width: "100%" }}>
                     發布委託
                   </Button>
                 ) : (
-                  <Button onClick={handleNext} sx={{ mx: "auto", mt: 3 }}>
+                  <Button
+                    onClick={handleNext}
+                    sx={{ minWidth: 0, width: "100%" }}
+                  >
                     下一步
                   </Button>
                 )}
-              </Box>
+              </Stack>
             </form>
           </FormProvider>
         </Box>
