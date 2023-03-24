@@ -24,7 +24,7 @@ export const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         "html, body": {
-          height: "100vh",
+          height: "100%",
         },
         "div#__next": {
           height: "100%",
