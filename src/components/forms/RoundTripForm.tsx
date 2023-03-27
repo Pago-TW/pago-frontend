@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { CountryInput } from "../inputs/CountryInput";
 import { DatePicker } from "../inputs/DatePicker";
-import PaperLayout from "../layouts/PaperLayout";
+import { PaperLayout } from "../layouts/PaperLayout";
 import { Button } from "../ui/Button";
 import { oneWayTripFormSchema } from "./OneWayTripForm";
 

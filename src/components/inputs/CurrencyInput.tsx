@@ -1,6 +1,6 @@
 import type { FieldValues } from "react-hook-form";
 import type { SelectInputProps } from "./SelectInput";
-import SelectInput from "./SelectInput";
+import { SelectInput } from "./SelectInput";
 
 export const CURRENCY_OPTIONS = [
   "TWD",

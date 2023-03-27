@@ -1,5 +1,5 @@
 import { BaseLayout } from "@/components/layouts/BaseLayout";
-import OrderList from "@/components/OrderList";
+import { OrderList } from "@/components/OrderList";
 import { PageTitle } from "@/components/PageTitle";
 import { Button } from "@/components/ui/Button";
 import { Tab } from "@/components/ui/Tab";
