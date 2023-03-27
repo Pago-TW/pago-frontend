@@ -1,7 +1,7 @@
 import { MenuItem } from "@mui/material";
 import type { FieldValues } from "react-hook-form";
 import type { SelectInputProps } from "./SelectInput";
-import SelectInput from "./SelectInput";
+import { SelectInput } from "./SelectInput";
 
 export const COUNTRY_OPTIONS = [
   { value: "臺北市", content: "台北市" },

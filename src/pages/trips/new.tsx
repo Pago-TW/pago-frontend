@@ -1,5 +1,5 @@
-import OneWayTripForm from "@/components/forms/OneWayTripForm";
-import RoundTripForm from "@/components/forms/RoundTripForm";
+import { OneWayTripForm } from "@/components/forms/OneWayTripForm";
+import { RoundTripForm } from "@/components/forms/RoundTripForm";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { PageTitle } from "@/components/PageTitle";
 import { Tab } from "@/components/ui/Tab";
