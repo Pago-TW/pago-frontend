@@ -13,20 +13,23 @@ import {
   Stack,
 } from "@mui/material";
 import type { ChangeEvent } from "react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { Control, FieldValues, Path } from "react-hook-form";
 import { useController, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "./ui/Button";
-import Image from "./ui/Image";
+import { Image } from "./ui/Image";
 import { Rating } from "./ui/Rating";
 import { Typography } from "./ui/Typography";
+import { Video } from "./ui/Video";
 
 export const ratingFormSchema = z.object({
-  review: z.string().optional(),
   rating: z.number().int().min(1).max(5),
+  review: z.string().optional(),
   files: z
-    .custom<FileList>((fileList) => fileList instanceof FileList)
+    .custom<FileList>((fileList) => fileList instanceof FileList, {
+      message: "請上傳檔案",
+    })
     .refine((fileList) => fileList.length <= 10, {
       message: "最多只能上傳十個圖片/影片",
     }),
@@ -66,13 +69,18 @@ type FileUploadProps<T extends FieldValues> = {
   helperText?: string;
 };
 
+type Preview = {
+  url: string;
+  type: `image/${string}` | `video/${string}`;
+};
+
 const FileUpload = <T extends FieldValues>({
   control,
   name,
   error,
   helperText,
 }: FileUploadProps<T>) => {
-  const [previews, setPreviews] = useState<string[]>([]);
+  const [previews, setPreviews] = useState<Preview[]>([]);
 
   const { field } = useController({ control, name });
 
@@ -80,7 +88,15 @@ const FileUpload = <T extends FieldValues>({
     if (!e.target.files) return;
 
     field.onChange(e.target.files);
-    setPreviews([...e.target.files].map((file) => URL.createObjectURL(file)));
+    setPreviews(
+      [...e.target.files].map(
+        (file) =>
+          ({
+            url: URL.createObjectURL(file),
+            type: file.type,
+          } as Preview)
+      )
+    );
   };
 
   return (
@@ -95,36 +111,60 @@ const FileUpload = <T extends FieldValues>({
           onChange={handleChange}
         />
       </Button>
-      <Stack
-        direction="row"
-        spacing={1}
-        width="100%"
-        height="100%"
-        sx={{ overflowX: "auto", overflowY: "visible" }}
-      >
-        {previews.map((preview) => (
-          <Box
-            key={preview}
-            position="relative"
-            flexShrink={0}
-            width={{ xs: 75, md: 150 }}
-            height={{ xs: 75, md: 150 }}
-          >
-            <Image
-              src={preview}
-              alt="Preview"
-              onLoad={() => URL.revokeObjectURL(preview)}
-              sx={{ borderRadius: 2, flexShrink: 0 }}
-              fill
-              sizes="(max-width: 900px) 75px, 150px"
-              style={{
-                objectFit: "cover",
-                objectPosition: "center center",
-              }}
-            />
-          </Box>
-        ))}
-      </Stack>
+      {previews.length > 0 ? (
+        <Stack
+          direction="row"
+          spacing={1}
+          width="100%"
+          height="100%"
+          sx={{ overflowX: "auto", overflowY: "hidden" }}
+        >
+          {previews.map((preview) => (
+            <Box
+              key={preview.url}
+              position="relative"
+              flexShrink={0}
+              width={{ xs: 75, md: 150 }}
+              height={{ xs: 75, md: 150 }}
+            >
+              {preview.type.startsWith("image/") ? (
+                <Image
+                  src={preview.url}
+                  alt="Preview image"
+                  onLoad={() => URL.revokeObjectURL(preview.url)}
+                  fill
+                  sizes="(max-width: 600px) 75px, 150px"
+                  sx={{
+                    borderRadius: 2,
+                    flexShrink: 0,
+                    objectFit: "cover",
+                    objectPosition: "center center",
+                  }}
+                />
+              ) : (
+                <Video
+                  src={preview.url}
+                  width="100%"
+                  height="100%"
+                  autoPlay
+                  muted
+                  loop
+                  disablePictureInPicture
+                  disableRemotePlayback
+                  sx={{
+                    borderRadius: 2,
+                    flexShrink: 0,
+                    objectFit: "cover",
+                    objectPosition: "center center",
+                  }}
+                >
+                  <source src={preview.url} type={preview.type} />
+                </Video>
+              )}
+            </Box>
+          ))}
+        </Stack>
+      ) : null}
       {helperText ? (
         <FormHelperText sx={{ m: 0 }}>{helperText}</FormHelperText>
       ) : null}
@@ -151,7 +191,7 @@ export const RatingModal = ({
   const {
     register,
     control,
-    formState: { errors, dirtyFields },
+    formState: { isDirty, errors },
     getValues,
     setValue,
     handleSubmit,
@@ -166,14 +206,15 @@ export const RatingModal = ({
     if (!open) reset();
   }, [open, reset]);
 
+  const handleQuickReview = useCallback(
+    (content: string) => {
+      const oldReview = getValues("review");
+      setValue("review", [oldReview, content].filter(Boolean).join(""));
+    },
+    [getValues, setValue]
+  );
+
   const target = perspective === "consumer" ? "代購者" : "委託者";
-
-  const expand = dirtyFields.rating;
-
-  const handleQuickReview = (content: string) => {
-    const oldReview = getValues("review");
-    setValue("review", [oldReview, content].filter(Boolean).join(""));
-  };
 
   return (
     <Modal open={open} onClose={onClose} closeAfterTransition>
@@ -201,7 +242,7 @@ export const RatingModal = ({
               </Stack>
               <Rating name="rating" control={control} size="large" />
               <Collapse
-                in={expand}
+                in={isDirty}
                 orientation="vertical"
                 sx={{ width: "100%" }}
                 mountOnEnter
@@ -231,7 +272,12 @@ export const RatingModal = ({
                     }}
                     {...register("review")}
                   />
-                  <Stack direction="row" spacing={0.5} pb={4}>
+                  <Stack
+                    direction="row"
+                    gap={0.5} // Using gap here since flex wrap doesn't work with spacing
+                    flexWrap="wrap"
+                    pb={4}
+                  >
                     {QUICK_REVIEW_ITEMS.map((content) => (
                       <QuickReview
                         key={content}
@@ -243,10 +289,10 @@ export const RatingModal = ({
                 </Stack>
               </Collapse>
               <Stack direction="row" spacing={1} width="100%">
-                <Button size="medium" onClick={onClose} sx={{ width: "100%" }}>
+                <Button size="medium" onClick={onClose} fullWidth>
                   稍後再說
                 </Button>
-                <Button type="submit" size="medium" sx={{ width: "100%" }}>
+                <Button type="submit" size="medium" fullWidth>
                   完成評價
                 </Button>
               </Stack>
@@ -257,5 +303,3 @@ export const RatingModal = ({
     </Modal>
   );
 };
-
-export default RatingModal;
