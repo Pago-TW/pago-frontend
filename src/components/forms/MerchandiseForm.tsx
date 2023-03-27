@@ -150,7 +150,7 @@ export const MerchandiseForm = () => {
                   onLoad={() => URL.revokeObjectURL(preview)}
                   sx={{ borderRadius: 2, flexShrink: 0 }}
                   fill
-                  sizes="(max-width: 900px) 75px, 150px"
+                  sizes="(max-width: 600px) 75px, 150px"
                   style={{
                     objectFit: "cover",
                     objectPosition: "center center",
