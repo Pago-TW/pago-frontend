@@ -5,7 +5,6 @@ import {
   Box,
   Collapse,
   Fade,
-  FilledInput,
   FormControl,
   FormHelperText,
   Modal,
@@ -18,6 +17,7 @@ import type { Control, FieldValues, Path } from "react-hook-form";
 import { useController, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "./ui/Button";
+import { FilledTextarea } from "./ui/FilledTextarea";
 import { Image } from "./ui/Image";
 import { Rating } from "./ui/Rating";
 import { Typography } from "./ui/Typography";
@@ -254,22 +254,8 @@ export const RatingModal = ({
                     error={!!errors.files}
                     helperText={errors.files?.message}
                   />
-                  <FilledInput
+                  <FilledTextarea
                     placeholder="分享您的購物體驗！"
-                    fullWidth
-                    multiline
-                    minRows={4}
-                    maxRows={10}
-                    disableUnderline
-                    // Root padding cannot be overridden even with `styled`, so I use sx instead
-                    sx={{
-                      p: 1,
-                      color: "base.900",
-                      backgroundColor: "base.50",
-                      "& .MuiInputBase-input::placeholder": {
-                        opacity: 0.5,
-                      },
-                    }}
                     {...register("review")}
                   />
                   <Stack
