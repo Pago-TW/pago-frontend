@@ -10,7 +10,7 @@ Repository for the frontend of the Pago project.
 
 - [ ] Multi images
   - [ ] Display in `/orders/\[id\]` page
-  - [ ] Update `/orders/new` form to allow multi img upload
+  - [x] Update `/orders/new` form to allow multi img upload
 - [ ] `/orders/\[id\]` feature
   - [ ] Order deleting
   - [ ] Order editing
@@ -20,3 +20,5 @@ Repository for the frontend of the Pago project.
   - [ ] Trip deleting
   - [ ] Trip editing
   - [ ] Buttons at the bottom of the page
+- [ ] Remove `error` and `helperText` props from all the components that used
+     `useController` and use `field.error` instead
