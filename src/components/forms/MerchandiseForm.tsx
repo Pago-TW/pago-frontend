@@ -16,6 +16,7 @@ import { NumberInput } from "../inputs/NumberInput";
 import { PlaceInput } from "../inputs/PlaceInput";
 import { PaperLayout } from "../layouts/PaperLayout";
 import { Image } from "../ui/Image";
+import { Typography } from "../ui/Typography";
 
 const IMAGE_MIME = ["image/jpeg", "image/png"];
 
@@ -121,6 +122,7 @@ export const MerchandiseForm = () => {
                   minWidth: { xs: 75, md: 150 },
                   width: "100%",
                   display: "flex",
+                  flexDirection: { xs: "column", md: "row" },
                   alignItems: "center",
                   justifyContent: "center",
                   flexShrink: 1,
@@ -133,7 +135,7 @@ export const MerchandiseForm = () => {
               })}
             >
               <Add />
-              新增圖片
+              <Typography fontSize={{ xs: 14, md: 18 }}>新增圖片</Typography>
               <input {...getInputProps()} />
             </Box>
             {previews.map((preview) => (
