@@ -47,7 +47,7 @@ const buttonSizes: {
 
 const StyledButton = styled(MuiButton, {
   shouldForwardProp: (prop) => prop !== "loading",
-})<ButtonProps>(({ size = "large", theme }) => ({
+})<ButtonProps>(({ size = "large", color, theme }) => ({
   ...(size && buttonSizes[size]),
   textTransform: "none",
   "& .MuiButton-startIcon": {
@@ -66,43 +66,45 @@ const StyledButton = styled(MuiButton, {
       right: 24,
     }),
   },
-  "&.MuiButton-contained": {
-    backgroundColor: theme.palette.pago[500],
-    "&:hover": {
-      backgroundColor: theme.palette.pago[900],
+  ...(!color && {
+    "&.MuiButton-contained": {
+      backgroundColor: theme.palette.pago[500],
+      "&:hover": {
+        backgroundColor: theme.palette.pago[900],
+      },
+      "&:active": {
+        backgroundColor: theme.palette.pago[100],
+        "& .MuiButton-endIcon > *:first-of-type": {
+          color: theme.palette.pago[500],
+        },
+      },
+      "&.Mui-disabled": {
+        color: theme.palette.common.white,
+        backgroundColor: theme.palette.base[300],
+      },
+      "& .MuiButton-endIcon > *:first-of-type": {
+        color: theme.palette.pago[100],
+      },
     },
-    "&:active": {
-      backgroundColor: theme.palette.pago[100],
+    "&.MuiButton-outlined": {
+      color: theme.palette.pago[500],
+      borderColor: theme.palette.pago[500],
+      "&:hover": {
+        backgroundColor: theme.palette.pago[25],
+      },
+      "&:active": {
+        backgroundColor: theme.palette.pago[100],
+      },
+      "&.Mui-disabled": {
+        color: theme.palette.base[300],
+        borderColor: theme.palette.base[300],
+        backgroundColor: theme.palette.common.white,
+      },
       "& .MuiButton-endIcon > *:first-of-type": {
         color: theme.palette.pago[500],
       },
     },
-    "&.Mui-disabled": {
-      color: theme.palette.common.white,
-      backgroundColor: theme.palette.base[300],
-    },
-    "& .MuiButton-endIcon > *:first-of-type": {
-      color: theme.palette.pago[100],
-    },
-  },
-  "&.MuiButton-outlined": {
-    color: theme.palette.pago[500],
-    borderColor: theme.palette.pago[500],
-    "&:hover": {
-      backgroundColor: theme.palette.pago[25],
-    },
-    "&:active": {
-      backgroundColor: theme.palette.pago[100],
-    },
-    "&.Mui-disabled": {
-      color: theme.palette.base[300],
-      borderColor: theme.palette.base[300],
-      backgroundColor: theme.palette.common.white,
-    },
-    "& .MuiButton-endIcon > *:first-of-type": {
-      color: theme.palette.pago[500],
-    },
-  },
+  }),
 }));
 
 export const Button = ({
