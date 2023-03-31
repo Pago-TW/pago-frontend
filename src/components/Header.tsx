@@ -16,9 +16,9 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  styled,
   SwipeableDrawer,
   Toolbar,
+  styled,
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "./ui/Link";
@@ -100,11 +100,17 @@ export const Header = () => {
           >
             <Menu />
           </IconButton>
-          <Link href="/" sx={{ userSelect: "none" }}>
-            <Typography variant="h3" weightPreset="bold" sx={{ flexGrow: 1 }}>
+          <Box sx={{ flexGrow: 1 }}>
+            <Typography
+              variant="h3"
+              weightPreset="bold"
+              component={Link}
+              href="/"
+              sx={{ userSelect: "none" }}
+            >
               Pago
             </Typography>
-          </Link>
+          </Box>
           <Button
             variant="outlined"
             sx={{
