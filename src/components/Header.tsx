@@ -104,11 +104,9 @@ export const Header = () => {
             <Typography
               variant="h3"
               weightPreset="bold"
-              component={Link}
-              href="/"
               sx={{ userSelect: "none" }}
             >
-              Pago
+              <Link href="/">Pago</Link>
             </Typography>
           </Box>
           <Button
