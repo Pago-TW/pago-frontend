@@ -11,7 +11,7 @@ import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 import { AmountInput } from "../inputs/AmountInput";
-import { CurrencyInput, CURRENCY_OPTIONS } from "../inputs/CurrencyInput";
+import { CURRENCY_OPTIONS, CurrencyInput } from "../inputs/CurrencyInput";
 import { NumberInput } from "../inputs/NumberInput";
 import { PlaceInput } from "../inputs/PlaceInput";
 import { PaperLayout } from "../layouts/PaperLayout";
@@ -26,7 +26,6 @@ export const merchandiseFormSchema = z.object({
     .custom<File[]>(
       (files) => {
         if (!Array.isArray(files)) return false;
-        if (files.length === 0) return false;
         return files.map((file) => file instanceof File).every((v) => v);
       },
       { message: "無效的檔案" }
