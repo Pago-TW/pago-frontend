@@ -27,10 +27,14 @@ export const ratingFormSchema = z.object({
   rating: z.number().int().min(1).max(5),
   review: z.string().optional(),
   files: z
-    .custom<FileList>((fileList) => fileList instanceof FileList, {
-      message: "請上傳檔案",
-    })
-    .refine((fileList) => fileList.length <= 10, {
+    .custom<File[]>(
+      (files) => {
+        if (!Array.isArray(files)) return false;
+        return files.map((file) => file instanceof File).every((v) => v);
+      },
+      { message: "無效的檔案" }
+    )
+    .refine((files) => files.length <= 10, {
       message: "最多只能上傳十個圖片/影片",
     }),
 });
@@ -87,7 +91,7 @@ const FileUpload = <T extends FieldValues>({
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
 
-    field.onChange(e.target.files);
+    field.onChange([...e.target.files]);
     setPreviews(
       [...e.target.files].map(
         (file) =>
@@ -181,7 +185,9 @@ export type RatingModalProps = Pick<ModalProps, "open"> & {
 const DEFAULT_VALUES: Partial<RatingFormValues> = {
   review: "",
   rating: 0,
+  files: [],
 };
+
 export const RatingModal = ({
   open,
   perspective,
@@ -196,6 +202,7 @@ export const RatingModal = ({
     setValue,
     handleSubmit,
     reset,
+    watch,
   } = useForm<RatingFormValues>({
     mode: "onBlur",
     defaultValues: DEFAULT_VALUES,
@@ -215,6 +222,8 @@ export const RatingModal = ({
   );
 
   const target = perspective === "consumer" ? "代購者" : "委託者";
+
+  console.log(watch());
 
   return (
     <Modal open={open} onClose={onClose} closeAfterTransition>
