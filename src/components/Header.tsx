@@ -100,9 +100,11 @@ export const Header = () => {
           >
             <Menu />
           </IconButton>
-          <Typography variant="h3" weightPreset="bold" sx={{ flexGrow: 1 }}>
-            Pago
-          </Typography>
+          <Link href="/" sx={{ userSelect: "none" }}>
+            <Typography variant="h3" weightPreset="bold" sx={{ flexGrow: 1 }}>
+              Pago
+            </Typography>
+          </Link>
           <Button
             variant="outlined"
             sx={{
