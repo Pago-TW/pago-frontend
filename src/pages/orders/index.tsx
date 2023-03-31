@@ -26,11 +26,9 @@ type Tab = (typeof TABS)[number];
 const OrdersPage: NextPage = () => {
   const [currentTab, setCurrentTab] = useState<Tab["value"]>("ALL");
 
-  const { data: orders } = useOrders();
+  const { data: orders = [] } = useOrders();
 
   const filterOrders = (status: Tab["value"]) => {
-    if (!orders) return [];
-
     if (status === "ALL") {
       return orders;
     }

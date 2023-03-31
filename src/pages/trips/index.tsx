@@ -9,11 +9,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 
 const TripsPage: NextPage = () => {
-  const { data: trips, isLoading, isError } = useTrips();
-
-  if (!trips && isLoading) return <div>Loading...</div>;
-
-  if (isError) return <div>Something went wrong :/</div>;
+  const { data: trips = [] } = useTrips();
 
   return (
     <>
@@ -30,8 +26,8 @@ const TripsPage: NextPage = () => {
         <Container>
           <Stack spacing={2}>
             <TripList category="即將出發" items={trips} />
-            <TripList category="歷史旅途" items={trips} />
             <TripList category="正在途中" items={trips} />
+            <TripList category="歷史旅途" items={trips} />
           </Stack>
         </Container>
       </BaseLayout>
