@@ -1,3 +1,4 @@
+import { useUiStore } from "@/store/ui";
 import {
   ChevronLeft,
   Error,
@@ -16,11 +17,11 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  styled,
   SwipeableDrawer,
   Toolbar,
-  styled,
 } from "@mui/material";
-import { useState } from "react";
+import { useFirstMountState } from "react-use";
 import { Link } from "./ui/Link";
 import { Typography } from "./ui/Typography";
 
@@ -81,10 +82,15 @@ const DrawerList = () => {
 };
 
 export const Header = () => {
-  const [open, setOpen] = useState(false);
+  const isFirstMount = useFirstMountState();
 
-  const handleClose = () => setOpen(false);
+  const open = useUiStore((state) => state.appbarOpen);
+  const setOpen = useUiStore((state) => state.setAppbarOpen);
+
   const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const disableBackdropTransition = isFirstMount && open;
 
   return (
     <Box>
@@ -126,6 +132,8 @@ export const Header = () => {
         open={open}
         onOpen={handleOpen}
         onClose={handleClose}
+        // the `disableBackdropTransition` doesn't work so I just monkey patch it
+        transitionDuration={disableBackdropTransition ? 0 : undefined}
         PaperProps={{
           sx: {
             width: drawerWidth,
