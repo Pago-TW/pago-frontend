@@ -46,7 +46,7 @@ const SignUpPage: NextPage = () => {
             </Typography>
           </Stack>
           <Typography variant="h6" textAlign="center" color="base.400">
-            已經有帳號了嗎？<Link href="/auth/login">點擊登入</Link>
+            已經有帳號了嗎？<Link href="/auth/signin">點擊登入</Link>
           </Typography>
         </Stack>
       </CenterLayout>

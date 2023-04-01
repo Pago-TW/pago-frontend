@@ -10,7 +10,7 @@ import Head from "next/head";
 import { useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 
-const LoginPage: NextPage = () => {
+const SignInPage: NextPage = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -47,4 +47,4 @@ const LoginPage: NextPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignInPage;
