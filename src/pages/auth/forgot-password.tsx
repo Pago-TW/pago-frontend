@@ -27,7 +27,7 @@ const ForgotPasswordPage: NextPage = () => {
           <Button>獲取信件</Button>
           <Stack direction="row" justifyContent="center" alignItems="center">
             <Typography variant="h5" color="base.400">
-              <Link href="/auth/login">登入</Link>
+              <Link href="/auth/signin">登入</Link>
               {" / "}
               <Link href="/auth/signup">註冊</Link>
             </Typography>
