@@ -1,27 +1,33 @@
 import { useAppbarStore } from "@/store/ui/appbar";
 import {
   ChevronLeft,
+  Close,
   Error,
   Menu,
   Place,
   Receipt,
+  Search,
   Settings,
 } from "@mui/icons-material";
 import {
+  alpha,
   AppBar,
   Box,
   Button,
   IconButton,
+  InputBase,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Stack,
   styled,
   SwipeableDrawer,
   Toolbar,
 } from "@mui/material";
-import { useCallback } from "react";
+import type { ChangeEvent } from "react";
+import { useCallback, useState } from "react";
 import { useFirstMountState } from "react-use";
 import { Link } from "./ui/Link";
 import { Typography } from "./ui/Typography";
@@ -82,6 +88,107 @@ const DrawerList = () => {
   );
 };
 
+// const SearchBar = styled("div")(({ theme }) => ({
+//   position: "relative",
+//   borderRadius: theme.shape.borderRadius,
+//   backgroundColor: alpha(theme.palette.common.white, 0.15),
+//   "&:hover": {
+//     backgroundColor: alpha(theme.palette.common.white, 0.25),
+//   },
+//   marginLeft: 0,
+//   width: "100%",
+//   [theme.breakpoints.up("sm")]: {
+//     marginLeft: theme.spacing(1),
+//     width: "auto",
+//   },
+// }));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  top: 0,
+  left: 0,
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const ClearIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  top: 0,
+  right: 0,
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  color: "inherit",
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(1),
+    width: "auto",
+  },
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 0, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    paddingRight: `calc(1em + ${theme.spacing(4)})`,
+    // transition: theme.transitions.create("width"),
+    width: "100%",
+    // [theme.breakpoints.up("sm")]: {
+    //   width: "12ch",
+    //   "&:focus": {
+    //     width: "20ch",
+    //   },
+    // },
+  },
+}));
+
+const SearchBar = () => {
+  const [search, setSearch] = useState<string>("");
+
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value),
+    []
+  );
+  const handleClear = useCallback(() => setSearch(""), []);
+
+  const hasSearch = search.length > 0;
+
+  return (
+    <StyledInputBase
+      placeholder="Search…"
+      inputProps={{ "aria-label": "search" }}
+      startAdornment={
+        <SearchIconWrapper>
+          <Search />
+        </SearchIconWrapper>
+      }
+      endAdornment={
+        hasSearch ? (
+          <ClearIconWrapper>
+            <Close onClick={handleClear} />
+          </ClearIconWrapper>
+        ) : null
+      }
+      onChange={handleChange}
+      value={search}
+    />
+  );
+};
+
 export const Header = () => {
   const isFirstMount = useFirstMountState();
 
@@ -102,33 +209,40 @@ export const Header = () => {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mr: { xs: 1, sx: 2 } }}
             onClick={handleOpen}
           >
             <Menu />
           </IconButton>
-          <Box sx={{ flexGrow: 1 }}>
-            <Typography
-              variant="h3"
-              weightPreset="bold"
-              sx={{ userSelect: "none" }}
-            >
-              <Link href="/">Pago</Link>
-            </Typography>
-          </Box>
-          <Button
-            component={Link}
-            variant="outlined"
-            sx={{
-              width: 128,
-              color: "white",
-              borderColor: "white",
-              "&:hover": { borderColor: "white" },
-            }}
-            href="/auth/signin"
+          <Typography
+            variant="h3"
+            weightPreset="bold"
+            sx={{ userSelect: "none", display: { xs: "none", sm: "inline" } }}
           >
-            登入
-          </Button>
+            <Link href="/">Pago</Link>
+          </Typography>
+          <Stack
+            direction="row"
+            spacing={2}
+            ml={{ xs: 0, sm: "auto" }}
+            flexGrow={{ xs: 1, sm: 0 }}
+          >
+            <SearchBar />
+            <Button
+              component={Link}
+              variant="outlined"
+              sx={{
+                width: 128,
+                color: "white",
+                borderColor: "white",
+                flexShrink: 0,
+                "&:hover": { borderColor: "white" },
+              }}
+              href="/auth/signin"
+            >
+              登入
+            </Button>
+          </Stack>
         </Toolbar>
       </AppBar>
       <SwipeableDrawer
