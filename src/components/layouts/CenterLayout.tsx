@@ -14,6 +14,7 @@ export const CenterLayout = ({ children }: CenterLayoutProps) => {
         minHeight={`calc(100vh - ${appbarHeight}px)`}
         justifyContent="center"
         alignItems="center"
+        py="10vh"
       >
         {children}
       </Stack>

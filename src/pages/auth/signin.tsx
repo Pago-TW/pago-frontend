@@ -19,10 +19,7 @@ const SignInPage: NextPage = () => {
         <title>登入</title>
       </Head>
       <CenterLayout>
-        <Stack
-          spacing={3}
-          sx={{ width: "100%", maxWidth: 400, my: "12vh", p: 2 }}
-        >
+        <Stack spacing={3} sx={{ width: "100%", maxWidth: 400 }}>
           <Typography variant="h1" weightPreset="bold" textAlign="center">
             登入
           </Typography>
