@@ -39,7 +39,7 @@ const steps = [
 
 const StepperStory = () => {
   const { activeStep, isFinished, handlePrev, handleNext } = useStepper({
-    totalSteps: steps.length,
+    steps,
   });
 
   return (
