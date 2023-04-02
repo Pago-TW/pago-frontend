@@ -1,4 +1,4 @@
-import { useUiStore } from "@/store/ui";
+import { useAppbarStore } from "@/store/ui/appbar";
 import {
   ChevronLeft,
   Error,
@@ -21,6 +21,7 @@ import {
   SwipeableDrawer,
   Toolbar,
 } from "@mui/material";
+import { useCallback } from "react";
 import { useFirstMountState } from "react-use";
 import { Link } from "./ui/Link";
 import { Typography } from "./ui/Typography";
@@ -84,11 +85,11 @@ const DrawerList = () => {
 export const Header = () => {
   const isFirstMount = useFirstMountState();
 
-  const open = useUiStore((state) => state.appbarOpen);
-  const setOpen = useUiStore((state) => state.setAppbarOpen);
+  const open = useAppbarStore((state) => state.drawerOpen);
+  const setOpen = useAppbarStore((state) => state.setDrawerOpen);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = useCallback(() => setOpen(true), [setOpen]);
+  const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
   const disableBackdropTransition = isFirstMount && open;
 
