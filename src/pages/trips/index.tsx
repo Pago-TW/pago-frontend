@@ -2,6 +2,7 @@ import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { PageTitle } from "@/components/PageTitle";
 import { TripList } from "@/components/TripList";
 import { Button } from "@/components/ui/Button";
+import { Link } from "@/components/ui/Link";
 import { useTrips } from "@/hooks/api/useTrips";
 import { Add } from "@mui/icons-material";
 import { Container, Stack } from "@mui/material";
@@ -18,7 +19,7 @@ const TripsPage: NextPage = () => {
       </Head>
       <BaseLayout>
         <PageTitle title="所有旅途">
-          <Button href="/trips/new">
+          <Button LinkComponent={Link} href="/trips/new">
             <Add />
             新增旅途
           </Button>

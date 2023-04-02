@@ -117,6 +117,7 @@ export const Header = () => {
             </Typography>
           </Box>
           <Button
+            component={Link}
             variant="outlined"
             sx={{
               width: 128,
@@ -124,6 +125,7 @@ export const Header = () => {
               borderColor: "white",
               "&:hover": { borderColor: "white" },
             }}
+            href="/auth/signin"
           >
             登入
           </Button>

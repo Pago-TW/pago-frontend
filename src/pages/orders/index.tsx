@@ -2,6 +2,7 @@ import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { OrderList } from "@/components/OrderList";
 import { PageTitle } from "@/components/PageTitle";
 import { Button } from "@/components/ui/Button";
+import { Link } from "@/components/ui/Link";
 import { Tab } from "@/components/ui/Tab";
 import { useOrders } from "@/hooks/api/useOrders";
 import { Add } from "@mui/icons-material";
@@ -42,7 +43,7 @@ const OrdersPage: NextPage = () => {
       </Head>
       <BaseLayout>
         <PageTitle title="我的委託">
-          <Button href="/orders/new">
+          <Button LinkComponent={Link} href="/orders/new">
             <Add />
             新增委託
           </Button>
