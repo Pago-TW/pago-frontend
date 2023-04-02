@@ -24,10 +24,10 @@ export const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         "html, body": {
-          height: "100%",
+          minHeight: "100vh",
         },
         "div#__next": {
-          height: "100%",
+          minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
         },

@@ -45,8 +45,8 @@ export const NewTripPage: NextPage = () => {
       </Head>
       <BaseLayout>
         <PageTitle title="填寫旅途詳情" />
-        <Container sx={{ height: "100%" }}>
-          <Stack spacing={2} height="100%">
+        <Container>
+          <Stack spacing={2}>
             <TabContext value={currentTab}>
               <TabList
                 onChange={handleTabChange}

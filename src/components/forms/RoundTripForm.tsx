@@ -43,7 +43,7 @@ export const RoundTripForm = () => {
   });
 
   return (
-    <Stack justifyContent="space-between" height="100%">
+    <Stack spacing={3} justifyContent="space-between">
       <PaperLayout>
         <Stack spacing={3}>
           <CountryInput
