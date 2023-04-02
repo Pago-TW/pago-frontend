@@ -21,17 +21,20 @@ import { FormProvider, useForm } from "react-hook-form";
 const STEPS = [
   {
     label: "商品資訊",
-    content: "test 1",
+    form: <MerchandiseForm />,
+    schema: merchandiseFormSchema,
   },
   {
     label: "代購需求",
-    content: "test 2",
+    form: <NeedsForm />,
+    schema: needsFormSchema,
   },
   {
     label: "確認資訊",
-    content: "test 3",
+    form: <ReviewForm />,
+    schema: reviewFormSchema,
   },
-];
+] as const;
 
 const DEFAULT_VALUES: Partial<ReviewFormValues> = {
   name: "",
@@ -53,43 +56,23 @@ const DEFAULT_VALUES: Partial<ReviewFormValues> = {
   remark: "",
 };
 
-const getStepSchema = (step: number) => {
-  switch (step) {
-    case 0:
-      return merchandiseFormSchema;
-    case 1:
-      return needsFormSchema;
-    default:
-      return reviewFormSchema;
-  }
-};
-
-const getStepForm = (step: number) => {
-  switch (step) {
-    case 0:
-      return <MerchandiseForm />;
-    case 1:
-      return <NeedsForm />;
-    case 2:
-      return <ReviewForm />;
-    default:
-      return null;
-  }
-};
-
 const NewOrderPage: NextPage = () => {
   const {
     activeStep,
+    activeStepObj,
+    totalSteps,
     handleNext: handleStepperNext,
     handlePrev: handleStepperPrev,
-  } = useStepper({
-    totalSteps: STEPS.length,
-  });
+  } = useStepper({ steps: STEPS });
+
+  const resolver = activeStepObj?.schema
+    ? zodResolver(activeStepObj.schema)
+    : undefined;
 
   const methods = useForm<ReviewFormValues>({
     mode: "onBlur",
     defaultValues: DEFAULT_VALUES,
-    resolver: zodResolver(getStepSchema(activeStep)),
+    resolver,
   });
   const { handleSubmit, trigger } = methods;
 
@@ -119,7 +102,7 @@ const NewOrderPage: NextPage = () => {
           </Stepper>
           <FormProvider {...methods}>
             <form onSubmit={handleSubmit(formSubmit)}>
-              {getStepForm(activeStep)}
+              {activeStepObj?.form}
               <Stack
                 direction="row"
                 spacing={2}
@@ -136,7 +119,7 @@ const NewOrderPage: NextPage = () => {
                     上一步
                   </Button>
                 ) : null}
-                {activeStep === STEPS.length - 1 ? (
+                {activeStep === totalSteps - 1 ? (
                   <Button type="submit" sx={{ minWidth: 0, width: "100%" }}>
                     發布委託
                   </Button>
