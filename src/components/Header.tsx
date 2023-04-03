@@ -1,3 +1,4 @@
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useAppbarStore } from "@/store/ui/appbar";
 import {
   ChevronLeft,
@@ -14,6 +15,7 @@ import {
   AppBar,
   Box,
   Button,
+  Collapse,
   IconButton,
   InputBase,
   List,
@@ -26,13 +28,144 @@ import {
   SwipeableDrawer,
   Toolbar,
 } from "@mui/material";
-import type { ChangeEvent } from "react";
-import { useCallback, useState } from "react";
-import { useFirstMountState } from "react-use";
+import { ChangeEvent, useCallback, useRef, useState } from "react";
 import { Link } from "./ui/Link";
 import { Typography } from "./ui/Typography";
 
 const drawerWidth = 270;
+
+const SearchBarBase = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.2),
+  },
+  transition: theme.transitions.create(["background-color", "width"]),
+  width: "100%",
+  visibility: "visible",
+  overflowX: "hidden",
+  [theme.breakpoints.up("sm")]: {
+    width: "auto",
+  },
+}));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  top: 0,
+  left: 0,
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const ClearIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 1),
+  height: "100%",
+  position: "absolute",
+  top: 0,
+  right: 0,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: theme.typography.pxToRem(18),
+  color: alpha(theme.palette.common.white, 0.75),
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  width: "100%",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 0, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    paddingRight: `calc(1em + ${theme.spacing(2)})`,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "24ch",
+    },
+  },
+}));
+
+const SearchBar = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const expand = useAppbarStore((state) => state.searchBarExpand);
+  const setExpand = useAppbarStore((state) => state.setSearchBarExpand);
+
+  const query = useAppbarStore((state) => state.searchQuery);
+  const setQuery = useAppbarStore((state) => state.setSearchQuery);
+  const clearQuery = useAppbarStore((state) => state.clearSearchQuery);
+
+  const hasSearch = query.length > 0;
+
+  const smUp = useMediaQuery((theme) => theme.breakpoints.up("sm"));
+
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => setQuery(e.target.value),
+    [setQuery]
+  );
+  const handleClear = useCallback(() => {
+    clearQuery();
+    inputRef.current?.focus();
+  }, [clearQuery]);
+  const handleExpand = useCallback(() => {
+    setExpand(true);
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 1);
+  }, [setExpand]);
+  const handleBlur = () => {
+    if (!hasSearch) setExpand(false);
+  };
+
+  const showSearchBar = smUp || expand;
+
+  return (
+    <Stack direction="row" width="100%" justifyContent="end">
+      {!showSearchBar ? (
+        <IconButton
+          onClick={handleExpand}
+          sx={{ color: (theme) => theme.palette.common.white }}
+        >
+          <Search />
+        </IconButton>
+      ) : null}
+      <SearchBarBase
+        sx={[!showSearchBar ? { visibility: "hidden", width: 0 } : null]}
+      >
+        <StyledInputBase
+          placeholder="Search…"
+          inputProps={{ "aria-label": "search" }}
+          startAdornment={
+            <SearchIconWrapper>
+              <Search />
+            </SearchIconWrapper>
+          }
+          endAdornment={
+            hasSearch ? (
+              <ClearIconWrapper>
+                <Close
+                  onClick={handleClear}
+                  sx={{ cursor: "pointer" }}
+                  fontSize="inherit"
+                  color="inherit"
+                />
+              </ClearIconWrapper>
+            ) : null
+          }
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={query}
+          inputRef={inputRef}
+        />
+      </SearchBarBase>
+    </Stack>
+  );
+};
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -88,117 +221,13 @@ const DrawerList = () => {
   );
 };
 
-// const SearchBar = styled("div")(({ theme }) => ({
-//   position: "relative",
-//   borderRadius: theme.shape.borderRadius,
-//   backgroundColor: alpha(theme.palette.common.white, 0.15),
-//   "&:hover": {
-//     backgroundColor: alpha(theme.palette.common.white, 0.25),
-//   },
-//   marginLeft: 0,
-//   width: "100%",
-//   [theme.breakpoints.up("sm")]: {
-//     marginLeft: theme.spacing(1),
-//     width: "auto",
-//   },
-// }));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  top: 0,
-  left: 0,
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const ClearIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  top: 0,
-  right: 0,
-  cursor: "pointer",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  color: "inherit",
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "auto",
-  },
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 0, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    paddingRight: `calc(1em + ${theme.spacing(4)})`,
-    // transition: theme.transitions.create("width"),
-    width: "100%",
-    // [theme.breakpoints.up("sm")]: {
-    //   width: "12ch",
-    //   "&:focus": {
-    //     width: "20ch",
-    //   },
-    // },
-  },
-}));
-
-const SearchBar = () => {
-  const [search, setSearch] = useState<string>("");
-
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value),
-    []
-  );
-  const handleClear = useCallback(() => setSearch(""), []);
-
-  const hasSearch = search.length > 0;
-
-  return (
-    <StyledInputBase
-      placeholder="Search…"
-      inputProps={{ "aria-label": "search" }}
-      startAdornment={
-        <SearchIconWrapper>
-          <Search />
-        </SearchIconWrapper>
-      }
-      endAdornment={
-        hasSearch ? (
-          <ClearIconWrapper>
-            <Close onClick={handleClear} />
-          </ClearIconWrapper>
-        ) : null
-      }
-      onChange={handleChange}
-      value={search}
-    />
-  );
-};
-
 export const Header = () => {
-  const isFirstMount = useFirstMountState();
+  const [open, setOpen] = useState(false);
 
-  const open = useAppbarStore((state) => state.drawerOpen);
-  const setOpen = useAppbarStore((state) => state.setDrawerOpen);
+  const expandSearchBar = useAppbarStore((state) => state.searchBarExpand);
 
-  const handleOpen = useCallback(() => setOpen(true), [setOpen]);
-  const handleClose = useCallback(() => setOpen(false), [setOpen]);
-
-  const disableBackdropTransition = isFirstMount && open;
+  const handleOpen = useCallback(() => setOpen(true), []);
+  const handleClose = useCallback(() => setOpen(false), []);
 
   return (
     <Box>
@@ -214,18 +243,26 @@ export const Header = () => {
           >
             <Menu />
           </IconButton>
-          <Typography
-            variant="h3"
-            weightPreset="bold"
-            sx={{ userSelect: "none", display: { xs: "none", sm: "inline" } }}
+          <Collapse
+            in={!expandSearchBar}
+            orientation="horizontal"
+            timeout={100}
+            easing="ease-in-out"
           >
-            <Link href="/">Pago</Link>
-          </Typography>
+            <Typography
+              variant="h3"
+              weightPreset="bold"
+              sx={{ userSelect: "none" }}
+            >
+              <Link href="/">Pago</Link>
+            </Typography>
+          </Collapse>
           <Stack
             direction="row"
             spacing={2}
-            ml={{ xs: 0, sm: "auto" }}
-            flexGrow={{ xs: 1, sm: 0 }}
+            justifyContent="end"
+            flexGrow={1}
+            ml="auto"
           >
             <SearchBar />
             <Button
@@ -249,8 +286,6 @@ export const Header = () => {
         open={open}
         onOpen={handleOpen}
         onClose={handleClose}
-        // the `disableBackdropTransition` doesn't work so I just monkey patch it
-        transitionDuration={disableBackdropTransition ? 0 : undefined}
         PaperProps={{
           sx: {
             width: drawerWidth,
