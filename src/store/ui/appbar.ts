@@ -1,17 +1,24 @@
 import { create } from "zustand";
 
-type appbarState = {
+type State = {
   searchBarExpand: boolean;
-  setSearchBarExpand: (show: boolean) => void;
   searchQuery: string;
+};
+
+type Actions = {
+  setSearchBarExpand: (show: boolean) => void;
   setSearchQuery: (query: string) => void;
   clearSearchQuery: () => void;
 };
 
-export const useAppbarStore = create<appbarState>()((set) => ({
+const INITIAL_STATE: State = {
   searchBarExpand: false,
-  setSearchBarExpand: (show) => set({ searchBarExpand: show }),
   searchQuery: "",
+};
+
+export const useAppbarStore = create<State & Actions>()((set) => ({
+  ...INITIAL_STATE,
+  setSearchBarExpand: (show) => set({ searchBarExpand: show }),
   setSearchQuery: (query) => set({ searchQuery: query }),
   clearSearchQuery: () => set({ searchQuery: "" }),
 }));
