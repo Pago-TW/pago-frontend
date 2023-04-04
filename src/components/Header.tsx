@@ -1,10 +1,15 @@
+import { useHydrated } from "@/hooks/useHydrated";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useAuthStore } from "@/store/auth";
 import { useAppbarStore } from "@/store/ui/appbar";
 import {
+  AccountCircle,
   ChevronLeft,
   Close,
   Error,
+  Mail,
   Menu,
+  Notifications,
   Place,
   Receipt,
   Search,
@@ -13,6 +18,7 @@ import {
 import {
   alpha,
   AppBar,
+  Badge,
   Box,
   Button,
   Collapse,
@@ -23,6 +29,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Skeleton,
   Stack,
   styled,
   SwipeableDrawer,
@@ -165,6 +172,72 @@ const SearchBar = () => {
   );
 };
 
+const HeaderButtons = () => {
+  const hydrated = useHydrated();
+
+  const authenticated = useAuthStore((state) => state.authenticated);
+
+  return (
+    <Box display="flex" alignSelf="stretch">
+      {hydrated ? (
+        authenticated ? (
+          <>
+            <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              color="inherit"
+            >
+              <Badge color="error">
+                <Mail />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge color="error">
+                <Notifications />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </>
+        ) : (
+          <Button
+            component={Link}
+            variant="outlined"
+            sx={{
+              width: 128,
+              color: "white",
+              borderColor: "white",
+              flexShrink: 0,
+              "&:hover": { borderColor: "white" },
+            }}
+            href="/auth/signin"
+          >
+            登入
+          </Button>
+        )
+      ) : (
+        <Skeleton
+          variant="rounded"
+          animation="wave"
+          width={128}
+          height="100%"
+        />
+      )}
+    </Box>
+  );
+};
+
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -264,20 +337,7 @@ export const Header = () => {
             ml="auto"
           >
             <SearchBar />
-            <Button
-              component={Link}
-              variant="outlined"
-              sx={{
-                width: 128,
-                color: "white",
-                borderColor: "white",
-                flexShrink: 0,
-                "&:hover": { borderColor: "white" },
-              }}
-              href="/auth/signin"
-            >
-              登入
-            </Button>
+            <HeaderButtons />
           </Stack>
         </Toolbar>
       </AppBar>
