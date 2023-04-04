@@ -28,7 +28,8 @@ import {
   SwipeableDrawer,
   Toolbar,
 } from "@mui/material";
-import { ChangeEvent, useCallback, useRef, useState } from "react";
+import type { ChangeEvent } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Link } from "./ui/Link";
 import { Typography } from "./ui/Typography";
 
@@ -43,7 +44,6 @@ const SearchBarBase = styled("div")(({ theme }) => ({
   },
   transition: theme.transitions.create(["background-color", "width"]),
   width: "100%",
-  visibility: "visible",
   overflowX: "hidden",
   [theme.breakpoints.up("sm")]: {
     width: "auto",
@@ -78,8 +78,10 @@ const ClearIconWrapper = styled("div")(({ theme }) => ({
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   width: "100%",
+  height: 36,
   "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 0, 1, 0),
+    height: "100%",
+    padding: theme.spacing(0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     paddingRight: `calc(1em + ${theme.spacing(2)})`,
@@ -114,9 +116,7 @@ const SearchBar = () => {
   }, [clearQuery]);
   const handleExpand = useCallback(() => {
     setExpand(true);
-    setTimeout(() => {
-      inputRef.current?.focus();
-    }, 1);
+    inputRef.current?.focus();
   }, [setExpand]);
   const handleBlur = () => {
     if (!hasSearch) setExpand(false);
@@ -134,9 +134,7 @@ const SearchBar = () => {
           <Search />
         </IconButton>
       ) : null}
-      <SearchBarBase
-        sx={[!showSearchBar ? { visibility: "hidden", width: 0 } : null]}
-      >
+      <SearchBarBase sx={[!showSearchBar ? { opacity: 0, width: 0 } : null]}>
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
@@ -261,6 +259,7 @@ export const Header = () => {
             direction="row"
             spacing={2}
             justifyContent="end"
+            alignItems="center"
             flexGrow={1}
             ml="auto"
           >
