@@ -11,13 +11,13 @@ type Actions = {
   clearSearchQuery: () => void;
 };
 
-const INITIAL_STATE: State = {
+const initialState: State = {
   searchBarExpand: false,
   searchQuery: "",
 };
 
 export const useAppbarStore = create<State & Actions>()((set) => ({
-  ...INITIAL_STATE,
+  ...initialState,
   setSearchBarExpand: (show) => set({ searchBarExpand: show }),
   setSearchQuery: (query) => set({ searchQuery: query }),
   clearSearchQuery: () => set({ searchQuery: "" }),
