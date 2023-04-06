@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/Button";
 import { Divider } from "@/components/ui/Divider";
 import { Link } from "@/components/ui/Link";
 import { Typography } from "@/components/ui/Typography";
+import { useToast } from "@/hooks/useToast";
 import { useAuthStore } from "@/store/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Stack, TextField } from "@mui/material";
+import type { SlideProps } from "@mui/material";
+import { Alert, Box, Slide, Snackbar, Stack, TextField } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -29,12 +31,24 @@ const DEFAULT_VALUES: Partial<SignInFormValues> = {
   password: "",
 };
 
+const SlideRightTransition = (props: SlideProps) => {
+  return <Slide {...props} direction="right" />;
+};
+
 const SignInPage: NextPage = () => {
+  const {
+    open: toastOpen,
+    message: toastMessage,
+    severity: toastSeverity,
+    openToast,
+    closeToast,
+  } = useToast();
+
   const router = useRouter();
 
   const {
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm<SignInFormValues>({
     mode: "onBlur",
@@ -45,8 +59,23 @@ const SignInPage: NextPage = () => {
   const signIn = useAuthStore((state) => state.signIn);
 
   const handleSignIn = async (data: SignInFormValues) => {
-    const { error, ok } = await signIn(data);
-    if (ok) router.replace("/");
+    const { error, status, ok } = await signIn(data);
+
+    if (ok) {
+      router.replace("/");
+      openToast({ message: "登入成功", severity: "success" });
+    }
+
+    if (error) console.log(error);
+
+    if (!status) {
+      openToast({ message: "未知的錯誤，請洽詢客服", severity: "error" });
+    } else {
+      if (status == 401)
+        openToast({ message: "帳號或密碼錯誤", severity: "error" });
+      else if (status >= 500 && status < 600)
+        openToast({ message: "伺服器錯誤，請洽詢客服", severity: "error" });
+    }
   };
 
   return (
@@ -81,7 +110,9 @@ const SignInPage: NextPage = () => {
               helperText={errors.password?.message}
               {...register("password")}
             />
-            <Button type="submit">登入</Button>
+            <Button type="submit" loading={isSubmitting}>
+              登入
+            </Button>
           </Stack>
           <Box display="flex" justifyContent="space-between">
             <Typography variant="h6">
@@ -93,6 +124,21 @@ const SignInPage: NextPage = () => {
           </Box>
         </Stack>
       </CenterLayout>
+      <Snackbar
+        open={toastOpen}
+        onClose={closeToast}
+        autoHideDuration={5000}
+        TransitionComponent={SlideRightTransition}
+      >
+        <Alert
+          variant="filled"
+          severity={toastSeverity}
+          onClose={closeToast}
+          sx={{ width: "100%" }}
+        >
+          {toastMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
