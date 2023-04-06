@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Divider } from "@/components/ui/Divider";
 import { Link } from "@/components/ui/Link";
 import { Typography } from "@/components/ui/Typography";
-import { usePersistedAuthStore } from "@/store/auth";
+import { useAuthStore } from "@/store/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Stack, TextField } from "@mui/material";
 import type { NextPage } from "next";
@@ -42,7 +42,7 @@ const SignInPage: NextPage = () => {
     resolver: zodResolver(signInFormSchema),
   });
 
-  const signIn = usePersistedAuthStore((state) => state.signIn);
+  const signIn = useAuthStore((state) => state.signIn);
 
   const handleSignIn = async (data: SignInFormValues) => {
     const { error, ok } = await signIn(data);
