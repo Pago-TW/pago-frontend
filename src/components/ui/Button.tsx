@@ -2,7 +2,7 @@ import type {
   ButtonProps as MuiButtonProps,
   CircularProgressProps as MuiCircularProgressProps,
 } from "@mui/material";
-import { Button as MuiButton, CircularProgress } from "@mui/material";
+import { CircularProgress, Button as MuiButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import PropTypes from "prop-types";
@@ -47,7 +47,7 @@ const buttonSizes: {
 
 const StyledButton = styled(MuiButton, {
   shouldForwardProp: (prop) => prop !== "loading",
-})<ButtonProps>(({ size = "large", color, theme }) => ({
+})<ButtonProps>(({ size = "large", color, loading, theme }) => ({
   ...(size && buttonSizes[size]),
   textTransform: "none",
   "& .MuiButton-startIcon": {
@@ -80,15 +80,18 @@ const StyledButton = styled(MuiButton, {
       },
       "&.Mui-disabled": {
         color: theme.palette.common.white,
-        backgroundColor: theme.palette.base[300],
+        backgroundColor: loading
+          ? theme.palette.pago[100]
+          : theme.palette.base[300],
       },
       "& .MuiButton-endIcon > *:first-of-type": {
-        color: theme.palette.pago[100],
+        color: theme.palette.pago[500],
       },
     },
     "&.MuiButton-outlined": {
       color: theme.palette.pago[500],
       borderColor: theme.palette.pago[500],
+      backgroundColor: "transparent",
       "&:hover": {
         backgroundColor: theme.palette.pago[25],
       },
@@ -96,9 +99,13 @@ const StyledButton = styled(MuiButton, {
         backgroundColor: theme.palette.pago[100],
       },
       "&.Mui-disabled": {
-        color: theme.palette.base[300],
-        borderColor: theme.palette.base[300],
-        backgroundColor: theme.palette.common.white,
+        color: loading ? theme.palette.pago[500] : theme.palette.base[300],
+        borderColor: loading
+          ? theme.palette.pago[500]
+          : theme.palette.base[300],
+        ...(loading && {
+          backgroundColor: theme.palette.pago[100],
+        }),
       },
       "& .MuiButton-endIcon > *:first-of-type": {
         color: theme.palette.pago[500],
@@ -117,11 +124,14 @@ export const Button = ({
   children,
   ...rest
 }: ButtonProps) => {
+  const _disabled = disabled || loading;
+
   return (
     <StyledButton
       size={size}
       variant={variant}
-      disabled={disabled}
+      disabled={_disabled}
+      loading={loading}
       disableRipple={disableRipple}
       endIcon={endIcon || (loading && <StyledCircularProgress size={size} />)}
       {...rest}
