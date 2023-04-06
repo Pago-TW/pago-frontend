@@ -1,4 +1,5 @@
-import axios from "axios";
+import type { AxiosResponse } from "axios";
+import axios, { AxiosError } from "axios";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import type { SignInFormValues } from "./../pages/auth/signin";
@@ -23,9 +24,12 @@ type State = {
 type Actions = {
   setAccessToken: (token: string) => void;
   setUser: (user: User) => void;
-  signIn: (
-    data: SignInFormValues
-  ) => Promise<{ error?: string; status?: number; ok: boolean }>;
+  signIn: (data: SignInFormValues) => Promise<{
+    error?: AxiosError["message"];
+    code?: AxiosError["code"];
+    status?: AxiosResponse["status"];
+    ok: boolean;
+  }>;
   signOut: () => void;
 };
 
@@ -63,9 +67,10 @@ export const useAuthStore = create<State & Actions>()(
             };
           } catch (e) {
             console.log(e);
-            if (axios.isAxiosError(e)) {
+            if (e instanceof AxiosError) {
               return {
                 error: e.message,
+                code: e.code,
                 status: e.response?.status,
                 ok: false,
               };
