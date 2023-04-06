@@ -94,7 +94,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     paddingRight: `calc(1em + ${theme.spacing(2)})`,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
-      width: "24ch",
+      width: "23ch",
     },
   },
 }));
@@ -334,7 +334,6 @@ export const Header = () => {
             justifyContent="end"
             alignItems="center"
             flexGrow={1}
-            ml="auto"
           >
             <SearchBar />
             <HeaderButtons />
