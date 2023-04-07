@@ -1,10 +1,10 @@
-import { Header } from "@/components/Header";
 import type { PropsWithChildren } from "react";
+import { Navbar } from "../Navbar";
 
 export const BaseLayout = ({ children }: PropsWithChildren) => {
   return (
     <>
-      <Header />
+      <Navbar />
       {children}
     </>
   );
