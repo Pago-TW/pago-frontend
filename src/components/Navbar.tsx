@@ -29,7 +29,8 @@ import {
   Toolbar,
   styled,
 } from "@mui/material";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { Search } from "./Search";
 import { Link } from "./ui/Link";
@@ -38,6 +39,8 @@ import { Typography } from "./ui/Typography";
 const drawerWidth = 270;
 
 const NavbarButtons = () => {
+  const router = useRouter();
+
   const { status } = useSession();
 
   const content =
@@ -70,6 +73,8 @@ const NavbarButtons = () => {
     ) : status === "unauthenticated" ? (
       <Button
         variant="outlined"
+        LinkComponent={Link}
+        href={`/auth/signin?callbackUrl=${router.asPath}`}
         sx={{
           width: { xs: 96, sm: 128 },
           color: "white",
@@ -78,7 +83,6 @@ const NavbarButtons = () => {
           ml: { xs: 1, sm: 2 },
           "&:hover": { borderColor: "white" },
         }}
-        onClick={() => signIn()}
       >
         登入
       </Button>
