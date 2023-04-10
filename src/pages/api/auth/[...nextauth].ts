@@ -22,7 +22,16 @@ export const authOptions: NextAuthOptions = {
       },
       authorize: async (credentials) => {
         const res = await axios.post("/auth/login", credentials);
-        return res.data;
+
+        const { token, user } = res.data;
+
+        if (token && user) {
+          return {
+            id: user.userId,
+            accessToken: token.accessToken,
+          };
+        }
+        return null;
       },
     }),
   ],
@@ -36,7 +45,7 @@ export const authOptions: NextAuthOptions = {
 
         const { token, user: pagoUser } = res.data;
         user.accessToken = token.accessToken;
-        user.pagoId = pagoUser.userId;
+        user.id = pagoUser.userId;
 
         return true;
       }
@@ -46,10 +55,9 @@ export const authOptions: NextAuthOptions = {
       return false;
     },
     jwt: async ({ token, user }) => {
-      console.log({ token, user });
       if (user) {
         token.accessToken = user.accessToken;
-        token.id = user.pagoId;
+        token.id = user.id;
       }
       return token;
     },

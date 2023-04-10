@@ -12,7 +12,7 @@ declare module "next-auth" {
     accessToken: string;
   }
   interface User {
-    pagoId: string;
+    id: string;
     accessToken: string;
   }
 }

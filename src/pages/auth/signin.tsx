@@ -5,8 +5,7 @@ import { Divider } from "@/components/ui/Divider";
 import { Link } from "@/components/ui/Link";
 import { Typography } from "@/components/ui/Typography";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { SlideProps } from "@mui/material";
-import { Box, Slide, Stack, TextField } from "@mui/material";
+import { Box, Stack, TextField } from "@mui/material";
 import type { NextPage } from "next";
 import { signIn } from "next-auth/react";
 import Head from "next/head";
@@ -30,10 +29,6 @@ export type SignInFormValues = z.infer<typeof signInFormSchema>;
 const DEFAULT_VALUES: Partial<SignInFormValues> = {
   email: "",
   password: "",
-};
-
-const SlideRightTransition = (props: SlideProps) => {
-  return <Slide {...props} direction="right" />;
 };
 
 const SignInPage: NextPage = () => {
@@ -61,20 +56,32 @@ const SignInPage: NextPage = () => {
   const handleCredentialsSignIn = useCallback(
     async (data: SignInFormValues) => {
       const res = await signIn("credentials", {
-        email: data.email,
-        password: data.password,
+        ...data,
         callbackUrl,
         redirect: false,
       });
 
       if (res?.error) {
-        enqueueSnackbar(res?.error, {
+        let message;
+
+        if (res.status === 401) {
+          if (res.error.includes("ECONNREFUSED")) {
+            message = "無法連接到伺服器，請稍後再試";
+          } else {
+            message = "電子郵件或密碼錯誤";
+          }
+        } else if (res.status >= 500 && res.status < 600) {
+          message = "登入錯誤，請聯繫客服";
+        }
+
+        enqueueSnackbar(message, {
           variant: "error",
-          TransitionComponent: SlideRightTransition,
         });
+      } else {
+        router.push(callbackUrl);
       }
     },
-    [callbackUrl, enqueueSnackbar]
+    [callbackUrl, enqueueSnackbar, router]
   );
 
   return (
