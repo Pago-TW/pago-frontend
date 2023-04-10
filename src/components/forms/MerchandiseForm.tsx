@@ -195,7 +195,7 @@ export const MerchandiseForm = () => {
                 />
               ),
             }}
-            sx={{ "& input[type='number']": { mr: 16 } }}
+            sx={{ "& input": { mr: 1 } }}
             {...register("price.amount", { valueAsNumber: true })}
           />
         </Box>

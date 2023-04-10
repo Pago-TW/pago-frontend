@@ -1,32 +1,27 @@
 import type { TextFieldProps } from "@mui/material";
 import { TextField } from "@mui/material";
-import type { FocusEvent } from "react";
 import { forwardRef } from "react";
+import type { NumericFormatProps } from "react-number-format";
+import { NumericFormat } from "react-number-format";
 
-export type NumberInputProps = Omit<TextFieldProps, "type">;
+export type NumberInputProps = NumericFormatProps<TextFieldProps>;
 
 export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
-  function NumberInput({ variant = "standard", sx, ...rest }, ref) {
-    const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
-      if (+e.target.value === 0) e.target.select();
-    };
+  function NumberInput(props, ref) {
+    const {
+      allowNegative = false,
+      customInput = TextField,
+      decimalScale = 0,
+      variant = "standard",
+      ...rest
+    } = props;
 
     return (
-      <TextField
-        type="number"
+      <NumericFormat
+        allowNegative={allowNegative}
+        customInput={customInput}
+        decimalScale={decimalScale}
         variant={variant}
-        sx={{
-          "& input[type=number]::-webkit-inner-spin-button": {
-            WebkitAppearance: "none",
-            margin: 0,
-          },
-          "& input[type=number]::-webkit-outer-spin-button": {
-            WebkitAppearance: "none",
-            margin: 0,
-          },
-          ...sx,
-        }}
-        onFocus={handleFocus}
         inputRef={ref}
         {...rest}
       />

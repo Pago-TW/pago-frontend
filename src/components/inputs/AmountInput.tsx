@@ -81,7 +81,7 @@ export const AmountInput = <T extends FieldValues>({
               </IconButton>
             ),
           }}
-          sx={{ "& input[type=number]": { mx: 5 } }}
+          sx={{ "& input": { mx: 4 } }}
           {...numberInputProps}
           {...field}
         />
