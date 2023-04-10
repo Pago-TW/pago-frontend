@@ -1,4 +1,5 @@
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { ChevronRight } from "@mui/icons-material";
 import { Box, Paper, Skeleton, Stack } from "@mui/material";
 import Image from "next/image";
 import type { Currency } from "./inputs/CurrencyInput";
@@ -133,6 +134,7 @@ export const OrderItem = ({
             direction="row"
             justifyContent="space-between"
             alignItems="center"
+            width="100%"
           >
             <Typography variant={mdDown ? "h6" : "h4"} color="base.400">
               訂單金額:{" "}
@@ -144,6 +146,7 @@ export const OrderItem = ({
                 {totalAmount.toLocaleString()} {currency}
               </Typography>
             </Typography>
+            <ChevronRight sx={{ color: (theme) => theme.palette.pago[500] }} />
           </Stack>
         </Stack>
       </Stack>
