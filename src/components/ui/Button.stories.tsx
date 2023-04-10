@@ -1,4 +1,4 @@
-import type { ComponentMeta, ComponentStoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "./Button";
 
 export default {
@@ -11,28 +11,20 @@ export default {
     },
   },
   argTypes: {
-    size: {
-      defaultValue: "small",
-    },
-    variant: {
-      defaultValue: "contained",
-    },
-    loading: {
-      defaultValue: false,
-    },
-    disabled: {
-      defaultValue: false,
-    },
     children: {
-      control: {
-        type: "text",
-      },
-      defaultValue: "Button",
+      type: "string",
     },
   },
-} as ComponentMeta<typeof Button>;
+  args: {
+    size: "small",
+    variant: "contained",
+    loading: false,
+    disabled: false,
+    children: "Button",
+  },
+} as Meta<typeof Button>;
 
-type Story = ComponentStoryObj<typeof Button>;
+type Story = StoryObj<typeof Button>;
 
 export const Default: Story = {
   args: {},

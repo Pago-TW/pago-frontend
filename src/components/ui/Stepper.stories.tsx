@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Step from "@mui/material/Step";
 import Typography from "@mui/material/Typography";
-import type { ComponentMeta, ComponentStoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "./Button";
 import { StepConnector } from "./StepConnector";
 import { StepLabel } from "./StepLabel";
@@ -18,9 +18,9 @@ export default {
       url: "https://www.figma.com/file/dinIbshcxJCt2c1jtN1Gm6/Pago---UI-Kit?node-id=48%3A133&t=mZNr7lsf9mXEs4Eq-1",
     },
   },
-} as ComponentMeta<typeof Stepper>;
+} as Meta<typeof Stepper>;
 
-type Story = ComponentStoryObj<typeof Stepper>;
+type Story = StoryObj<typeof Stepper>;
 
 const steps = [
   {

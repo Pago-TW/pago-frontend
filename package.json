@@ -7,8 +7,8 @@
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@emotion/cache": "^11.10.5",
@@ -28,43 +28,50 @@
     "country-flag-icons": "^1.5.5",
     "date-fns": "^2.29.3",
     "next": "^13.2.3",
+    "next-auth": "^4.21.1",
+    "notistack": "^3.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.43.5",
     "react-icons": "^4.8.0",
-    "react-use": "^17.4.0",
     "zod": "^3.21.4",
     "zustand": "^4.3.7"
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
-    "@storybook/addon-a11y": "^6.5.16",
-    "@storybook/addon-actions": "^6.5.16",
-    "@storybook/addon-essentials": "^6.5.16",
-    "@storybook/addon-interactions": "^6.5.16",
-    "@storybook/addon-links": "^6.5.16",
-    "@storybook/builder-webpack5": "^6.5.16",
-    "@storybook/manager-webpack5": "^6.5.16",
-    "@storybook/react": "^6.5.16",
-    "@storybook/testing-library": "^0.0.13",
+    "@storybook/addon-a11y": "^7.0.2",
+    "@storybook/addon-actions": "^7.0.2",
+    "@storybook/addon-essentials": "^7.0.2",
+    "@storybook/addon-interactions": "^7.0.2",
+    "@storybook/addon-links": "^7.0.2",
+    "@storybook/addon-mdx-gfm": "7.0.2",
+    "@storybook/nextjs": "7.0.2",
+    "@storybook/react": "^7.0.2",
+    "@storybook/testing-library": "^0.1.0",
     "@types/node": "^18.14.6",
+    "@types/prop-types": "^15.7.5",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
     "babel-loader": "^9.1.2",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.35.0",
     "eslint-config-next": "13.2.4",
     "eslint-plugin-storybook": "^0.6.11",
     "prettier": "^2.8.4",
     "prop-types": "^15.8.1",
-    "storybook-addon-designs": "^6.3.1",
-    "storybook-addon-pseudo-states": "^1.15.2",
+    "storybook": "7.0.2",
     "tsconfig-paths-webpack-plugin": "^4.0.1",
     "typescript": "^5.0.3"
   },
   "ct3aMetadata": {
     "initVersion": "6.11.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
