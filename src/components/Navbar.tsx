@@ -69,16 +69,15 @@ const NavbarButtons = () => {
       </>
     ) : status === "unauthenticated" ? (
       <Button
-        // component={Link}
         variant="outlined"
         sx={{
-          width: 128,
+          width: { xs: 96, sm: 128 },
           color: "white",
           borderColor: "white",
           flexShrink: 0,
+          ml: { xs: 1, sm: 2 },
           "&:hover": { borderColor: "white" },
         }}
-        // href="/auth/signin"
         onClick={() => signIn()}
       >
         登入
@@ -215,7 +214,6 @@ export const Navbar = () => {
           </Collapse>
           <Stack
             direction="row"
-            spacing={2}
             justifyContent="end"
             alignItems="center"
             flexGrow={1}
