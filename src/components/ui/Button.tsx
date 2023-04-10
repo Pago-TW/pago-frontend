@@ -67,14 +67,14 @@ const StyledButton = styled(MuiButton, {
   },
   ...(!color && {
     "&.MuiButton-contained": {
-      backgroundColor: theme.palette.pago[500],
+      backgroundColor: theme.palette.pago.main,
       "&:hover": {
         backgroundColor: theme.palette.pago[900],
       },
       "&:active": {
         backgroundColor: theme.palette.pago[100],
         "& .MuiButton-endIcon > *:first-of-type": {
-          color: theme.palette.pago[500],
+          color: theme.palette.pago.main,
         },
       },
       "&.Mui-disabled": {
@@ -84,12 +84,12 @@ const StyledButton = styled(MuiButton, {
           : theme.palette.base[300],
       },
       "& .MuiButton-endIcon > *:first-of-type": {
-        color: theme.palette.pago[500],
+        color: theme.palette.pago.main,
       },
     },
     "&.MuiButton-outlined": {
-      color: theme.palette.pago[500],
-      borderColor: theme.palette.pago[500],
+      color: theme.palette.pago.main,
+      borderColor: theme.palette.pago.main,
       backgroundColor: "transparent",
       "&:hover": {
         backgroundColor: theme.palette.pago[25],
@@ -98,16 +98,16 @@ const StyledButton = styled(MuiButton, {
         backgroundColor: theme.palette.pago[100],
       },
       "&.Mui-disabled": {
-        color: loading ? theme.palette.pago[500] : theme.palette.base[300],
+        color: loading ? theme.palette.pago.main : theme.palette.base[300],
         borderColor: loading
-          ? theme.palette.pago[500]
+          ? theme.palette.pago.main
           : theme.palette.base[300],
         ...(loading && {
           backgroundColor: theme.palette.pago[100],
         }),
       },
       "& .MuiButton-endIcon > *:first-of-type": {
-        color: theme.palette.pago[500],
+        color: theme.palette.pago.main,
       },
     },
   }),

@@ -30,7 +30,7 @@ const StyledCheckbox = styled(MuiCheckbox)<CheckboxProps>(
       backgroundColor: theme.palette.base[100],
     },
     "&.Mui-checked": {
-      color: theme.palette.pago[500],
+      color: theme.palette.pago.main,
     },
     "&.Mui-disabled": {
       color: theme.palette.base[300],
