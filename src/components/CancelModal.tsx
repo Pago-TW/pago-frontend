@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { ModalProps } from "@mui/material";
 import {
   Collapse,
   Fade,
   FormControl,
   FormHelperText,
   Modal,
-  ModalProps,
   Paper,
   Stack,
 } from "@mui/material";
