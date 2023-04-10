@@ -223,8 +223,6 @@ export const RatingModal = ({
 
   const target = perspective === "consumer" ? "代購者" : "委託者";
 
-  console.log(watch());
-
   return (
     <Modal open={open} onClose={onClose} closeAfterTransition>
       <Fade in={open}>
