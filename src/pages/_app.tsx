@@ -2,7 +2,8 @@ import { env } from "@/env/client.mjs";
 import type { EmotionCache } from "@emotion/react";
 import { CacheProvider } from "@emotion/react";
 import { Close } from "@mui/icons-material";
-import { CssBaseline, IconButton } from "@mui/material";
+import type { SlideProps } from "@mui/material";
+import { CssBaseline, IconButton, Slide } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -59,6 +60,9 @@ const PagoApp = ({
           <ThemeProvider theme={theme}>
             <SnackbarProvider
               autoHideDuration={5000}
+              TransitionComponent={(props: Omit<SlideProps, "direction">) => (
+                <Slide direction="right" {...props} />
+              )}
               action={(key) => (
                 <IconButton onClick={() => closeSnackbar(key)} color="inherit">
                   <Close />
