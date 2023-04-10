@@ -2,17 +2,11 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { ChevronRight } from "@mui/icons-material";
 import { Box, Paper, Skeleton, Stack } from "@mui/material";
 import Image from "next/image";
+import type { StatusCode } from "./Status";
+import { Status } from "./Status";
 import type { Currency } from "./inputs/CurrencyInput";
 import { Divider } from "./ui/Divider";
 import { Typography } from "./ui/Typography";
-
-type OrderStatus =
-  | "REQUESTED"
-  | "TO_BE_PURCHASED"
-  | "TO_BE_DELIVERED"
-  | "DELIVERED"
-  | "FINISHED"
-  | "CANCELED";
 
 export type Order = {
   orderId: string;
@@ -37,7 +31,7 @@ export type Order = {
   platformFee: number;
   tariffFee: number;
   note: string;
-  orderStatus: OrderStatus;
+  orderStatus: StatusCode;
   latestReceiveItemDate: string;
   createDate: string;
   updateDate: string;
@@ -46,15 +40,6 @@ export type Order = {
 };
 
 export type OrderItemProps = Order;
-
-const orderStatusMap: Record<OrderStatus, string> = {
-  REQUESTED: "待確認",
-  TO_BE_PURCHASED: "待購買",
-  TO_BE_DELIVERED: "待面交",
-  DELIVERED: "已送達",
-  FINISHED: "已完成",
-  CANCELED: "不成立",
-};
 
 export const OrderItem = ({
   orderItem: { name, imageUrl, description, quantity },
@@ -73,8 +58,8 @@ export const OrderItem = ({
           <Box
             sx={{
               position: "relative",
-              width: { xs: 74, md: 250 },
-              height: { xs: 74, md: 250 },
+              width: { xs: 74, md: 200 },
+              height: { xs: 74, md: 200 },
             }}
           >
             {imageUrl ? (
@@ -83,7 +68,7 @@ export const OrderItem = ({
                 alt={`${name} image`}
                 style={{ objectFit: "cover" }}
                 fill
-                sizes="(max-width: 600px) 74px, 250px"
+                sizes="(max-width: 600px) 74px, 200px"
               />
             ) : (
               <Skeleton variant="rectangular" width="100%" height="100%" />
@@ -100,9 +85,7 @@ export const OrderItem = ({
                 {name}
               </Typography>
               {/* 狀態 */}
-              <Typography variant={mdDown ? "h6" : "h3"} color="base.400">
-                {orderStatusMap[orderStatus]}
-              </Typography>
+              <Status statusCode={orderStatus} />
             </Stack>
             <Stack
               direction={mdDown ? "row" : "column"}
@@ -124,7 +107,7 @@ export const OrderItem = ({
             ) : null}
           </Stack>
         </Stack>
-        <Divider />
+        <Divider sx={{ borderColor: (theme) => theme.palette.pago[100] }} />
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -146,7 +129,7 @@ export const OrderItem = ({
                 {totalAmount.toLocaleString()} {currency}
               </Typography>
             </Typography>
-            <ChevronRight sx={{ color: (theme) => theme.palette.pago[500] }} />
+            <ChevronRight sx={{ color: (theme) => theme.palette.pago.main }} />
           </Stack>
         </Stack>
       </Stack>
