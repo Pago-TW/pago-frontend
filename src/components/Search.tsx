@@ -105,13 +105,19 @@ export const Search = ({
     <Stack direction="row" width="100%" justifyContent="end">
       {!showSearch ? (
         <IconButton
+          size="large"
           onClick={handleExpand}
           sx={{ color: (theme) => theme.palette.common.white }}
         >
           <SearchIcon />
         </IconButton>
       ) : null}
-      <SearchBase sx={[!showSearch && { opacity: 0, width: 0 }]}>
+      <SearchBase
+        sx={[
+          showSearch && { marginRight: 1 },
+          !showSearch && { opacity: 0, width: 0 },
+        ]}
+      >
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}

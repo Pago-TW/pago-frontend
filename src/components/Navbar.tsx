@@ -80,7 +80,6 @@ const NavbarButtons = () => {
           color: "white",
           borderColor: "white",
           flexShrink: 0,
-          ml: { xs: 1, sm: 2 },
           "&:hover": { borderColor: "white" },
         }}
       >
@@ -218,6 +217,7 @@ export const Navbar = () => {
           </Collapse>
           <Stack
             direction="row"
+            spacing={0}
             justifyContent="end"
             alignItems="center"
             flexGrow={1}
