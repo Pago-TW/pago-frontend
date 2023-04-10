@@ -1,5 +1,3 @@
-import { useHydrated } from "@/hooks/useHydrated";
-import { useAuthStore } from "@/store/auth";
 import { useAppbarStore } from "@/store/ui/appbar";
 import {
   AccountCircle,
@@ -31,6 +29,7 @@ import {
   Toolbar,
   styled,
 } from "@mui/material";
+import { signIn, useSession } from "next-auth/react";
 import { useCallback, useState } from "react";
 import { Search } from "./Search";
 import { Link } from "./ui/Link";
@@ -39,67 +38,54 @@ import { Typography } from "./ui/Typography";
 const drawerWidth = 270;
 
 const NavbarButtons = () => {
-  const hydrated = useHydrated();
+  const { status } = useSession();
 
-  const authenticated = useAuthStore((state) => state.authenticated);
-
-  let content;
-  if (!hydrated) {
-    content = (
+  const content =
+    status === "authenticated" ? (
+      <>
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <Badge color="error">
+            <Mail />
+          </Badge>
+        </IconButton>
+        <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
+        >
+          <Badge color="error">
+            <Notifications />
+          </Badge>
+        </IconButton>
+        <IconButton
+          size="large"
+          edge="end"
+          aria-label="account of current user"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+      </>
+    ) : status === "unauthenticated" ? (
+      <Button
+        // component={Link}
+        variant="outlined"
+        sx={{
+          width: 128,
+          color: "white",
+          borderColor: "white",
+          flexShrink: 0,
+          "&:hover": { borderColor: "white" },
+        }}
+        // href="/auth/signin"
+        onClick={() => signIn()}
+      >
+        登入
+      </Button>
+    ) : (
       <Skeleton variant="rounded" animation="wave" width={128} height="100%" />
     );
-  } else {
-    if (authenticated) {
-      content = (
-        <>
-          <IconButton
-            size="large"
-            aria-label="show 4 new mails"
-            color="inherit"
-          >
-            <Badge color="error">
-              <Mail />
-            </Badge>
-          </IconButton>
-          <IconButton
-            size="large"
-            aria-label="show 17 new notifications"
-            color="inherit"
-          >
-            <Badge color="error">
-              <Notifications />
-            </Badge>
-          </IconButton>
-          <IconButton
-            size="large"
-            edge="end"
-            aria-label="account of current user"
-            aria-haspopup="true"
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
-        </>
-      );
-    } else {
-      content = (
-        <Button
-          component={Link}
-          variant="outlined"
-          sx={{
-            width: 128,
-            color: "white",
-            borderColor: "white",
-            flexShrink: 0,
-            "&:hover": { borderColor: "white" },
-          }}
-          href="/auth/signin"
-        >
-          登入
-        </Button>
-      );
-    }
-  }
 
   return <Box display="flex">{content}</Box>;
 };
