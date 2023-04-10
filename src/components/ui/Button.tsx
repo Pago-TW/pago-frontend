@@ -4,7 +4,6 @@ import type {
 } from "@mui/material";
 import { CircularProgress, Button as MuiButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
-
 import PropTypes from "prop-types";
 
 export interface ButtonProps
