@@ -49,6 +49,9 @@ dependencies:
   date-fns:
     specifier: ^2.29.3
     version: 2.29.3
+  embla-carousel-react:
+    specifier: ^7.1.0
+    version: 7.1.0(react@18.2.0)
   next:
     specifier: ^13.2.3
     version: 13.2.3(@babel/core@7.21.0)(react-dom@18.2.0)(react@18.2.0)
@@ -5924,6 +5927,19 @@ packages:
 
   /electron-to-chromium@1.4.356:
     resolution: {integrity: sha512-nEftV1dRX3omlxAj42FwqRZT0i4xd2dIg39sog/CnCJeCcL1TRd2Uh0i9Oebgv8Ou0vzTPw++xc+Z20jzS2B6A==}
+
+  /embla-carousel-react@7.1.0(react@18.2.0):
+    resolution: {integrity: sha512-tbYRPRZSDNd2QLNqYDcArAakGIxtUbhS7tkP0dGXktXHGgcX+3ji3VrOUTOftBiujZrMV8kRxtrRUe/1soloIQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.1 || ^18.0.0
+    dependencies:
+      embla-carousel: 7.1.0
+      react: 18.2.0
+    dev: false
+
+  /embla-carousel@7.1.0:
+    resolution: {integrity: sha512-Bh8Pa8NWzgugLkf8sAGexQlBCNDFaej5BXiKgQdRJ1mUC9NWBrw9Z23YVPVGkguWoz5LMjZXXFVGCobl3UPt/Q==}
+    dev: false
 
   /emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
