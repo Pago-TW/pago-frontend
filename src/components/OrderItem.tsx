@@ -1,54 +1,61 @@
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { ChevronRight } from "@mui/icons-material";
 import { Box, Paper, Skeleton, Stack } from "@mui/material";
-import Image from "next/image";
 import type { StatusCode } from "./Status";
 import { Status } from "./Status";
-import type { Currency } from "./inputs/CurrencyInput";
 import { Divider } from "./ui/Divider";
+import { Image } from "./ui/Image";
 import { Typography } from "./ui/Typography";
 
 export type Order = {
   orderId: string;
-  orderItemId: string;
+  serialNumber: string;
   consumerId: string;
+  destinationCountryName: string;
+  destinationCityName: string;
+  destinationCountryCode: string;
+  destinationCityCode: string;
+  latestReceiveItemDate: string;
+  note: string;
+  orderStatus: StatusCode;
   orderItem: {
+    orderItemId: string;
     name: string;
-    imageUrl: string;
     description: string;
     quantity: number;
     unitPrice: number;
-    purchaseCountry: string;
-    purchaseCity: string;
+    purchaseCountryName: string;
+    purchaseCityName: string;
+    purchaseCountryCode: string;
+    purchaseCityCode: string;
     purchaseDistrict: string;
     purchaseRoad: string;
+    fileUrls: string[];
   };
-  packaging: boolean;
-  verification: boolean;
-  destination: string;
   travelerFee: number;
-  currency: Currency;
-  platformFee: number;
   tariffFee: number;
-  note: string;
-  orderStatus: StatusCode;
-  latestReceiveItemDate: string;
+  platformFee: number;
+  totalAmount: number;
+  currency: string;
+  hasNewActivity: boolean;
+  isPackagingRequired: boolean;
+  isVerificationRequired: boolean;
   createDate: string;
   updateDate: string;
-  totalAmount: number;
-  hasNewActivity: boolean;
 };
 
 export type OrderItemProps = Order;
 
 export const OrderItem = ({
-  orderItem: { name, imageUrl, description, quantity },
+  orderItem: { name, description, quantity, fileUrls },
   orderStatus,
   currency,
   totalAmount,
   latestReceiveItemDate,
 }: OrderItemProps) => {
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
+
+  const firstImageUrl = fileUrls?.[0];
 
   return (
     <Paper elevation={3} sx={{ p: { xs: 1, md: 2 } }}>
@@ -62,13 +69,16 @@ export const OrderItem = ({
               height: { xs: 74, md: 200 },
             }}
           >
-            {imageUrl ? (
+            {firstImageUrl ? (
               <Image
-                src={imageUrl}
-                alt={`${name} image`}
-                style={{ objectFit: "cover" }}
+                src={firstImageUrl}
+                alt={`Image of ${name}`}
                 fill
                 sizes="(max-width: 600px) 74px, 200px"
+                sx={{
+                  objectFit: "cover",
+                  objectPosition: "center",
+                }}
               />
             ) : (
               <Skeleton variant="rectangular" width="100%" height="100%" />
@@ -93,7 +103,7 @@ export const OrderItem = ({
               justifyContent={mdDown ? "space-between" : "space-evenly"}
             >
               {/* 描述 */}
-              <Typography variant={mdDown ? "h6" : "h3"} color="base.400">
+              <Typography variant={mdDown ? "h6" : "h3"} color="base.main">
                 {description}
               </Typography>
               {/* 數量 */}
@@ -101,7 +111,7 @@ export const OrderItem = ({
             </Stack>
             {/* 期限 */}
             {!mdDown ? (
-              <Typography variant="h4" color="base.400">
+              <Typography variant="h4" color="base.main">
                 最晚收到商品時間: {latestReceiveItemDate}
               </Typography>
             ) : null}
@@ -119,7 +129,7 @@ export const OrderItem = ({
             alignItems="center"
             width="100%"
           >
-            <Typography variant={mdDown ? "h6" : "h4"} color="base.400">
+            <Typography variant={mdDown ? "h6" : "h4"} color="base.main">
               訂單金額:{" "}
               <Typography
                 as="span"
