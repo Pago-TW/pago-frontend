@@ -151,7 +151,7 @@ const SignUpPage: NextPage = () => {
               <Link>會員條款</Link>以及<Link>客戶隱私權條款</Link>
             </Typography>
           </Stack>
-          <Typography variant="h6" textAlign="center" color="base.400">
+          <Typography variant="h6" textAlign="center" color="base.main">
             已經有帳號了嗎？<Link href="/auth/signin">點擊登入</Link>
           </Typography>
         </Stack>

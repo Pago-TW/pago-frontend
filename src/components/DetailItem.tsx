@@ -38,7 +38,7 @@ DetailItemProps) => {
       {/* 標籤 */}
       <Typography
         variant={labelVariant ?? (mdUp ? "h4" : "h5")}
-        color={labelColor ?? "base.400"}
+        color={labelColor ?? "base.main"}
         sx={{ flexShrink: 0, ...labelSx }}
         {...labelProps}
       >
