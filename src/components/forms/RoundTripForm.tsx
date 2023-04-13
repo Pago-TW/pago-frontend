@@ -1,4 +1,5 @@
 import { useAddTrip } from "@/hooks/api/useAddTrip";
+import { useDialog } from "@/hooks/useDialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Stack } from "@mui/material";
 import { startOfDay } from "date-fns";
@@ -6,6 +7,7 @@ import { useRouter } from "next/router";
 import { useCallback, type FC } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { ConfirmDialog } from "../ConfirmDialog";
 import type { CountryCityOption } from "../inputs/CountryCitySelect";
 import { CountryCitySelect } from "../inputs/CountryCitySelect";
 import { DatePicker } from "../inputs/DatePicker";
@@ -38,6 +40,8 @@ export const RoundTripForm: FC<{ countryCityOptions: CountryCityOption[] }> = ({
 }) => {
   const router = useRouter();
 
+  const { dialogOpen, handleDialogClose, handleDialogOpen } = useDialog();
+
   const {
     control,
     watch,
@@ -45,6 +49,7 @@ export const RoundTripForm: FC<{ countryCityOptions: CountryCityOption[] }> = ({
     getValues,
     formState: { errors, isSubmitting },
     handleSubmit,
+    trigger,
   } = useForm<RoundTripFormValues>({
     mode: "onBlur",
     defaultValues: DEFAULT_VALUES,
@@ -55,6 +60,7 @@ export const RoundTripForm: FC<{ countryCityOptions: CountryCityOption[] }> = ({
 
   const handleFormSubmit = useCallback(
     (data: RoundTripFormValues) => {
+      console.log(data);
       mutate({
         fromCountry: data.from.countryCode,
         fromCity: data.from.cityCode,
@@ -75,13 +81,19 @@ export const RoundTripForm: FC<{ countryCityOptions: CountryCityOption[] }> = ({
 
     [mutate, router]
   );
+
+  const handleButtonClick = useCallback(async () => {
+    const isValid = await trigger();
+    if (isValid) handleDialogOpen();
+  }, [trigger, handleDialogOpen]);
+
+  const handleDialogConfirm = useCallback(() => {
+    handleDialogClose();
+    handleSubmit(handleFormSubmit)();
+  }, [handleDialogClose, handleSubmit, handleFormSubmit]);
+
   return (
-    <Stack
-      component="form"
-      spacing={3}
-      justifyContent="space-between"
-      onSubmit={handleSubmit(handleFormSubmit)}
-    >
+    <Stack component="form" spacing={3} justifyContent="space-between">
       <PaperLayout>
         <Stack spacing={3}>
           <CountryCitySelect
@@ -139,9 +151,16 @@ export const RoundTripForm: FC<{ countryCityOptions: CountryCityOption[] }> = ({
           </Stack>
         </Stack>
       </PaperLayout>
-      <Button type="submit" loading={isSubmitting}>
+      <Button onClick={handleButtonClick} loading={isSubmitting}>
         新增旅途
       </Button>
+      <ConfirmDialog
+        text="確定發布旅途？"
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        onCancel={handleDialogClose}
+        onConfirm={handleDialogConfirm}
+      />
     </Stack>
   );
 };

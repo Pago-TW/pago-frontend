@@ -1,4 +1,5 @@
 import { useAddTrip } from "@/hooks/api/useAddTrip";
+import { useDialog } from "@/hooks/useDialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Stack } from "@mui/material";
 import { startOfDay } from "date-fns";
@@ -7,6 +8,7 @@ import type { FC } from "react";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { ConfirmDialog } from "../ConfirmDialog";
 import type { CountryCityOption } from "../inputs/CountryCitySelect";
 import CountryCitySelect, {
   countryCitySchema,
@@ -41,10 +43,13 @@ export const OneWayTripForm: FC<{
 }> = ({ countryCityOptions: options }) => {
   const router = useRouter();
 
+  const { dialogOpen, handleDialogClose, handleDialogOpen } = useDialog();
+
   const {
     control,
     formState: { errors, isSubmitting },
     handleSubmit,
+    trigger,
   } = useForm<OneWayTripFormValues>({
     mode: "onBlur",
     defaultValues: DEFAULT_VALUES,
@@ -68,13 +73,18 @@ export const OneWayTripForm: FC<{
     [mutate, router]
   );
 
+  const handleButtonClick = useCallback(async () => {
+    const isValid = await trigger();
+    if (isValid) handleDialogOpen();
+  }, [trigger, handleDialogOpen]);
+
+  const handleDialogConfirm = useCallback(() => {
+    handleDialogClose();
+    handleSubmit(handleFormSubmit)();
+  }, [handleDialogClose, handleSubmit, handleFormSubmit]);
+
   return (
-    <Stack
-      component="form"
-      spacing={3}
-      justifyContent="space-between"
-      onSubmit={handleSubmit(handleFormSubmit)}
-    >
+    <Stack component="form" spacing={3} justifyContent="space-between">
       <PaperLayout>
         <Stack spacing={3}>
           <CountryCitySelect
@@ -104,9 +114,16 @@ export const OneWayTripForm: FC<{
           />
         </Stack>
       </PaperLayout>
-      <Button type="submit" loading={isSubmitting}>
+      <Button onClick={handleButtonClick} loading={isSubmitting}>
         新增旅途
       </Button>
+      <ConfirmDialog
+        text="確定發布旅途？"
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        onCancel={handleDialogClose}
+        onConfirm={handleDialogConfirm}
+      />
     </Stack>
   );
 };
