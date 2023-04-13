@@ -2,6 +2,7 @@ import { useAddTrip } from "@/hooks/api/useAddTrip";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Stack } from "@mui/material";
 import { startOfDay } from "date-fns";
+import { useRouter } from "next/router";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
@@ -38,9 +39,11 @@ export const DEFAULT_VALUES: Partial<OneWayTripFormValues> = {
 export const OneWayTripForm: FC<{
   countryCityOptions: CountryCityOption[];
 }> = ({ countryCityOptions: options }) => {
+  const router = useRouter();
+
   const {
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm<OneWayTripFormValues>({
     mode: "onBlur",
@@ -52,10 +55,17 @@ export const OneWayTripForm: FC<{
 
   const handleFormSubmit = useCallback(
     (data: OneWayTripFormValues) => {
-      console.log(data);
-      // mutate(data);
+      mutate({
+        fromCountry: data.from.countryCode,
+        fromCity: data.from.cityCode,
+        toCountry: data.to.countryCode,
+        toCity: data.to.cityCode,
+        arrivalDate: data.arrivalDate,
+      });
+
+      router.push("/trips");
     },
-    [mutate]
+    [mutate, router]
   );
 
   return (
@@ -94,7 +104,9 @@ export const OneWayTripForm: FC<{
           />
         </Stack>
       </PaperLayout>
-      <Button type="submit">新增旅途</Button>
+      <Button type="submit" loading={isSubmitting}>
+        新增旅途
+      </Button>
     </Stack>
   );
 };

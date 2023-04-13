@@ -2,6 +2,7 @@ import { useAddTrip } from "@/hooks/api/useAddTrip";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Stack } from "@mui/material";
 import { startOfDay } from "date-fns";
+import { useRouter } from "next/router";
 import { useCallback, type FC } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -35,12 +36,14 @@ export const DEFAULT_VALUES: Partial<RoundTripFormValues> = {
 export const RoundTripForm: FC<{ countryCityOptions: CountryCityOption[] }> = ({
   countryCityOptions,
 }) => {
+  const router = useRouter();
+
   const {
     control,
     watch,
     setValue,
     getValues,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm<RoundTripFormValues>({
     mode: "onBlur",
@@ -52,10 +55,25 @@ export const RoundTripForm: FC<{ countryCityOptions: CountryCityOption[] }> = ({
 
   const handleFormSubmit = useCallback(
     (data: RoundTripFormValues) => {
-      console.log(data);
-      // mutate(data);
+      mutate({
+        fromCountry: data.from.countryCode,
+        fromCity: data.from.cityCode,
+        toCountry: data.to.countryCode,
+        toCity: data.to.cityCode,
+        arrivalDate: data.arrivalDate,
+      });
+      mutate({
+        fromCountry: data.to.countryCode,
+        fromCity: data.to.cityCode,
+        toCountry: data.from.countryCode,
+        toCity: data.from.cityCode,
+        arrivalDate: data.returnDate,
+      });
+
+      router.push("/trips");
     },
-    [mutate]
+
+    [mutate, router]
   );
   return (
     <Stack
@@ -121,7 +139,9 @@ export const RoundTripForm: FC<{ countryCityOptions: CountryCityOption[] }> = ({
           </Stack>
         </Stack>
       </PaperLayout>
-      <Button type="submit">新增旅途</Button>
+      <Button type="submit" loading={isSubmitting}>
+        新增旅途
+      </Button>
     </Stack>
   );
 };

@@ -1,8 +1,15 @@
-import type { OneWayTripFormValues } from "@/components/forms/OneWayTripForm";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
-const addTrip = async (data: OneWayTripFormValues) => {
+type AddTripData = {
+  fromCountry: string;
+  fromCity: string;
+  toCountry: string;
+  toCity: string;
+  arrivalDate: Date;
+};
+
+const addTrip = async (data: AddTripData) => {
   const res = await axios.post("/trips", data);
   return res.data;
 };
