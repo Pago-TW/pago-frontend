@@ -1,9 +1,12 @@
+import { useAddTrip } from "@/hooks/api/useAddTrip";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Stack } from "@mui/material";
 import { startOfDay } from "date-fns";
+import { useCallback, type FC } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { CountryInput } from "../inputs/CountryInput";
+import type { CountryCityOption } from "../inputs/CountryCitySelect";
+import { CountryCitySelect } from "../inputs/CountryCitySelect";
 import { DatePicker } from "../inputs/DatePicker";
 import { PaperLayout } from "../layouts/PaperLayout";
 import { Button } from "../ui/Button";
@@ -15,59 +18,70 @@ export const roundTripFormSchema = oneWayTripFormSchema
   .extend({
     returnDate: z.date(),
   })
-  .refine((data) => data.returnDate >= data.departureDate, {
+  .refine((data) => data.returnDate >= data.arrivalDate, {
     message: "返回時間不可早於出發時間",
     path: ["returnDate"],
   });
 
 export type RoundTripFormValues = z.infer<typeof roundTripFormSchema>;
 
-export const DEFAULT_VALUES: RoundTripFormValues = {
-  departureCountry: "新北市",
-  destinationCountry: "臺北市",
-  departureDate: currentDate,
+export const DEFAULT_VALUES: Partial<RoundTripFormValues> = {
+  from: { countryCode: "", cityCode: "" },
+  to: { countryCode: "", cityCode: "" },
+  arrivalDate: currentDate,
   returnDate: currentDate,
 };
 
-export const RoundTripForm = () => {
+export const RoundTripForm: FC<{ countryCityOptions: CountryCityOption[] }> = ({
+  countryCityOptions,
+}) => {
   const {
     control,
     watch,
     setValue,
     getValues,
     formState: { errors },
+    handleSubmit,
   } = useForm<RoundTripFormValues>({
     mode: "onBlur",
     defaultValues: DEFAULT_VALUES,
     resolver: zodResolver(roundTripFormSchema),
   });
 
+  const { mutate } = useAddTrip();
+
+  const handleFormSubmit = useCallback(
+    (data: RoundTripFormValues) => {
+      console.log(data);
+      // mutate(data);
+    },
+    [mutate]
+  );
   return (
-    <Stack spacing={3} justifyContent="space-between">
+    <Stack
+      component="form"
+      spacing={3}
+      justifyContent="space-between"
+      onSubmit={handleSubmit(handleFormSubmit)}
+    >
       <PaperLayout>
         <Stack spacing={3}>
-          <CountryInput
+          <CountryCitySelect
             control={control}
-            name="departureCountry"
-            label="出發地城市"
-            error={!!errors.departureCountry}
-            helperText={errors.departureCountry?.message}
-            FormControlProps={{ fullWidth: true }}
-            SelectProps={{ MenuProps: { sx: { maxHeight: 300 } } }}
+            name="from"
+            label="出發地"
+            options={countryCityOptions}
           />
-          <CountryInput
+          <CountryCitySelect
             control={control}
-            name="destinationCountry"
-            label="目的地城市"
-            error={!!errors.destinationCountry}
-            helperText={errors.destinationCountry?.message}
-            FormControlProps={{ fullWidth: true }}
-            SelectProps={{ MenuProps: { sx: { maxHeight: 300 } } }}
+            name="to"
+            label="目的地"
+            options={countryCityOptions}
           />
           <Stack direction="row" spacing={2}>
             <DatePicker
               control={control}
-              name="departureDate"
+              name="arrivalDate"
               label="出發時間"
               minDate={currentDate}
               onChange={(date) => {
@@ -78,8 +92,8 @@ export const RoundTripForm = () => {
               }}
               slotProps={{
                 textField: {
-                  error: !!errors.departureDate,
-                  helperText: errors.departureDate?.message,
+                  error: !!errors.arrivalDate,
+                  helperText: errors.arrivalDate?.message,
                   fullWidth: true,
                 },
               }}
@@ -87,7 +101,7 @@ export const RoundTripForm = () => {
             <Box
               display="flex"
               alignItems="center"
-              pb={!!errors.departureDate || !!errors.returnDate ? 3 : 0}
+              pb={!!errors.arrivalDate || !!errors.returnDate ? 3 : 0}
             >
               <span>—</span>
             </Box>
@@ -95,7 +109,7 @@ export const RoundTripForm = () => {
               control={control}
               name="returnDate"
               label="返回時間"
-              minDate={watch("departureDate")}
+              minDate={watch("arrivalDate")}
               slotProps={{
                 textField: {
                   error: !!errors.returnDate,
