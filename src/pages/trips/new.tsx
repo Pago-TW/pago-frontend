@@ -85,11 +85,11 @@ export const NewTripPage: NextPage<{
 
 export const getServerSideProps = async () => {
   const res = await fetch(env.NEXT_PUBLIC_API_URL + "/countries-and-cities");
-  const data = await res.json();
+  const data = (await res.json()) as CountryCityOption[];
 
   return {
     props: {
-      countryCityOptions: data.cities,
+      countryCityOptions: data,
     },
   };
 };

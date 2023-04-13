@@ -12,7 +12,8 @@ import {
 } from "@mui/material";
 import { hasFlag } from "country-flag-icons";
 import Flags from "country-flag-icons/react/3x2";
-import { CSSProperties, useCallback, useState } from "react";
+import type { CSSProperties } from "react";
+import { useCallback, useState } from "react";
 import type { Control, Path } from "react-hook-form";
 import { useController, type FieldValues } from "react-hook-form";
 import { z } from "zod";
@@ -25,8 +26,8 @@ export const countryCitySchema = z.object({
 });
 
 export type CountryCityOption = {
-  countryCode: string;
-  cityCode: string;
+  country: { countryCode: string; englishName: string; chineseName: string };
+  city: { cityCode: string; englishName: string; chineseName: string };
 };
 
 export type CountryInputProps<T extends FieldValues> = {
@@ -39,7 +40,7 @@ export type CountryInputProps<T extends FieldValues> = {
 };
 
 const getItemValue = (item: CountryCityOption) =>
-  `${item.countryCode}-${item.cityCode}`;
+  `${item.country.countryCode}-${item.city.cityCode}`;
 
 const countryFlagStyle: CSSProperties = {
   width: "5rem",
@@ -91,7 +92,10 @@ export const CountryCitySelect = <T extends FieldValues>(
       >
         {options.map((opt, idx) => {
           const value = getItemValue(opt);
-          const { countryCode, cityCode } = opt;
+          const {
+            country: { countryCode, ...country },
+            city,
+          } = opt;
 
           const Flag = hasFlag(countryCode)
             ? Flags[countryCode as FlagKeys]
@@ -130,10 +134,10 @@ export const CountryCitySelect = <T extends FieldValues>(
               >
                 <Stack flexGrow={1}>
                   <Typography fontSize={20} component="span">
-                    {cityCode}
+                    {city.chineseName}
                   </Typography>
                   <Typography fontSize={16} component="span" color="base.500">
-                    {countryCode}
+                    {country.chineseName}
                   </Typography>
                 </Stack>
                 {Flag ? <Flag style={countryFlagStyle} /> : null}
