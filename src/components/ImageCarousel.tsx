@@ -1,4 +1,6 @@
+import type { Theme } from "@/styles/theme";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import type { SxProps } from "@mui/material";
 import { Box, Chip, IconButton, alpha, styled } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import type { FC } from "react";
@@ -15,13 +17,25 @@ const ControlButtonWrapper = styled(IconButton)(({ theme }) => ({
   position: "absolute",
   top: "50%",
   transform: "translateY(-50%)",
-  color: "white",
   opacity: 0.8,
+  backgroundColor: alpha(theme.palette.common.white, 0.45),
+  "&:disabled": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
   "&:hover": {
     opacity: 1,
+    backgroundColor: alpha(theme.palette.common.white, 0.7),
   },
-  transition: theme.transitions.create(["opacity", "color"], { duration: 250 }),
+  transition: theme.transitions.create(["opacity", "background-color"], {
+    duration: 250,
+  }),
 }));
+
+const commonIconSx: SxProps<Theme> = {
+  m: 0.25,
+  fontSize: (theme) => theme.typography.pxToRem(26),
+  transform: "scale(1.5)",
+};
 
 export const ImageCarousel: FC<ImageCarouselProps> = (props) => {
   const { images, showButtons = true, showProgress = true } = props;
@@ -38,10 +52,10 @@ export const ImageCarousel: FC<ImageCarouselProps> = (props) => {
       setIndex(emblaApi.selectedScrollSnap() + 1);
     };
 
-    emblaApi.on("scroll", getIndex);
+    emblaApi.on("select", getIndex);
 
     return () => {
-      emblaApi.off("scroll", getIndex);
+      emblaApi.off("select", getIndex);
     };
   }, [emblaApi]);
 
@@ -106,7 +120,7 @@ export const ImageCarousel: FC<ImageCarouselProps> = (props) => {
             disableTouchRipple
             disabled={index === 1}
           >
-            <ChevronLeft fontSize="large" />
+            <ChevronLeft sx={commonIconSx} />
           </ControlButtonWrapper>
           <ControlButtonWrapper
             size="small"
@@ -115,7 +129,7 @@ export const ImageCarousel: FC<ImageCarouselProps> = (props) => {
             disableTouchRipple
             disabled={index === images.length}
           >
-            <ChevronRight fontSize="large" />
+            <ChevronRight sx={commonIconSx} />
           </ControlButtonWrapper>
         </>
       ) : null}
