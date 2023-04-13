@@ -134,7 +134,7 @@ export const ImageCarousel: FC<ImageCarouselProps> = (props) => {
         </>
       ) : null}
 
-      {showProgress && !isSingleImage ? (
+      {showProgress ? (
         <Chip
           label={`${index} / ${images.length}`}
           size="small"
