@@ -9,7 +9,7 @@ import { Link } from "@/components/ui/Link";
 import { Tab } from "@/components/ui/Tab";
 import { Typography } from "@/components/ui/Typography";
 import { useTrip } from "@/hooks/api/useTrip";
-import type { Order } from "@/types/types";
+import { useTripMatches } from "@/hooks/api/useTripMatches";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Container, Stack } from "@mui/material";
 import type { NextPage } from "next";
@@ -29,85 +29,6 @@ const TABS = [
 
 type Tab = (typeof TABS)[number];
 
-const ORDERS: Order[] = [
-  {
-    orderId: "514f51ff7e944e40b879e2d9a06d5311",
-    serialNumber: "230409TPE37FQM",
-    consumerId: "cc0fc75a5a854b1e9980d4acbe82086d",
-    destinationCountryName: "Taiwan, Province of China",
-    destinationCityName: "Taipei",
-    destinationCountryCode: "TW",
-    destinationCityCode: "TPE",
-    latestReceiveItemDate: "2022-12-25T23:37:50.000+00:00",
-    note: "the faster the better, thanks",
-    orderStatus: "TO_BE_DELIVERED",
-    orderItem: {
-      orderItemId: "84960255db5547ffa0fdb62706b85a19",
-      name: "新的商品名稱3332",
-      description: "更新後的description唷",
-      quantity: 100,
-      unitPrice: 31000,
-      purchaseCountryName: "Japan",
-      purchaseCityName: "Tokyo",
-      purchaseCountryCode: "JP",
-      purchaseCityCode: "TKO",
-      purchaseDistrict: "somewhere",
-      purchaseRoad: "somewhere",
-      fileUrls: [
-        "https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/f9fd2bcee2da46bf973447bcc6fdc484_70170014.JPG",
-      ],
-    },
-    travelerFee: 99,
-    tariffFee: 77500.0,
-    platformFee: 139500.0,
-    totalAmount: 3317099.0,
-    currency: "TWD",
-    hasNewActivity: false,
-    isPackagingRequired: true,
-    isVerificationRequired: false,
-    createDate: "2023-04-09T14:12:49.000+00:00",
-    updateDate: "2023-04-09T14:33:43.000+00:00",
-  },
-  {
-    orderId: "e27f6dfbd4b04bf78c7563b25a4e67d9",
-    serialNumber: "230409TPEANIL1",
-    consumerId: "cc0fc75a5a854b1e9980d4acbe82086d",
-    destinationCountryName: "Taiwan, Province of China",
-    destinationCityName: "Taipei",
-    destinationCountryCode: "TW",
-    destinationCityCode: "TPE",
-    latestReceiveItemDate: "2022-12-25T23:37:50.000+00:00",
-    note: "the faster the better, thanks",
-    orderStatus: "REQUESTED",
-    orderItem: {
-      orderItemId: "e70bd85841604f20a808b438018f002d",
-      name: "新的商品名稱222",
-      description: "更新後的description唷",
-      quantity: 100,
-      unitPrice: 31000,
-      purchaseCountryName: "Japan",
-      purchaseCityName: "Tokyo",
-      purchaseCountryCode: "JP",
-      purchaseCityCode: "TKO",
-      purchaseDistrict: "somewhere",
-      purchaseRoad: "somewhere",
-      fileUrls: [
-        "https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/73244f2a261d4b28a3b4e2bdb61f8678_70170014.JPG",
-      ],
-    },
-    travelerFee: 99,
-    tariffFee: 77500.0,
-    platformFee: 139500.0,
-    totalAmount: 3317099.0,
-    currency: "TWD",
-    hasNewActivity: false,
-    isPackagingRequired: true,
-    isVerificationRequired: false,
-    createDate: "2023-04-09T12:29:55.000+00:00",
-    updateDate: "2023-04-09T13:36:32.000+00:00",
-  },
-];
-
 const TripDetailPage: NextPage = () => {
   const [currentTab, setCurrentTab] = useState<Tab["value"]>("ALL");
 
@@ -115,12 +36,12 @@ const TripDetailPage: NextPage = () => {
   const { id } = router.query;
 
   const { data: trip } = useTrip(id as string);
+  const { data: matchedOrders = [] } = useTripMatches(id as string);
 
   if (!trip) return null;
 
   const {
     tripId,
-    travelerId,
     profit,
     fromCountry,
     fromCity,
@@ -133,9 +54,9 @@ const TripDetailPage: NextPage = () => {
 
   const filterOrders = (status: Tab["value"]) => {
     if (status === "ALL") {
-      return ORDERS;
+      return matchedOrders;
     }
-    return ORDERS.filter((order) => order.orderStatus === status);
+    return matchedOrders.filter((order) => order.orderStatus === status);
   };
 
   return (
