@@ -75,7 +75,7 @@ export const ImageCarousel: FC<ImageCarouselProps> = (props) => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      width={{ xs: 300, md: "100%" }}
+      width="100%"
       sx={{
         backgroundColor: "common.white",
         aspectRatio: "1 / 1",

@@ -165,7 +165,24 @@ const OrderDetailPage: NextPage = () => {
         {/* Name (Mobile) & Image */}
         <AreaWrapper>
           <Stack spacing={2} alignItems="center">
-            <ImageCarousel images={fileUrls} />
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width={{ xs: 300, md: "100%" }}
+              sx={{
+                aspectRatio: "1 / 1",
+                backgroundColor: (theme) => theme.palette.base[50],
+              }}
+            >
+              {[].length > 0 ? (
+                <ImageCarousel images={fileUrls} />
+              ) : (
+                <Typography variant="h3" as="span">
+                  暫無圖片
+                </Typography>
+              )}
+            </Box>
             <Typography
               variant="h3"
               as="h1"
