@@ -10,7 +10,7 @@ import type { ChangeEvent } from "react";
 import type { Control, FieldValues, Path } from "react-hook-form";
 import { useController } from "react-hook-form";
 
-export type Choice = Readonly<{
+type Choice = Readonly<{
   label: string;
   value: string;
 }>;

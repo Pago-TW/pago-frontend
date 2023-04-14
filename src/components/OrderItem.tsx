@@ -1,48 +1,11 @@
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import type { Order } from "@/types/types";
 import { ChevronRight } from "@mui/icons-material";
 import { Box, Paper, Skeleton, Stack } from "@mui/material";
-import type { StatusCode } from "./Status";
 import { Status } from "./Status";
 import { Divider } from "./ui/Divider";
 import { Image } from "./ui/Image";
 import { Typography } from "./ui/Typography";
-
-export type Order = {
-  orderId: string;
-  serialNumber: string;
-  consumerId: string;
-  destinationCountryName: string;
-  destinationCityName: string;
-  destinationCountryCode: string;
-  destinationCityCode: string;
-  latestReceiveItemDate: string;
-  note: string;
-  orderStatus: StatusCode;
-  orderItem: {
-    orderItemId: string;
-    name: string;
-    description: string;
-    quantity: number;
-    unitPrice: number;
-    purchaseCountryName: string;
-    purchaseCityName: string;
-    purchaseCountryCode: string;
-    purchaseCityCode: string;
-    purchaseDistrict: string;
-    purchaseRoad: string;
-    fileUrls: string[];
-  };
-  travelerFee: number;
-  tariffFee: number;
-  platformFee: number;
-  totalAmount: number;
-  currency: string;
-  hasNewActivity: boolean;
-  isPackagingRequired: boolean;
-  isVerificationRequired: boolean;
-  createDate: string;
-  updateDate: string;
-};
 
 export type OrderItemProps = Order;
 

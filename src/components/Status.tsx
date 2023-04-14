@@ -1,15 +1,8 @@
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import type { StatusCode } from "@/types/types";
 import React from "react";
 import type { TypographyProps } from "./ui/Typography";
 import { Typography } from "./ui/Typography";
-
-export type StatusCode =
-  | "REQUESTED"
-  | "TO_BE_PURCHASED"
-  | "TO_BE_DELIVERED"
-  | "DELIVERED"
-  | "FINISHED"
-  | "CANCELED";
 
 export type StatusProps = {
   statusCode: StatusCode;

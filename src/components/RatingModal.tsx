@@ -1,3 +1,4 @@
+import { Perspective } from "@/types/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { ModalProps } from "@mui/material";
 import {
@@ -177,7 +178,7 @@ const FileUpload = <T extends FieldValues>({
 };
 
 export type RatingModalProps = Pick<ModalProps, "open"> & {
-  perspective: "consumer" | "shopper";
+  perspective: Perspective;
   onClose: () => void;
   onSubmit: (data: RatingFormValues) => void;
 };

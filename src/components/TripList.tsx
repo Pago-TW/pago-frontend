@@ -1,7 +1,7 @@
+import type { Trip } from "@/types/types";
 import { Stack } from "@mui/material";
-import { PaperLayout } from "./layouts/PaperLayout";
-import type { Trip } from "./TripItem";
 import { TripItem } from "./TripItem";
+import { PaperLayout } from "./layouts/PaperLayout";
 import { Link } from "./ui/Link";
 import { Typography } from "./ui/Typography";
 
@@ -16,10 +16,7 @@ export const TripList = ({ category, items }: TripListProps) => {
       <Stack spacing={3}>
         <Typography variant="h5">{category}</Typography>
         {items.map((item) => (
-          <Link
-            key={item.tripId}
-            href={`/trips/${item.tripId}`}
-          >
+          <Link key={item.tripId} href={`/trips/${item.tripId}`}>
             <TripItem key={item.tripId} {...item} />
           </Link>
         ))}

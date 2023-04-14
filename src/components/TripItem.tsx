@@ -1,18 +1,6 @@
+import type { Trip } from "@/types/types";
 import { Stack } from "@mui/material";
 import { Typography } from "./ui/Typography";
-
-export type Trip = {
-  tripId: string;
-  travelerId: string;
-  profit: number;
-  fromCountry: string;
-  fromCity: string;
-  toCountry: string;
-  toCity: string;
-  arrivalDate: string;
-  createDate: string;
-  updateDate: string;
-};
 
 export type TripItemProps = Trip;
 

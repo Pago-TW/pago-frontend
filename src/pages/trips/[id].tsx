@@ -1,15 +1,15 @@
 import { DetailItem } from "@/components/DetailItem";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { PaperLayout } from "@/components/layouts/PaperLayout";
-import type { Order } from "@/components/OrderItem";
 import { OrderList } from "@/components/OrderList";
 import { PageTitle } from "@/components/PageTitle";
 import { ShareButton } from "@/components/ShareButton";
+import { BaseLayout } from "@/components/layouts/BaseLayout";
+import { PaperLayout } from "@/components/layouts/PaperLayout";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/components/ui/Link";
 import { Tab } from "@/components/ui/Tab";
 import { Typography } from "@/components/ui/Typography";
 import { useTrip } from "@/hooks/api/useTrip";
+import type { Order } from "@/types/types";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Container, Stack } from "@mui/material";
 import type { NextPage } from "next";
