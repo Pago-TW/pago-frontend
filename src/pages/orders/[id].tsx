@@ -175,7 +175,7 @@ const OrderDetailPage: NextPage = () => {
                 backgroundColor: (theme) => theme.palette.base[50],
               }}
             >
-              {[].length > 0 ? (
+              {fileUrls.length > 0 ? (
                 <ImageCarousel images={fileUrls} />
               ) : (
                 <Typography variant="h3" as="span">
