@@ -9,7 +9,6 @@ import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ConfirmDialog } from "../ConfirmDialog";
-import type { CountryCityOption } from "../inputs/CountryCitySelect";
 import CountryCitySelect, {
   countryCitySchema,
 } from "../inputs/CountryCitySelect";
@@ -38,9 +37,7 @@ export const DEFAULT_VALUES: Partial<OneWayTripFormValues> = {
   arrivalDate: currentDate,
 };
 
-export const OneWayTripForm: FC<{
-  countryCityOptions: CountryCityOption[];
-}> = ({ countryCityOptions: options }) => {
+export const OneWayTripForm: FC = () => {
   const router = useRouter();
 
   const { dialogOpen, handleDialogClose, handleDialogOpen } = useDialog();
@@ -87,18 +84,8 @@ export const OneWayTripForm: FC<{
     <Stack component="form" spacing={3} justifyContent="space-between">
       <PaperLayout>
         <Stack spacing={3}>
-          <CountryCitySelect
-            control={control}
-            name="from"
-            label="出發地"
-            options={options}
-          />
-          <CountryCitySelect
-            control={control}
-            name="to"
-            label="目的地"
-            options={options}
-          />
+          <CountryCitySelect control={control} name="from" label="出發地" />
+          <CountryCitySelect control={control} name="to" label="目的地" />
           <DatePicker
             control={control}
             name="arrivalDate"

@@ -8,7 +8,6 @@ import { useCallback, type FC } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ConfirmDialog } from "../ConfirmDialog";
-import type { CountryCityOption } from "../inputs/CountryCitySelect";
 import { CountryCitySelect } from "../inputs/CountryCitySelect";
 import { DatePicker } from "../inputs/DatePicker";
 import { PaperLayout } from "../layouts/PaperLayout";
@@ -35,9 +34,7 @@ export const DEFAULT_VALUES: Partial<RoundTripFormValues> = {
   returnDate: currentDate,
 };
 
-export const RoundTripForm: FC<{ countryCityOptions: CountryCityOption[] }> = ({
-  countryCityOptions,
-}) => {
+export const RoundTripForm: FC = () => {
   const router = useRouter();
 
   const { dialogOpen, handleDialogClose, handleDialogOpen } = useDialog();
@@ -96,18 +93,8 @@ export const RoundTripForm: FC<{ countryCityOptions: CountryCityOption[] }> = ({
     <Stack component="form" spacing={3} justifyContent="space-between">
       <PaperLayout>
         <Stack spacing={3}>
-          <CountryCitySelect
-            control={control}
-            name="from"
-            label="出發地"
-            options={countryCityOptions}
-          />
-          <CountryCitySelect
-            control={control}
-            name="to"
-            label="目的地"
-            options={countryCityOptions}
-          />
+          <CountryCitySelect control={control} name="from" label="出發地" />
+          <CountryCitySelect control={control} name="to" label="目的地" />
           <Stack direction="row" spacing={2}>
             <DatePicker
               control={control}

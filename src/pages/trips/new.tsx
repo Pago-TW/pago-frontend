@@ -1,8 +1,6 @@
-import type { CountryCityOption } from "@/components/inputs/CountryCitySelect";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { PageTitle } from "@/components/PageTitle";
 import { Tab } from "@/components/ui/Tab";
-import { env } from "@/env/server.mjs";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Container, Stack } from "@mui/material";
 import type { NextPage } from "next";
@@ -25,9 +23,7 @@ const TABS = [
 
 type Tab = (typeof TABS)[number];
 
-export const NewTripPage: NextPage<{
-  countryCityOptions: CountryCityOption[];
-}> = ({ countryCityOptions }) => {
+export const NewTripPage: NextPage = () => {
   const [currentTab, setCurrentTab] = useState<Tab["value"]>("ONE_WAY");
 
   const handleTabChange = useCallback(
@@ -63,16 +59,8 @@ export const NewTripPage: NextPage<{
                   value={tab.value}
                   sx={{ px: 0, py: 2, flexGrow: 1 }}
                 >
-                  {tab.value === "ONE_WAY" ? (
-                    <DynamicOneWrapTripForm
-                      countryCityOptions={countryCityOptions}
-                    />
-                  ) : null}
-                  {tab.value === "ROUND_TRIP" ? (
-                    <DynamicRoundTripForm
-                      countryCityOptions={countryCityOptions}
-                    />
-                  ) : null}
+                  {tab.value === "ONE_WAY" ? <DynamicOneWrapTripForm /> : null}
+                  {tab.value === "ROUND_TRIP" ? <DynamicRoundTripForm /> : null}
                 </TabPanel>
               ))}
             </TabContext>
@@ -81,17 +69,6 @@ export const NewTripPage: NextPage<{
       </BaseLayout>
     </>
   );
-};
-
-export const getServerSideProps = async () => {
-  const res = await fetch(env.NEXT_PUBLIC_API_URL + "/countries-and-cities");
-  const data = (await res.json()) as CountryCityOption[];
-
-  return {
-    props: {
-      countryCityOptions: data,
-    },
-  };
 };
 
 export default NewTripPage;

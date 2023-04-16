@@ -1,3 +1,4 @@
+import { MenuItem } from "@mui/material";
 import type { FieldValues } from "react-hook-form";
 import type { SelectInputProps } from "./SelectInput";
 import { SelectInput } from "./SelectInput";
@@ -25,9 +26,9 @@ export const CurrencyInput = <T extends FieldValues>(
   return (
     <SelectInput {...props}>
       {CURRENCY_OPTIONS.map((opt) => (
-        <option key={opt} value={opt}>
+        <MenuItem key={opt} value={opt}>
           {opt}
-        </option>
+        </MenuItem>
       ))}
     </SelectInput>
   );

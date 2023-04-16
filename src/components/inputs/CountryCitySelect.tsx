@@ -1,3 +1,4 @@
+import { useCountryCity } from "@/hooks/api/useCountryCity";
 import type { SelectChangeEvent, SelectProps } from "@mui/material";
 import {
   Box,
@@ -34,7 +35,6 @@ export type CountryInputProps<T extends FieldValues> = {
   control: Control<T>;
   name: Path<T>;
   label: SelectProps["label"];
-  options: CountryCityOption[];
   fullWidth?: boolean;
   menuMaxHeight?: number;
 };
@@ -50,16 +50,11 @@ const countryFlagStyle: CSSProperties = {
 export const CountryCitySelect = <T extends FieldValues>(
   props: CountryInputProps<T>
 ) => {
-  const {
-    control,
-    name,
-    label,
-    options = [],
-    fullWidth = true,
-    menuMaxHeight = 300,
-  } = props;
+  const { control, name, label, fullWidth = true, menuMaxHeight = 300 } = props;
 
   const [value, setValue] = useState("");
+
+  const { data: options = [] } = useCountryCity();
 
   const {
     field,
