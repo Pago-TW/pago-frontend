@@ -13,6 +13,16 @@ const config = {
     locales: ["zh-TW"],
     defaultLocale: "zh-TW",
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "pago-file-storage.s3.ap-northeast-1.amazonaws.com",
+        port: "",
+        pathname: "**",
+      },
+    ],
+  },
   transpilePackages: ["@mui/system", "@mui/material", "@mui/icons-material"],
   modularizeImports: {
     "@mui/icons-material": {
