@@ -3,13 +3,16 @@ import { DetailItem } from "@/components/DetailItem";
 import { ImageCarousel } from "@/components/ImageCarousel";
 import { PageTitle } from "@/components/PageTitle";
 import { ShareButton } from "@/components/ShareButton";
+import { StatusText } from "@/components/StatusText";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
+import { Button } from "@/components/ui/Button";
 import { Typography } from "@/components/ui/Typography";
 import { useOrder } from "@/hooks/api/useOrder";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Place } from "@mui/icons-material";
 import { Box, Paper, Stack } from "@mui/material";
 import type { NextPage } from "next";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { type ReactNode } from "react";
@@ -30,6 +33,8 @@ const AreaWrapper = ({ children }: { children: ReactNode }) => {
 const OrderDetailPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
+
+  const { data: session } = useSession();
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
@@ -88,6 +93,7 @@ const OrderDetailPage: NextPage = () => {
   );
 
   const multiline = !isDesktop;
+  const perspective = session?.user?.id === consumerId ? "consumer" : "shopper";
 
   const details = (
     <>
@@ -161,7 +167,7 @@ const OrderDetailPage: NextPage = () => {
       spacing={isDesktop ? 5 : 2}
       width="100%"
     >
-      <Stack spacing={6}>
+      <Stack spacing={isDesktop ? 6 : 2}>
         {/* Name (Mobile) & Image */}
         <AreaWrapper>
           <Stack spacing={2} alignItems="center">
@@ -183,6 +189,7 @@ const OrderDetailPage: NextPage = () => {
                 </Typography>
               )}
             </Box>
+            {/* Name (Mobile) */}
             <Typography
               variant="h3"
               as="h1"
@@ -193,15 +200,18 @@ const OrderDetailPage: NextPage = () => {
             </Typography>
           </Stack>
         </AreaWrapper>
+        {/* Status */}
+        <StatusText perspective={perspective} statusCode={orderStatus} />
         {/* AvailableShoppers (PC) */}
         <AvailableShoppers sx={{ display: { xs: "none", md: "block" } }} />
       </Stack>
-      <Stack spacing={2} flexGrow={1}>
+      <Stack gap={2} flexGrow={1}>
         {/* Name (PC) */}
         <Typography
           variant="h1"
           weightPreset="bold"
-          mb={6}
+          mt={1}
+          mb={4}
           sx={{ display: { xs: "none", md: "block" } }}
         >
           {name}
@@ -225,7 +235,7 @@ const OrderDetailPage: NextPage = () => {
       </Head>
       <BaseLayout>
         <PageTitle title="委託詳情" endButton={<ShareButton />} />
-        <Box display="flex" justifyContent="center" alignItems="center" mb={5}>
+        <Box display="flex" justifyContent="center" alignItems="center" mb={12}>
           {isDesktop ? (
             <Paper
               elevation={3}
