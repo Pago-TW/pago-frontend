@@ -59,16 +59,22 @@ export const OneWayTripForm: FC = () => {
 
   const handleFormSubmit = useCallback(
     (data: OneWayTripFormValues) => {
-      mutate({
-        fromCountry: data.from.countryCode,
-        fromCity: data.from.cityCode,
-        toCountry: data.to.countryCode,
-        toCity: data.to.cityCode,
-        arrivalDate: data.arrivalDate,
-      });
-      qc.invalidateQueries(["trips"]);
+      mutate(
+        {
+          fromCountry: data.from.countryCode,
+          fromCity: data.from.cityCode,
+          toCountry: data.to.countryCode,
+          toCity: data.to.cityCode,
+          arrivalDate: data.arrivalDate,
+        },
+        {
+          onSuccess: (data) => {
+            qc.invalidateQueries(["trips"]);
 
-      router.push("/trips");
+            router.push(`/trips/${data.tripId}`);
+          },
+        }
+      );
     },
     [mutate, qc, router]
   );

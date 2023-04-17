@@ -1,3 +1,4 @@
+import type { Order } from "@/types/types";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { serialize } from "object-to-formdata";
@@ -35,7 +36,7 @@ const addOrder = async (data: AddOrderData) => {
       noFilesWithArrayNotation: true,
     }
   );
-  const res = await axios.post("/orders", serializedData);
+  const res = await axios.post<Order>("/orders", serializedData);
   return res.data;
 };
 

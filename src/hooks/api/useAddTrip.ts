@@ -1,3 +1,4 @@
+import type { Trip } from "@/types/types";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -10,7 +11,7 @@ type AddTripData = {
 };
 
 const addTrip = async (data: AddTripData) => {
-  const res = await axios.post("/trips", data);
+  const res = await axios.post<Trip>("/trips", data);
   return res.data;
 };
 

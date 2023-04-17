@@ -66,16 +66,22 @@ export const RoundTripForm: FC = () => {
         toCity: data.to.cityCode,
         arrivalDate: data.arrivalDate,
       });
-      mutate({
-        fromCountry: data.to.countryCode,
-        fromCity: data.to.cityCode,
-        toCountry: data.from.countryCode,
-        toCity: data.from.cityCode,
-        arrivalDate: data.returnDate,
-      });
-      qc.invalidateQueries(["trips"]);
+      mutate(
+        {
+          fromCountry: data.to.countryCode,
+          fromCity: data.to.cityCode,
+          toCountry: data.from.countryCode,
+          toCity: data.from.cityCode,
+          arrivalDate: data.returnDate,
+        },
+        {
+          onSuccess: () => {
+            qc.invalidateQueries(["trips"]);
 
-      router.push("/trips");
+            router.push("/trips");
+          },
+        }
+      );
     },
     [mutate, qc, router]
   );

@@ -105,10 +105,13 @@ const NewOrderPage: NextPage = () => {
   };
 
   const handleFormSubmit = (data: ReviewFormValues) => {
-    mutate(transformReviewFormValues(data));
-    qc.invalidateQueries(["orders"]);
+    mutate(transformReviewFormValues(data), {
+      onSuccess: (data) => {
+        qc.invalidateQueries(["orders"]);
 
-    router.push("/orders");
+        router.push(`/orders/${data.orderId}`);
+      },
+    });
   };
 
   return (
