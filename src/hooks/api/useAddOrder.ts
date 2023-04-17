@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { serialize } from "object-to-formdata";
 
-type AddOrderData = {
+export type AddOrderData = {
   file: File[];
   data: {
     orderItem: {

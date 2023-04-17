@@ -1,6 +1,7 @@
+import { useCharge } from "@/hooks/api/useCharge";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Place } from "@mui/icons-material";
-import { Box, Stack } from "@mui/material";
+import { Box, Skeleton, Stack } from "@mui/material";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
@@ -17,6 +18,31 @@ export const reviewFormSchema = merchandiseFormSchema.merge(needsFormSchema);
 
 export type ReviewFormValues = z.infer<typeof reviewFormSchema>;
 
+export const transformReviewFormValues = (data: ReviewFormValues) => {
+  return {
+    file: data.images,
+    data: {
+      orderItem: {
+        name: data.name,
+        description: data.description,
+        quantity: data.quantity,
+        unitPrice: data.price.amount,
+        purchaseCountry: data.purchase.countryCode,
+        purchaseCity: data.purchase.cityCode,
+        purchaseRoad: data.purchaseAddress,
+      },
+      packaging: data.packing,
+      verification: data.receipt,
+      destinationCountry: data.destination.countryCode,
+      destinationCity: data.destination.cityCode,
+      travelerFee: data.fee,
+      currency: data.price.currency,
+      note: data.note,
+      latestReceiveItemDate: data.deadline,
+    },
+  };
+};
+
 export const ReviewForm = () => {
   const [preview, setPreview] = useState<string>("");
 
@@ -24,20 +50,27 @@ export const ReviewForm = () => {
 
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
-  const name = getValues("name");
-  const images = getValues("images");
-  const description = getValues("description");
-  const { amount: priceAmount, currency: priceCurrency } = getValues("price");
-  const purchase = getValues("purchase");
-  const purchaseAddress = getValues("purchaseAddress");
-  const quantity = getValues("quantity");
-  const packing = getValues("packing");
-  const receipt = getValues("receipt");
-  const fee = getValues("fee");
-  const destination = getValues("destination");
-  const destinationAddress = getValues("destinationAddress");
-  const deadline = getValues("deadline");
-  const note = getValues("note");
+  const formValues = getValues();
+  const { data: charge } = useCharge(
+    transformReviewFormValues(formValues).data
+  );
+
+  const {
+    name,
+    images,
+    description,
+    price: { amount: price, currency },
+    purchase,
+    purchaseAddress,
+    quantity,
+    packing,
+    receipt,
+    fee,
+    destination,
+    destinationAddress,
+    deadline,
+    note,
+  } = formValues;
 
   useEffect(() => {
     let previewUrl: string;
@@ -51,6 +84,8 @@ export const ReviewForm = () => {
     };
   }, [images, setPreview]);
 
+  const withCurrency = (amount: number) => `${amount} ${currency}`;
+
   const purchaseText = [
     purchase.countryCode,
     purchase.cityCode,
@@ -61,6 +96,8 @@ export const ReviewForm = () => {
     destination.cityCode,
     destinationAddress,
   ].join(" ");
+
+  const detailItemSkeleton = <Skeleton variant="rectangular" width="100%" />;
 
   return (
     <Stack spacing={2} mt={3}>
@@ -132,29 +169,41 @@ export const ReviewForm = () => {
         <Stack spacing={4}>
           <DetailItem
             label="商品價格"
-            value={[priceAmount.toString(), priceCurrency].join(" ")}
+            value={withCurrency(price)}
             valueProps={{ weightPreset: "bold" }}
           />
           <DetailItem
             label="願付代購費"
-            value={[fee.toString(), priceCurrency].join()}
+            value={withCurrency(fee)}
             valueProps={{ weightPreset: "bold" }}
           />
-          <DetailItem
-            label="關稅"
-            value="5NT$"
-            valueProps={{ weightPreset: "bold" }}
-          />
-          <DetailItem
-            label="平台費"
-            value="0NT$"
-            valueProps={{ weightPreset: "bold" }}
-          />
-          <DetailItem
-            label="總付款金額"
-            value="280NT$"
-            valueProps={{ variant: "h3", weightPreset: "bold" }}
-          />
+          {charge?.tariffFee ? (
+            <DetailItem
+              label="關稅"
+              value={withCurrency(charge?.tariffFee)}
+              valueProps={{ weightPreset: "bold" }}
+            />
+          ) : (
+            detailItemSkeleton
+          )}
+          {charge?.platformFee ? (
+            <DetailItem
+              label="平台費"
+              value={withCurrency(charge?.platformFee)}
+              valueProps={{ weightPreset: "bold" }}
+            />
+          ) : (
+            detailItemSkeleton
+          )}
+          {charge?.totalAmount ? (
+            <DetailItem
+              label="總付款金額"
+              value={withCurrency(charge?.totalAmount)}
+              valueProps={{ variant: "h3", weightPreset: "bold" }}
+            />
+          ) : (
+            detailItemSkeleton
+          )}
         </Stack>
       </PaperLayout>
     </Stack>

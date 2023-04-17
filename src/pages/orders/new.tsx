@@ -4,7 +4,11 @@ import {
 } from "@/components/forms/MerchandiseForm";
 import { NeedsForm, needsFormSchema } from "@/components/forms/NeedsForm";
 import type { ReviewFormValues } from "@/components/forms/ReviewForm";
-import { ReviewForm, reviewFormSchema } from "@/components/forms/ReviewForm";
+import {
+  ReviewForm,
+  reviewFormSchema,
+  transformReviewFormValues,
+} from "@/components/forms/ReviewForm";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { PageTitle } from "@/components/PageTitle";
 import { Button } from "@/components/ui/Button";
@@ -101,28 +105,7 @@ const NewOrderPage: NextPage = () => {
   };
 
   const formSubmit = (data: ReviewFormValues) => {
-    mutate({
-      file: data.images,
-      data: {
-        orderItem: {
-          name: data.name,
-          description: data.description,
-          quantity: data.quantity,
-          unitPrice: data.price.amount,
-          purchaseCountry: data.purchase.countryCode,
-          purchaseCity: data.purchase.cityCode,
-          purchaseRoad: data.purchaseAddress,
-        },
-        packaging: data.packing,
-        verification: data.receipt,
-        destinationCountry: data.destination.countryCode,
-        destinationCity: data.destination.cityCode,
-        travelerFee: data.fee,
-        currency: data.price.currency,
-        note: data.note,
-        latestReceiveItemDate: data.deadline,
-      },
-    });
+    mutate(transformReviewFormValues(data));
     qc.invalidateQueries(["orders"]);
 
     router.push("/orders");
