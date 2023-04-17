@@ -5,10 +5,12 @@ import { PageTitle } from "@/components/PageTitle";
 import { ShareButton } from "@/components/ShareButton";
 import { StatusText } from "@/components/StatusText";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
+import type { ButtonProps } from "@/components/ui/Button";
 import { Button } from "@/components/ui/Button";
 import { Typography } from "@/components/ui/Typography";
 import { useOrder } from "@/hooks/api/useOrder";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import type { Perspective, StatusCode } from "@/types/types";
 import { Place } from "@mui/icons-material";
 import { Box, Paper, Stack } from "@mui/material";
 import type { NextPage } from "next";
@@ -27,6 +29,43 @@ const AreaWrapper = ({ children }: { children: ReactNode }) => {
     <Paper elevation={3} sx={{ p: 2 }}>
       {children}
     </Paper>
+  );
+};
+
+const MobileActionsWrapper = ({ children }: { children: ReactNode }) => {
+  return (
+    <Paper
+      elevation={5}
+      sx={{
+        position: "fixed",
+        bottom: 0,
+        width: "100%",
+        display: { xs: "flex", sm: "none" },
+        justifyContent: "center",
+        gap: 3,
+        px: 4,
+        py: 2,
+      }}
+    >
+      {children}
+    </Paper>
+  );
+};
+
+const ActionButton = (
+  props: Pick<ButtonProps, "variant" | "color" | "children">
+) => {
+  const { variant, color, children } = props;
+
+  return (
+    <Button
+      variant={variant}
+      size="medium"
+      color={color}
+      sx={{ maxWidth: 144, flexGrow: 1 }}
+    >
+      {children}
+    </Button>
   );
 };
 
@@ -228,6 +267,39 @@ const OrderDetailPage: NextPage = () => {
     </Stack>
   );
 
+  let actions;
+  if (perspective === "consumer") {
+    if (orderStatus === "REQUESTED") {
+      actions = (
+        <>
+          <ActionButton variant="outlined" color="error">
+            刪除委託
+          </ActionButton>
+          <ActionButton>編輯委託</ActionButton>
+        </>
+      );
+    } else if (orderStatus === "TO_BE_PURCHASED") {
+      actions = (
+        <>
+          <ActionButton variant="outlined" color="error">
+            取消委託
+          </ActionButton>
+          <ActionButton>申請延期</ActionButton>
+        </>
+      );
+    } else if (
+      orderStatus === "TO_BE_DELIVERED" ||
+      orderStatus === "DELIVERED"
+    ) {
+      actions = (
+        <>
+          <ActionButton>申請延期</ActionButton>
+          <ActionButton>完成委託</ActionButton>
+        </>
+      );
+    }
+  }
+
   return (
     <>
       <Head>
@@ -256,6 +328,9 @@ const OrderDetailPage: NextPage = () => {
             <Box width={336}>{content}</Box>
           )}
         </Box>
+        {actions ? (
+          <MobileActionsWrapper>{actions}</MobileActionsWrapper>
+        ) : null}
       </BaseLayout>
     </>
   );
