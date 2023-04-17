@@ -104,7 +104,7 @@ const NewOrderPage: NextPage = () => {
     if (isStepValid) handleStepperNext();
   };
 
-  const formSubmit = (data: ReviewFormValues) => {
+  const handleFormSubmit = (data: ReviewFormValues) => {
     mutate(transformReviewFormValues(data));
     qc.invalidateQueries(["orders"]);
 
@@ -127,7 +127,7 @@ const NewOrderPage: NextPage = () => {
             ))}
           </Stepper>
           <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(formSubmit)}>
+            <form onSubmit={handleSubmit(handleFormSubmit)}>
               {activeStepObj?.form}
               <Stack
                 direction="row"

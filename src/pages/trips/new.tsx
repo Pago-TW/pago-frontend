@@ -7,7 +7,7 @@ import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import type { SyntheticEvent } from "react";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 const DynamicOneWrapTripForm = dynamic(
   import("@/components/forms/OneWayTripForm")
@@ -26,12 +26,9 @@ type Tab = (typeof TABS)[number];
 export const NewTripPage: NextPage = () => {
   const [currentTab, setCurrentTab] = useState<Tab["value"]>("ONE_WAY");
 
-  const handleTabChange = useCallback(
-    (_event: SyntheticEvent, newValue: Tab["value"]) => {
-      setCurrentTab(newValue);
-    },
-    []
-  );
+  const handleTabChange = (_event: SyntheticEvent, newValue: Tab["value"]) => {
+    setCurrentTab(newValue);
+  };
 
   return (
     <>
