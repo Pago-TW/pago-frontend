@@ -9,7 +9,7 @@ const getCountryCity = async (): Promise<CountryCityOption[]> => {
 
 export const useCountryCity = () => {
   return useQuery({
-    queryKey: [],
+    queryKey: ["countryCityOptions"],
     queryFn: getCountryCity,
     refetchOnWindowFocus: false,
   });
