@@ -58,7 +58,16 @@ const OrdersPage: NextPage = () => {
                 onChange={(_e, v) => setCurrentTab(v)}
               >
                 {TABS.map((tab) => (
-                  <Tab key={tab.value} {...tab} />
+                  <Tab
+                    key={tab.value}
+                    sx={{
+                      fontSize: (theme) => ({
+                        xs: theme.typography.pxToRem(16),
+                        sm: theme.typography.pxToRem(18),
+                      }),
+                    }}
+                    {...tab}
+                  />
                 ))}
               </TabList>
             </Box>
