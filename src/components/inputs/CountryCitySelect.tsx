@@ -37,6 +37,7 @@ export type CountryInputProps<T extends FieldValues> = {
   label: SelectProps["label"];
   fullWidth?: boolean;
   menuMaxHeight?: number;
+  noInputLabelOnShrink?: boolean;
 };
 
 const getItemValue = (item: CountryCityOption) =>
@@ -50,16 +51,24 @@ const countryFlagStyle: CSSProperties = {
 export const CountryCitySelect = <T extends FieldValues>(
   props: CountryInputProps<T>
 ) => {
-  const { control, name, label, fullWidth = true, menuMaxHeight = 300 } = props;
-
-  const [value, setValue] = useState("");
-
-  const { data: options = [] } = useCountryCity();
+  const {
+    control,
+    name,
+    label,
+    fullWidth = true,
+    menuMaxHeight = 300,
+    noInputLabelOnShrink: noLabelOnShrink,
+  } = props;
 
   const {
-    field,
+    field: { value: fieldValue, ...field },
     fieldState: { error },
   } = useController({ name, control });
+
+  const initialValue = `${fieldValue.countryCode}-${fieldValue.cityCode}`;
+  const [value, setValue] = useState(initialValue === "-" ? "" : initialValue);
+
+  const { data: options = [] } = useCountryCity();
 
   const handleChange = useCallback(
     (e: SelectChangeEvent) => {
@@ -73,11 +82,16 @@ export const CountryCitySelect = <T extends FieldValues>(
     [field]
   );
 
+  const inputLabelSx = noLabelOnShrink
+    ? { "&.MuiInputLabel-shrink": { display: "none" } }
+    : undefined;
+  const selectLabel = noLabelOnShrink ? undefined : label;
+
   return (
     <FormControl error={!!error} fullWidth={fullWidth}>
-      <InputLabel>{label}</InputLabel>
+      <InputLabel sx={inputLabelSx}>{label}</InputLabel>
       <Select
-        label={label}
+        label={selectLabel}
         onChange={handleChange}
         value={value}
         name={field.name}

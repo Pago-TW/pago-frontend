@@ -10,11 +10,14 @@ import { PageTitle } from "@/components/PageTitle";
 import { Button } from "@/components/ui/Button";
 import { StepLabel } from "@/components/ui/StepLabel";
 import { Stepper } from "@/components/ui/Stepper";
+import { useAddOrder } from "@/hooks/api/useAddOrder";
 import { useStepper } from "@/hooks/useStepper";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Stack, Step } from "@mui/material";
+import { useQueryClient } from "@tanstack/react-query";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import type { MouseEvent } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -43,20 +46,27 @@ const DEFAULT_VALUES: Partial<ReviewFormValues> = {
     amount: 0,
     currency: "TWD",
   },
-  purchaseLocation: "",
-  amount: 0,
+  purchase: {
+    countryCode: "",
+    cityCode: "",
+  },
+  purchaseAddress: "",
+  quantity: 0,
   packing: true,
   receipt: true,
-  fee: {
-    amount: 0,
-    currency: "TWD",
+  fee: 0,
+  destination: {
+    countryCode: "",
+    cityCode: "",
   },
-  destination: "",
-  date: new Date(),
-  remark: "",
+  destinationAddress: "",
+  deadline: new Date(),
+  note: "",
 };
 
 const NewOrderPage: NextPage = () => {
+  const router = useRouter();
+
   const {
     activeStep,
     activeStepObj,
@@ -74,7 +84,14 @@ const NewOrderPage: NextPage = () => {
     defaultValues: DEFAULT_VALUES,
     resolver,
   });
-  const { handleSubmit, trigger } = methods;
+  const {
+    formState: { isSubmitting },
+    handleSubmit,
+    trigger,
+  } = methods;
+
+  const qc = useQueryClient();
+  const { mutate } = useAddOrder();
 
   const handleNext = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -83,7 +100,33 @@ const NewOrderPage: NextPage = () => {
     if (isStepValid) handleStepperNext();
   };
 
-  const formSubmit = (formData: ReviewFormValues) => console.log(formData);
+  const formSubmit = (data: ReviewFormValues) => {
+    mutate({
+      file: data.images,
+      data: {
+        orderItem: {
+          name: data.name,
+          description: data.description,
+          quantity: data.quantity,
+          unitPrice: data.price.amount,
+          purchaseCountry: data.purchase.countryCode,
+          purchaseCity: data.purchase.cityCode,
+          purchaseRoad: data.purchaseAddress,
+        },
+        packaging: data.packing,
+        verification: data.receipt,
+        destinationCountry: data.destination.countryCode,
+        destinationCity: data.destination.cityCode,
+        travelerFee: data.fee,
+        currency: data.price.currency,
+        note: data.note,
+        latestReceiveItemDate: data.deadline,
+      },
+    });
+    qc.invalidateQueries(["orders"]);
+
+    router.push("/orders");
+  };
 
   return (
     <>
@@ -120,7 +163,11 @@ const NewOrderPage: NextPage = () => {
                   </Button>
                 ) : null}
                 {activeStep === totalSteps - 1 ? (
-                  <Button type="submit" sx={{ minWidth: 0, width: "100%" }}>
+                  <Button
+                    type="submit"
+                    sx={{ minWidth: 0, width: "100%" }}
+                    loading={isSubmitting}
+                  >
                     發布委託
                   </Button>
                 ) : (

@@ -1,11 +1,14 @@
 import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
-import { Box, Button, IconButton, Stack } from "@mui/material";
-import type { ChangeEvent, PropsWithChildren } from "react";
-import { useCallback } from "react";
+import type { TextFieldProps } from "@mui/material";
+import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
+import type { PropsWithChildren } from "react";
 import type { Control, FieldValues, Path } from "react-hook-form";
 import { useController } from "react-hook-form";
-import type { NumberInputProps } from "./NumberInput";
-import { NumberInput } from "./NumberInput";
+import type {
+  NumberFormatValues,
+  NumericFormatProps,
+} from "react-number-format";
+import { NumericFormat } from "react-number-format";
 
 type AmountButtonProps = PropsWithChildren<{
   onClick: () => void;
@@ -22,11 +25,12 @@ const AmountButton = ({ children, onClick }: AmountButtonProps) => (
   </Button>
 );
 
-export type AmountInputProps<T extends FieldValues> = NumberInputProps & {
-  control: Control<T>;
-  name: Path<T>;
-  label: string;
-};
+export type AmountInputProps<T extends FieldValues> =
+  NumericFormatProps<TextFieldProps> & {
+    control: Control<T>;
+    name: Path<T>;
+    label: string;
+  };
 
 const commonIconButtonSx = {
   p: 0,
@@ -35,33 +39,39 @@ const commonIconButtonSx = {
   zIndex: 1,
 };
 
-export const AmountInput = <T extends FieldValues>({
-  control,
-  name,
-  label,
-  ...numberInputProps
-}: AmountInputProps<T>) => {
+export const AmountInput = <T extends FieldValues>(
+  props: AmountInputProps<T>
+) => {
   const {
-    field: { onChange, value, ...field },
+    control,
+    name,
+    label,
+    allowNegative = false,
+    customInput = TextField,
+    decimalScale = 0,
+    variant = "standard",
+    ...rest
+  } = props;
+
+  const {
+    field: { onChange, value, ref, ...field },
   } = useController({ control, name });
 
-  const handleClick = useCallback(
-    (v: number) => onChange(value + v),
-    [onChange, value]
-  );
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => onChange(+e.target.value),
-    [onChange]
-  );
+  const handleValueChange = (values: NumberFormatValues) => {
+    onChange(values.floatValue);
+  };
 
+  const handleClick = (v: number) => onChange(value + v);
   return (
     <div>
       <Box width="100%" position="relative">
-        <NumberInput
+        <NumericFormat
+          allowNegative={allowNegative}
+          customInput={customInput}
+          decimalScale={decimalScale}
+          variant={variant}
           label={label}
-          value={value}
           InputLabelProps={{ shrink: true }}
-          onChange={handleChange}
           fullWidth
           InputProps={{
             startAdornment: (
@@ -82,8 +92,11 @@ export const AmountInput = <T extends FieldValues>({
             ),
           }}
           sx={{ "& input": { mx: 4 } }}
-          {...numberInputProps}
+          onValueChange={handleValueChange}
+          value={value}
+          inputRef={ref}
           {...field}
+          {...rest}
         />
       </Box>
       <Stack direction="row" spacing={1} mt={1}>

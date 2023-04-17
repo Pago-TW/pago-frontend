@@ -4,7 +4,6 @@ import { Box, Stack } from "@mui/material";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { concatStrings } from "src/utils/concatStrings";
 import { translateBoolean } from "src/utils/translateBoolean";
 import type { z } from "zod";
 import { DetailItem } from "../DetailItem";
@@ -29,14 +28,16 @@ export const ReviewForm = () => {
   const images = getValues("images");
   const description = getValues("description");
   const { amount: priceAmount, currency: priceCurrency } = getValues("price");
-  const purchaseLocation = getValues("purchaseLocation");
-  const amount = getValues("amount");
+  const purchase = getValues("purchase");
+  const purchaseAddress = getValues("purchaseAddress");
+  const quantity = getValues("quantity");
   const packing = getValues("packing");
   const receipt = getValues("receipt");
-  const { amount: feeAmount, currency: feeCurrency } = getValues("fee");
+  const fee = getValues("fee");
   const destination = getValues("destination");
-  const date = getValues("date");
-  const remark = getValues("remark");
+  const destinationAddress = getValues("destinationAddress");
+  const deadline = getValues("deadline");
+  const note = getValues("note");
 
   useEffect(() => {
     let previewUrl: string;
@@ -49,6 +50,17 @@ export const ReviewForm = () => {
       URL.revokeObjectURL(previewUrl);
     };
   }, [images, setPreview]);
+
+  const purchaseText = [
+    purchase.countryCode,
+    purchase.cityCode,
+    purchaseAddress,
+  ].join(" ");
+  const destinationText = [
+    destination.countryCode,
+    destination.cityCode,
+    destinationAddress,
+  ].join(" ");
 
   return (
     <Stack spacing={2} mt={3}>
@@ -66,9 +78,6 @@ export const ReviewForm = () => {
               },
             })}
           >
-            {/* {previews.map((preview) => (
-              <Image key={preview} src={preview} alt="Preview image" fill />
-            ))} */}
             {preview ? <Image src={preview} alt="Preview image" fill /> : null}
           </Box>
           <Stack justifyContent="space-between" flexGrow={1} py={1}>
@@ -79,7 +88,7 @@ export const ReviewForm = () => {
               <Typography variant={mdDown ? "h6" : "h3"}>
                 {description}
               </Typography>
-              <Typography variant={mdDown ? "h6" : "h3"}>{amount}</Typography>
+              <Typography variant={mdDown ? "h6" : "h3"}>{quantity}</Typography>
             </Stack>
           </Stack>
         </Stack>
@@ -96,7 +105,7 @@ export const ReviewForm = () => {
             value={
               <Stack direction="row" alignItems="center">
                 <Place />
-                {purchaseLocation}
+                {purchaseText}
               </Stack>
             }
             multiLine
@@ -106,29 +115,29 @@ export const ReviewForm = () => {
             value={
               <Stack direction="row" alignItems="center">
                 <Place />
-                {destination}
+                {destinationText}
               </Stack>
             }
             multiLine
           />
           <DetailItem
             label="最晚收到商品時間"
-            value={format(date, "MM/dd/yyyy")}
+            value={format(deadline, "MM/dd/yyyy")}
             multiLine
           />
-          <DetailItem label="備註" value={remark} multiLine />
+          <DetailItem label="備註" value={note} multiLine />
         </Stack>
       </PaperLayout>
       <PaperLayout>
         <Stack spacing={4}>
           <DetailItem
             label="商品價格"
-            value={concatStrings([priceAmount.toString(), priceCurrency])}
+            value={[priceAmount.toString(), priceCurrency].join(" ")}
             valueProps={{ weightPreset: "bold" }}
           />
           <DetailItem
             label="願付代購費"
-            value={concatStrings([feeAmount.toString(), feeCurrency])}
+            value={[fee.toString(), priceCurrency].join()}
             valueProps={{ weightPreset: "bold" }}
           />
           <DetailItem

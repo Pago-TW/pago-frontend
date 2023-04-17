@@ -11,9 +11,12 @@ import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 import { AmountInput } from "../inputs/AmountInput";
+import {
+  CountryCitySelect,
+  countryCitySchema,
+} from "../inputs/CountryCitySelect";
 import { CURRENCY_OPTIONS, CurrencyInput } from "../inputs/CurrencyInput";
 import { NumberInput } from "../inputs/NumberInput";
-import { PlaceInput } from "../inputs/PlaceInput";
 import { PaperLayout } from "../layouts/PaperLayout";
 import { Image } from "../ui/Image";
 import { Typography } from "../ui/Typography";
@@ -30,7 +33,8 @@ export const merchandiseFormSchema = z.object({
       },
       { message: "無效的檔案" }
     )
-    .refine((files) => files?.length >= 1, "請上傳商品圖片")
+    .refine((files) => files?.length > 0, "至少需要上傳 1 張商品圖片")
+    .refine((files) => files?.length <= 3, "最多只能上傳 3 張商品圖片")
     .refine(
       (files) =>
         files?.map((file) => IMAGE_MIME.includes(file.type)).every((v) => v),
@@ -55,8 +59,12 @@ export const merchandiseFormSchema = z.object({
       },
     }),
   }),
-  purchaseLocation: z.string().min(1, { message: "請輸入購買地點" }),
-  amount: z
+  purchase: countryCitySchema.refine(
+    (value) => Object.values(value).every(Boolean),
+    { message: "請選擇購買國家、縣市" }
+  ),
+  purchaseAddress: z.string().min(1, { message: "請輸入詳細購買地址" }),
+  quantity: z
     .number({
       invalid_type_error: "無效的數字",
       required_error: "請輸入商品數量",
@@ -74,11 +82,13 @@ export const MerchandiseForm = () => {
     control,
     formState: { errors },
     setValue,
+    getValues,
   } = useFormContext<MerchandiseFormValues>();
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: { "image/*": [] },
     multiple: true,
+    maxFiles: 3,
     onDrop: (acceptedFiles: File[]) => {
       setValue("images", acceptedFiles);
       setPreviews(acceptedFiles.map((file) => URL.createObjectURL(file)));
@@ -86,10 +96,17 @@ export const MerchandiseForm = () => {
   });
 
   useEffect(() => {
+    const images = getValues("images");
+    if (images) {
+      setPreviews(images.map((image) => URL.createObjectURL(image)));
+    }
+  }, [getValues]);
+
+  useEffect(() => {
     return () => {
       previews.map((preview) => URL.revokeObjectURL(preview));
     };
-  }, [previews]);
+  }, [previews, getValues]);
 
   return (
     <PaperLayout sx={{ mt: 3 }}>
@@ -101,7 +118,7 @@ export const MerchandiseForm = () => {
           fullWidth
           error={!!errors?.name}
           helperText={errors?.name?.message}
-          {...register("name", { required: "請輸入商品名稱" })}
+          {...register("name")}
         />
         <Box>
           <InputLabel error={!!errors.images} shrink>
@@ -196,21 +213,42 @@ export const MerchandiseForm = () => {
               ),
             }}
             sx={{ "& input": { mr: 1 } }}
-            {...register("price.amount", { valueAsNumber: true })}
+            control={control}
+            name="price.amount"
           />
         </Box>
-        <PlaceInput
-          label="購買地點"
-          error={!!errors?.purchaseLocation}
-          helperText={errors?.purchaseLocation?.message}
-          {...register("purchaseLocation")}
-        />
+        <Stack spacing={1}>
+          <Typography
+            as="span"
+            sx={{
+              fontSize: (theme) => theme.typography.pxToRem(12),
+              color: "rgba(0, 0, 0, 0.6)",
+              mb: 1,
+            }}
+          >
+            購買地點
+          </Typography>
+          <CountryCitySelect
+            control={control}
+            name="purchase"
+            label="購買國家縣市"
+            noInputLabelOnShrink
+          />
+          <TextField
+            variant="standard"
+            fullWidth
+            label="詳細購買地址"
+            error={!!errors?.purchaseAddress}
+            helperText={errors?.purchaseAddress?.message}
+            {...register("purchaseAddress")}
+          />
+        </Stack>
         <AmountInput
           label="商品數量"
-          name="amount"
+          name="quantity"
           control={control}
-          error={!!errors?.amount}
-          helperText={errors?.amount?.message}
+          error={!!errors?.quantity}
+          helperText={errors?.quantity?.message}
         />
       </Stack>
     </PaperLayout>
