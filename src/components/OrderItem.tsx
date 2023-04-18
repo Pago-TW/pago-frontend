@@ -2,9 +2,9 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Order } from "@/types/types";
 import { ChevronRight } from "@mui/icons-material";
 import { Box, Paper, Skeleton, Stack } from "@mui/material";
+import Image from "next/image";
 import { Status } from "./Status";
 import { Divider } from "./ui/Divider";
-import { Image } from "./ui/Image";
 import { Typography } from "./ui/Typography";
 
 export type OrderItemProps = Order;
@@ -37,8 +37,10 @@ export const OrderItem = ({
                 src={firstImageUrl}
                 alt={`Image of ${name}`}
                 fill
+                placeholder="blur"
+                blurDataURL={`/_next/image?url=${firstImageUrl}&w=16&q=1`}
                 sizes="(max-width: 600px) 74px, 200px"
-                sx={{
+                style={{
                   objectFit: "cover",
                   objectPosition: "center",
                 }}

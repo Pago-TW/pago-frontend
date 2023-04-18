@@ -3,9 +3,9 @@ import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import type { SxProps } from "@mui/material";
 import { Box, Chip, IconButton, alpha, styled } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
+import Image from "next/image";
 import type { FC } from "react";
 import { useCallback, useEffect, useState } from "react";
-import { Image } from "./ui/Image";
 
 export type ImageCarouselProps = {
   images: string[];
@@ -91,7 +91,7 @@ export const ImageCarousel: FC<ImageCarouselProps> = (props) => {
           flexDirection: "row",
         }}
       >
-        {images.map((url) => (
+        {images.map((url, idx) => (
           <Box
             key={url}
             sx={{
@@ -106,6 +106,7 @@ export const ImageCarousel: FC<ImageCarouselProps> = (props) => {
               fill
               sizes="(max-width: 600px) 300px, 400px"
               style={{ objectFit: "cover", objectPosition: "center center" }}
+              priority={idx === 0}
             />
           </Box>
         ))}

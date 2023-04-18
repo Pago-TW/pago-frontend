@@ -1,4 +1,4 @@
-import { Perspective } from "@/types/types";
+import type { Perspective } from "@/types/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { ModalProps } from "@mui/material";
 import {
@@ -12,6 +12,7 @@ import {
   Paper,
   Stack,
 } from "@mui/material";
+import Image from "next/image";
 import type { ChangeEvent } from "react";
 import { useCallback, useEffect, useState } from "react";
 import type { Control, FieldValues, Path } from "react-hook-form";
@@ -19,7 +20,6 @@ import { useController, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "./ui/Button";
 import { FilledTextarea } from "./ui/FilledTextarea";
-import { Image } from "./ui/Image";
 import { Rating } from "./ui/Rating";
 import { Typography } from "./ui/Typography";
 import { Video } from "./ui/Video";
@@ -139,7 +139,7 @@ const FileUpload = <T extends FieldValues>({
                   onLoad={() => URL.revokeObjectURL(preview.url)}
                   fill
                   sizes="(max-width: 600px) 75px, 150px"
-                  sx={{
+                  style={{
                     borderRadius: 2,
                     flexShrink: 0,
                     objectFit: "cover",

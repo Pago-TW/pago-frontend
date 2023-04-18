@@ -6,6 +6,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
@@ -18,7 +19,6 @@ import {
 import { CURRENCY_OPTIONS, CurrencyInput } from "../inputs/CurrencyInput";
 import { NumberInput } from "../inputs/NumberInput";
 import { PaperLayout } from "../layouts/PaperLayout";
-import { Image } from "../ui/Image";
 import { Typography } from "../ui/Typography";
 
 const IMAGE_MIME = ["image/jpeg", "image/png"];
@@ -166,10 +166,11 @@ export const MerchandiseForm = () => {
                   src={preview}
                   alt="Preview"
                   onLoad={() => URL.revokeObjectURL(preview)}
-                  sx={{ borderRadius: 2, flexShrink: 0 }}
                   fill
                   sizes="(max-width: 600px) 75px, 150px"
                   style={{
+                    borderRadius: 2,
+                    flexShrink: 0,
                     objectFit: "cover",
                     objectPosition: "center center",
                   }}
