@@ -18,6 +18,8 @@ const statusMap: Record<
   DELIVERED: { text: "已送達", color: "pago.light" },
   FINISHED: { text: "已完成", color: "success.main" },
   CANCELED: { text: "不成立", color: "warning.main" },
+  TO_BE_CANCELED: { text: "待取消", color: "error.light" },
+  TO_BE_POSTPONED: { text: "待延期", color: "error.light" },
 };
 
 export const Status: React.FC<StatusProps> = ({ statusCode }) => {

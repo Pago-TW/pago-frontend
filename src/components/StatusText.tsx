@@ -7,7 +7,7 @@ interface StatusTextProps {
   statusCode: StatusCode;
 }
 
-const statusMap: Record<
+const statusTextMap: Record<
   Perspective,
   Record<StatusCode, { text: string; bgColor: string }>
 > = {
@@ -21,6 +21,14 @@ const statusMap: Record<
     DELIVERED: { text: "商品已送達", bgColor: "primary.main" },
     FINISHED: { text: "訂單已完成", bgColor: "success.main" },
     CANCELED: { text: "此訂單不成立", bgColor: "warning.main" },
+    TO_BE_CANCELED: {
+      text: "已送出取消原因，待代購者接受",
+      bgColor: "error.light",
+    },
+    TO_BE_POSTPONED: {
+      text: "代購者申請延期",
+      bgColor: "error.light",
+    },
   },
   shopper: {
     REQUESTED: { text: "已向委託者出價，等待委託者回應", bgColor: "base.400" },
@@ -32,13 +40,21 @@ const statusMap: Record<
     DELIVERED: { text: "商品已送達", bgColor: "primary.main" },
     FINISHED: { text: "訂單已完成", bgColor: "success.main" },
     CANCELED: { text: "此訂單不成立", bgColor: "warning.main" },
+    TO_BE_CANCELED: {
+      text: "委託者申請取消",
+      bgColor: "error.light",
+    },
+    TO_BE_POSTPONED: {
+      text: "已送出延期原因，待委託者接受",
+      bgColor: "error.light",
+    },
   },
 };
 
 export const StatusText = (props: StatusTextProps) => {
   const { perspective, statusCode } = props;
 
-  const { text, bgColor } = statusMap[perspective][statusCode];
+  const { text, bgColor } = statusTextMap[perspective][statusCode];
 
   return (
     <Box
