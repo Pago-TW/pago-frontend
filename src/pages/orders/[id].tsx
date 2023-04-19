@@ -1,4 +1,4 @@
-import { AvailableShoppers } from "@/components/AvailableShoppers";
+import { BidList } from "@/components/BidList";
 import { DetailItem } from "@/components/DetailItem";
 import { ImageCarousel } from "@/components/ImageCarousel";
 import { PageTitle } from "@/components/PageTitle";
@@ -242,8 +242,8 @@ const OrderDetailPage: NextPage = () => {
         </AreaWrapper>
         {/* Status */}
         <StatusText perspective={perspective} statusCode={orderStatus} />
-        {/* AvailableShoppers (PC) */}
-        <AvailableShoppers sx={{ display: { xs: "none", md: "block" } }} />
+        {/* Bids (PC) */}
+        <BidList sx={{ display: { xs: "none", md: "block" } }} />
       </Stack>
       <Stack gap={2} flexGrow={1}>
         {/* Name (PC) */}
@@ -262,8 +262,8 @@ const OrderDetailPage: NextPage = () => {
             {details}
           </Stack>
         </AreaWrapper>
-        {/* AvailableShoppers (Mobile) */}
-        <AvailableShoppers sx={{ display: { xs: "block", md: "none" } }} />
+        {/* Bids (Mobile) */}
+        <BidList sx={{ display: { xs: "block", md: "none" } }} />
       </Stack>
     </Stack>
   );

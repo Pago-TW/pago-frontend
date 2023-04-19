@@ -1,23 +1,23 @@
 import type { SxProps } from "@mui/material";
 import { Avatar, AvatarGroup, Box, Stack } from "@mui/material";
-import { BuyingAgent } from "./BuyingAgent";
+import { BidItem } from "./BidItem";
 import { Link } from "./ui/Link";
 import { Typography } from "./ui/Typography";
 
-type AvailableShoppersProps = {
+type BidListProps = {
   sx?: SxProps;
 };
 
-export const AvailableShoppers = ({ sx }: AvailableShoppersProps) => {
+export const BidList = ({ sx }: BidListProps) => {
   return (
     <Box sx={sx}>
       <Stack spacing={3} sx={{ width: "100%" }}>
         {/* 代購者 */}
         <Typography variant="h3" textAlign="center" mt={1}>
-          願意代購者
+          已出價代購者
         </Typography>
-        <BuyingAgent />
-        <BuyingAgent />
+        <BidItem />
+        <BidItem />
         <Box display="flex" justifyContent="center">
           <Link fontSize={18} mt={1}>
             顯示更多
