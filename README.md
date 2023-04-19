@@ -23,4 +23,5 @@ Repository for the frontend of the Pago project.
 - [ ] Remove `error` and `helperText` props from all the components that used
      `useController` and use `field.error` instead
 - [ ] Turn multi steps form into wizard form
-- [ ] 願意代購者 -> 已出價代購者 (/orders/[id]/bids)
+- [ ] Infinite query for trips
+- [ ] Infinite query for bids
