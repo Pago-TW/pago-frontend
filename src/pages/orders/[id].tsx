@@ -54,20 +54,63 @@ const MobileActionsWrapper = ({ children }: { children: ReactNode }) => {
 };
 
 const ActionButton = (
-  props: Pick<ButtonProps, "variant" | "color" | "children">
+  props: Pick<ButtonProps, "variant" | "color" | "disabled" | "children">
 ) => {
-  const { variant, color, children } = props;
-
   return (
-    <Button
-      variant={variant}
-      size="medium"
-      color={color}
-      sx={{ maxWidth: 144, flexGrow: 1 }}
-    >
-      {children}
-    </Button>
+    <Button size="medium" sx={{ maxWidth: 144, flexGrow: 1 }} {...props} />
   );
+};
+
+const getActions = (perspective: Perspective, statusCode: StatusCode) => {
+  if (perspective === "consumer") {
+    switch (statusCode) {
+      case "REQUESTED":
+        return (
+          <>
+            <ActionButton variant="outlined" color="error">
+              刪除委託
+            </ActionButton>
+            <ActionButton>編輯委託</ActionButton>
+          </>
+        );
+      case "TO_BE_PURCHASED":
+        return (
+          <>
+            <ActionButton variant="outlined" color="error">
+              取消委託
+            </ActionButton>
+            <ActionButton>申請延期</ActionButton>
+          </>
+        );
+      case "TO_BE_DELIVERED":
+      case "DELIVERED":
+        return (
+          <>
+            <ActionButton>申請延期</ActionButton>
+            <ActionButton>完成委託</ActionButton>
+          </>
+        );
+      case "FINISHED":
+      case "CANCELED":
+        return null;
+      case "TO_BE_CANCELED":
+        return (
+          <>
+            <ActionButton variant="outlined" color="error" disabled>
+              取消委託
+            </ActionButton>
+            <ActionButton disabled>申請延期</ActionButton>
+          </>
+        );
+      case "TO_BE_POSTPONED":
+        return (
+          <>
+            <ActionButton disabled>申請延期</ActionButton>
+            <ActionButton disabled>完成委託</ActionButton>
+          </>
+        );
+    }
+  }
 };
 
 const OrderDetailPage: NextPage = () => {
@@ -268,38 +311,7 @@ const OrderDetailPage: NextPage = () => {
     </Stack>
   );
 
-  let actions;
-  if (perspective === "consumer") {
-    if (orderStatus === "REQUESTED") {
-      actions = (
-        <>
-          <ActionButton variant="outlined" color="error">
-            刪除委託
-          </ActionButton>
-          <ActionButton>編輯委託</ActionButton>
-        </>
-      );
-    } else if (orderStatus === "TO_BE_PURCHASED") {
-      actions = (
-        <>
-          <ActionButton variant="outlined" color="error">
-            取消委託
-          </ActionButton>
-          <ActionButton>申請延期</ActionButton>
-        </>
-      );
-    } else if (
-      orderStatus === "TO_BE_DELIVERED" ||
-      orderStatus === "DELIVERED"
-    ) {
-      actions = (
-        <>
-          <ActionButton>申請延期</ActionButton>
-          <ActionButton>完成委託</ActionButton>
-        </>
-      );
-    }
-  }
+  const actions = getActions(perspective, orderStatus);
 
   return (
     <>
