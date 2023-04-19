@@ -1,4 +1,4 @@
-import type { Order } from "@/types/types";
+import type { Order } from "@/types/order";
 import { Stack } from "@mui/material";
 import { OrderItem } from "./OrderItem";
 import { Link } from "./ui/Link";

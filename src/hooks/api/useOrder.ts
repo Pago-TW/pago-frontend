@@ -1,4 +1,4 @@
-import type { Order } from "@/types/types";
+import type { Order } from "@/types/order";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 

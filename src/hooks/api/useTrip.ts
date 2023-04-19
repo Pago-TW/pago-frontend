@@ -1,4 +1,4 @@
-import type { Trip } from "@/types/types";
+import type { Trip } from "@/types/trip";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 

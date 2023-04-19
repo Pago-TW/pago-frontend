@@ -1,4 +1,4 @@
-import type { Perspective } from "@/types/types";
+import type { Perspective } from "@/types/misc";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { ModalProps } from "@mui/material";
 import {

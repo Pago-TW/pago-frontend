@@ -1,4 +1,4 @@
-import type { Order } from "@/types/types";
+import type { Order } from "@/types/order";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { serialize } from "object-to-formdata";

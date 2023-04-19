@@ -24,6 +24,16 @@ export interface Order {
   isBidder: boolean;
 }
 
+export type StatusCode =
+  | "REQUESTED"
+  | "TO_BE_PURCHASED"
+  | "TO_BE_DELIVERED"
+  | "DELIVERED"
+  | "FINISHED"
+  | "CANCELED"
+  | "TO_BE_CANCELED"
+  | "TO_BE_POSTPONED";
+
 export interface OrderItem {
   orderItemId: string;
   name: string;
@@ -39,59 +49,9 @@ export interface OrderItem {
   fileUrls: string[];
 }
 
-export type StatusCode =
-  | "REQUESTED"
-  | "TO_BE_PURCHASED"
-  | "TO_BE_DELIVERED"
-  | "DELIVERED"
-  | "FINISHED"
-  | "CANCELED";
-
 export interface Shopper {
   userId: string;
   fullName: string;
   avatarUrl: string;
   latestDeliveryDate: string;
 }
-
-export interface Trip {
-  tripId: string;
-  shopperId: string;
-  fromCountry: string;
-  fromCity: string;
-  toCountry: string;
-  toCity: string;
-  arrivalDate: string;
-  profit: number;
-  currency: string;
-  createDate: string;
-  updateDate: string;
-  tripStatus: string;
-  hasNewActivity: boolean;
-  dashboard: Dashboard;
-}
-
-export interface Dashboard {
-  requested: number;
-  toBePurchased: number;
-  toBeDelivered: number;
-}
-
-export interface CountryCityOption {
-  country: CountryOption;
-  city: CityOption;
-}
-
-export interface CountryOption {
-  countryCode: string;
-  englishName: string;
-  chineseName: string;
-}
-
-export interface CityOption {
-  cityCode: string;
-  englishName: string;
-  chineseName: string;
-}
-
-export type Perspective = "consumer" | "shopper";

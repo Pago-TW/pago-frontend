@@ -1,4 +1,5 @@
-import type { Perspective, StatusCode } from "@/types/types";
+import type { Perspective } from "@/types/misc";
+import type { StatusCode } from "@/types/order";
 import { Box } from "@mui/material";
 
 interface StatusTextProps {

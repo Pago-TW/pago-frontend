@@ -1,5 +1,5 @@
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import type { Order } from "@/types/types";
+import type { Order } from "@/types/order";
 import { ChevronRight } from "@mui/icons-material";
 import { Box, Paper, Skeleton, Stack } from "@mui/material";
 import Image from "next/image";

@@ -1,4 +1,4 @@
-import type { Trip } from "@/types/types";
+import type { Trip } from "@/types/trip";
 import { Stack } from "@mui/material";
 import { Typography } from "./ui/Typography";
 

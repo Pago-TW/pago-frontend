@@ -1,5 +1,5 @@
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import type { StatusCode } from "@/types/types";
+import type { StatusCode } from "@/types/order";
 import React from "react";
 import type { TypographyProps } from "./ui/Typography";
 import { Typography } from "./ui/Typography";
