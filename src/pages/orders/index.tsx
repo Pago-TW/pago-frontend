@@ -9,8 +9,10 @@ import { Add } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Container } from "@mui/material";
 import type { NextPage } from "next";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 const TABS = [
   { label: "全部", value: "ALL" },
@@ -27,12 +29,32 @@ type Tab = (typeof TABS)[number];
 const OrdersPage: NextPage = () => {
   const [currentTab, setCurrentTab] = useState<Tab["value"]>("ALL");
 
-  const { data: orders = [] } = useOrders();
+  const { data: session } = useSession();
+
+  const { ref, inView } = useInView();
+  const userId = session?.user?.id;
+  const {
+    data: orderPages,
+    isFetching,
+    fetchNextPage,
+    hasNextPage,
+  } = useOrders({ userId }, { enabled: !!userId });
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
   const filterOrders = (status: Tab["value"]) => {
+    const orders = orderPages?.pages.flatMap((orders) => orders.data);
+
+    if (!orders) return [];
+
     if (status === "ALL") {
       return orders;
     }
+
     return orders.filter((order) => order.orderStatus === status);
   };
 
@@ -78,6 +100,9 @@ const OrdersPage: NextPage = () => {
               </TabPanel>
             ))}
           </TabContext>
+          {!isFetching && hasNextPage ? (
+            <span ref={ref} style={{ visibility: "hidden" }}></span>
+          ) : null}
         </Container>
       </BaseLayout>
     </>
