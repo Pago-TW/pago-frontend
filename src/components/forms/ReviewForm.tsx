@@ -1,8 +1,9 @@
 import { useCharge } from "@/hooks/api/useCharge";
+import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Place } from "@mui/icons-material";
 import { Box, Skeleton, Stack } from "@mui/material";
-import { format } from "date-fns";
+import { intlFormat } from "date-fns";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
@@ -45,6 +46,8 @@ export const transformReviewFormValues = (data: ReviewFormValues) => {
 
 export const ReviewForm = () => {
   const [preview, setPreview] = useState<string>("");
+
+  const lang = useLanguage();
 
   const { getValues } = useFormContext<ReviewFormValues>();
 
@@ -159,7 +162,11 @@ export const ReviewForm = () => {
           />
           <DetailItem
             label="最晚收到商品時間"
-            value={format(deadline, "MM/dd/yyyy")}
+            value={intlFormat(
+              deadline,
+              { year: "numeric", month: "numeric", day: "numeric" },
+              { locale: lang }
+            )}
             multiLine
           />
           <DetailItem label="備註" value={note} multiLine />
