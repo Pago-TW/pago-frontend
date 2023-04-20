@@ -35,7 +35,7 @@ const OrdersPage: NextPage = () => {
   const { ref, inView } = useInView();
   const userId = session?.user?.id;
   const {
-    data: orderData,
+    data: ordersData,
     isFetching,
     fetchNextPage,
     hasNextPage,
@@ -48,8 +48,8 @@ const OrdersPage: NextPage = () => {
   }, [inView, hasNextPage, fetchNextPage]);
 
   const orders = useMemo(
-    () => flattenInfinitePaginatedData(orderData),
-    [orderData]
+    () => flattenInfinitePaginatedData(ordersData),
+    [ordersData]
   );
   const filterOrders = (status: Tab["value"]) => {
     if (!orders) return [];
