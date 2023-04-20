@@ -8,17 +8,19 @@ import { BaseLayout } from "@/components/layouts/BaseLayout";
 import type { ButtonProps } from "@/components/ui/Button";
 import { Button } from "@/components/ui/Button";
 import { Typography } from "@/components/ui/Typography";
+import { useBids } from "@/hooks/api/useBids";
 import { useOrder } from "@/hooks/api/useOrder";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Perspective } from "@/types/misc";
 import type { StatusCode } from "@/types/order";
+import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { Place } from "@mui/icons-material";
 import { Box, Paper, Stack } from "@mui/material";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { type ReactNode } from "react";
+import { useMemo, type ReactNode } from "react";
 import { translateBoolean } from "src/utils/translateBoolean";
 
 const AreaWrapper = ({ children }: { children: ReactNode }) => {
@@ -122,6 +124,12 @@ const OrderDetailPage: NextPage = () => {
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
   const { data: order } = useOrder(id as string);
+  const { data: bidsData, hasNextPage, fetchNextPage } = useBids(id as string);
+
+  const bids = useMemo(
+    () => flattenInfinitePaginatedData(bidsData),
+    [bidsData]
+  );
 
   if (!order) return null;
 
@@ -286,7 +294,12 @@ const OrderDetailPage: NextPage = () => {
         {/* Status */}
         <StatusText perspective={perspective} statusCode={orderStatus} />
         {/* Bids (PC) */}
-        <BidList sx={{ display: { xs: "none", md: "block" } }} />
+        <BidList
+          bids={bids}
+          hasMore={hasNextPage}
+          onShowMore={() => fetchNextPage()}
+          sx={{ display: { xs: "none", md: "block" } }}
+        />
       </Stack>
       <Stack gap={2} flexGrow={1}>
         {/* Name (PC) */}
@@ -306,7 +319,12 @@ const OrderDetailPage: NextPage = () => {
           </Stack>
         </AreaWrapper>
         {/* Bids (Mobile) */}
-        <BidList sx={{ display: { xs: "block", md: "none" } }} />
+        <BidList
+          bids={bids}
+          hasMore={hasNextPage}
+          onShowMore={() => fetchNextPage()}
+          sx={{ display: { xs: "block", md: "none" } }}
+        />
       </Stack>
     </Stack>
   );
