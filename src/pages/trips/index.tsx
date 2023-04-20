@@ -8,15 +8,19 @@ import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedDa
 import { Add } from "@mui/icons-material";
 import { Container, Stack } from "@mui/material";
 import type { NextPage } from "next";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useMemo } from "react";
 
 const TripsPage: NextPage = () => {
-  const { data: tripData } = useTrips();
+  const { data: session } = useSession();
+
+  const userId = session?.user?.id;
+  const { data: tripsData } = useTrips({ userId }, { enabled: !!userId });
 
   const trips = useMemo(
-    () => flattenInfinitePaginatedData(tripData) ?? [],
-    [tripData]
+    () => flattenInfinitePaginatedData(tripsData) ?? [],
+    [tripsData]
   );
 
   return (
