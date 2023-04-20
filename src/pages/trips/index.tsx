@@ -4,13 +4,20 @@ import { TripList } from "@/components/TripList";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/components/ui/Link";
 import { useTrips } from "@/hooks/api/useTrips";
+import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { Add } from "@mui/icons-material";
 import { Container, Stack } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useMemo } from "react";
 
 const TripsPage: NextPage = () => {
-  const { data: trips = [] } = useTrips();
+  const { data: tripData } = useTrips();
+
+  const trips = useMemo(
+    () => flattenInfinitePaginatedData(tripData) ?? [],
+    [tripData]
+  );
 
   return (
     <>
