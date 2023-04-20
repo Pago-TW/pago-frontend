@@ -5,13 +5,14 @@ import { Button } from "@/components/ui/Button";
 import { Link } from "@/components/ui/Link";
 import { Tab } from "@/components/ui/Tab";
 import { useOrders } from "@/hooks/api/useOrders";
+import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { Add } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Container } from "@mui/material";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 const TABS = [
@@ -34,7 +35,7 @@ const OrdersPage: NextPage = () => {
   const { ref, inView } = useInView();
   const userId = session?.user?.id;
   const {
-    data: orderPages,
+    data: orderData,
     isFetching,
     fetchNextPage,
     hasNextPage,
@@ -46,9 +47,11 @@ const OrdersPage: NextPage = () => {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
+  const orders = useMemo(
+    () => flattenInfinitePaginatedData(orderData),
+    [orderData]
+  );
   const filterOrders = (status: Tab["value"]) => {
-    const orders = orderPages?.pages.flatMap((orders) => orders.data);
-
     if (!orders) return [];
 
     if (status === "ALL") {
