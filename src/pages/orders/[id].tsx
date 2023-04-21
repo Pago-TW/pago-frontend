@@ -10,12 +10,14 @@ import { Button } from "@/components/ui/Button";
 import { Typography } from "@/components/ui/Typography";
 import { useBids } from "@/hooks/api/useBids";
 import { useOrder } from "@/hooks/api/useOrder";
+import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Perspective } from "@/types/misc";
 import type { StatusCode } from "@/types/order";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { Place } from "@mui/icons-material";
 import { Box, Paper, Stack } from "@mui/material";
+import { intlFormat, parseISO } from "date-fns";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -120,6 +122,8 @@ const OrderDetailPage: NextPage = () => {
   const { id } = router.query;
 
   const { data: session } = useSession();
+
+  const lang = useLanguage();
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
@@ -245,7 +249,11 @@ const OrderDetailPage: NextPage = () => {
       />
       <DetailItem
         label="最晚收到商品時間"
-        value={latestReceiveItemDate}
+        value={intlFormat(
+          parseISO(latestReceiveItemDate),
+          { year: "numeric", month: "numeric", day: "numeric" },
+          { locale: lang }
+        )}
         multiLine={multiline}
       />
       <DetailItem label="備註" value={note} multiLine={multiline} />
@@ -261,12 +269,16 @@ const OrderDetailPage: NextPage = () => {
       <Stack spacing={isDesktop ? 6 : 2}>
         {/* Name (Mobile) & Image */}
         <AreaWrapper>
-          <Stack spacing={2} alignItems="center">
+          <Stack
+            spacing={2}
+            alignItems="center"
+            minWidth={{ xs: 300, md: 400 }}
+          >
             <Box
               display="flex"
               justifyContent="center"
               alignItems="center"
-              width={{ xs: 300, md: "100%" }}
+              width="100%"
               sx={{
                 aspectRatio: "1 / 1",
                 backgroundColor: (theme) => theme.palette.base[50],
