@@ -14,7 +14,7 @@ export interface Bid {
 export interface Creator {
   userId: string;
   fullName: string;
-  avatarUrl: string;
+  avatarUrl?: string;
   review: Review;
 }
 
