@@ -23,5 +23,7 @@ Repository for the frontend of the Pago project.
 - [ ] Remove `error` and `helperText` props from all the components that used
      `useController` and use `field.error` instead
 - [ ] Turn multi steps form into wizard form
-- [ ] Infinite query for trips
-- [ ] Infinite query for bids
+- [x] Infinite query for trips
+- [x] Infinite query for bids
+- [ ] Generic mutation hook to invalidate queries (maybe?)
+- [ ] Check if there's return value when deleting a order (for `useDeleteOrder` hook)
