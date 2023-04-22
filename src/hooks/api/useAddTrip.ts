@@ -1,5 +1,5 @@
 import type { Trip } from "@/types/trip";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 type AddTripData = {
@@ -16,5 +16,9 @@ const addTrip = async (data: AddTripData) => {
 };
 
 export const useAddTrip = () => {
-  return useMutation({ mutationFn: addTrip });
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: addTrip,
+    onSuccess: () => qc.invalidateQueries(["trips"]),
+  });
 };

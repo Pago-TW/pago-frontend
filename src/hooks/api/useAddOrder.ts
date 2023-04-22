@@ -1,5 +1,5 @@
 import type { Order } from "@/types/order";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { serialize } from "object-to-formdata";
 
@@ -41,5 +41,9 @@ const addOrder = async (data: AddOrderData) => {
 };
 
 export const useAddOrder = () => {
-  return useMutation({ mutationFn: addOrder });
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: addOrder,
+    onSuccess: () => qc.invalidateQueries(["orders"]),
+  });
 };

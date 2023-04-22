@@ -18,7 +18,6 @@ import { useAddOrder } from "@/hooks/api/useAddOrder";
 import { useStepper } from "@/hooks/useStepper";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Stack, Step } from "@mui/material";
-import { useQueryClient } from "@tanstack/react-query";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -94,7 +93,6 @@ const NewOrderPage: NextPage = () => {
     trigger,
   } = methods;
 
-  const qc = useQueryClient();
   const { mutate } = useAddOrder();
 
   const handleNext = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -106,11 +104,7 @@ const NewOrderPage: NextPage = () => {
 
   const handleFormSubmit = (data: ReviewFormValues) => {
     mutate(transformReviewFormValues(data), {
-      onSuccess: (data) => {
-        qc.invalidateQueries(["orders"]);
-
-        router.push(`/orders/${data.orderId}`);
-      },
+      onSuccess: (data) => router.push(`/orders/${data.orderId}`),
     });
   };
 

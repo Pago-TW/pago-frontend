@@ -2,7 +2,6 @@ import { useAddTrip } from "@/hooks/api/useAddTrip";
 import { useDialog } from "@/hooks/useDialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Stack } from "@mui/material";
-import { useQueryClient } from "@tanstack/react-query";
 import { startOfDay } from "date-fns";
 import { useRouter } from "next/router";
 import { useCallback, type FC } from "react";
@@ -54,7 +53,6 @@ export const RoundTripForm: FC = () => {
     resolver: zodResolver(roundTripFormSchema),
   });
 
-  const qc = useQueryClient();
   const { mutate } = useAddTrip();
 
   const handleFormSubmit = useCallback(
@@ -74,16 +72,10 @@ export const RoundTripForm: FC = () => {
           toCity: data.from.cityCode,
           arrivalDate: data.returnDate,
         },
-        {
-          onSuccess: () => {
-            qc.invalidateQueries(["trips"]);
-
-            router.push("/trips");
-          },
-        }
+        { onSuccess: () => router.push("/trips") }
       );
     },
-    [mutate, qc, router]
+    [mutate, router]
   );
 
   const handleButtonClick = useCallback(async () => {
