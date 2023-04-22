@@ -27,3 +27,4 @@ Repository for the frontend of the Pago project.
 - [x] Infinite query for bids
 - [ ] Generic mutation hook to invalidate queries (maybe?)
 - [ ] Check if there's return value when deleting a order (for `useDeleteOrder` hook)
+- [ ] Universal modal for canceling/postponing order by generic (idk if it's possible)
