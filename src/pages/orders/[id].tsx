@@ -93,56 +93,59 @@ const ActionButton = (
   );
 };
 
-const getActions = (perspective: Perspective, statusCode: StatusCode) => {
-  if (perspective === "consumer") {
-    switch (statusCode) {
-      case "REQUESTED":
-        return (
-          <>
-            <ActionButton variant="outlined" color="error">
-              刪除委託
-            </ActionButton>
-            <ActionButton>編輯委託</ActionButton>
-          </>
-        );
-      case "TO_BE_PURCHASED":
-        return (
-          <>
-            <ActionButton variant="outlined" color="error">
-              取消委託
-            </ActionButton>
-            <ActionButton>申請延期</ActionButton>
-          </>
-        );
-      case "TO_BE_DELIVERED":
-      case "DELIVERED":
-        return (
-          <>
-            <ActionButton>申請延期</ActionButton>
-            <ActionButton>完成委託</ActionButton>
-          </>
-        );
-      case "FINISHED":
-      case "CANCELED":
-        return null;
-      case "TO_BE_CANCELED":
-        return (
-          <>
-            <ActionButton variant="outlined" color="error" disabled>
-              取消委託
-            </ActionButton>
-            <ActionButton disabled>申請延期</ActionButton>
-          </>
-        );
-      case "TO_BE_POSTPONED":
-        return (
-          <>
-            <ActionButton disabled>申請延期</ActionButton>
-            <ActionButton disabled>完成委託</ActionButton>
-          </>
-        );
-    }
+const ConsumerActionButtons = (props: { statusCode: StatusCode }) => {
+  const { statusCode } = props;
+
+  const disabled =
+    statusCode === "TO_BE_CANCELED" || statusCode === "TO_BE_POSTPONED";
+
+  switch (statusCode) {
+    case "REQUESTED":
+      return (
+        <>
+          <ActionButton variant="outlined" color="error">
+            刪除委託
+          </ActionButton>
+          <ActionButton>編輯委託</ActionButton>
+        </>
+      );
+    case "TO_BE_PURCHASED":
+    case "TO_BE_CANCELED":
+      return (
+        <>
+          <ActionButton variant="outlined" color="error" disabled={disabled}>
+            取消委託
+          </ActionButton>
+          <ActionButton disabled={disabled}>申請延期</ActionButton>
+        </>
+      );
+    case "TO_BE_DELIVERED":
+    case "DELIVERED":
+    case "TO_BE_POSTPONED":
+      return (
+        <>
+          <ActionButton disabled={disabled}>申請延期</ActionButton>
+          <ActionButton disabled={disabled}>完成委託</ActionButton>
+        </>
+      );
+    case "FINISHED":
+    case "CANCELED":
+      return null;
   }
+};
+
+const Actions = (props: {
+  perspective: Perspective;
+  statusCode: StatusCode;
+}) => {
+  const { perspective, statusCode } = props;
+
+  const btns =
+    perspective === "consumer" ? (
+      <ConsumerActionButtons statusCode={statusCode} />
+    ) : null;
+
+  return <ActionsWrapper>{btns}</ActionsWrapper>;
 };
 
 const OrderDetailPage: NextPage = () => {
@@ -219,7 +222,7 @@ const OrderDetailPage: NextPage = () => {
   const perspective = session?.user?.id === consumerId ? "consumer" : "shopper";
 
   const details = (
-    <>
+    <Stack spacing={4}>
       <DetailItem
         label="商品價格"
         value={withCurrency(unitPrice)}
@@ -285,10 +288,15 @@ const OrderDetailPage: NextPage = () => {
         multiLine={multiline}
       />
       <DetailItem label="備註" value={note} multiLine={multiline} />
-    </>
+      <DetailItem
+        label="訂單編號"
+        value={orderId}
+        labelProps={{ color: "base.300" }}
+        valueProps={{ color: "base.300" }}
+        multiLine={multiline}
+      />
+    </Stack>
   );
-
-  const actions = getActions(perspective, orderStatus);
 
   const content = (
     <Stack
@@ -354,12 +362,8 @@ const OrderDetailPage: NextPage = () => {
         >
           {name}
         </Typography>
-        <AreaWrapper>
-          <Stack spacing={4}>
-            {/* Details */}
-            {details}
-          </Stack>
-        </AreaWrapper>
+        {/* Details */}
+        <AreaWrapper>{details}</AreaWrapper>
         {/* Bids (Mobile) */}
         <BidList
           bids={bids}
@@ -367,7 +371,7 @@ const OrderDetailPage: NextPage = () => {
           onShowMore={() => fetchNextPage()}
           sx={{ display: { xs: "block", md: "none" } }}
         />
-        <ActionsWrapper>{actions}</ActionsWrapper>
+        <Actions perspective={perspective} statusCode={orderStatus} />
       </Stack>
     </Stack>
   );
