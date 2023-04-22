@@ -93,59 +93,52 @@ const ActionButton = (
   );
 };
 
-const ConsumerActionButtons = (props: { statusCode: StatusCode }) => {
-  const { statusCode } = props;
-
-  const disabled =
-    statusCode === "TO_BE_CANCELED" || statusCode === "TO_BE_POSTPONED";
-
-  switch (statusCode) {
-    case "REQUESTED":
-      return (
-        <>
-          <ActionButton variant="outlined" color="error">
-            刪除委託
-          </ActionButton>
-          <ActionButton>編輯委託</ActionButton>
-        </>
-      );
-    case "TO_BE_PURCHASED":
-    case "TO_BE_CANCELED":
-      return (
-        <>
-          <ActionButton variant="outlined" color="error" disabled={disabled}>
-            取消委託
-          </ActionButton>
-          <ActionButton disabled={disabled}>申請延期</ActionButton>
-        </>
-      );
-    case "TO_BE_DELIVERED":
-    case "DELIVERED":
-    case "TO_BE_POSTPONED":
-      return (
-        <>
-          <ActionButton disabled={disabled}>申請延期</ActionButton>
-          <ActionButton disabled={disabled}>完成委託</ActionButton>
-        </>
-      );
-    case "FINISHED":
-    case "CANCELED":
-      return null;
-  }
-};
-
 const Actions = (props: {
   perspective: Perspective;
   statusCode: StatusCode;
 }) => {
   const { perspective, statusCode } = props;
 
-  const btns =
-    perspective === "consumer" ? (
-      <ConsumerActionButtons statusCode={statusCode} />
-    ) : null;
+  if (perspective === "consumer") {
+    const disabled =
+      statusCode === "TO_BE_CANCELED" || statusCode === "TO_BE_POSTPONED";
 
-  return <ActionsWrapper>{btns}</ActionsWrapper>;
+    switch (statusCode) {
+      case "REQUESTED":
+        return (
+          <ActionsWrapper>
+            <ActionButton variant="outlined" color="error">
+              刪除委託
+            </ActionButton>
+            <ActionButton>編輯委託</ActionButton>
+          </ActionsWrapper>
+        );
+      case "TO_BE_PURCHASED":
+      case "TO_BE_CANCELED":
+        return (
+          <ActionsWrapper>
+            <ActionButton variant="outlined" color="error" disabled={disabled}>
+              取消委託
+            </ActionButton>
+            <ActionButton disabled={disabled}>申請延期</ActionButton>
+          </ActionsWrapper>
+        );
+      case "TO_BE_DELIVERED":
+      case "DELIVERED":
+      case "TO_BE_POSTPONED":
+        return (
+          <ActionsWrapper>
+            <ActionButton disabled={disabled}>申請延期</ActionButton>
+            <ActionButton disabled={disabled}>完成委託</ActionButton>
+          </ActionsWrapper>
+        );
+      case "FINISHED":
+      case "CANCELED":
+        return null;
+    }
+  } else {
+    return null;
+  }
 };
 
 const OrderDetailPage: NextPage = () => {
