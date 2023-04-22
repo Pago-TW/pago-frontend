@@ -10,8 +10,8 @@ interface Charge {
   currency: string;
 }
 
-const getCharge = async (data: AddOrderData["data"]): Promise<Charge> => {
-  const res = await axios.post("/calculate-order-amount", data);
+const getCharge = async (data: AddOrderData["data"]) => {
+  const res = await axios.post<Charge>("/calculate-order-amount", data);
   return res.data;
 };
 

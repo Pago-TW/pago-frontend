@@ -2,8 +2,8 @@ import { axios } from "@/libs/axios";
 import type { Trip } from "@/types/trip";
 import { useQuery } from "@tanstack/react-query";
 
-const getTrip = async (tripId: Trip["tripId"]): Promise<Trip> => {
-  const res = await axios.get(`/trips/${tripId}`);
+const getTrip = async (tripId: Trip["tripId"]) => {
+  const res = await axios.get<Trip>(`/trips/${tripId}`);
   return res.data;
 };
 

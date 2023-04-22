@@ -31,16 +31,6 @@ interface MyAppProps extends AppProps<{ session: Session | null }> {
   emotionCache?: EmotionCache;
 }
 
-axios.interceptors.request.use(async (config) => {
-  const session = await getSession();
-
-  config.baseURL = env.NEXT_PUBLIC_API_URL;
-  if (session) {
-    config.headers.Authorization = `Bearer ${session.accessToken}`;
-  }
-  return config;
-});
-
 const queryClient = new QueryClient();
 
 const PagoApp = ({

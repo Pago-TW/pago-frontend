@@ -2,8 +2,8 @@ import type { CountryCityOption } from "@/components/inputs/CountryCitySelect";
 import { axios } from "@/libs/axios";
 import { useQuery } from "@tanstack/react-query";
 
-const getCountryCity = async (): Promise<CountryCityOption[]> => {
-  const res = await axios.get("/countries-and-cities");
+const getCountryCity = async () => {
+  const res = await axios.get<CountryCityOption[]>("/countries-and-cities");
   return res.data;
 };
 

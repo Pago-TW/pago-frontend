@@ -12,19 +12,19 @@ type Options = {
   pageParam?: number;
 };
 
-const getBids = async (
-  orderId: Order["orderId"],
-  options: Options = {}
-): Promise<PaginatedResponse<Bid[]>> => {
+const getBids = async (orderId: Order["orderId"], options: Options = {}) => {
   const { params, pageParam = 0 } = options;
 
-  const res = await axios.get(`/orders/${orderId}/bids`, {
-    params: {
-      startIndex: pageParam,
-      size: 10,
-      ...params,
-    },
-  });
+  const res = await axios.get<PaginatedResponse<Bid[]>>(
+    `/orders/${orderId}/bids`,
+    {
+      params: {
+        startIndex: pageParam,
+        size: 10,
+        ...params,
+      },
+    }
+  );
   return res.data;
 };
 

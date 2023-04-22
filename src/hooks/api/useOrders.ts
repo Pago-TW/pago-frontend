@@ -18,12 +18,10 @@ type Options = {
   pageParam?: number;
 };
 
-const getOrders = async (
-  options: Options = {}
-): Promise<PaginatedResponse<Order[]>> => {
+const getOrders = async (options: Options = {}) => {
   const { params, pageParam = 0 } = options;
 
-  const res = await axios.get("/orders", {
+  const res = await axios.get<PaginatedResponse<Order[]>>("/orders", {
     params: {
       startIndex: pageParam,
       size: 10,
