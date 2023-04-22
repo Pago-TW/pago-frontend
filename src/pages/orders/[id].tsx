@@ -143,7 +143,7 @@ const Actions = (props: {
 
 const OrderDetailPage: NextPage = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const id = router.query.id as string;
 
   const { data: session } = useSession();
 
@@ -151,8 +151,8 @@ const OrderDetailPage: NextPage = () => {
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
-  const { data: order } = useOrder(id as string);
-  const { data: bidsData, hasNextPage, fetchNextPage } = useBids(id as string);
+  const { data: order } = useOrder(id);
+  const { data: bidsData, hasNextPage, fetchNextPage } = useBids(id);
 
   const bids = useMemo(
     () => flattenInfinitePaginatedData(bidsData),
