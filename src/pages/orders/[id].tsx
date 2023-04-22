@@ -37,15 +37,30 @@ const AreaWrapper = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const MobileActionsWrapper = ({ children }: { children: ReactNode }) => {
+const ActionsWrapper = ({ children }: { children: ReactNode }) => {
+  const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
+
+  if (isDesktop)
+    return (
+      <Box
+        display="flex"
+        justifyContent="space-around"
+        alignItems="center"
+        gap={2}
+      >
+        {children}
+      </Box>
+    );
+
   return (
     <Paper
       elevation={5}
       sx={{
         position: "fixed",
+        left: 0,
         bottom: 0,
         width: "100%",
-        display: { xs: "flex", sm: "none" },
+        display: { xs: "flex", md: "none" },
         justifyContent: "center",
         gap: 3,
         px: 4,
@@ -60,8 +75,21 @@ const MobileActionsWrapper = ({ children }: { children: ReactNode }) => {
 const ActionButton = (
   props: Pick<ButtonProps, "variant" | "color" | "disabled" | "children">
 ) => {
+  const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
+
+  const size = isDesktop ? "large" : "medium";
+
   return (
-    <Button size="medium" sx={{ maxWidth: 144, flexGrow: 1 }} {...props} />
+    <Button
+      size={size}
+      sx={{
+        minWidth: 0,
+        maxWidth: { xs: 144, md: 304 },
+        height: { md: 66 },
+        flexGrow: 1,
+      }}
+      {...props}
+    />
   );
 };
 
@@ -260,6 +288,8 @@ const OrderDetailPage: NextPage = () => {
     </>
   );
 
+  const actions = getActions(perspective, orderStatus);
+
   const content = (
     <Stack
       direction={isDesktop ? "row" : "column"}
@@ -313,7 +343,7 @@ const OrderDetailPage: NextPage = () => {
           sx={{ display: { xs: "none", md: "block" } }}
         />
       </Stack>
-      <Stack gap={2} flexGrow={1}>
+      <Stack spacing={2} flexGrow={1}>
         {/* Name (PC) */}
         <Typography
           variant="h1"
@@ -337,11 +367,10 @@ const OrderDetailPage: NextPage = () => {
           onShowMore={() => fetchNextPage()}
           sx={{ display: { xs: "block", md: "none" } }}
         />
+        <ActionsWrapper>{actions}</ActionsWrapper>
       </Stack>
     </Stack>
   );
-
-  const actions = getActions(perspective, orderStatus);
 
   return (
     <>
@@ -371,9 +400,6 @@ const OrderDetailPage: NextPage = () => {
             <Box width={336}>{content}</Box>
           )}
         </Box>
-        {actions ? (
-          <MobileActionsWrapper>{actions}</MobileActionsWrapper>
-        ) : null}
       </BaseLayout>
     </>
   );
