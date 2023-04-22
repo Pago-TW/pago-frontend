@@ -27,7 +27,7 @@ import "@fontsource/noto-sans-tc/700.css";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
-interface MyAppProps extends AppProps<{ session: Session | null }> {
+interface PagoAppProps extends AppProps<{ session: Session | null }> {
   emotionCache?: EmotionCache;
 }
 
@@ -37,7 +37,7 @@ const PagoApp = ({
   Component,
   emotionCache = clientSideEmotionCache,
   pageProps: { session, ...pageProps },
-}: MyAppProps) => {
+}: PagoAppProps) => {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
