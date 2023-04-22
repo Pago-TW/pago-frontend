@@ -4,16 +4,16 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 
 export type ConfirmDialogProps = Pick<
   DialogProps,
   "open" | "maxWidth" | "fullWidth"
 > & {
-  open: boolean;
-  text: string;
+  title?: ReactNode;
+  content?: ReactNode;
   onClose: () => void;
   onConfirm: () => void;
   onCancel: () => void;
@@ -24,7 +24,8 @@ export const ConfirmDialog: FC<ConfirmDialogProps> = (props) => {
     open,
     maxWidth = "xs",
     fullWidth = true,
-    text,
+    title,
+    content,
     onClose,
     onConfirm,
     onCancel,
@@ -37,11 +38,8 @@ export const ConfirmDialog: FC<ConfirmDialogProps> = (props) => {
       maxWidth={maxWidth}
       fullWidth={fullWidth}
     >
-      <DialogContent>
-        <DialogContentText>
-          <DialogContentText component="span">{text}</DialogContentText>
-        </DialogContentText>
-      </DialogContent>
+      {title ? <DialogTitle fontSize={18}>{title}</DialogTitle> : null}
+      {content ? <DialogContent>{content}</DialogContent> : null}
       <DialogActions>
         <Button onClick={onConfirm}>是</Button>
         <Button onClick={onCancel}>否</Button>

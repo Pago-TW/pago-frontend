@@ -114,7 +114,7 @@ export const OneWayTripForm: FC = () => {
         新增旅途
       </Button>
       <ConfirmDialog
-        text="確定發布旅途？"
+        title="確定發布旅途？"
         open={dialogOpen}
         onClose={handleDialogClose}
         onCancel={handleDialogClose}
