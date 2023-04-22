@@ -1,5 +1,5 @@
 import { useAddTrip } from "@/hooks/api/useAddTrip";
-import { useDialog } from "@/hooks/useDialog";
+import { useOpen } from "@/hooks/useOpen";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Stack } from "@mui/material";
 import { startOfDay } from "date-fns";
@@ -40,7 +40,11 @@ export const DEFAULT_VALUES: Partial<OneWayTripFormValues> = {
 export const OneWayTripForm: FC = () => {
   const router = useRouter();
 
-  const { dialogOpen, handleDialogClose, handleDialogOpen } = useDialog();
+  const {
+    open: dialogOpen,
+    handleClose: handleDialogClose,
+    handleOpen: handleDialogOpen,
+  } = useOpen();
 
   const {
     control,
