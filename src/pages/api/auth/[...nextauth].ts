@@ -1,5 +1,5 @@
 import { env } from "@/env/server.mjs";
-import axios from "axios";
+import { axios } from "@/libs/axios";
 import type { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";

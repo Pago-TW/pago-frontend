@@ -1,5 +1,5 @@
+import { axios } from "@/libs/axios";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import type { AddOrderData } from "./useAddOrder";
 
 interface Charge {

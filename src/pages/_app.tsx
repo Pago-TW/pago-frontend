@@ -1,4 +1,3 @@
-import { env } from "@/env/client.mjs";
 import type { EmotionCache } from "@emotion/react";
 import { CacheProvider } from "@emotion/react";
 import { Close } from "@mui/icons-material";
@@ -7,9 +6,8 @@ import { CssBaseline, IconButton, Slide } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import axios from "axios";
 import type { Session } from "next-auth";
-import { SessionProvider, getSession } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { SnackbarProvider, closeSnackbar } from "notistack";

@@ -1,7 +1,8 @@
+import { axios } from "@/libs/axios";
+import type { PaginatedResponse } from "@/types/api";
 import type { Order } from "@/types/order";
 import type { Trip } from "@/types/trip";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 
 const getTripMatches = async (tripId: Trip["tripId"]): Promise<Order[]> => {
   const res = await axios.get(`/trips/${tripId}/matching-orders`);

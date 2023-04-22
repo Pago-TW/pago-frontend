@@ -1,6 +1,6 @@
+import { axios } from "@/libs/axios";
 import type { Trip } from "@/types/trip";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 
 type AddTripData = {
   fromCountry: string;

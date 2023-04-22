@@ -1,6 +1,6 @@
+import { axios } from "@/libs/axios";
 import type { Order } from "@/types/order";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { serialize } from "object-to-formdata";
 
 export type AddOrderData = {
