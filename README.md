@@ -28,3 +28,4 @@ Repository for the frontend of the Pago project.
 - [ ] Generic mutation hook to invalidate queries (maybe?)
 - [ ] Check if there's return value when deleting a order (for `useDeleteOrder` hook)
 - [ ] Universal modal for canceling/postponing order by generic (idk if it's possible)
+- [ ] Change mutate functions' arguments to object (maybe)
