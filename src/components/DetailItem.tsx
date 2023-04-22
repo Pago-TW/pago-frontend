@@ -34,6 +34,7 @@ DetailItemProps) => {
       spacing={2}
       justifyContent="space-between"
       alignItems={multiLine ? "flex-start" : "center"}
+      flexWrap="wrap"
     >
       {/* 標籤 */}
       <Typography
