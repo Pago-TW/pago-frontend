@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { RadioGroupInput } from "./inputs/RadioGroupInput";
 import { Button } from "./ui/Button";
-import FilledTextarea from "./ui/FilledTextarea";
+import { FilledTextarea } from "./ui/FilledTextarea";
 import { Typography } from "./ui/Typography";
 
 export const reasons = [
