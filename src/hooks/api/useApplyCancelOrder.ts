@@ -2,9 +2,12 @@ import { axios } from "@/libs/axios";
 import type { Order } from "@/types/order";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-type ApplyCancelOrderData = {
-  cancelReason: string;
-  note?: string;
+type ApplyCancelOrderParams = {
+  orderId: Order["orderId"];
+  data: {
+    cancelReason: string;
+    note?: string;
+  };
 };
 
 type ApplyCancelResponse = {
@@ -18,10 +21,9 @@ type ApplyCancelResponse = {
   isCanceled: boolean;
 };
 
-const ApplyCancelOrder = async (
-  orderId: Order["orderId"],
-  data: ApplyCancelOrderData
-) => {
+const applyCancelOrder = async (params: ApplyCancelOrderParams) => {
+  const { orderId, data } = params;
+
   const res = await axios.post<ApplyCancelResponse>(
     `/orders/${orderId}/cancel-record`,
     data
@@ -29,13 +31,10 @@ const ApplyCancelOrder = async (
   return res.data;
 };
 
-export const useApplyCancelOrder = (
-  orderId: Order["orderId"],
-  data: ApplyCancelOrderData
-) => {
+export const useApplyCancelOrder = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: () => ApplyCancelOrder(orderId, data),
+    mutationFn: applyCancelOrder,
     onSuccess: () => qc.invalidateQueries(["orders"]),
   });
 };

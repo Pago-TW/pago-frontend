@@ -1,10 +1,11 @@
 import { axios } from "@/libs/axios";
 import type { Order, StatusCode } from "@/types/order";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-type ApplyPostponeOrderData = {
-  postponeReason: string;
-  note?: string;
+type ApplyPostponeOrderParams = {
+  orderId: Order["orderId"];
+
+  data: { postponeReason: string; note?: string };
 };
 
 type ApplyPostponeResponse = {
@@ -19,10 +20,9 @@ type ApplyPostponeResponse = {
   isPostponed: boolean;
 };
 
-const applyPostponeOrder = async (
-  orderId: Order["orderId"],
-  data: ApplyPostponeOrderData
-) => {
+const applyPostponeOrder = async (params: ApplyPostponeOrderParams) => {
+  const { orderId, data } = params;
+
   const res = await axios.post<ApplyPostponeResponse>(
     `/orders/${orderId}/postpone-record`,
     data
@@ -30,11 +30,10 @@ const applyPostponeOrder = async (
   return res.data;
 };
 
-export const useApplyPostponeOrder = (
-  orderId: Order["orderId"],
-  data: ApplyPostponeOrderData
-) => {
+export const useApplyPostponeOrder = () => {
+  const qc = useQueryClient();
   return useMutation({
-    mutationFn: () => applyPostponeOrder(orderId, data),
+    mutationFn: applyPostponeOrder,
+    onSuccess: () => qc.invalidateQueries(["orders"]),
   });
 };
