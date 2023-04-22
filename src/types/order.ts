@@ -21,6 +21,7 @@ export interface Order {
   createDate: string;
   updateDate: string;
   shopper?: Shopper;
+  isApplicant: boolean;
   isBidder: boolean;
 }
 
