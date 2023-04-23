@@ -28,6 +28,7 @@
     "country-flag-icons": "^1.5.7",
     "date-fns": "^2.29.3",
     "embla-carousel-react": "^7.1.0",
+    "material-ui-confirm": "^3.0.9",
     "next": "^13.3.0",
     "next-auth": "^4.22.1",
     "notistack": "^3.0.1",

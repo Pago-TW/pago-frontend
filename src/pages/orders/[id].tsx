@@ -1,19 +1,21 @@
+import { Actions } from "@/components/Actions";
 import { BidList } from "@/components/BidList";
+import { type CancelFormValues } from "@/components/CancelModal";
 import { DetailItem } from "@/components/DetailItem";
 import { ImageCarousel } from "@/components/ImageCarousel";
 import { PageTitle } from "@/components/PageTitle";
+import type { PostponeFormValues } from "@/components/PostponeModal";
 import { ShareButton } from "@/components/ShareButton";
 import { StatusText } from "@/components/StatusText";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
-import type { ButtonProps } from "@/components/ui/Button";
-import { Button } from "@/components/ui/Button";
 import { Typography } from "@/components/ui/Typography";
+import { useApplyCancelOrder } from "@/hooks/api/useApplyCancelOrder";
+import { useApplyPostponeOrder } from "@/hooks/api/useApplyPostponeOrder";
 import { useBids } from "@/hooks/api/useBids";
+import { useDeleteOrder } from "@/hooks/api/useDeleteOrder";
 import { useOrder } from "@/hooks/api/useOrder";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import type { Perspective } from "@/types/misc";
-import type { StatusCode } from "@/types/order";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { Place } from "@mui/icons-material";
 import { Box, Paper, Stack } from "@mui/material";
@@ -72,75 +74,6 @@ const ActionsWrapper = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const ActionButton = (
-  props: Pick<ButtonProps, "variant" | "color" | "disabled" | "children">
-) => {
-  const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
-
-  const size = isDesktop ? "large" : "medium";
-
-  return (
-    <Button
-      size={size}
-      sx={{
-        minWidth: 0,
-        maxWidth: { xs: 144, md: 304 },
-        height: { md: 66 },
-        flexGrow: 1,
-      }}
-      {...props}
-    />
-  );
-};
-
-const Actions = (props: {
-  perspective: Perspective;
-  statusCode: StatusCode;
-}) => {
-  const { perspective, statusCode } = props;
-
-  if (perspective === "consumer") {
-    const disabled =
-      statusCode === "TO_BE_CANCELED" || statusCode === "TO_BE_POSTPONED";
-
-    switch (statusCode) {
-      case "REQUESTED":
-        return (
-          <ActionsWrapper>
-            <ActionButton variant="outlined" color="error">
-              刪除委託
-            </ActionButton>
-            <ActionButton>編輯委託</ActionButton>
-          </ActionsWrapper>
-        );
-      case "TO_BE_PURCHASED":
-      case "TO_BE_CANCELED":
-        return (
-          <ActionsWrapper>
-            <ActionButton variant="outlined" color="error" disabled={disabled}>
-              取消委託
-            </ActionButton>
-            <ActionButton disabled={disabled}>申請延期</ActionButton>
-          </ActionsWrapper>
-        );
-      case "TO_BE_DELIVERED":
-      case "DELIVERED":
-      case "TO_BE_POSTPONED":
-        return (
-          <ActionsWrapper>
-            <ActionButton disabled={disabled}>申請延期</ActionButton>
-            <ActionButton disabled={disabled}>完成委託</ActionButton>
-          </ActionsWrapper>
-        );
-      case "FINISHED":
-      case "CANCELED":
-        return null;
-    }
-  } else {
-    return null;
-  }
-};
-
 const OrderDetailPage: NextPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
@@ -153,6 +86,9 @@ const OrderDetailPage: NextPage = () => {
 
   const { data: order } = useOrder(id);
   const { data: bidsData, hasNextPage, fetchNextPage } = useBids(id);
+  const { mutate: deleteOrder } = useDeleteOrder();
+  const { mutate: applyCancel } = useApplyCancelOrder();
+  const { mutate: applyPostpone } = useApplyPostponeOrder();
 
   const bids = useMemo(
     () => flattenInfinitePaginatedData(bidsData),
@@ -197,6 +133,29 @@ const OrderDetailPage: NextPage = () => {
     createDate,
     updateDate,
   } = order;
+
+  const handleDelete = () => {
+    deleteOrder({ orderId });
+    router.replace("/orders");
+  };
+  const handleEdit = () => {
+    router.push(`/orders/${orderId}/edit`);
+  };
+  const handleApplyCancel = (data: CancelFormValues) => {
+    applyCancel({
+      orderId,
+      data: { cancelReason: data.reason, note: data.detail },
+    });
+  };
+  const handleApplyPostpone = (data: PostponeFormValues) => {
+    applyPostpone({
+      orderId,
+      data: { postponeReason: data.reason, note: data.detail },
+    });
+  };
+  const handleFinish = () => {
+    console.log({ type: "finish" });
+  };
 
   const withCurrency = (value: number) => `${value} ${currency}`;
 
@@ -281,9 +240,16 @@ const OrderDetailPage: NextPage = () => {
         multiLine={multiline}
       />
       <DetailItem label="備註" value={note} multiLine={multiline} />
-      <DetailItem
+      {/* <DetailItem
         label="訂單編號"
         value={orderId}
+        labelProps={{ color: "base.300" }}
+        valueProps={{ color: "base.300" }}
+        multiLine={multiline}
+      /> */}
+      <DetailItem
+        label="訂單編號"
+        value="sdddddddddddddddddddddddddddddddddddddddddddddddd"
         labelProps={{ color: "base.300" }}
         valueProps={{ color: "base.300" }}
         multiLine={multiline}
@@ -324,14 +290,11 @@ const OrderDetailPage: NextPage = () => {
               )}
             </Box>
             {/* Name (Mobile) */}
-            <Typography
-              variant="h3"
-              as="h1"
-              textAlign="center"
-              sx={{ display: { xs: "block", md: "none" } }}
-            >
-              {name}
-            </Typography>
+            {!isDesktop ? (
+              <Typography variant="h3" as="h1" textAlign="center">
+                {name}
+              </Typography>
+            ) : null}
           </Stack>
         </AreaWrapper>
         {/* Status */}
@@ -346,15 +309,11 @@ const OrderDetailPage: NextPage = () => {
       </Stack>
       <Stack spacing={2} flexGrow={1}>
         {/* Name (PC) */}
-        <Typography
-          variant="h1"
-          weightPreset="bold"
-          mt={1}
-          mb={4}
-          sx={{ display: { xs: "none", md: "block" } }}
-        >
-          {name}
-        </Typography>
+        {isDesktop ? (
+          <Typography variant="h1" weightPreset="bold" mt={1} mb={4}>
+            {name}
+          </Typography>
+        ) : null}
         {/* Details */}
         <AreaWrapper>{details}</AreaWrapper>
         {/* Bids (Mobile) */}
@@ -364,7 +323,15 @@ const OrderDetailPage: NextPage = () => {
           onShowMore={() => fetchNextPage()}
           sx={{ display: { xs: "block", md: "none" } }}
         />
-        <Actions perspective={perspective} statusCode={orderStatus} />
+        <Actions
+          perspective={perspective}
+          statusCode={orderStatus}
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+          onApplyCancel={handleApplyCancel}
+          onApplyPostpone={handleApplyPostpone}
+          onFinish={handleFinish}
+        />
       </Stack>
     </Stack>
   );
@@ -377,10 +344,11 @@ const OrderDetailPage: NextPage = () => {
       <BaseLayout>
         <PageTitle title="委託詳情" endButton={<ShareButton />} />
         <Box display="flex" justifyContent="center" alignItems="center" mb={12}>
-          {isDesktop ? (
-            <Paper
-              elevation={3}
-              sx={{
+          <Paper
+            elevation={isDesktop ? 3 : 0}
+            sx={[
+              { width: 336, backgroundColor: "transparent" },
+              isDesktop && {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -389,13 +357,11 @@ const OrderDetailPage: NextPage = () => {
                 mx: 2,
                 width: "100%",
                 maxWidth: 1300,
-              }}
-            >
-              {content}
-            </Paper>
-          ) : (
-            <Box width={336}>{content}</Box>
-          )}
+              },
+            ]}
+          >
+            {content}
+          </Paper>
         </Box>
       </BaseLayout>
     </>

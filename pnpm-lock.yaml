@@ -52,6 +52,9 @@ dependencies:
   embla-carousel-react:
     specifier: ^7.1.0
     version: 7.1.0(react@18.2.0)
+  material-ui-confirm:
+    specifier: ^3.0.9
+    version: 3.0.9(@mui/material@5.12.1)(react-dom@18.2.0)(react@18.2.0)
   next:
     specifier: ^13.3.0
     version: 13.3.0(@babel/core@7.21.4)(react-dom@18.2.0)(react@18.2.0)
@@ -8064,6 +8067,18 @@ packages:
     dependencies:
       react: 18.2.0
     dev: true
+
+  /material-ui-confirm@3.0.9(@mui/material@5.12.1)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-WEAEG9z4MfwojoUyQiAjrjl8378tYbGKfiwOKz3zHaQKyXcHnFktUmV7b+F+G0yVo8kYrEMk9Bw+HxhA/2Enlw==}
+    peerDependencies:
+      '@mui/material': '>= 5.0.0'
+      react: ^17.0.0 || ^18.0.0
+      react-dom: ^17.0.0 || ^18.0.0
+    dependencies:
+      '@mui/material': 5.12.1(@emotion/react@11.10.6)(@emotion/styled@11.10.6)(@types/react@18.0.37)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /mdast-util-definitions@4.0.0:
     resolution: {integrity: sha512-k8AJ6aNnUkB7IE+5azR9h81O5EQ/cTDXtWdMq9Kk5KcEW/8ritU5CeLg/9HhOC++nALHBlaogJ5jz0Ybk3kPMQ==}
