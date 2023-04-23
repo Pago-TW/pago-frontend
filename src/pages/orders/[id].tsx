@@ -242,7 +242,7 @@ const OrderDetailPage: NextPage = () => {
       <DetailItem label="備註" value={note} multiLine={multiline} />
       <DetailItem
         label="訂單編號"
-        value={orderId}
+        value={serialNumber}
         labelProps={{ color: "base.300" }}
         valueProps={{ color: "base.300" }}
         multiLine={multiline}
