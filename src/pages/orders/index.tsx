@@ -104,7 +104,14 @@ const OrdersPage: NextPage = () => {
             ))}
           </TabContext>
           {!isFetching && hasNextPage ? (
-            <span ref={ref} style={{ visibility: "hidden" }}></span>
+            <span
+              ref={ref}
+              style={{
+                visibility: "hidden",
+                display: "inline-block",
+                height: 1,
+              }}
+            ></span>
           ) : null}
         </Container>
       </BaseLayout>
