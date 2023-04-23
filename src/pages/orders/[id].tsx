@@ -337,11 +337,10 @@ const OrderDetailPage: NextPage = () => {
       <BaseLayout>
         <PageTitle title="委託詳情" endButton={<ShareButton />} />
         <Box display="flex" justifyContent="center" alignItems="center" mb={12}>
-          <Paper
-            elevation={isDesktop ? 3 : 0}
-            sx={[
-              { width: 336, backgroundColor: "transparent" },
-              isDesktop && {
+          {isDesktop ? (
+            <Paper
+              elevation={isDesktop ? 3 : 0}
+              sx={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -350,11 +349,13 @@ const OrderDetailPage: NextPage = () => {
                 mx: 2,
                 width: "100%",
                 maxWidth: 1300,
-              },
-            ]}
-          >
-            {content}
-          </Paper>
+              }}
+            >
+              {content}
+            </Paper>
+          ) : (
+            <Box width={336}>{content}</Box>
+          )}
         </Box>
       </BaseLayout>
     </>
