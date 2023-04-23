@@ -1,6 +1,7 @@
 import { Actions } from "@/components/Actions";
 import { BidList } from "@/components/BidList";
 import { type CancelFormValues } from "@/components/CancelModal";
+import { ChosenShopper } from "@/components/ChosenShopper";
 import { DetailItem } from "@/components/DetailItem";
 import { ImageCarousel } from "@/components/ImageCarousel";
 import { PageTitle } from "@/components/PageTitle";
@@ -97,6 +98,7 @@ const OrderDetailPage: NextPage = () => {
     isVerificationRequired,
     createDate,
     updateDate,
+    shopper,
   } = order;
 
   const handleDelete = () => {
@@ -257,6 +259,10 @@ const OrderDetailPage: NextPage = () => {
         </AreaWrapper>
         {/* Status */}
         <StatusText perspective={perspective} statusCode={orderStatus} />
+        {/* ChosenShopper */}
+        {perspective === "consumer" && shopper ? (
+          <ChosenShopper {...shopper} />
+        ) : null}
         {/* Bids (PC) */}
         <BidList
           bids={bids}
