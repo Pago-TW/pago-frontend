@@ -264,12 +264,14 @@ const OrderDetailPage: NextPage = () => {
           <ChosenShopper {...shopper} />
         ) : null}
         {/* Bids (PC) */}
-        <BidList
-          bids={bids}
-          hasMore={hasNextPage}
-          onShowMore={() => fetchNextPage()}
-          sx={{ display: { xs: "none", md: "block" } }}
-        />
+        {perspective === "consumer" && !shopper ? (
+          <BidList
+            bids={bids}
+            hasMore={hasNextPage}
+            onShowMore={() => fetchNextPage()}
+            sx={{ display: { xs: "none", md: "block" } }}
+          />
+        ) : null}
       </Stack>
       <Stack spacing={2} flexGrow={1}>
         {/* Name (PC) */}
@@ -281,12 +283,14 @@ const OrderDetailPage: NextPage = () => {
         {/* Details */}
         <AreaWrapper>{details}</AreaWrapper>
         {/* Bids (Mobile) */}
-        <BidList
-          bids={bids}
-          hasMore={hasNextPage}
-          onShowMore={() => fetchNextPage()}
-          sx={{ display: { xs: "block", md: "none" } }}
-        />
+        {perspective === "consumer" && !shopper ? (
+          <BidList
+            bids={bids}
+            hasMore={hasNextPage}
+            onShowMore={() => fetchNextPage()}
+            sx={{ display: { xs: "block", md: "none" } }}
+          />
+        ) : null}
         <Actions
           perspective={perspective}
           statusCode={orderStatus}
