@@ -12,20 +12,20 @@ type DetailItemProps = {
   valueProps?: TypographyProps;
 };
 
-export const DetailItem = ({
-  multiLine,
-  label,
-  value,
-  labelProps: {
-    variant: labelVariant,
-    color: labelColor,
-    sx: labelSx,
-    ...labelProps
-  } = {},
-  valueProps: { variant: valueVariant, ...valueProps } = {},
-}: // labelVariant,
-// valueVariant,
-DetailItemProps) => {
+export const DetailItem = (props: DetailItemProps) => {
+  const {
+    multiLine,
+    label,
+    value,
+    labelProps: {
+      variant: labelVariant,
+      color: labelColor,
+      sx: labelSx,
+      ...labelProps
+    } = {},
+    valueProps: { variant: valueVariant, sx: valueSx, ...valueProps } = {},
+  } = props;
+
   const mdUp = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
   return (
@@ -35,6 +35,7 @@ DetailItemProps) => {
       justifyContent="space-between"
       alignItems={multiLine ? "flex-start" : "center"}
       flexWrap="wrap"
+      width="100%"
     >
       {/* 標籤 */}
       <Typography
@@ -47,7 +48,9 @@ DetailItemProps) => {
       </Typography>
       {/* 數值 */}
       <Typography
+        maxWidth="100%"
         variant={valueVariant ?? (mdUp ? "h4" : "h5")}
+        sx={{ wordWrap: "break-word", ...valueSx }}
         {...valueProps}
       >
         {value}

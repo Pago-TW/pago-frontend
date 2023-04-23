@@ -240,16 +240,9 @@ const OrderDetailPage: NextPage = () => {
         multiLine={multiline}
       />
       <DetailItem label="備註" value={note} multiLine={multiline} />
-      {/* <DetailItem
-        label="訂單編號"
-        value={orderId}
-        labelProps={{ color: "base.300" }}
-        valueProps={{ color: "base.300" }}
-        multiLine={multiline}
-      /> */}
       <DetailItem
         label="訂單編號"
-        value="sdddddddddddddddddddddddddddddddddddddddddddddddd"
+        value={orderId}
         labelProps={{ color: "base.300" }}
         valueProps={{ color: "base.300" }}
         multiLine={multiline}
