@@ -39,41 +39,6 @@ const AreaWrapper = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const ActionsWrapper = ({ children }: { children: ReactNode }) => {
-  const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
-
-  if (isDesktop)
-    return (
-      <Box
-        display="flex"
-        justifyContent="space-around"
-        alignItems="center"
-        gap={2}
-      >
-        {children}
-      </Box>
-    );
-
-  return (
-    <Paper
-      elevation={5}
-      sx={{
-        position: "fixed",
-        left: 0,
-        bottom: 0,
-        width: "100%",
-        display: { xs: "flex", md: "none" },
-        justifyContent: "center",
-        gap: 3,
-        px: 4,
-        py: 2,
-      }}
-    >
-      {children}
-    </Paper>
-  );
-};
-
 const OrderDetailPage: NextPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
