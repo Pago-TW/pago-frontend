@@ -10,12 +10,13 @@ import { Tab } from "@/components/ui/Tab";
 import { Typography } from "@/components/ui/Typography";
 import { useTrip } from "@/hooks/api/useTrip";
 import { useTripMatches } from "@/hooks/api/useTripMatches";
+import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Container, Stack } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const TABS = [
   { label: "全部", value: "ALL" },
@@ -33,10 +34,14 @@ const TripDetailPage: NextPage = () => {
   const [currentTab, setCurrentTab] = useState<Tab["value"]>("ALL");
 
   const router = useRouter();
-  const { id } = router.query;
+  const id = router.query.id as string;
 
-  const { data: trip } = useTrip(id as string);
-  const { data: matchedOrders = [] } = useTripMatches(id as string);
+  const { data: trip } = useTrip(id);
+  const { data: matchedOrdersData } = useTripMatches(id);
+
+  const matchedOrders = useMemo(() => {
+    return flattenInfinitePaginatedData(matchedOrdersData);
+  }, [matchedOrdersData]);
 
   if (!trip) return null;
 
@@ -53,9 +58,10 @@ const TripDetailPage: NextPage = () => {
   } = trip;
 
   const filterOrders = (status: Tab["value"]) => {
-    if (status === "ALL") {
-      return matchedOrders;
-    }
+    if (!matchedOrders) return [];
+
+    if (status === "ALL") return matchedOrders;
+
     return matchedOrders.filter((order) => order.orderStatus === status);
   };
 
