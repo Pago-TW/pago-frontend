@@ -18,7 +18,7 @@ type ApplyCancelResponse = {
   note: string;
   createDate: string;
   updateDate: string;
-  isCanceled: boolean;
+  isCancelled: boolean;
 };
 
 const applyCancelOrder = async (params: ApplyCancelOrderParams) => {

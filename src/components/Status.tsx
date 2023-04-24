@@ -17,8 +17,8 @@ const statusMap: Record<
   TO_BE_DELIVERED: { text: "待面交", color: "pago.main" },
   DELIVERED: { text: "已送達", color: "pago.light" },
   FINISHED: { text: "已完成", color: "success.main" },
-  CANCELED: { text: "不成立", color: "warning.main" },
-  TO_BE_CANCELED: { text: "待取消", color: "error.light" },
+  CANCELLED: { text: "不成立", color: "warning.main" },
+  TO_BE_CANCELLED: { text: "待取消", color: "error.light" },
   TO_BE_POSTPONED: { text: "待延期", color: "error.light" },
 };
 

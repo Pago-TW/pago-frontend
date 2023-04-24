@@ -20,8 +20,8 @@ const statusTextMap: Record<
     TO_BE_DELIVERED: { text: "商品已購買，等待交付", bgColor: "primary.main" },
     DELIVERED: { text: "商品已送達", bgColor: "primary.main" },
     FINISHED: { text: "訂單已完成", bgColor: "success.main" },
-    CANCELED: { text: "此訂單不成立", bgColor: "warning.main" },
-    TO_BE_CANCELED: {
+    CANCELLED: { text: "此訂單不成立", bgColor: "warning.main" },
+    TO_BE_CANCELLED: {
       text: "已送出取消原因，待代購者接受",
       bgColor: "error.light",
     },
@@ -39,8 +39,8 @@ const statusTextMap: Record<
     TO_BE_DELIVERED: { text: "商品已購買，等待交付", bgColor: "primary.main" },
     DELIVERED: { text: "商品已送達", bgColor: "primary.main" },
     FINISHED: { text: "訂單已完成", bgColor: "success.main" },
-    CANCELED: { text: "此訂單不成立", bgColor: "warning.main" },
-    TO_BE_CANCELED: {
+    CANCELLED: { text: "此訂單不成立", bgColor: "warning.main" },
+    TO_BE_CANCELLED: {
       text: "委託者申請取消",
       bgColor: "error.light",
     },
