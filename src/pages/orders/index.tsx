@@ -22,7 +22,7 @@ const TABS = [
   { label: "待面交", value: "TO_BE_DELIVERED" },
   { label: "已送達", value: "DELIVERED" },
   { label: "已完成", value: "FINISHED" },
-  { label: "不成立", value: "CANCELED" },
+  { label: "不成立", value: "CANCELLED" },
 ] as const;
 
 type Tab = (typeof TABS)[number];

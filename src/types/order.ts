@@ -31,8 +31,8 @@ export type StatusCode =
   | "TO_BE_DELIVERED"
   | "DELIVERED"
   | "FINISHED"
-  | "CANCELED"
-  | "TO_BE_CANCELED"
+  | "CANCELLED"
+  | "TO_BE_CANCELLED"
   | "TO_BE_POSTPONED";
 
 export interface OrderItem {

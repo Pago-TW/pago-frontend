@@ -241,7 +241,7 @@ export const Actions = (props: ActionsProps) => {
 
   if (perspective === "consumer") {
     const disabled =
-      statusCode === "TO_BE_CANCELED" || statusCode === "TO_BE_POSTPONED";
+      statusCode === "TO_BE_CANCELLED" || statusCode === "TO_BE_POSTPONED";
 
     switch (statusCode) {
       case "REQUESTED":
@@ -252,7 +252,7 @@ export const Actions = (props: ActionsProps) => {
           </ActionsWrapper>
         );
       case "TO_BE_PURCHASED":
-      case "TO_BE_CANCELED":
+      case "TO_BE_CANCELLED":
         return (
           <ActionsWrapper>
             <CancelAction disabled={disabled} onClick={onApplyCancel} />
@@ -269,7 +269,7 @@ export const Actions = (props: ActionsProps) => {
           </ActionsWrapper>
         );
       case "FINISHED":
-      case "CANCELED":
+      case "CANCELLED":
         return null;
     }
   } else {
