@@ -62,7 +62,7 @@ const ActionButton = (props: ActionButtonProps) => {
       size={size}
       sx={{
         minWidth: "fit-content",
-        maxWidth: { xs: 144, md: 304 },
+        maxWidth: "80%",
         height: { md: 66 },
         flexGrow: 1,
       }}
