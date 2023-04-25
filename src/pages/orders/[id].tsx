@@ -3,6 +3,7 @@ import { BidList } from "@/components/BidList";
 import { type CancelFormValues } from "@/components/CancelModal";
 import { ChosenShopper } from "@/components/ChosenShopper";
 import { DetailItem } from "@/components/DetailItem";
+import { FavoriteButton } from "@/components/FavoriteButton";
 import { ImageCarousel } from "@/components/ImageCarousel";
 import { PageTitle } from "@/components/PageTitle";
 import type { PostponeFormValues } from "@/components/PostponeModal";
@@ -123,6 +124,9 @@ const OrderDetailPage: NextPage = () => {
   const handleFinish = () => {
     console.log({ type: "finish" });
   };
+  const handleFavorite = () => {
+    console.log({ type: "favorite" });
+  };
 
   const withCurrency = (value: number) => `${value} ${currency}`;
 
@@ -138,7 +142,8 @@ const OrderDetailPage: NextPage = () => {
   );
 
   const multiline = !isDesktop;
-  const perspective = session?.user?.id === consumerId ? "consumer" : "shopper";
+  const isOwner = session?.user?.id === consumerId;
+  const perspective = isOwner ? "consumer" : "shopper";
 
   const details = (
     <Stack spacing={4}>
@@ -260,11 +265,9 @@ const OrderDetailPage: NextPage = () => {
         {/* Status */}
         <StatusText perspective={perspective} statusCode={orderStatus} />
         {/* ChosenShopper */}
-        {perspective === "consumer" && shopper ? (
-          <ChosenShopper {...shopper} />
-        ) : null}
+        {isOwner && shopper ? <ChosenShopper {...shopper} /> : null}
         {/* Bids (PC) */}
-        {perspective === "consumer" && !shopper ? (
+        {isOwner && !shopper ? (
           <BidList
             bids={bids}
             hasMore={hasNextPage}
@@ -283,7 +286,7 @@ const OrderDetailPage: NextPage = () => {
         {/* Details */}
         <AreaWrapper>{details}</AreaWrapper>
         {/* Bids (Mobile) */}
-        {perspective === "consumer" && !shopper ? (
+        {isOwner && !shopper ? (
           <BidList
             bids={bids}
             hasMore={hasNextPage}
@@ -310,7 +313,16 @@ const OrderDetailPage: NextPage = () => {
         <title>委託詳情</title>
       </Head>
       <BaseLayout>
-        <PageTitle title="委託詳情" endButton={<ShareButton />} />
+        <PageTitle
+          title="委託詳情"
+          endButton={
+            isOwner ? (
+              <ShareButton />
+            ) : (
+              <FavoriteButton onClick={handleFavorite} />
+            )
+          }
+        />
         <Box display="flex" justifyContent="center" alignItems="center" mb={12}>
           {isDesktop ? (
             <Paper
