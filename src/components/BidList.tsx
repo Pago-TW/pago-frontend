@@ -2,7 +2,7 @@ import type { Bid } from "@/types/bid";
 import type { SxProps } from "@mui/material";
 import { Box, Stack } from "@mui/material";
 import { BidItem } from "./BidItem";
-import { Link } from "./ui/Link";
+import { Button } from "./ui/Button";
 import { Typography } from "./ui/Typography";
 
 type BidListProps = {
@@ -51,10 +51,10 @@ export const BidList = (props: BidListProps) => {
           </Typography>
         )}
         {hasMore ? (
-          <Box display="flex" justifyContent="center">
-            <Link fontSize={18} mt={1} onClick={onShowMore}>
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <Button variant="text" size="small" onClick={() => onShowMore()}>
               顯示更多
-            </Link>
+            </Button>
           </Box>
         ) : null}
       </Stack>
