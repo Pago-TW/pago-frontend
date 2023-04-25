@@ -8,7 +8,7 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useOpen } from "@/hooks/useOpen";
 import type { Perspective } from "@/types/misc";
 import type { StatusCode } from "@/types/order";
-import { Paper } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import type { ConfirmOptions } from "material-ui-confirm";
 import { ConfirmProvider, useConfirm } from "material-ui-confirm";
 import { type ReactNode } from "react";
@@ -33,7 +33,16 @@ const ActionsWrapper = ({ children }: { children: ReactNode }) => {
           width: "100%",
         }}
       >
-        {children}
+        <Box
+          width="100%"
+          maxWidth={{ xs: 336, md: "none" }}
+          display="flex"
+          justifyContent="space-around"
+          alignItems="center"
+          gap={2}
+        >
+          {children}
+        </Box>
       </Paper>
     </ConfirmProvider>
   );
@@ -52,7 +61,7 @@ const ActionButton = (props: ActionButtonProps) => {
     <Button
       size={size}
       sx={{
-        minWidth: 0,
+        minWidth: "fit-content",
         maxWidth: { xs: 144, md: 304 },
         height: { md: 66 },
         flexGrow: 1,
