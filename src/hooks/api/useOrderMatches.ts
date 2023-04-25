@@ -19,7 +19,7 @@ const getOrderMatches = async (
   const { params, pageParam = 0 } = options;
 
   const res = await axios.get<PaginatedResponse<Trip[]>>(
-    `/orders/${orderId}/matching-orders`,
+    `/orders/${orderId}/matching-shoppers`,
     {
       params: {
         startIndex: pageParam,
