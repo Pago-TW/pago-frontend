@@ -12,14 +12,14 @@ type Options = {
   pageParam?: number;
 };
 
-const getOrderMatches = async (
-  orderId: Order["orderId"],
+const getMatchingOrders = async (
+  tripId: Trip["tripId"],
   options: Options = {}
 ) => {
   const { params, pageParam = 0 } = options;
 
-  const res = await axios.get<PaginatedResponse<Trip[]>>(
-    `/orders/${orderId}/matching-shoppers`,
+  const res = await axios.get<PaginatedResponse<Order[]>>(
+    `/trips/${tripId}/matching-orders`,
     {
       params: {
         startIndex: pageParam,
@@ -31,14 +31,15 @@ const getOrderMatches = async (
   return res.data;
 };
 
-export const useOrderMatches = (
-  orderId: Order["orderId"],
+export const useMatchingOrders = (
+  tripId: Trip["tripId"],
   params?: Params,
   options?: { enabled?: boolean }
 ) => {
   return useInfiniteQuery({
-    queryKey: ["order", orderId, "matches"],
-    queryFn: ({ pageParam }) => getOrderMatches(orderId, { params, pageParam }),
+    queryKey: ["trip", tripId, "matches"],
+    queryFn: ({ pageParam }) =>
+      getMatchingOrders(tripId, { params, pageParam }),
     getNextPageParam: (lastPage) => {
       const lastIndex = getLastIndex(lastPage);
       return lastIndex < lastPage.total ? lastIndex + 1 : undefined;

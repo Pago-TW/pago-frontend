@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/Button";
 import { Link } from "@/components/ui/Link";
 import { Tab } from "@/components/ui/Tab";
 import { Typography } from "@/components/ui/Typography";
+import { useMatchingOrders } from "@/hooks/api/useMatchingOrders";
 import { useTrip } from "@/hooks/api/useTrip";
-import { useTripMatches } from "@/hooks/api/useTripMatches";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Container, Stack } from "@mui/material";
@@ -37,7 +37,7 @@ const TripDetailPage: NextPage = () => {
   const id = router.query.id as string;
 
   const { data: trip } = useTrip(id);
-  const { data: matchedOrdersData } = useTripMatches(id);
+  const { data: matchedOrdersData } = useMatchingOrders(id);
 
   const matchedOrders = useMemo(() => {
     return flattenInfinitePaginatedData(matchedOrdersData);

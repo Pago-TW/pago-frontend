@@ -15,6 +15,7 @@ import { useApplyCancelOrder } from "@/hooks/api/useApplyCancelOrder";
 import { useApplyPostponeOrder } from "@/hooks/api/useApplyPostponeOrder";
 import { useBids } from "@/hooks/api/useBids";
 import { useDeleteOrder } from "@/hooks/api/useDeleteOrder";
+import { useMatchingShoppers } from "@/hooks/api/useMatchingShoppers";
 import { useOrder } from "@/hooks/api/useOrder";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -46,17 +47,34 @@ const OrderDetailPage: NextPage = () => {
   const id = router.query.id as string;
 
   const { data: session } = useSession();
+  const userId = session?.user?.id;
 
   const lang = useLanguage();
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
   const { data: order } = useOrder(id);
-  const { data: bidsData, hasNextPage, fetchNextPage } = useBids(id);
+  const {
+    data: bidsData,
+    hasNextPage: hasNextBidsPage,
+    fetchNextPage: fetchNextBidsPage,
+  } = useBids(id);
   const { mutate: deleteOrder } = useDeleteOrder();
   const { mutate: applyCancel } = useApplyCancelOrder();
   const { mutate: applyPostpone } = useApplyPostponeOrder();
 
+  const isOwner = userId !== undefined && userId === order?.consumerId;
+
+  const {
+    data: shoppersData,
+    hasNextPage: hasNextShoppersPage,
+    fetchNextPage: fetchNextShoppersPage,
+  } = useMatchingShoppers(id, undefined, { enabled: isOwner });
+
+  const shoppers = useMemo(
+    () => flattenInfinitePaginatedData(shoppersData),
+    [shoppersData]
+  );
   const bids = useMemo(
     () => flattenInfinitePaginatedData(bidsData),
     [bidsData]
@@ -142,7 +160,6 @@ const OrderDetailPage: NextPage = () => {
   );
 
   const multiline = !isDesktop;
-  const isOwner = session?.user?.id === consumerId;
   const perspective = isOwner ? "consumer" : "shopper";
 
   const details = (
@@ -289,8 +306,8 @@ const OrderDetailPage: NextPage = () => {
         {isOwner && !shopper ? (
           <BidList
             bids={bids}
-            hasMore={hasNextPage}
-            onShowMore={() => fetchNextPage()}
+            hasMore={hasNextBidsPage}
+            onShowMore={() => fetchNextBidsPage()}
             sx={{ display: { xs: "block", md: "none" } }}
           />
         ) : null}
