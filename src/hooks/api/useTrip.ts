@@ -11,6 +11,7 @@ export const useTrip = (tripId: Trip["tripId"]) => {
   return useQuery({
     queryKey: ["trip", tripId],
     queryFn: () => getTrip(tripId),
+    enabled: !!tripId,
   });
 };
 

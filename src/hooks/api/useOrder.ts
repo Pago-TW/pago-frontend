@@ -11,6 +11,7 @@ export const useOrder = (orderId: Order["orderId"]) => {
   return useQuery({
     queryKey: ["order", orderId],
     queryFn: () => getOrder(orderId),
+    enabled: !!orderId,
   });
 };
 
