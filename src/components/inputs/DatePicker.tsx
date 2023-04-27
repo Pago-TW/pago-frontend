@@ -1,7 +1,7 @@
 import type { DatePickerProps as MuiDatePickerProps } from "@mui/x-date-pickers";
 import {
+  LocalizationProvider,
   DatePicker as MuiDatePicker,
-  LocalizationProvider
 } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import type { Control, FieldValues, Path } from "react-hook-form";
@@ -19,7 +19,7 @@ export const DatePicker = <T extends FieldValues>({
   ...datePickerProps
 }: DatePickerProps<T>) => {
   const {
-    field: { onChange:fieldOnChange, ...field },
+    field: { onChange: fieldOnChange, ...field },
   } = useController({ control, name });
 
   return (
