@@ -2,8 +2,12 @@ export interface Trip {
   tripId: string;
   shopperId: string;
   fromCountry: string;
+  fromCountryChineseName: string;
   fromCity: string;
+  fromCityChineseName: string;
   toCountry: string;
+  toCountryChineseName: string;
+  toCityChineseName: string;
   toCity: string;
   arrivalDate: string;
   profit: number;
