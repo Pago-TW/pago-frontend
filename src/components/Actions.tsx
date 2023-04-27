@@ -4,14 +4,17 @@ import type { PostponeFormValues } from "@/components/PostponeModal";
 import { PostponeModal } from "@/components/PostponeModal";
 import type { ButtonProps } from "@/components/ui/Button";
 import { Button } from "@/components/ui/Button";
+import type { UpdateOrderData } from "@/hooks/api/useUpdateOrder";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useOpen } from "@/hooks/useOpen";
 import type { Perspective } from "@/types/misc";
-import type { OrderStatus } from "@/types/order";
+import type { Order, OrderStatus } from "@/types/order";
 import { Box, Paper } from "@mui/material";
 import type { ConfirmOptions } from "material-ui-confirm";
 import { ConfirmProvider, useConfirm } from "material-ui-confirm";
 import type { ComponentType, ReactNode } from "react";
+import type { TakeOrderFormValues } from "./TakeOrderPopup";
+import { TakeOrderPopup } from "./TakeOrderPopup";
 
 const DEFAULT_CONFIRM_OPTIONS: ConfirmOptions = {
   cancellationText: "取消",
@@ -56,8 +59,8 @@ const ActionsWrapper = ({ children }: { children: ReactNode }) => {
 
 type ActionButtonProps = Pick<
   ButtonProps,
-  "variant" | "color" | "disabled" | "children"
-> & { onClick?: () => void };
+  "variant" | "color" | "disabled" | "onClick" | "children"
+>;
 
 const ActionButton = (props: ActionButtonProps) => {
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
@@ -102,20 +105,18 @@ const ActionWithConfirmation = (props: ActionWithConfirmationProps) => {
   );
 };
 
-type ActionWIthModalAndConfirmationProps<T extends object = object> = Omit<
-  ActionWithConfirmationProps,
-  "onClick"
-> & {
-  onClick: (data: T) => void;
-  Modal: ComponentType<{
-    open: boolean;
-    onClose: () => void;
-    onSubmit: (data: T) => void;
-  }>;
-};
+type ActionWIthModalAndConfirmationProps<FormData extends object = object> =
+  Omit<ActionWithConfirmationProps, "onClick"> & {
+    onClick: (data: FormData) => void;
+    Modal: ComponentType<{
+      open: boolean;
+      onClose: () => void;
+      onSubmit: (data: FormData) => void;
+    }>;
+  };
 
-const ActionWithModalAndConfirmation = <T extends object>(
-  props: ActionWIthModalAndConfirmationProps<T>
+const ActionWithModalAndConfirmation = <FormData extends object>(
+  props: ActionWIthModalAndConfirmationProps<FormData>
 ) => {
   const { confirmOptions, onClick, Modal, children, ...rest } = props;
 
@@ -124,7 +125,7 @@ const ActionWithModalAndConfirmation = <T extends object>(
 
   const handleClick = async () => handleOpen();
 
-  const handleSubmit = async (data: T) => {
+  const handleSubmit = async (data: FormData) => {
     try {
       handleClose();
       await confirm({ ...DEFAULT_CONFIRM_OPTIONS, ...confirmOptions });
@@ -192,13 +193,13 @@ const CancelAction = (
 
   return (
     <ActionWithModalAndConfirmation
-        variant="outlined"
-        color="error"
-        disabled={disabled}
+      variant="outlined"
+      color="error"
+      disabled={disabled}
       confirmOptions={{ title: "確定取消此代購？" }}
       onClick={handleSubmit}
       Modal={CancelModal}
-      >
+    >
       {perspective === "consumer" ? "取消委託" : "取消代購"}
     </ActionWithModalAndConfirmation>
   );
@@ -216,14 +217,14 @@ const PostponeAction = (
 
   return (
     <ActionWithModalAndConfirmation
-        variant="outlined"
-        color="error"
-        disabled={disabled}
+      variant="outlined"
+      color="error"
+      disabled={disabled}
       confirmOptions={{ title: "確定申請延期？" }}
       onClick={handleSubmit}
       Modal={PostponeModal}
-      >
-        申請延期
+    >
+      申請延期
     </ActionWithModalAndConfirmation>
   );
 };
@@ -246,30 +247,76 @@ const FinishAction = (
   );
 };
 
+const TakeOrderAction = (props: {
+  orderId: Order["orderId"];
+  onClick: (data: TakeOrderFormValues) => void;
+}) => {
+  const { orderId, onClick } = props;
+
+  const { open, handleOpen, handleClose } = useOpen();
+
+  const confirm = useConfirm();
+
+  const handleSubmit = async (data: TakeOrderFormValues) => {
+    try {
+      await confirm({
+        ...DEFAULT_CONFIRM_OPTIONS,
+        title: "確定出價金額是否正確？",
+      });
+      handleClose();
+      if (onClick) onClick(data);
+    } catch {}
+  };
+
+  return (
+    <>
+      <ActionButton onClick={handleOpen}>接受委託</ActionButton>
+      <TakeOrderPopup
+        orderId={orderId}
+        open={open}
+        onOpen={handleOpen}
+        onClose={handleClose}
+        onSubmit={handleSubmit}
+      />
+    </>
+  );
+};
+
+const DeliverAction = () => {
+  return <ActionButton>準備面交</ActionButton>;
+};
+
 interface ActionsProps {
+  orderId: Order["orderId"];
   perspective: Perspective;
   statusCode: OrderStatus;
+  isBidder: boolean;
+  isShopper: boolean;
   onDelete: () => void;
   onEdit: () => void;
   onApplyCancel: (data: CancelFormValues) => void;
   onApplyPostpone: (data: PostponeFormValues) => void;
-  onFinish: () => void;
+  onUpdateOrder: (data: UpdateOrderData) => void;
+  onTakeOrder: (data: TakeOrderFormValues) => void;
 }
 
 export const Actions = (props: ActionsProps) => {
   const {
+    orderId,
     perspective,
     statusCode,
+    isBidder,
+    isShopper,
     onDelete,
     onEdit,
     onApplyCancel,
     onApplyPostpone,
-    onFinish,
+    onUpdateOrder,
+    onTakeOrder,
   } = props;
 
-  if (perspective === "consumer") {
-    const disabled =
-      statusCode === "TO_BE_CANCELLED" || statusCode === "TO_BE_POSTPONED";
+  const disabled =
+    statusCode === "TO_BE_CANCELLED" || statusCode === "TO_BE_POSTPONED";
   if (perspective === "consumer") {
     switch (statusCode) {
       case "REQUESTED":
@@ -299,7 +346,7 @@ export const Actions = (props: ActionsProps) => {
             <PostponeAction disabled={disabled} onClick={onApplyPostpone} />
             <FinishAction
               disabled={disabled}
-              onClick={onFinish}
+              onClick={() => onUpdateOrder({ orderStatus: "FINISHED" })}
               perspective={perspective}
             />
           </ActionsWrapper>
@@ -309,6 +356,50 @@ export const Actions = (props: ActionsProps) => {
         return null;
     }
   } else {
-    return null;
+    switch (statusCode) {
+      case "REQUESTED":
+        if (isBidder) {
+          return null;
+        }
+        return (
+          <ActionsWrapper>
+            <TakeOrderAction orderId={orderId} onClick={onTakeOrder} />
+          </ActionsWrapper>
+        );
+      case "TO_BE_PURCHASED":
+      case "TO_BE_CANCELLED":
+        if (isShopper) {
+          return (
+            <ActionsWrapper>
+              <CancelAction
+                disabled={disabled}
+                perspective={perspective}
+                onClick={onApplyCancel}
+              />
+              <DeliverAction />
+            </ActionsWrapper>
+          );
+        }
+        return null;
+      case "TO_BE_DELIVERED":
+      case "TO_BE_POSTPONED":
+        if (isShopper) {
+          return (
+            <ActionsWrapper>
+              <PostponeAction disabled={disabled} onClick={onApplyPostpone} />
+              <FinishAction
+                disabled={disabled}
+                onClick={() => onUpdateOrder({ orderStatus: "FINISHED" })}
+                perspective={perspective}
+              />
+            </ActionsWrapper>
+          );
+        }
+        return null;
+      case "DELIVERED":
+      case "FINISHED":
+      case "CANCELLED":
+        return null;
+    }
   }
 };

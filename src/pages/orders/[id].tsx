@@ -9,14 +9,18 @@ import { PageTitle } from "@/components/PageTitle";
 import type { PostponeFormValues } from "@/components/PostponeModal";
 import { ShareButton } from "@/components/ShareButton";
 import { StatusText } from "@/components/StatusText";
+import type { TakeOrderFormValues } from "@/components/TakeOrderPopup";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { Typography } from "@/components/ui/Typography";
+import { useAddBid } from "@/hooks/api/useAddBid";
 import { useApplyCancelOrder } from "@/hooks/api/useApplyCancelOrder";
 import { useApplyPostponeOrder } from "@/hooks/api/useApplyPostponeOrder";
 import { useBids } from "@/hooks/api/useBids";
 import { useDeleteOrder } from "@/hooks/api/useDeleteOrder";
 import { useMatchingShoppers } from "@/hooks/api/useMatchingShoppers";
 import { useOrder } from "@/hooks/api/useOrder";
+import type { UpdateOrderData } from "@/hooks/api/useUpdateOrder";
+import { useUpdateOrder } from "@/hooks/api/useUpdateOrder";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
@@ -62,8 +66,11 @@ const OrderDetailPage: NextPage = () => {
   const { mutate: deleteOrder } = useDeleteOrder();
   const { mutate: applyCancel } = useApplyCancelOrder();
   const { mutate: applyPostpone } = useApplyPostponeOrder();
+  const { mutate: updateOrder } = useUpdateOrder();
+  const { mutate: addBid } = useAddBid();
 
   const isOwner = userId !== undefined && userId === order?.consumerId;
+  const isShopper = userId !== undefined && userId === order?.shopper?.userId;
 
   const {
     data: shoppersData,
@@ -118,29 +125,42 @@ const OrderDetailPage: NextPage = () => {
     createDate,
     updateDate,
     shopper,
+    isApplicant,
+    isBidder,
   } = order;
 
   const handleDelete = () => {
-    deleteOrder({ orderId });
+    deleteOrder({ orderId: id });
     router.replace("/orders");
   };
   const handleEdit = () => {
-    router.push(`/orders/${orderId}/edit`);
+    router.push(`/orders/${id}/edit`);
   };
   const handleApplyCancel = (data: CancelFormValues) => {
     applyCancel({
-      orderId,
+      orderId: id,
       data: { cancelReason: data.reason, note: data.detail },
     });
   };
   const handleApplyPostpone = (data: PostponeFormValues) => {
     applyPostpone({
-      orderId,
+      orderId: id,
       data: { postponeReason: data.reason, note: data.detail },
     });
   };
-  const handleFinish = () => {
-    console.log({ type: "finish" });
+  const handleUpdateOrder = (data: UpdateOrderData) => {
+    updateOrder({ orderId: id, data });
+  };
+  const handleTakeOrder = (data: TakeOrderFormValues) => {
+    addBid({
+      orderId: id,
+      data: {
+        tripId: data.tripId,
+        bidAmount: data.amount,
+        currency: data.currency,
+        latestDeliveryDate: data.date,
+      },
+    });
   };
   const handleFavorite = () => {
     console.log({ type: "favorite" });
@@ -287,8 +307,8 @@ const OrderDetailPage: NextPage = () => {
         {isOwner && !shopper ? (
           <BidList
             bids={bids}
-            hasMore={hasNextPage}
-            onShowMore={() => fetchNextPage()}
+            hasMore={hasNextBidsPage}
+            onShowMore={() => fetchNextBidsPage()}
             sx={{ display: { xs: "none", md: "block" } }}
           />
         ) : null}
@@ -312,13 +332,17 @@ const OrderDetailPage: NextPage = () => {
           />
         ) : null}
         <Actions
+          orderId={id}
           perspective={perspective}
           statusCode={orderStatus}
+          isBidder={isBidder}
+          isShopper={isShopper}
           onDelete={handleDelete}
           onEdit={handleEdit}
           onApplyCancel={handleApplyCancel}
           onApplyPostpone={handleApplyPostpone}
-          onFinish={handleFinish}
+          onUpdateOrder={handleUpdateOrder}
+          onTakeOrder={handleTakeOrder}
         />
       </Stack>
     </Stack>
