@@ -2,7 +2,7 @@ import { axios } from "@/libs/axios";
 import type { Bid } from "@/types/bid";
 import type { Order } from "@/types/order";
 import type { Trip } from "@/types/trip";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type AddBidParams = {
   orderId: Trip["tripId"];
@@ -34,5 +34,10 @@ const addBid = async (params: AddBidParams) => {
 };
 
 export const useAddBid = () => {
-  return useMutation({ mutationFn: addBid });
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: addBid,
+    onSuccess: (_data, variables) =>
+      qc.invalidateQueries(["orders", variables.orderId]),
+  });
 };
