@@ -1,15 +1,15 @@
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import type { StatusCode } from "@/types/order";
+import type { OrderStatus } from "@/types/order";
 import React from "react";
 import type { TypographyProps } from "./ui/Typography";
 import { Typography } from "./ui/Typography";
 
 export type StatusProps = {
-  statusCode: StatusCode;
+  statusCode: OrderStatus;
 };
 
 const statusMap: Record<
-  StatusCode,
+  OrderStatus,
   { text: string; color: TypographyProps["color"] }
 > = {
   REQUESTED: { text: "待確認", color: "base.main" },

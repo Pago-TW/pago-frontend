@@ -1,15 +1,15 @@
 import type { Perspective } from "@/types/misc";
-import type { StatusCode } from "@/types/order";
+import type { OrderStatus } from "@/types/order";
 import { Box } from "@mui/material";
 
 interface StatusTextProps {
   perspective: Perspective;
-  statusCode: StatusCode;
+  statusCode: OrderStatus;
 }
 
 const statusTextMap: Record<
   Perspective,
-  Record<StatusCode, { text: string; bgColor: string }>
+  Record<OrderStatus, { text: string; bgColor: string }>
 > = {
   consumer: {
     REQUESTED: { text: "已發布委託，等待代購者出價", bgColor: "base.400" },

@@ -8,7 +8,7 @@ export interface Order {
   destinationCityCode: string;
   latestReceiveItemDate: string;
   note: string;
-  orderStatus: StatusCode;
+  orderStatus: OrderStatus;
   orderItem: OrderItem;
   travelerFee: number;
   tariffFee: number;
@@ -25,7 +25,7 @@ export interface Order {
   isBidder: boolean;
 }
 
-export type StatusCode =
+export type OrderStatus =
   | "REQUESTED"
   | "TO_BE_PURCHASED"
   | "TO_BE_DELIVERED"

@@ -1,5 +1,5 @@
 import { axios } from "@/libs/axios";
-import type { Order, StatusCode } from "@/types/order";
+import type { Order, OrderStatus } from "@/types/order";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type ApplyPostponeOrderParams = {
@@ -16,7 +16,7 @@ type ApplyPostponeResponse = {
   note: string;
   createDate: string;
   updateDate: string;
-  originalOrderStatus: StatusCode;
+  originalOrderStatus: OrderStatus;
   isPostponed: boolean;
 };
 

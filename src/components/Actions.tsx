@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useOpen } from "@/hooks/useOpen";
 import type { Perspective } from "@/types/misc";
-import type { StatusCode } from "@/types/order";
+import type { OrderStatus } from "@/types/order";
 import { Box, Paper } from "@mui/material";
 import type { ConfirmOptions } from "material-ui-confirm";
 import { ConfirmProvider, useConfirm } from "material-ui-confirm";
@@ -248,7 +248,7 @@ const FinishAction = (
 
 interface ActionsProps {
   perspective: Perspective;
-  statusCode: StatusCode;
+  statusCode: OrderStatus;
   onDelete: () => void;
   onEdit: () => void;
   onApplyCancel: (data: CancelFormValues) => void;
