@@ -334,7 +334,7 @@ const OrderDetailPage: NextPage = () => {
         <Actions
           orderId={id}
           perspective={perspective}
-          statusCode={orderStatus}
+          status={orderStatus}
           isBidder={isBidder}
           isShopper={isShopper}
           onDelete={handleDelete}

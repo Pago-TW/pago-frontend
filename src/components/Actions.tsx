@@ -82,7 +82,7 @@ const ActionButton = (props: ActionButtonProps) => {
 };
 
 type ActionWithConfirmationProps = Omit<ActionButtonProps, "onClick"> & {
-  onClick?: () => void;
+  onClick: () => void;
   confirmOptions: ConfirmOptions;
 };
 
@@ -282,29 +282,159 @@ const TakeOrderAction = (props: {
   );
 };
 
-const DeliverAction = () => {
-  return <ActionButton>準備面交</ActionButton>;
+const DeliverAction = (
+  props: Pick<ActionWithConfirmationProps, "disabled" | "onClick">
+) => {
+  const { disabled, onClick } = props;
+
+  return (
+    <ActionWithConfirmation
+      confirmOptions={{ title: "確定進入面交流程嗎？" }}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      準備面交
+    </ActionWithConfirmation>
+  );
 };
 
-interface ActionsProps {
-  orderId: Order["orderId"];
-  perspective: Perspective;
-  statusCode: OrderStatus;
-  isBidder: boolean;
-  isShopper: boolean;
+type ConsumerActionsProps = {
+  status: OrderStatus;
+  disabled?: boolean;
   onDelete: () => void;
   onEdit: () => void;
   onApplyCancel: (data: CancelFormValues) => void;
   onApplyPostpone: (data: PostponeFormValues) => void;
   onUpdateOrder: (data: UpdateOrderData) => void;
+};
+
+const ConsumerActions = (props: ConsumerActionsProps) => {
+  const {
+    status,
+    disabled,
+    onDelete,
+    onEdit,
+    onApplyCancel,
+    onApplyPostpone,
+    onUpdateOrder,
+  } = props;
+
+  const postponeAction = (
+    <PostponeAction disabled={disabled} onClick={onApplyPostpone} />
+  );
+
+  switch (status) {
+    case "REQUESTED":
+      return (
+        <ActionsWrapper>
+          <DeleteAction onClick={onDelete} />
+          <EditAction onClick={onEdit} />
+        </ActionsWrapper>
+      );
+    case "TO_BE_PURCHASED":
+    case "TO_BE_CANCELLED":
+      return (
+        <ActionsWrapper>
+          <CancelAction
+            disabled={disabled}
+            onClick={onApplyCancel}
+            perspective="consumer"
+          />
+          {postponeAction}
+        </ActionsWrapper>
+      );
+    case "TO_BE_DELIVERED":
+    case "DELIVERED":
+    case "TO_BE_POSTPONED":
+      return (
+        <ActionsWrapper>
+          {postponeAction}
+          <FinishAction
+            disabled={disabled}
+            onClick={() => onUpdateOrder({ orderStatus: "FINISHED" })}
+            perspective="consumer"
+          />
+        </ActionsWrapper>
+      );
+    default:
+      return null;
+  }
+};
+
+type ShopperActionsProps = {
+  orderId: Order["orderId"];
+  status: OrderStatus;
+  disabled?: boolean;
+  onApplyCancel: (data: CancelFormValues) => void;
+  onApplyPostpone: (data: PostponeFormValues) => void;
+  onUpdateOrder: (data: UpdateOrderData) => void;
   onTakeOrder: (data: TakeOrderFormValues) => void;
-}
+  isBidder: boolean;
+  isShopper: boolean;
+};
+
+const ShopperActions = (props: ShopperActionsProps) => {
+  const {
+    orderId,
+    status,
+    disabled,
+    onApplyCancel,
+    onApplyPostpone,
+    onUpdateOrder,
+    onTakeOrder,
+    isBidder,
+    isShopper,
+  } = props;
+
+  switch (status) {
+    case "REQUESTED":
+      return !isBidder ? (
+        <ActionsWrapper>
+          <TakeOrderAction orderId={orderId} onClick={onTakeOrder} />
+        </ActionsWrapper>
+      ) : null;
+    case "TO_BE_PURCHASED":
+    case "TO_BE_CANCELLED":
+      return isShopper ? (
+        <ActionsWrapper>
+          <CancelAction
+            disabled={disabled}
+            perspective="shopper"
+            onClick={onApplyCancel}
+          />
+          <DeliverAction
+            disabled={disabled}
+            onClick={() => onUpdateOrder({ orderStatus: "TO_BE_DELIVERED" })}
+          />
+        </ActionsWrapper>
+      ) : null;
+    case "TO_BE_DELIVERED":
+    case "TO_BE_POSTPONED":
+      return isShopper ? (
+        <ActionsWrapper>
+          <PostponeAction disabled={disabled} onClick={onApplyPostpone} />
+          <FinishAction
+            disabled={disabled}
+            onClick={() => onUpdateOrder({ orderStatus: "FINISHED" })}
+            perspective="shopper"
+          />
+        </ActionsWrapper>
+      ) : null;
+    default:
+      return null;
+  }
+};
+
+type ActionsProps = ConsumerActionsProps &
+  ShopperActionsProps & {
+    perspective: Perspective;
+  };
 
 export const Actions = (props: ActionsProps) => {
   const {
-    orderId,
     perspective,
-    statusCode,
+    orderId,
+    status,
     isBidder,
     isShopper,
     onDelete,
@@ -315,91 +445,29 @@ export const Actions = (props: ActionsProps) => {
     onTakeOrder,
   } = props;
 
-  const disabled =
-    statusCode === "TO_BE_CANCELLED" || statusCode === "TO_BE_POSTPONED";
-  if (perspective === "consumer") {
-    switch (statusCode) {
-      case "REQUESTED":
-        return (
-          <ActionsWrapper>
-            <DeleteAction onClick={onDelete} />
-            <EditAction onClick={onEdit} />
-          </ActionsWrapper>
-        );
-      case "TO_BE_PURCHASED":
-      case "TO_BE_CANCELLED":
-        return (
-          <ActionsWrapper>
-            <CancelAction
-              disabled={disabled}
-              onClick={onApplyCancel}
-              perspective={perspective}
-            />
-            <PostponeAction disabled={disabled} onClick={onApplyPostpone} />
-          </ActionsWrapper>
-        );
-      case "TO_BE_DELIVERED":
-      case "DELIVERED":
-      case "TO_BE_POSTPONED":
-        return (
-          <ActionsWrapper>
-            <PostponeAction disabled={disabled} onClick={onApplyPostpone} />
-            <FinishAction
-              disabled={disabled}
-              onClick={() => onUpdateOrder({ orderStatus: "FINISHED" })}
-              perspective={perspective}
-            />
-          </ActionsWrapper>
-        );
-      case "FINISHED":
-      case "CANCELLED":
-        return null;
-    }
-  } else {
-    switch (statusCode) {
-      case "REQUESTED":
-        if (isBidder) {
-          return null;
-        }
-        return (
-          <ActionsWrapper>
-            <TakeOrderAction orderId={orderId} onClick={onTakeOrder} />
-          </ActionsWrapper>
-        );
-      case "TO_BE_PURCHASED":
-      case "TO_BE_CANCELLED":
-        if (isShopper) {
-          return (
-            <ActionsWrapper>
-              <CancelAction
-                disabled={disabled}
-                perspective={perspective}
-                onClick={onApplyCancel}
-              />
-              <DeliverAction />
-            </ActionsWrapper>
-          );
-        }
-        return null;
-      case "TO_BE_DELIVERED":
-      case "TO_BE_POSTPONED":
-        if (isShopper) {
-          return (
-            <ActionsWrapper>
-              <PostponeAction disabled={disabled} onClick={onApplyPostpone} />
-              <FinishAction
-                disabled={disabled}
-                onClick={() => onUpdateOrder({ orderStatus: "FINISHED" })}
-                perspective={perspective}
-              />
-            </ActionsWrapper>
-          );
-        }
-        return null;
-      case "DELIVERED":
-      case "FINISHED":
-      case "CANCELLED":
-        return null;
-    }
-  }
+  const disabled = status === "TO_BE_CANCELLED" || status === "TO_BE_POSTPONED";
+
+  return perspective === "consumer" ? (
+    <ConsumerActions
+      status={status}
+      disabled={disabled}
+      onDelete={onDelete}
+      onEdit={onEdit}
+      onApplyCancel={onApplyCancel}
+      onApplyPostpone={onApplyPostpone}
+      onUpdateOrder={onUpdateOrder}
+    />
+  ) : (
+    <ShopperActions
+      orderId={orderId}
+      status={status}
+      disabled={disabled}
+      onApplyCancel={onApplyCancel}
+      onApplyPostpone={onApplyPostpone}
+      onUpdateOrder={onUpdateOrder}
+      onTakeOrder={onTakeOrder}
+      isBidder={isBidder}
+      isShopper={isShopper}
+    />
+  );
 };
