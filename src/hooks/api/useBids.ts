@@ -28,7 +28,11 @@ const getBids = async (orderId: Order["orderId"], options: Options = {}) => {
   return res.data;
 };
 
-export const useBids = (orderId: Order["orderId"], params?: Params) => {
+export const useBids = (
+  orderId: Order["orderId"],
+  params?: Params,
+  options?: { enabled?: boolean }
+) => {
   return useInfiniteQuery({
     queryKey: ["bidders", orderId],
     queryFn: ({ pageParam }) => getBids(orderId, { params, pageParam }),
@@ -36,5 +40,6 @@ export const useBids = (orderId: Order["orderId"], params?: Params) => {
       const lastIndex = getLastIndex(lastPage);
       return lastIndex < lastPage.total ? lastIndex + 1 : undefined;
     },
+    ...options,
   });
 };

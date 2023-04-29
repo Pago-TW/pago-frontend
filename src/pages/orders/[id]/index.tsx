@@ -1,4 +1,5 @@
 import { Actions } from "@/components/Actions";
+import { AvailableShoppers } from "@/components/AvailableShoppers";
 import { BidList } from "@/components/BidList";
 import { type CancelFormValues } from "@/components/CancelModal";
 import { ChosenShopper } from "@/components/ChosenShopper";
@@ -23,7 +24,7 @@ import type { UpdateOrderData } from "@/hooks/api/useUpdateOrder";
 import { useUpdateOrder } from "@/hooks/api/useUpdateOrder";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { Order } from "@/types/order";
+import type { Order } from "@/types/order";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { Place } from "@mui/icons-material";
 import { Box, Paper, Stack } from "@mui/material";
@@ -203,25 +204,18 @@ const OrderDetailPage: NextPage = () => {
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
   const { data: order } = useOrder(id);
-  const {
-    data: bidsData,
-    hasNextPage: hasNextBidsPage,
-    fetchNextPage: fetchNextBidsPage,
-  } = useBids(id);
-  const { mutate: deleteOrder } = useDeleteOrder();
-  const { mutate: applyCancel } = useApplyCancelOrder();
-  const { mutate: applyPostpone } = useApplyPostponeOrder();
-  const { mutate: updateOrder } = useUpdateOrder();
-  const { mutate: addBid } = useAddBid();
 
   const isOwner = userId !== undefined && userId === order?.consumerId;
   const isShopper = userId !== undefined && userId === order?.shopper?.userId;
 
+  const { data: shoppersData } = useMatchingShoppers(id, undefined, {
+    enabled: isOwner && !order?.shopper,
+  });
   const {
-    data: shoppersData,
-    hasNextPage: hasNextShoppersPage,
-    fetchNextPage: fetchNextShoppersPage,
-  } = useMatchingShoppers(id, undefined, { enabled: isOwner });
+    data: bidsData,
+    hasNextPage: hasNextBidsPage,
+    fetchNextPage: fetchNextBidsPage,
+  } = useBids(id, undefined, { enabled: isOwner && !order?.shopper });
 
   const shoppers = useMemo(
     () => flattenInfinitePaginatedData(shoppersData),
@@ -231,6 +225,12 @@ const OrderDetailPage: NextPage = () => {
     () => flattenInfinitePaginatedData(bidsData),
     [bidsData]
   );
+
+  const { mutate: deleteOrder } = useDeleteOrder();
+  const { mutate: applyCancel } = useApplyCancelOrder();
+  const { mutate: applyPostpone } = useApplyPostponeOrder();
+  const { mutate: updateOrder } = useUpdateOrder();
+  const { mutate: addBid } = useAddBid();
 
   if (!order) return null;
 
@@ -313,6 +313,22 @@ const OrderDetailPage: NextPage = () => {
 
   const perspective = isOwner ? "consumer" : "shopper";
 
+  const bidList =
+    isOwner && !shopper ? (
+      <BidList
+        bids={bids}
+        hasMore={hasNextBidsPage}
+        onShowMore={() => fetchNextBidsPage()}
+      />
+    ) : null;
+  const availableShoppers =
+    isOwner && !shopper ? (
+      <AvailableShoppers
+        orderId={id}
+        shoppers={shoppers}
+        total={shoppersData?.pages[0]?.total}
+      />
+    ) : null;
   const content = (
     <Stack
       direction={isDesktop ? "row" : "column"}
@@ -358,14 +374,9 @@ const OrderDetailPage: NextPage = () => {
         {/* ChosenShopper */}
         {isOwner && shopper ? <ChosenShopper {...shopper} /> : null}
         {/* Bids (PC) */}
-        {isOwner && !shopper ? (
-          <BidList
-            bids={bids}
-            hasMore={hasNextBidsPage}
-            onShowMore={() => fetchNextBidsPage()}
-            sx={{ display: { xs: "none", md: "block" } }}
-          />
-        ) : null}
+        {isDesktop ? bidList : null}
+        {/* AvailableShoppers (PC) */}
+        {isDesktop ? availableShoppers : null}
       </Stack>
       <Stack spacing={2} flexGrow={1}>
         {/* Name (PC) */}
@@ -399,14 +410,9 @@ const OrderDetailPage: NextPage = () => {
           />
         </AreaWrapper>
         {/* Bids (Mobile) */}
-        {isOwner && !shopper ? (
-          <BidList
-            bids={bids}
-            hasMore={hasNextBidsPage}
-            onShowMore={() => fetchNextBidsPage()}
-            sx={{ display: { xs: "block", md: "none" } }}
-          />
-        ) : null}
+        {!isDesktop ? bidList : null}
+        {/* AvailableShoppers (Mobile) */}
+        {!isDesktop ? availableShoppers : null}
         <Actions
           orderId={id}
           perspective={perspective}
