@@ -79,7 +79,7 @@ export const NeedsForm = () => {
           <TextField
             variant="standard"
             fullWidth
-            label="詳細購買地址"
+            label="詳細送達地址"
             error={!!errors?.destinationAddress}
             helperText={errors?.destinationAddress?.message}
             {...register("destinationAddress")}
