@@ -36,3 +36,4 @@ Repository for the frontend of the Pago project.
       :arrow_right: only optional params in object, required params still in args
 - [ ] Make a `DetailList` component and render details according to the object passed in (maybe)
 - [ ] Show the chosen currency in [`NeedsForm`](/src/components/forms/NeedsForm.tsx) with selection disabled
+- [ ] Add a prompt at [`AvailableShoppers`](/src/components/AvailableShoppers.tsx) when there's no any shoppers available
