@@ -23,6 +23,7 @@ import type { UpdateOrderData } from "@/hooks/api/useUpdateOrder";
 import { useUpdateOrder } from "@/hooks/api/useUpdateOrder";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { Order } from "@/types/order";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { Place } from "@mui/icons-material";
 import { Box, Paper, Stack } from "@mui/material";
@@ -46,14 +47,158 @@ const AreaWrapper = ({ children }: { children: ReactNode }) => {
   );
 };
 
+const DetailList = (
+  props: Pick<
+    Order,
+    | "currency"
+    | "destinationCountryName"
+    | "destinationCityName"
+    | "travelerFee"
+    | "tariffFee"
+    | "platformFee"
+    | "totalAmount"
+    | "isPackagingRequired"
+    | "isVerificationRequired"
+    | "latestReceiveItemDate"
+    | "note"
+    | "serialNumber"
+  > &
+    Pick<
+      Order["orderItem"],
+      | "purchaseCountryName"
+      | "purchaseCityName"
+      | "purchaseDistrict"
+      | "purchaseRoad"
+      | "unitPrice"
+      | "description"
+      | "quantity"
+    >
+) => {
+  const {
+    currency,
+    purchaseCityName,
+    purchaseCountryName,
+    purchaseDistrict,
+    purchaseRoad,
+    destinationCityName,
+    destinationCountryName,
+    unitPrice,
+    travelerFee,
+    tariffFee,
+    platformFee,
+    totalAmount,
+    description,
+    quantity,
+    isPackagingRequired,
+    isVerificationRequired,
+    latestReceiveItemDate,
+    note,
+    serialNumber,
+  } = props;
+
+  const lang = useLanguage();
+
+  const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
+
+  const withCurrency = (value: number) => `${value} ${currency}`;
+
+  const purchaseAddress = [
+    purchaseCityName,
+    purchaseCountryName,
+    purchaseDistrict,
+    purchaseRoad,
+  ].join(" ");
+
+  const destinationAddress = [destinationCityName, destinationCountryName].join(
+    " "
+  );
+
+  const multiline = !isDesktop;
+
+  return (
+    <Stack spacing={4}>
+      <DetailItem
+        label="商品價格"
+        value={withCurrency(unitPrice)}
+        valueProps={{ weightPreset: "bold" }}
+      />
+      <DetailItem
+        label="願付代購費"
+        value={withCurrency(travelerFee)}
+        valueProps={{ weightPreset: "bold" }}
+      />
+      <DetailItem
+        label="關稅"
+        value={withCurrency(tariffFee)}
+        valueProps={{ weightPreset: "bold" }}
+      />
+      <DetailItem
+        label="平台費"
+        value={withCurrency(platformFee)}
+        valueProps={{ weightPreset: "bold" }}
+      />
+      <DetailItem
+        label="總付款金額"
+        value={withCurrency(totalAmount)}
+        valueProps={{ variant: "h3", weightPreset: "bold" }}
+      />
+      <DetailItem label="商品規格" value={description} />
+      <DetailItem label="商品數量" value={quantity} />
+      <DetailItem
+        label="是否需要包裝"
+        value={translateBoolean(isPackagingRequired)}
+      />
+      <DetailItem
+        label="是否需要購買證明"
+        value={translateBoolean(isVerificationRequired)}
+      />
+      <DetailItem
+        label="商品購買地點"
+        value={
+          <Stack direction="row" alignItems="center">
+            <Place />
+            {purchaseAddress}
+          </Stack>
+        }
+        multiLine={multiline}
+      />
+      <DetailItem
+        label="送達地點"
+        value={
+          <Stack direction="row" alignItems="center">
+            <Place />
+            {destinationAddress}
+          </Stack>
+        }
+        multiLine={multiline}
+      />
+      <DetailItem
+        label="最晚收到商品時間"
+        value={intlFormat(
+          parseISO(latestReceiveItemDate),
+          { year: "numeric", month: "numeric", day: "numeric" },
+          { locale: lang }
+        )}
+        multiLine={multiline}
+      />
+      <DetailItem label="備註" value={note} multiLine={multiline} />
+      <DetailItem
+        label="訂單編號"
+        value={serialNumber}
+        labelProps={{ color: "base.300" }}
+        valueProps={{ color: "base.300" }}
+        multiLine={multiline}
+      />
+    </Stack>
+  );
+};
+
 const OrderDetailPage: NextPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
 
   const { data: session } = useSession();
   const userId = session?.user?.id;
-
-  const lang = useLanguage();
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
@@ -166,98 +311,7 @@ const OrderDetailPage: NextPage = () => {
     console.log({ type: "favorite" });
   };
 
-  const withCurrency = (value: number) => `${value} ${currency}`;
-
-  const purchaseAddress = [
-    purchaseCityName,
-    purchaseCountryName,
-    purchaseDistrict,
-    purchaseRoad,
-  ].join(" ");
-
-  const destinationAddress = [destinationCityName, destinationCountryName].join(
-    " "
-  );
-
-  const multiline = !isDesktop;
   const perspective = isOwner ? "consumer" : "shopper";
-
-  const details = (
-    <Stack spacing={4}>
-      <DetailItem
-        label="商品價格"
-        value={withCurrency(unitPrice)}
-        valueProps={{ weightPreset: "bold" }}
-      />
-      <DetailItem
-        label="願付代購費"
-        value={withCurrency(travelerFee)}
-        valueProps={{ weightPreset: "bold" }}
-      />
-      <DetailItem
-        label="關稅"
-        value={withCurrency(tariffFee)}
-        valueProps={{ weightPreset: "bold" }}
-      />
-      <DetailItem
-        label="平台費"
-        value={withCurrency(platformFee)}
-        valueProps={{ weightPreset: "bold" }}
-      />
-      <DetailItem
-        label="總付款金額"
-        value={withCurrency(totalAmount)}
-        valueProps={{ variant: "h3", weightPreset: "bold" }}
-      />
-      <DetailItem label="商品規格" value={description} />
-      <DetailItem label="商品數量" value={quantity} />
-      <DetailItem
-        label="是否需要包裝"
-        value={translateBoolean(isPackagingRequired)}
-      />
-      <DetailItem
-        label="是否需要購買證明"
-        value={translateBoolean(isVerificationRequired)}
-      />
-      <DetailItem
-        label="商品購買地點"
-        value={
-          <Stack direction="row" alignItems="center">
-            <Place />
-            {purchaseAddress}
-          </Stack>
-        }
-        multiLine={multiline}
-      />
-      <DetailItem
-        label="送達地點"
-        value={
-          <Stack direction="row" alignItems="center">
-            <Place />
-            {destinationAddress}
-          </Stack>
-        }
-        multiLine={multiline}
-      />
-      <DetailItem
-        label="最晚收到商品時間"
-        value={intlFormat(
-          parseISO(latestReceiveItemDate),
-          { year: "numeric", month: "numeric", day: "numeric" },
-          { locale: lang }
-        )}
-        multiLine={multiline}
-      />
-      <DetailItem label="備註" value={note} multiLine={multiline} />
-      <DetailItem
-        label="訂單編號"
-        value={serialNumber}
-        labelProps={{ color: "base.300" }}
-        valueProps={{ color: "base.300" }}
-        multiLine={multiline}
-      />
-    </Stack>
-  );
 
   const content = (
     <Stack
@@ -321,7 +375,29 @@ const OrderDetailPage: NextPage = () => {
           </Typography>
         ) : null}
         {/* Details */}
-        <AreaWrapper>{details}</AreaWrapper>
+        <AreaWrapper>
+          <DetailList
+            currency={currency}
+            purchaseCityName={purchaseCityName}
+            purchaseCountryName={purchaseCountryName}
+            purchaseDistrict={purchaseDistrict}
+            purchaseRoad={purchaseRoad}
+            destinationCityName={destinationCityName}
+            destinationCountryName={destinationCountryName}
+            unitPrice={unitPrice}
+            travelerFee={travelerFee}
+            tariffFee={tariffFee}
+            platformFee={platformFee}
+            totalAmount={totalAmount}
+            description={description}
+            quantity={quantity}
+            isPackagingRequired={isPackagingRequired}
+            isVerificationRequired={isVerificationRequired}
+            latestReceiveItemDate={latestReceiveItemDate}
+            note={note}
+            serialNumber={serialNumber}
+          />
+        </AreaWrapper>
         {/* Bids (Mobile) */}
         {isOwner && !shopper ? (
           <BidList
