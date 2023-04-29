@@ -12,9 +12,9 @@ interface ChatRoomListItemProps {
   senderName: string;
   content: string;
   sendDate: string;
-  avatarSrc: string;
+  avatarUrl: string;
   totalUnreadMessages: number;
-  messageType: "TEXT" | "FILE";
+  messageType: string;
 }
 
 const ChatRoomListItem: React.FC<ChatRoomListItemProps> = ({
@@ -22,7 +22,7 @@ const ChatRoomListItem: React.FC<ChatRoomListItemProps> = ({
   senderName,
   content,
   sendDate,
-  avatarSrc,
+  avatarUrl: avatarUrl,
   totalUnreadMessages,
   messageType,
 }) => {
@@ -38,7 +38,7 @@ const ChatRoomListItem: React.FC<ChatRoomListItemProps> = ({
       }}
     >
       <ListItemAvatar>
-        <Avatar alt="Profile Picture" src={avatarSrc} />
+        <Avatar alt="Profile Picture" src={avatarUrl} />
       </ListItemAvatar>
       <ListItemText
         primary={
