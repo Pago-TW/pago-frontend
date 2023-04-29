@@ -184,7 +184,7 @@ export const ReviewForm = () => {
             value={withCurrency(fee)}
             valueProps={{ weightPreset: "bold" }}
           />
-          {charge?.tariffFee ? (
+          {charge?.tariffFee !== undefined ? (
             <DetailItem
               label="關稅"
               value={withCurrency(charge?.tariffFee)}
@@ -193,7 +193,7 @@ export const ReviewForm = () => {
           ) : (
             detailItemSkeleton
           )}
-          {charge?.platformFee ? (
+          {charge?.platformFee !== undefined ? (
             <DetailItem
               label="平台費"
               value={withCurrency(charge?.platformFee)}
@@ -202,7 +202,7 @@ export const ReviewForm = () => {
           ) : (
             detailItemSkeleton
           )}
-          {charge?.totalAmount ? (
+          {charge?.totalAmount !== undefined ? (
             <DetailItem
               label="總付款金額"
               value={withCurrency(charge?.totalAmount)}
