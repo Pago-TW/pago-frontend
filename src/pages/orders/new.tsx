@@ -93,7 +93,7 @@ const NewOrderPage: NextPage = () => {
     trigger,
   } = methods;
 
-  const { mutate } = useAddOrder();
+  const { mutate: addOrder } = useAddOrder();
 
   const handleNext = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -103,8 +103,8 @@ const NewOrderPage: NextPage = () => {
   };
 
   const handleFormSubmit = (data: ReviewFormValues) => {
-    mutate(transformReviewFormValues(data), {
-      onSuccess: (data) => router.push(`/orders/${data.orderId}`),
+    addOrder(transformReviewFormValues(data), {
+      onSuccess: (data) => router.replace(`/orders/${data.orderId}`),
     });
   };
 
