@@ -83,6 +83,7 @@ export const MerchandiseForm = () => {
     formState: { errors },
     setValue,
     getValues,
+    trigger,
   } = useFormContext<MerchandiseFormValues>();
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -92,6 +93,8 @@ export const MerchandiseForm = () => {
     onDrop: (acceptedFiles: File[]) => {
       setValue("images", acceptedFiles);
       setPreviews(acceptedFiles.map((file) => URL.createObjectURL(file)));
+
+      trigger("images");
     },
   });
 
