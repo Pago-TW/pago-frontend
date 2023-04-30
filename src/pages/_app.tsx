@@ -13,6 +13,7 @@ import Head from "next/head";
 import { SnackbarProvider, closeSnackbar } from "notistack";
 import { theme } from "../styles/theme";
 import { createEmotionCache } from "../utils/createEmotionCache";
+import { WebSocketProvider } from "@/websocket/contexts/WebSocketContext";
 
 import "@fontsource/mallanna/400.css";
 import "@fontsource/noto-sans-tc/300.css";
@@ -46,20 +47,25 @@ const PagoApp = ({
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider theme={theme}>
-            <SnackbarProvider
-              autoHideDuration={5000}
-              TransitionComponent={(props: Omit<SlideProps, "direction">) => (
-                <Slide direction="right" {...props} />
-              )}
-              action={(key) => (
-                <IconButton onClick={() => closeSnackbar(key)} color="inherit">
-                  <Close />
-                </IconButton>
-              )}
-            >
-              <CssBaseline />
-              <Component {...pageProps} />
-            </SnackbarProvider>
+            <WebSocketProvider websocketUrl="http://localhost:8080/api/v1/ws">
+              <SnackbarProvider
+                autoHideDuration={5000}
+                TransitionComponent={(props: Omit<SlideProps, "direction">) => (
+                  <Slide direction="right" {...props} />
+                )}
+                action={(key) => (
+                  <IconButton
+                    onClick={() => closeSnackbar(key)}
+                    color="inherit"
+                  >
+                    <Close />
+                  </IconButton>
+                )}
+              >
+                <CssBaseline />
+                <Component {...pageProps} />
+              </SnackbarProvider>
+            </WebSocketProvider>
           </ThemeProvider>
           <ReactQueryDevtools />
         </QueryClientProvider>

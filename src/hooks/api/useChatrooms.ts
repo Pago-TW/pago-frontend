@@ -25,7 +25,7 @@ const getChatrooms = async (options: Options = {}, chatWith?: string) => {
   return res.data;
 };
 
-export const useChatRooms = (
+export const useChatrooms = (
   params?: Params,
   options?: { enabled?: boolean }
 ) => {
@@ -40,4 +40,4 @@ export const useChatRooms = (
   });
 };
 
-export default useChatRooms;
+export default useChatrooms;

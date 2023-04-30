@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import Header from "@/components/Header";
 import ChatroomListItem from "@/components/ChatroomListItem";
-import { useChatRooms } from "@/hooks/api/useChatrooms";
+import { useChatrooms } from "@/hooks/api/useChatrooms";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { CssBaseline, Divider, List, Paper } from "@mui/material";
 import { Link } from "@/components/ui/Link";
@@ -14,11 +14,11 @@ const hideScrollbar = {
 };
 
 const Chatrooms = () => {
-  const { data: chatRoomsData } = useChatRooms();
+  const { data: chatroomsData } = useChatrooms();
 
-  const chatRooms = useMemo(
-    () => flattenInfinitePaginatedData(chatRoomsData) ?? [],
-    [chatRoomsData]
+  const chatrooms = useMemo(
+    () => flattenInfinitePaginatedData(chatroomsData) ?? [],
+    [chatroomsData]
   );
 
   return (
@@ -27,7 +27,7 @@ const Chatrooms = () => {
       <Paper square sx={{ pb: "50px", overflowY: "scroll", ...hideScrollbar }}>
         <Header title="聊天室列表" />
         <List sx={{ mb: 2 }}>
-          {chatRooms.map((chatRoom, index) => (
+          {chatrooms.map((chatRoom, index) => (
             <React.Fragment key={chatRoom.chatroomId}>
               <Link
                 href={`/chatrooms/board?chatWith=${chatRoom.otherUser.userId}`}
@@ -45,7 +45,7 @@ const Chatrooms = () => {
                 />
               </Link>
 
-              {index !== chatRooms.length - 1 && (
+              {index !== chatrooms.length - 1 && (
                 <Divider variant="inset" component="li" />
               )}
             </React.Fragment>
