@@ -11,7 +11,7 @@ type Options = {
   pageParam?: number;
 };
 
-const getChatRooms = async (options: Options = {}) => {
+const getChatrooms = async (options: Options = {}, chatWith?: string) => {
   const { params, pageParam = 0 } = options;
 
   const res = await axios.get<PaginatedResponse<Chatroom[]>>("/chatrooms", {
@@ -19,6 +19,7 @@ const getChatRooms = async (options: Options = {}) => {
       startIndex: pageParam,
       size: 10,
       ...params,
+      ...(chatWith ? { chatWith } : {}),
     },
   });
   return res.data;
@@ -30,7 +31,7 @@ export const useChatRooms = (
 ) => {
   return useInfiniteQuery({
     queryKey: ["chatrooms"],
-    queryFn: ({ pageParam }) => getChatRooms({ params, pageParam }),
+    queryFn: ({ pageParam }) => getChatrooms({ params, pageParam }),
     getNextPageParam: (lastPage) => {
       const lastIndex = getLastIndex(lastPage);
       return lastIndex < lastPage.total ? lastIndex + 1 : undefined;

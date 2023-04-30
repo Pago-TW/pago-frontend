@@ -52,7 +52,7 @@ const Chatroom: React.FC = () => {
           width: "100%",
         }}
       >
-        <Header roomName="Yi Shiun" onBackButtonClick={() => {}} />
+        <Header title="Yi Shiun" onBackButtonClick={() => {}} />
       </Box>
 
       <Box

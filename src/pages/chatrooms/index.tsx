@@ -4,6 +4,7 @@ import ChatroomListItem from "@/components/ChatroomListItem";
 import { useChatRooms } from "@/hooks/api/useChatrooms";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { CssBaseline, Divider, List, Paper } from "@mui/material";
+import { Link } from "@/components/ui/Link";
 
 const hideScrollbar = {
   "&::-webkit-scrollbar": {
@@ -24,19 +25,24 @@ const Chatrooms = () => {
     <React.Fragment>
       <CssBaseline />
       <Paper square sx={{ pb: "50px", overflowY: "scroll", ...hideScrollbar }}>
-        <Header roomName="聊天室列表" onBackButtonClick={() => {}} />
+        <Header title="聊天室列表" />
         <List sx={{ mb: 2 }}>
           {chatRooms.map((chatRoom, index) => (
             <React.Fragment key={chatRoom.chatroomId}>
-              <ChatroomListItem
-                senderId={chatRoom.otherUser.userId}
-                senderName={chatRoom.otherUser.fullName}
-                content={chatRoom.latestMessageContent}
-                avatarUrl={chatRoom.otherUser.avatarUrl || ""}
-                sendDate={chatRoom.latestMessageSendDate}
-                totalUnreadMessages={chatRoom.totalUnreadMessage}
-                messageType={chatRoom.latestMessageType}
-              />
+              <Link
+                href={`/chatrooms/board?chatWith=${chatRoom.otherUser.userId}`}
+              >
+                <ChatroomListItem
+                  senderId={chatRoom.otherUser.userId}
+                  senderName={chatRoom.otherUser.fullName}
+                  content={chatRoom.latestMessageContent}
+                  avatarUrl={chatRoom.otherUser.avatarUrl || ""}
+                  sendDate={chatRoom.latestMessageSendDate}
+                  totalUnreadMessages={chatRoom.totalUnreadMessage}
+                  messageType={chatRoom.latestMessageType}
+                />
+              </Link>
+
               {index !== chatRooms.length - 1 && (
                 <Divider variant="inset" component="li" />
               )}
