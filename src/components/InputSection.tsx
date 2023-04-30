@@ -1,21 +1,40 @@
 // InputSection.tsx
-import React from "react";
+import React, { useState } from "react";
 import { Box, IconButton, Input, InputAdornment } from "@mui/material";
 import { AttachFile, Send } from "@mui/icons-material";
 
 interface InputSectionProps {
   onFileUpload?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onMessageSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
+  onSend: (content: string, messageType: "TEXT" | "FILE") => void;
 }
 
 const InputSection: React.FC<InputSectionProps> = ({
   onFileUpload,
-  onMessageSubmit,
+  onSend,
 }) => {
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      onSend(inputValue, "TEXT");
+      setInputValue("");
+    }
+  };
+
+  const handleSendButtonClick = () => {
+    onSend(inputValue, "TEXT");
+    setInputValue("");
+  };
+
   return (
     <Box
       component="form"
-      onSubmit={onMessageSubmit}
+      onSubmit={(event) => event.preventDefault()}
       sx={{
         display: "flex",
         alignItems: "center",
@@ -45,20 +64,23 @@ const InputSection: React.FC<InputSectionProps> = ({
 
       <Input
         type="text"
+        value={inputValue}
+        onChange={handleInputChange}
+        onKeyPress={handleKeyPress}
         fullWidth
         sx={{
           mx: 1,
           height: "40px",
           borderRadius: "50px",
           bgcolor: "gray.700",
-          color: "white",
+          color: "black",
           p: 1,
           pl: 2,
         }}
       />
 
       <IconButton
-        type="submit"
+        onClick={handleSendButtonClick}
         sx={{
           width: "50px",
           height: "40px",
