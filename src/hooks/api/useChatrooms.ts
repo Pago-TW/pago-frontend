@@ -4,7 +4,7 @@ import type { Chatroom } from "@/types/chatroom";
 import { getLastIndex } from "@/utils/getLastIndex";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-type Params = PaginationParams<{}>;
+type Params = PaginationParams;
 
 type Options = {
   params?: Params;
