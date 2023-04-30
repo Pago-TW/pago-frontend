@@ -3,9 +3,9 @@ import { Box } from "@mui/material";
 import Message from "./Message";
 
 interface MessageProps {
-  sender: string;
+  senderName: string;
   content: string;
-  time: string;
+  sendDate: string;
   isSender: boolean;
 }
 
@@ -35,9 +35,9 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
           key={index}
         >
           <Message
-            sender={message.sender}
+            sender={message.senderName}
             content={message.content}
-            time={message.time}
+            time={message.sendDate}
             isSender={message.isSender}
           />
         </Box>
