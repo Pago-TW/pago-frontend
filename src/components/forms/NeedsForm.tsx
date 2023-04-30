@@ -24,7 +24,6 @@ export const needsFormSchema = z.object({
     (value) => Object.values(value).every(Boolean),
     { message: "請選擇送達國家、縣市" }
   ),
-  destinationAddress: z.string().min(1, { message: "請輸入詳細送達地址" }),
   fee: z.number().min(1),
   deadline: z.date({
     invalid_type_error: "無效的日期",
@@ -75,14 +74,6 @@ export const NeedsForm = () => {
             name="destination"
             label="購買國家縣市"
             noInputLabelOnShrink
-          />
-          <TextField
-            variant="standard"
-            fullWidth
-            label="詳細送達地址"
-            error={!!errors?.destinationAddress}
-            helperText={errors?.destinationAddress?.message}
-            {...register("destinationAddress")}
           />
         </Stack>
         <Box position="relative">

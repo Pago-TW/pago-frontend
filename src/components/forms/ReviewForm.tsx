@@ -70,7 +70,6 @@ export const ReviewForm = () => {
     receipt,
     fee,
     destination,
-    destinationAddress,
     deadline,
     note,
   } = formValues;
@@ -89,16 +88,15 @@ export const ReviewForm = () => {
 
   const withCurrency = (amount: number) => `${amount} ${currency}`;
 
+  // TODO: Get country and city name
   const purchaseText = [
     purchase.countryCode,
     purchase.cityCode,
     purchaseAddress,
   ].join(" ");
-  const destinationText = [
-    destination.countryCode,
-    destination.cityCode,
-    destinationAddress,
-  ].join(" ");
+  const destinationText = [destination.countryCode, destination.cityCode].join(
+    " "
+  );
 
   const detailItemSkeleton = <Skeleton variant="rectangular" width="100%" />;
 
