@@ -35,11 +35,13 @@ const Chatrooms = () => {
                 <ChatroomListItem
                   senderId={chatRoom.otherUser.userId}
                   senderName={chatRoom.otherUser.fullName}
-                  content={chatRoom.latestMessageContent}
+                  latestMessageContent={chatRoom.latestMessageContent}
                   avatarUrl={chatRoom.otherUser.avatarUrl || ""}
-                  sendDate={chatRoom.latestMessageSendDate}
+                  latestMessageSendDate={chatRoom.latestMessageSendDate}
                   totalUnreadMessages={chatRoom.totalUnreadMessage}
-                  messageType={chatRoom.latestMessageType}
+                  latestMessageType={
+                    chatRoom.latestMessageType as "FILE" | "TEXT"
+                  }
                 />
               </Link>
 

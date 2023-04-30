@@ -10,23 +10,45 @@ import UnreadMessageBadge from "./UnreadMessageBadge";
 interface ChatRoomListItemProps {
   senderId: string;
   senderName: string;
-  content: string;
-  sendDate: string;
+  latestMessageContent: string;
+  latestMessageSendDate: string;
   avatarUrl: string;
   totalUnreadMessages: number;
-  messageType: string;
+  latestMessageType: "TEXT" | "FILE";
 }
 
 const ChatRoomListItem: React.FC<ChatRoomListItemProps> = ({
   senderId,
   senderName,
-  content,
-  sendDate,
-  avatarUrl: avatarUrl,
+  latestMessageContent: content,
+  latestMessageSendDate: sendDate,
+  avatarUrl,
   totalUnreadMessages,
-  messageType,
+  latestMessageType: messageType,
 }) => {
   const hasUnreadMessages = totalUnreadMessages > 0;
+
+  const displayContent = messageType === "FILE" ? "傳送了圖片給你" : content;
+
+  const timeAgo = (dateString: string): string => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) {
+      return `${days} 天`;
+    } else if (hours > 0) {
+      return `${hours} 小時`;
+    } else if (minutes > 0) {
+      return `${minutes} 分鐘`;
+    } else {
+      return "剛剛";
+    }
+  };
 
   return (
     <ListItem
@@ -71,7 +93,7 @@ const ChatRoomListItem: React.FC<ChatRoomListItemProps> = ({
             <Typography
               component="span"
               variant="body2"
-              color="text.primary"
+              color="#7b7b7b"
               sx={{
                 display: "-webkit-box",
                 WebkitBoxOrient: "vertical",
@@ -81,15 +103,15 @@ const ChatRoomListItem: React.FC<ChatRoomListItemProps> = ({
                 fontWeight: hasUnreadMessages ? "bold" : "normal",
               }}
             >
-              {content}
+              {displayContent}
             </Typography>
             <Typography
               component="span"
               variant="body2"
-              color="text.secondary"
+              color="#9d9d9d"
               display="block"
             >
-              {sendDate}
+              {timeAgo(sendDate)}
             </Typography>
           </React.Fragment>
         }

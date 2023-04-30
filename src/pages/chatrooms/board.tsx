@@ -23,7 +23,6 @@ const Chatroom: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  // 處理 messagesData，將其轉換為適用於 MessageBoard 的格式
   const messages =
     messagesData?.pages
       .flatMap((page) => page.data)
@@ -35,6 +34,7 @@ const Chatroom: React.FC = () => {
           minute: "2-digit",
         }),
         isSender: message.senderId === chatroomData?.currentLoginUserId,
+        messageType: message.messageType as "TEXT" | "FILE",
       })) || [];
 
   return (

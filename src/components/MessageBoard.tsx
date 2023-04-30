@@ -7,6 +7,7 @@ interface MessageProps {
   content: string;
   sendDate: string;
   isSender: boolean;
+  messageType: "TEXT" | "FILE";
 }
 
 interface MessageBoardProps {
@@ -35,10 +36,11 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
           key={index}
         >
           <Message
-            sender={message.senderName}
+            senderName={message.senderName}
             content={message.content}
-            time={message.sendDate}
+            sendDate={message.sendDate}
             isSender={message.isSender}
+            messageType={message.messageType}
           />
         </Box>
       ))}

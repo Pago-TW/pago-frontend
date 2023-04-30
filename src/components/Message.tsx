@@ -2,18 +2,38 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 
 interface MessageProps {
-  sender: string;
+  senderName: string;
   content: string;
-  time: string;
+  sendDate: string;
   isSender: boolean;
+  messageType: "TEXT" | "FILE";
 }
 
 const Message: React.FC<MessageProps> = ({
-  sender,
+  senderName: sender,
   content,
-  time,
+  sendDate: time,
   isSender,
+  messageType,
 }) => {
+  const messageContent =
+    messageType === "TEXT" ? (
+      <Typography variant="body2" color="black">
+        {content}
+      </Typography>
+    ) : (
+      <img
+        src={content}
+        alt="File"
+        style={{
+          maxWidth: "100%",
+          maxHeight: "300px",
+          borderRadius: "4px",
+          border: "1px solid #eeeeee",
+        }}
+      />
+    );
+
   return (
     <Box>
       <Box
@@ -36,19 +56,22 @@ const Message: React.FC<MessageProps> = ({
             {time}
           </Typography>
         )}
-        <Box
-          maxWidth="50%"
-          sx={{
-            background: "#c1ccde",
-            px: 2,
-            py: 1,
-            borderRadius: isSender ? "16px 16px 0 16px" : "16px 16px 16px 0",
-          }}
-        >
-          <Typography variant="body2" color="black">
-            {content}
-          </Typography>
-        </Box>
+        {messageType === "TEXT" ? (
+          <Box
+            maxWidth="50%"
+            sx={{
+              background: "#c1ccde",
+              px: 2,
+              py: 1,
+              borderRadius: isSender ? "16px 16px 0 16px" : "16px 16px 16px 0",
+              wordWrap: "break-word",
+            }}
+          >
+            {messageContent}
+          </Box>
+        ) : (
+          messageContent
+        )}
         {!isSender && (
           <Typography variant="caption" color="black" ml={1}>
             {time}
