@@ -1,13 +1,13 @@
 import React from "react";
-import { Box, Button, Typography, Grid } from "@mui/material";
-import { ArrowBackIos } from "@mui/icons-material";
+import { Box, Grid } from "@mui/material";
+import { BackButtonIos } from "./BackButtonIos";
+import { Typography } from "./ui/Typography";
 
 interface HeaderProps {
-  roomName: string;
-  onBackButtonClick: () => void;
+  title: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ roomName, onBackButtonClick }) => {
+const Header: React.FC<HeaderProps> = ({ title }) => {
   return (
     <Box
       sx={{
@@ -20,26 +20,21 @@ const Header: React.FC<HeaderProps> = ({ roomName, onBackButtonClick }) => {
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
       }}
     >
-      <Grid container>
-        <Grid item xs={4} display="flex" justifyContent="flex-start" pl={2}>
-          <Button
-            color="primary"
-            onClick={onBackButtonClick}
-            sx={{ textTransform: "none" }}
-          >
-            <ArrowBackIos sx={{ height: "15px", width: "20px" }} />
-          </Button>
+      <Grid container alignItems="center">
+        <Grid item xs={1}>
+          <Box pl={2}>
+            <BackButtonIos />
+          </Box>
         </Grid>
-        <Grid item xs={4} display="flex" justifyContent="center">
+        <Grid item xs={10} display="flex" justifyContent="center">
           <Typography
-            variant="h6"
-            component="p"
+            variant="h4"
             sx={{ color: "text.primary", fontWeight: "extrabold" }}
           >
-            {roomName}
+            {title}
           </Typography>
         </Grid>
-        <Grid item xs={4}></Grid>
+        <Grid item xs={1}></Grid>
       </Grid>
     </Box>
   );
