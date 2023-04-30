@@ -14,7 +14,7 @@ import {
 import { hasFlag } from "country-flag-icons";
 import Flags from "country-flag-icons/react/3x2";
 import type { CSSProperties } from "react";
-import { useCallback, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Control, Path } from "react-hook-form";
 import { useController, type FieldValues } from "react-hook-form";
 import { z } from "zod";
@@ -61,26 +61,41 @@ export const CountryCitySelect = <T extends FieldValues>(
   } = props;
 
   const {
-    field: { value: fieldValue, ...field },
+    field: { value: fieldValue, onChange, ...field },
     fieldState: { error },
   } = useController({ name, control });
 
-  const initialValue = `${fieldValue.countryCode}-${fieldValue.cityCode}`;
-  const [value, setValue] = useState(initialValue === "-" ? "" : initialValue);
+  const [value, setValue] = useState("");
 
   const { data: options = [] } = useCountryCity();
 
-  const handleChange = useCallback(
-    (e: SelectChangeEvent) => {
-      {
-        const value = e.target.value as string;
-        const [countryCode, cityCode] = value.split("-");
-        field.onChange({ countryCode, cityCode });
-        setValue(value);
-      }
-    },
-    [field]
+  const transformedOptions = useMemo(
+    () => options.map((opt) => ({ id: getItemValue(opt), value: opt })),
+    [options]
   );
+
+  useEffect(() => {
+    if (transformedOptions.length === 0) return;
+    if (!fieldValue || !fieldValue.countryCode || !fieldValue.cityCode) return;
+    setValue(`${fieldValue.countryCode}-${fieldValue.cityCode}`);
+  }, [transformedOptions, fieldValue]);
+
+  const handleChange = (e: SelectChangeEvent) => {
+    {
+      const selected = transformedOptions.find(
+        (opt) => e.target.value === opt.id
+      );
+      if (selected === undefined) return;
+
+      const {
+        country: { countryCode },
+        city: { cityCode },
+      } = selected.value;
+
+      onChange({ countryCode, cityCode });
+      setValue(e.target.value);
+    }
+  };
 
   const inputLabelSx = noLabelOnShrink
     ? { "&.MuiInputLabel-shrink": { display: "none" } }
@@ -92,20 +107,15 @@ export const CountryCitySelect = <T extends FieldValues>(
       <InputLabel sx={inputLabelSx}>{label}</InputLabel>
       <Select
         label={selectLabel}
+        MenuProps={{ sx: { maxHeight: menuMaxHeight } }}
         onChange={handleChange}
         value={value}
-        name={field.name}
-        ref={field.ref}
-        onBlur={field.onBlur}
-        MenuProps={{ sx: { maxHeight: menuMaxHeight } }}
+        {...field}
       >
-        {options.map((opt, idx) => {
-          const value = getItemValue(opt);
-          const {
-            country: { countryCode, ...country },
-            city,
-          } = opt;
+        {transformedOptions.map((opt, idx) => {
+          const { country, city } = opt.value;
 
+          const { countryCode } = country;
           const Flag = hasFlag(countryCode)
             ? Flags[countryCode as FlagKeys]
             : null;
@@ -114,8 +124,8 @@ export const CountryCitySelect = <T extends FieldValues>(
 
           return (
             <MenuItem
-              key={idx}
-              value={value}
+              key={opt.id}
+              value={opt.id}
               sx={{
                 backgroundColor: (theme) =>
                   isEven
