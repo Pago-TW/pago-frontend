@@ -1,13 +1,11 @@
 import { axios } from "@/libs/axios";
-import type { Order, OrderItem, Shopper } from "@/types/order";
+import type { Order, OrderStatus } from "@/types/order";
 import type { AtLeastOneRequired } from "@/types/util";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { AddOrderData } from "./useAddOrder";
 
 export type UpdateOrderData = AtLeastOneRequired<
-  Omit<Order, "orderId" | "orderItem" | "shopper"> & {
-    orderItem: Omit<OrderItem, "orderItemId">;
-    shopper: Omit<Shopper, "userId">;
-  }
+  AddOrderData["data"] & { orderStatus: OrderStatus }
 >;
 
 type UpdateOrderParams = {

@@ -1,13 +1,13 @@
 import { useCharge } from "@/hooks/api/useCharge";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { translateBoolean } from "@/utils/translateBoolean";
 import { Place } from "@mui/icons-material";
 import { Box, Skeleton, Stack } from "@mui/material";
 import { intlFormat } from "date-fns";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import type { FC } from "react";
 import { useFormContext } from "react-hook-form";
-import { translateBoolean } from "src/utils/translateBoolean";
 import type { z } from "zod";
 import { DetailItem } from "../DetailItem";
 import { PaperLayout } from "../layouts/PaperLayout";
@@ -15,52 +15,52 @@ import { Typography } from "../ui/Typography";
 import { merchandiseFormSchema } from "./MerchandiseForm";
 import { needsFormSchema } from "./NeedsForm";
 
-export const reviewFormSchema = merchandiseFormSchema.merge(needsFormSchema);
+export const editReviewFormSchema = merchandiseFormSchema
+  .merge(needsFormSchema)
+  .omit({ images: true });
 
-export type ReviewFormValues = z.infer<typeof reviewFormSchema>;
+export type EditReviewFormValues = z.infer<typeof editReviewFormSchema>;
 
-export const transformReviewFormValues = (data: ReviewFormValues) => {
+export const transformEditReviewFormValues = (data: EditReviewFormValues) => {
   return {
-    file: data.images,
-    data: {
-      orderItem: {
-        name: data.name,
-        description: data.description,
-        quantity: data.quantity,
-        unitPrice: data.price.amount,
-        purchaseCountry: data.purchase.countryCode,
-        purchaseCity: data.purchase.cityCode,
-        purchaseRoad: data.purchaseAddress,
-      },
-      packaging: data.packing,
-      verification: data.receipt,
-      destinationCountry: data.destination.countryCode,
-      destinationCity: data.destination.cityCode,
-      travelerFee: data.fee,
-      currency: data.price.currency,
-      note: data.note,
-      latestReceiveItemDate: data.deadline,
+    orderItem: {
+      name: data.name,
+      description: data.description,
+      quantity: data.quantity,
+      unitPrice: data.price.amount,
+      purchaseCountry: data.purchase.countryCode,
+      purchaseCity: data.purchase.cityCode,
+      purchaseRoad: data.purchaseAddress,
     },
+    packaging: data.packing,
+    verification: data.receipt,
+    destinationCountry: data.destination.countryCode,
+    destinationCity: data.destination.cityCode,
+    travelerFee: data.fee,
+    currency: data.price.currency,
+    note: data.note,
+    latestReceiveItemDate: data.deadline,
   };
 };
 
-export const ReviewForm = () => {
-  const [preview, setPreview] = useState<string>("");
+type EditMerchandiseFormProps = {
+  imageUrls?: string[];
+};
 
+export const EditReviewForm: FC<EditMerchandiseFormProps> = ({
+  imageUrls = [],
+}) => {
   const lang = useLanguage();
 
-  const { getValues } = useFormContext<ReviewFormValues>();
+  const { getValues } = useFormContext<EditReviewFormValues>();
 
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   const formValues = getValues();
-  const { data: charge } = useCharge(
-    transformReviewFormValues(formValues).data
-  );
+  const { data: charge } = useCharge(transformEditReviewFormValues(formValues));
 
   const {
     name,
-    images,
     description,
     price: { amount: price, currency },
     purchase,
@@ -73,18 +73,6 @@ export const ReviewForm = () => {
     deadline,
     note,
   } = formValues;
-
-  useEffect(() => {
-    let previewUrl: string;
-    if (images.length > 0 && images[0]) {
-      previewUrl = URL.createObjectURL(images[0]);
-      setPreview(previewUrl);
-    }
-
-    return () => {
-      URL.revokeObjectURL(previewUrl);
-    };
-  }, [images, setPreview]);
 
   const withCurrency = (amount: number) => `${amount} ${currency}`;
 
@@ -116,7 +104,9 @@ export const ReviewForm = () => {
               },
             })}
           >
-            {preview ? <Image src={preview} alt="Preview image" fill /> : null}
+            {imageUrls[0] !== undefined ? (
+              <Image src={imageUrls[0]} alt="Preview image" fill />
+            ) : null}
           </Box>
           <Stack justifyContent="space-between" flexGrow={1} py={1}>
             <Typography variant={mdDown ? "h5" : "h1"} weightPreset="bold">
@@ -215,4 +205,4 @@ export const ReviewForm = () => {
   );
 };
 
-export default ReviewForm;
+export default EditReviewForm;

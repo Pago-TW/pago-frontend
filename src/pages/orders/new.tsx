@@ -1,3 +1,4 @@
+import { PageTitle } from "@/components/PageTitle";
 import {
   MerchandiseForm,
   merchandiseFormSchema,
@@ -10,7 +11,6 @@ import {
   transformReviewFormValues,
 } from "@/components/forms/ReviewForm";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { PageTitle } from "@/components/PageTitle";
 import { Button } from "@/components/ui/Button";
 import { StepLabel } from "@/components/ui/StepLabel";
 import { Stepper } from "@/components/ui/Stepper";
@@ -62,7 +62,6 @@ const DEFAULT_VALUES: Partial<ReviewFormValues> = {
     countryCode: "",
     cityCode: "",
   },
-  destinationAddress: "",
   deadline: new Date(),
   note: "",
 };
