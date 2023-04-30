@@ -1,38 +1,37 @@
-import * as React from "react";
 import { Box } from "@mui/material";
-import PageTitle from "./PageTitle";
-import MessageBoard from "./MessageBoard";
-import InputSection from "./InputSection";
+import * as React from "react";
 import Header from "./Header";
+import InputSection from "./InputSection";
+import MessageBoard from "./MessageBoard";
+
+const fakeMessages = [
+  {
+    sender: "John",
+    content: "Hey, how are you?",
+    time: "10:15 AM",
+    isSender: false,
+  },
+  {
+    sender: "Yi Shiun",
+    content: "I am fine, thank you!",
+    time: "10:17 AM",
+    isSender: true,
+  },
+  {
+    sender: "John",
+    content: "What are you doing today?",
+    time: "10:20 AM",
+    isSender: false,
+  },
+  {
+    sender: "Yi Shiun",
+    content: "I have some work to do, and later I will go for a walk.",
+    time: "10:22 AM",
+    isSender: true,
+  },
+];
 
 const Chatroom: React.FC = () => {
-  const fakeMessages = [
-    {
-      sender: "John",
-      content: "Hey, how are you?",
-      time: "10:15 AM",
-      isSender: false,
-    },
-    {
-      sender: "Yi Shiun",
-      content: "I am fine, thank you!",
-      time: "10:17 AM",
-      isSender: true,
-    },
-    {
-      sender: "John",
-      content: "What are you doing today?",
-      time: "10:20 AM",
-      isSender: false,
-    },
-    {
-      sender: "Yi Shiun",
-      content: "I have some work to do, and later I will go for a walk.",
-      time: "10:22 AM",
-      isSender: true,
-    },
-  ];
-
   return (
     <Box
       sx={{
@@ -52,7 +51,10 @@ const Chatroom: React.FC = () => {
           width: "100%",
         }}
       >
-        <Header title="Yi Shiun" onBackButtonClick={() => {}} />
+        <Header
+          title="Yi Shiun"
+          //  onBackButtonClick={() => {}}
+        />
       </Box>
 
       <Box
