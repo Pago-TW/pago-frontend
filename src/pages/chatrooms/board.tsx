@@ -3,8 +3,9 @@ import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useChatroom } from "@/hooks/api/useChatroom";
-import useChatroomMessages from "@/hooks/api/useChatroomMessages";
 import { useWebSocket } from "@/websocket/contexts/WebSocketContext";
+import useChatroomMessages from "@/hooks/api/useChatroomMessages";
+import { WebSocketService } from "@/websocket/websocket";
 import { MessageResponse, SendMessageRequest } from "@/types/message";
 
 import Header from "@/components/Header";
@@ -28,11 +29,11 @@ const Chatroom: React.FC = () => {
   const chatroomId = chatroomData?.chatroomId;
   const { data: messagesData, isLoading: isMessagesLoading } =
     useChatroomMessages(chatroomId || "");
-  const { webSocketService, isConnected } = useWebSocket();
   const [localMessages, setLocalMessages] = React.useState<Message[]>([]);
-  const [isSubscribed, setIsSubscribed] = React.useState(false);
   const { data: session } = useSession();
   const userId = session?.user?.id;
+
+  const { webSocketService, isConnected, sendFileMessage } = useWebSocket();
 
   React.useEffect(() => {
     if (webSocketService) {
@@ -57,40 +58,11 @@ const Chatroom: React.FC = () => {
 
       webSocketService.onMessage(handleMessage);
 
-      const handleConnect = () => {
-        if (chatroomId && !isSubscribed) {
-          console.log("CHECK subscribe, board.tsx");
-          webSocketService.subscribe(chatroomId);
-          setIsSubscribed(true);
-        }
-      };
-
-      webSocketService.onConnect(handleConnect);
-
-      if (isConnected) {
-        webSocketService.connect();
-      } else {
-        if (chatroomId && isSubscribed) {
-          webSocketService.unsubscribe(chatroomId);
-          setIsSubscribed(false);
-        }
-
-        webSocketService.disconnect();
-      }
-
       return () => {
-        webSocketService.offMessage();
-        webSocketService.offConnect(handleConnect);
-
-        if (chatroomId && isSubscribed) {
-          webSocketService.unsubscribe(chatroomId);
-          setIsSubscribed(false);
-        }
-
-        webSocketService.disconnect();
+        webSocketService.offMessage(handleMessage);
       };
     }
-  }, [webSocketService, chatroomData, chatroomId, isSubscribed, isConnected]);
+  }, [webSocketService, chatroomData]);
 
   if (isChatroomLoading || isMessagesLoading) {
     return <div>Loading...</div>;
@@ -158,8 +130,15 @@ const Chatroom: React.FC = () => {
       >
         <MessageBoard messages={messages} />
       </Box>
-
-      <InputSection onSend={handleSendMessage} />
+      <InputSection
+        onFileUpload={async (event) => {
+          const files = event.target.files;
+          if (files) {
+            await sendFileMessage(files);
+          }
+        }}
+        onSend={handleSendMessage}
+      />
     </Box>
   );
 };

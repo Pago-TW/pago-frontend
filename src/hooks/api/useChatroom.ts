@@ -25,5 +25,7 @@ const getChatroom = async (chatWith: string) => {
 };
 
 export const useChatroom = (chatWith: string) => {
-  return useQuery(["chatroom", chatWith], () => getChatroom(chatWith));
+  return useQuery(["chatroom", chatWith], () => getChatroom(chatWith), {
+    refetchOnWindowFocus: false,
+  });
 };
