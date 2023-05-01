@@ -1,4 +1,5 @@
 import type { Trip } from "./trip";
+import type { User } from "./user";
 
 export interface Bid {
   bidId: string;
@@ -23,10 +24,8 @@ export interface Bid {
 
 export type BidStatus = "NOT_CHOSEN" | "IS_CHOSEN";
 
-export interface Creator {
-  userId: string;
-  fullName: string;
-  avatarUrl?: string;
+export interface Creator
+  extends Pick<User, "userId" | "fullName" | "avatarUrl"> {
   review: Review;
 }
 
