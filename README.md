@@ -38,3 +38,4 @@ Repository for the frontend of the Pago project.
 - [ ] Show the chosen currency in [`NeedsForm`](/src/components/forms/NeedsForm.tsx) with selection disabled
 - [ ] Show country and city name instead of code when recap
 - [ ] Add a prompt at [`AvailableShoppers`](/src/components/AvailableShoppers.tsx) when there's no any shoppers available
+- [ ] Responsive font size in [`Typography`](/src/components/ui/Typography.tsx)
