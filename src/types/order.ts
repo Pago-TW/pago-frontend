@@ -52,7 +52,7 @@ export interface OrderItem {
   fileUrls: string[];
 }
 
-export interface Shopper extends Pick<User, "fullName" | "avatarUrl"> {
-  shopperId: User["userId"];
+export interface Shopper
+  extends Pick<User, "userId" | "fullName" | "avatarUrl"> {
   latestDeliveryDate: string;
 }

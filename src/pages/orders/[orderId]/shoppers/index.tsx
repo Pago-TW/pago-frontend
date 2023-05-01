@@ -18,11 +18,11 @@ import { useEffect, useMemo } from "react";
 import { useInView } from "react-intersection-observer";
 
 type ShopperChooserProps = Pick<Order, "orderId"> &
-  Pick<Shopper, "shopperId" | "fullName" | "avatarUrl">;
+  Pick<Shopper, "userId" | "fullName" | "avatarUrl">;
 
 const ShopperChooser: FC<ShopperChooserProps> = ({
   orderId,
-  shopperId,
+  userId,
   fullName,
   avatarUrl,
 }) => {
@@ -37,7 +37,7 @@ const ShopperChooser: FC<ShopperChooserProps> = ({
           variant="outlined"
           size="small"
           LinkComponent={Link}
-          href={`/orders/${orderId}/shoppers/${shopperId}`}
+          href={`/orders/${orderId}/shoppers/${userId}`}
         >
           查看代購者詳情
         </Button>
@@ -96,7 +96,7 @@ export default function OrderShoppersPage() {
               <Stack spacing={2} mt={3}>
                 {shoppers.map((shopper) => (
                   <ShopperChooser
-                    key={shopper.shopperId}
+                    key={shopper.userId}
                     orderId={orderId}
                     {...shopper}
                   />

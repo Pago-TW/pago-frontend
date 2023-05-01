@@ -28,9 +28,9 @@ export const AvailableShoppers = (props: AvailableShoppersProps) => {
       {hasShoppers ? (
         <>
           <AvatarGroup total={total}>
-            {shoppers.slice(0, 4).map(({ shopperId, avatarUrl, fullName }) => (
+            {shoppers.slice(0, 4).map(({ userId, avatarUrl, fullName }) => (
               <Avatar
-                key={shopperId}
+                key={userId}
                 src={avatarUrl}
                 alt={fullName}
                 component={Link}

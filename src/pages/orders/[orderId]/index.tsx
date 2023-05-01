@@ -206,8 +206,7 @@ const OrderDetailPage: NextPage = () => {
   const { data: order } = useOrder(orderId);
 
   const isOwner = userId !== undefined && userId === order?.consumerId;
-  const isShopper =
-    userId !== undefined && userId === order?.shopper?.shopperId;
+  const isShopper = userId !== undefined && userId === order?.shopper?.userId;
 
   const { data: shoppersData } = useMatchingShoppers(orderId, undefined, {
     enabled: isOwner && !order?.shopper,
@@ -372,10 +371,7 @@ const OrderDetailPage: NextPage = () => {
         {/* Status */}
         <StatusText perspective={perspective} statusCode={orderStatus} />
         {/* ChosenShopper */}
-        {isOwner && shopper ? (
-          // @ts-expect-error TODO: shopper weirdly receive userId instead of shopperId here, just monkey patched it for now
-          <ChosenShopper {...shopper} shopperId={shopper.userId} />
-        ) : null}
+        {isOwner && shopper ? <ChosenShopper {...shopper} /> : null}
         {/* Bids (PC) */}
         {isDesktop ? bidList : null}
         {/* AvailableShoppers (PC) */}
