@@ -9,8 +9,6 @@ export const theme = createTheme({
         },
         "div#__next": {
           minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
         },
       },
     },
