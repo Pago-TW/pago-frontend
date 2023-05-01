@@ -34,10 +34,10 @@ const TripDetailPage: NextPage = () => {
   const [currentTab, setCurrentTab] = useState<Tab["value"]>("ALL");
 
   const router = useRouter();
-  const id = router.query.id as string;
+  const tripId = router.query.tripId as string;
 
-  const { data: trip } = useTrip(id);
-  const { data: matchedOrdersData } = useMatchingOrders(id);
+  const { data: trip } = useTrip(tripId);
+  const { data: matchedOrdersData } = useMatchingOrders(tripId);
 
   const matchedOrders = useMemo(() => {
     return flattenInfinitePaginatedData(matchedOrdersData);
@@ -46,7 +46,6 @@ const TripDetailPage: NextPage = () => {
   if (!trip) return null;
 
   const {
-    tripId,
     profit,
     fromCountry,
     fromCity,
