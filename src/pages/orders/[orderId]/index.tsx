@@ -206,7 +206,8 @@ const OrderDetailPage: NextPage = () => {
   const { data: order } = useOrder(orderId);
 
   const isOwner = userId !== undefined && userId === order?.consumerId;
-  const isShopper = userId !== undefined && userId === order?.shopper?.userId;
+  const isShopper =
+    userId !== undefined && userId === order?.shopper?.shopperId;
 
   const { data: shoppersData } = useMatchingShoppers(orderId, undefined, {
     enabled: isOwner && !order?.shopper,
