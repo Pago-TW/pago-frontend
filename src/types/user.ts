@@ -1,3 +1,5 @@
+import type { ConsumerReview, ShopperReview } from "./review";
+
 export interface User {
   userId: string;
   account: string;
@@ -5,8 +7,8 @@ export interface User {
   lastName: string;
   phone: string;
   email: string;
-  gender?: string;
-  accountStatus?: string;
+  gender?: "MALE" | "FEMALE" | "OTHER" | "PREFER_NOT_TO_SAY";
+  accountStatus?: "ACTIVE" | "INACTIVE" | "WARNING";
   updateDate: string;
   createDate: string;
   aboutMe?: string;
@@ -16,19 +18,7 @@ export interface User {
   shopperReview: ShopperReview;
   consumerReview: ConsumerReview;
   fullName: string;
-  completionRating: string;
+  completionRating: "EXCELLENT" | "VERY_GOOD" | "GOOD" | "POOR";
   provider: string;
   enabled: boolean;
-}
-
-export interface ShopperReview {
-  averageRating: number;
-  totalReview: number;
-  reviewType: string;
-}
-
-export interface ConsumerReview {
-  averageRating: number;
-  totalReview: number;
-  reviewType: string;
 }
