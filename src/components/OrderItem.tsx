@@ -7,7 +7,15 @@ import { Status } from "./Status";
 import { Divider } from "./ui/Divider";
 import { Typography } from "./ui/Typography";
 
-export type OrderItemProps = Order;
+export type OrderItemProps = Pick<
+  Order,
+  "orderStatus" | "currency" | "totalAmount" | "latestReceiveItemDate"
+> & {
+  orderItem: Pick<
+    Order["orderItem"],
+    "name" | "description" | "quantity" | "fileUrls"
+  >;
+};
 
 export const OrderItem = ({
   orderItem: { name, description, quantity, fileUrls },
