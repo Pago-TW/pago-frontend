@@ -372,7 +372,10 @@ const OrderDetailPage: NextPage = () => {
         {/* Status */}
         <StatusText perspective={perspective} statusCode={orderStatus} />
         {/* ChosenShopper */}
-        {isOwner && shopper ? <ChosenShopper {...shopper} /> : null}
+        {isOwner && shopper ? (
+          // @ts-expect-error TODO: shopper weirdly receive userId instead of shopperId here, just monkey patched it for now
+          <ChosenShopper {...shopper} shopperId={shopper.userId} />
+        ) : null}
         {/* Bids (PC) */}
         {isDesktop ? bidList : null}
         {/* AvailableShoppers (PC) */}

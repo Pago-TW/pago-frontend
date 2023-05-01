@@ -10,7 +10,7 @@ import { Typography } from "./ui/Typography";
 export type ChosenShopperProps = Shopper;
 
 export const ChosenShopper = (props: ChosenShopperProps) => {
-  const { avatarUrl, fullName, latestDeliveryDate, userId } = props;
+  const { shopperId, avatarUrl, fullName, latestDeliveryDate } = props;
 
   const lang = useLanguage();
 
@@ -44,7 +44,7 @@ export const ChosenShopper = (props: ChosenShopperProps) => {
           variant="outlined"
           size="small"
           LinkComponent={Link}
-          href={`/user/${userId}`}
+          href={`/user/${shopperId}`}
         >
           查看代購者詳情
         </Button>
