@@ -1,4 +1,4 @@
-import type { PublicUser } from "./user";
+import { User } from "./user";
 
 export interface Order {
   orderId: string;
@@ -53,6 +53,6 @@ export interface OrderItem {
 }
 
 export interface Shopper
-  extends Pick<PublicUser, "userId" | "fullName" | "avatarUrl"> {
+  extends Pick<User, "userId" | "fullName" | "avatarUrl"> {
   latestDeliveryDate: string;
 }

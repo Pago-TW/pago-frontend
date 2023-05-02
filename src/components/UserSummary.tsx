@@ -1,7 +1,7 @@
 import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Review } from "@/types/review";
-import type { PublicUser } from "@/types/user";
+import type { User } from "@/types/user";
 import { Avatar, Box, Paper, Rating, Stack, styled } from "@mui/material";
 import { intlFormat, parseISO } from "date-fns";
 import { useSession } from "next-auth/react";
@@ -53,7 +53,7 @@ const StyledCompletionRatingChip = styled("span")(({ theme }) => ({
 }));
 
 const completionRatingChipMap: Record<
-  Pick<PublicUser, "completionRating">["completionRating"],
+  Pick<User, "completionRating">["completionRating"],
   { label: string; backgroundColor: string }
 > = {
   EXCELLENT: { label: "極優", backgroundColor: "success.main" },
@@ -62,7 +62,7 @@ const completionRatingChipMap: Record<
   POOR: { label: "不良", backgroundColor: "error.main" },
 };
 
-const UserCompletionRating: FC<Pick<PublicUser, "completionRating">> = ({
+const UserCompletionRating: FC<Pick<User, "completionRating">> = ({
   completionRating,
 }) => {
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
@@ -84,7 +84,7 @@ const UserCompletionRating: FC<Pick<PublicUser, "completionRating">> = ({
 };
 
 export type UserSummaryProps = Pick<
-  PublicUser,
+  User,
   | "userId"
   | "fullName"
   | "avatarUrl"

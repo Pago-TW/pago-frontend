@@ -1,6 +1,6 @@
-import type { Review } from "./review";
+import { Review } from "./review";
 import type { Trip } from "./trip";
-import type { PublicUser } from "./user";
+import type { User } from "./user";
 
 export interface Bid {
   bidId: string;
@@ -26,6 +26,6 @@ export interface Bid {
 export type BidStatus = "NOT_CHOSEN" | "IS_CHOSEN";
 
 export interface Creator
-  extends Pick<PublicUser, "userId" | "fullName" | "avatarUrl"> {
+  extends Pick<User, "userId" | "fullName" | "avatarUrl"> {
   review: Review;
 }

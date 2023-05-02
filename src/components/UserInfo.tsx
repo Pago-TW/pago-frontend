@@ -1,5 +1,5 @@
 import { useCountryCity } from "@/hooks/api/useCountryCity";
-import type { PublicUser } from "@/types/user";
+import type { User } from "@/types/user";
 import { extractCountries } from "@/utils/extractCountriesCities";
 import { Grid, Paper, Stack } from "@mui/material";
 import { useMemo, type FC } from "react";
@@ -34,7 +34,7 @@ const Item: FC<ItemProps> = ({ label, value, valueBlock, isDesktop }) => {
 };
 
 export type UserInfoProps = Pick<
-  PublicUser,
+  User,
   "email" | "phone" | "country" | "aboutMe"
 >;
 
