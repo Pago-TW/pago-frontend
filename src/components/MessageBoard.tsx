@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import Message from "./Message";
 
@@ -12,22 +12,27 @@ type MessageProps = {
 
 type MessageBoardProps = {
   messages: MessageProps[];
+  scrollToBottom: () => void;
 };
 
 const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      setIsLoaded(true);
+  const scrollToBottom = () => {
+    const messageBoardElement = document.getElementById("message-board");
+    if (messageBoardElement) {
+      messageBoardElement.scrollTop = messageBoardElement.scrollHeight;
     }
-  }, [messages.length]);
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+    setIsLoaded(true);
+  }, [messages]);
 
   return (
     <Box
-      ref={scrollRef}
+      id="message-board"
       sx={{
         marginTop: "1rem",
         paddingLeft: "1rem",

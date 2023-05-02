@@ -143,6 +143,13 @@ const Chatroom: React.FC = () => {
     );
   }
 
+  const scrollToBottom = () => {
+    const messageBoardElement = document.getElementById("message-board");
+    if (messageBoardElement) {
+      messageBoardElement.scrollTop = messageBoardElement.scrollHeight;
+    }
+  };
+
   const messages =
     messagesData?.pages
       .flatMap((page) => page.data)
@@ -172,6 +179,7 @@ const Chatroom: React.FC = () => {
       };
 
       webSocketService.sendMessage(messageToSend);
+      scrollToBottom();
     }
   };
 
@@ -203,13 +211,16 @@ const Chatroom: React.FC = () => {
           paddingTop: "56px",
         }}
       >
-        <MessageBoard messages={messages} />
+        <MessageBoard messages={messages} scrollToBottom={scrollToBottom} />
       </Box>
       <InputSection
         onFileUpload={async (event) => {
           const files = event.target.files;
           if (files) {
             await sendFileMessage(files);
+            setTimeout(() => {
+              scrollToBottom();
+            }, 300);
           }
         }}
         onSend={handleSendMessage}
