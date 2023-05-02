@@ -7,8 +7,8 @@ export interface User {
   lastName: string;
   phone: string;
   email: string;
-  gender?: "MALE" | "FEMALE" | "OTHER" | "PREFER_NOT_TO_SAY";
-  accountStatus?: "ACTIVE" | "INACTIVE" | "WARNING";
+  gender?: Gender;
+  accountStatus?: AccountStatus;
   updateDate: string;
   createDate: string;
   aboutMe?: string;
@@ -18,7 +18,13 @@ export interface User {
   shopperReview: ShopperReview;
   consumerReview: ConsumerReview;
   fullName: string;
-  completionRating: "EXCELLENT" | "VERY_GOOD" | "GOOD" | "POOR";
+  completionRating: CompletionRating;
   provider: string;
   enabled: boolean;
 }
+
+export type Gender = "MALE" | "FEMALE" | "OTHER" | "PREFER_NOT_TO_SAY";
+
+export type AccountStatus = "ACTIVE" | "INACTIVE" | "DELETED";
+
+export type CompletionRating = "EXCELLENT" | "VERY_GOOD" | "GOOD" | "POOR";
