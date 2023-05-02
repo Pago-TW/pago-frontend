@@ -24,7 +24,9 @@ type WebSocketContextType = {
 const WebSocketContext = createContext<WebSocketContextType>({
   webSocketService: null,
   isConnected: false,
-  sendFileMessage: async () => {},
+  sendFileMessage: async () => {
+    return;
+  },
 });
 
 export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
