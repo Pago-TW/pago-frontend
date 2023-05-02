@@ -1,5 +1,5 @@
-import React from "react";
 import { Box, Typography } from "@mui/material";
+import React from "react";
 
 interface MessageProps {
   senderName: string;
@@ -58,7 +58,7 @@ const Message: React.FC<MessageProps> = ({
         )}
         {messageType === "TEXT" ? (
           <Box
-            maxWidth="50%"
+            maxWidth="70%"
             sx={{
               background: "#c1ccde",
               px: 2,
@@ -70,7 +70,9 @@ const Message: React.FC<MessageProps> = ({
             {messageContent}
           </Box>
         ) : (
-          messageContent
+          <div style={{ maxWidth: "200px", maxHeight: "100%" }}>
+            {messageContent}
+          </div>
         )}
         {!isSender && (
           <Typography variant="caption" color="black" ml={1}>
