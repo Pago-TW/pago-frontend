@@ -4,7 +4,10 @@ import type { Review } from "@/types/review";
 import type { User } from "@/types/user";
 import { Avatar, Box, Paper, Rating, Stack, styled } from "@mui/material";
 import { intlFormat, parseISO } from "date-fns";
+import { useSession } from "next-auth/react";
 import type { FC } from "react";
+import { Button } from "./ui/Button";
+import { Link } from "./ui/Link";
 import { Typography } from "./ui/Typography";
 
 const StyledRating = styled(Rating)(({ theme }) => ({
@@ -82,6 +85,7 @@ const UserCompletionRating: FC<Pick<User, "completionRating">> = ({
 
 export type UserSummaryProps = Pick<
   User,
+  | "userId"
   | "fullName"
   | "avatarUrl"
   | "createDate"
@@ -91,6 +95,7 @@ export type UserSummaryProps = Pick<
 >;
 
 export const UserSummary: FC<UserSummaryProps> = ({
+  userId,
   fullName,
   avatarUrl,
   createDate,
@@ -98,6 +103,8 @@ export const UserSummary: FC<UserSummaryProps> = ({
   consumerReview,
   completionRating,
 }) => {
+  const { data: session } = useSession();
+
   const lang = useLanguage();
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
@@ -132,7 +139,15 @@ export const UserSummary: FC<UserSummaryProps> = ({
         />
         <Stack spacing={2} justifyContent="center">
           <Typography variant="h3">{fullName}</Typography>
-          {/* <Button size="small">傳送訊息</Button> */}
+          {session?.user?.id !== userId && (
+            <Button
+              size="small"
+              LinkComponent={Link}
+              href={`/chatrooms/board?chatWith=${userId}`}
+            >
+              傳送訊息
+            </Button>
+          )}
         </Stack>
       </Box>
       <Stack
