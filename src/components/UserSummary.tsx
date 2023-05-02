@@ -2,12 +2,13 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Review } from "@/types/review";
 import type { User } from "@/types/user";
-import { Avatar, Box, Paper, Rating, Stack, styled } from "@mui/material";
+import { Avatar, Box, Rating, Stack, styled } from "@mui/material";
 import { intlFormat, parseISO } from "date-fns";
 import { useSession } from "next-auth/react";
 import type { FC } from "react";
 import { Button } from "./ui/Button";
 import { Link } from "./ui/Link";
+import { Paper } from "./ui/Paper";
 import { Typography } from "./ui/Typography";
 
 const StyledRating = styled(Rating)(({ theme }) => ({
@@ -117,11 +118,9 @@ export const UserSummary: FC<UserSummaryProps> = ({
 
   return (
     <Paper
-      elevation={3}
       sx={{
         width: { xs: 336, md: "100%" },
         p: { xs: 2, md: 6 },
-        borderRadius: 2,
       }}
     >
       <Box

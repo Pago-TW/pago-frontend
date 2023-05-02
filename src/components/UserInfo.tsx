@@ -1,8 +1,9 @@
 import { useCountryCity } from "@/hooks/api/useCountryCity";
 import type { User } from "@/types/user";
 import { extractCountries } from "@/utils/extractCountriesCities";
-import { Grid, Paper, Stack } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import { useMemo, type FC } from "react";
+import { Paper } from "./ui/Paper";
 import { Typography } from "./ui/Typography";
 
 type ItemProps = {
@@ -57,11 +58,9 @@ export const UserInfo: FC<UserInfoProps> = ({
 
   return (
     <Paper
-      elevation={3}
       sx={{
         width: { xs: 336, md: "100%" },
         p: { xs: 2, md: 6 },
-        borderRadius: 2,
       }}
     >
       <Grid container spacing={1.5}>
