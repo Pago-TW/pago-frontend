@@ -5,7 +5,7 @@ export interface User {
   account: string;
   firstName: string;
   lastName: string;
-  phone: string;
+  phone?: string;
   email: string;
   gender?: Gender;
   accountStatus?: AccountStatus;
