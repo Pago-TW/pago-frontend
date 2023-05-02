@@ -1,16 +1,16 @@
+import Header from "@/components/Header";
+import type { InputSectionProps } from "@/components/InputSection";
+import InputSection from "@/components/InputSection";
+import MessageBoard from "@/components/MessageBoard";
 import { useChatroom } from "@/hooks/api/useChatroom";
 import useChatroomMessages from "@/hooks/api/useChatroomMessages";
-import { MessageResponse, SendMessageRequest } from "@/types/message";
+import type { MessageResponse, SendMessageRequest } from "@/types/message";
 import { useWebSocket } from "@/websocket/contexts/WebSocketContext";
 import { Box } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import * as React from "react";
-
-import Header from "@/components/Header";
-import InputSection from "@/components/InputSection";
-import MessageBoard from "@/components/MessageBoard";
 
 type Message = {
   senderName: string;
@@ -62,6 +62,11 @@ const Chatroom: React.FC = () => {
       };
     }
   }, [webSocketService, chatroomData, localMessages]);
+
+  // TODO: Temporary handler here
+  const handleSend: InputSectionProps["onSend"] = (content, messageType) => {
+    console.log({ type: "onSend", content, messageType });
+  };
 
   if (isChatroomLoading || isMessagesLoading) {
     const skeletonElements = Array.from({ length: 9 }, (_, index) => (
@@ -130,7 +135,7 @@ const Chatroom: React.FC = () => {
             width: "100%",
           }}
         >
-          <InputSection onSend={() => {}} />
+          <InputSection onSend={handleSend} />
         </Box>
       </Box>
     );

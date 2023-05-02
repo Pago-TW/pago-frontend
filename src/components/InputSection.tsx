@@ -1,9 +1,9 @@
 // InputSection.tsx
-import React, { useState } from "react";
-import { Box, IconButton, Input, InputAdornment } from "@mui/material";
 import { AttachFile, Send } from "@mui/icons-material";
+import { Box, IconButton, Input } from "@mui/material";
+import React, { useState } from "react";
 
-interface InputSectionProps {
+export interface InputSectionProps {
   onFileUpload?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSend: (content: string, messageType: "TEXT" | "FILE") => void;
 }
