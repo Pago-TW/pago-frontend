@@ -1,13 +1,13 @@
 import { axios } from "@/libs/axios";
-import type { User } from "@/types/user";
+import type { PublicUser } from "@/types/user";
 import { useQuery } from "@tanstack/react-query";
 
-const getUser = async (userId: User["userId"]) => {
-  const res = await axios.get<User>(`/users/${userId}`);
+const getUser = async (userId: PublicUser["userId"]) => {
+  const res = await axios.get<PublicUser>(`/users/${userId}`);
   return res.data;
 };
 
-export const useUser = (userId: User["userId"]) => {
+export const useUser = (userId: PublicUser["userId"]) => {
   return useQuery({
     queryKey: ["user", userId],
     queryFn: () => getUser(userId),
