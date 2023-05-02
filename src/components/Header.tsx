@@ -4,7 +4,7 @@ import { BackButtonIos } from "./BackButtonIos";
 import { Typography } from "./ui/Typography";
 
 interface HeaderProps {
-  title: string;
+  title: string | any;
 }
 
 const Header: React.FC<HeaderProps> = ({ title }) => {
