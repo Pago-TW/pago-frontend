@@ -50,8 +50,9 @@ const SignUpPage: NextPage = () => {
 
   const {
     register,
-    formState: { errors },
+    formState: { errors, dirtyFields },
     handleSubmit,
+    trigger,
   } = useForm<SignUpFormValues>({
     mode: "onBlur",
     defaultValues: DEFAULT_VALUES,
@@ -63,7 +64,7 @@ const SignUpPage: NextPage = () => {
   const handleSignUp = useCallback(
     async (data: SignUpFormValues) => {
       try {
-        const res = await axios.post("/auth/register", data);
+        await axios.post("/auth/register", data);
 
         router.replace(callbackUrl);
       } catch (e) {
@@ -74,6 +75,10 @@ const SignUpPage: NextPage = () => {
     },
     [router, callbackUrl, enqueueSnackbar]
   );
+
+  const handlePasswordCheck = () => {
+    if (dirtyFields.confirmPassword) trigger("confirmPassword");
+  };
 
   return (
     <>
@@ -101,13 +106,17 @@ const SignUpPage: NextPage = () => {
               label="密碼"
               error={!!errors.password || !!errors.confirmPassword}
               helperText={errors.password?.message}
-              {...register("password")}
+              {...register("password", {
+                onBlur: handlePasswordCheck,
+              })}
             />
             <PasswordInput
               label="確認密碼"
               error={!!errors.confirmPassword}
               helperText={errors.confirmPassword?.message}
-              {...register("confirmPassword")}
+              {...register("confirmPassword", {
+                onBlur: handlePasswordCheck,
+              })}
             />
             <Stack direction="row" spacing={2}>
               <TextField
