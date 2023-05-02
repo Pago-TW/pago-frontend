@@ -1,22 +1,16 @@
-import * as React from "react";
-import { Box, Grid } from "@mui/material";
-import Skeleton from "@mui/material/Skeleton";
-import CircularProgress from "@mui/material/CircularProgress";
-import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
 import { useChatroom } from "@/hooks/api/useChatroom";
-import { useWebSocket } from "@/websocket/contexts/WebSocketContext";
 import useChatroomMessages from "@/hooks/api/useChatroomMessages";
-import { WebSocketService } from "@/websocket/websocket";
 import { MessageResponse, SendMessageRequest } from "@/types/message";
+import { useWebSocket } from "@/websocket/contexts/WebSocketContext";
+import { Box } from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import * as React from "react";
 
 import Header from "@/components/Header";
 import InputSection from "@/components/InputSection";
 import MessageBoard from "@/components/MessageBoard";
-
-type HeaderProps = {
-  otherUserName: string;
-};
 
 type Message = {
   senderName: string;
@@ -45,21 +39,20 @@ const Chatroom: React.FC = () => {
     if (webSocketService) {
       const handleMessage = (message: MessageResponse) => {
         const isSender = message.senderId === chatroomData?.currentLoginUserId;
-        if (isSender) {
-          setLocalMessages((prevMessages: Message[]) => [
-            ...prevMessages,
-            {
-              senderName: message.senderName,
-              content: message.content,
-              sendDate: new Date(message.sendDate).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              }),
-              isSender: isSender,
-              messageType: message.messageType as "TEXT" | "FILE",
-            },
-          ]);
-        }
+
+        setLocalMessages((prevMessages: Message[]) => [
+          ...prevMessages,
+          {
+            senderName: message.senderName,
+            content: message.content,
+            sendDate: new Date(message.sendDate).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+            isSender: isSender,
+            messageType: message.messageType as "TEXT" | "FILE",
+          },
+        ]);
       };
 
       webSocketService.onMessage(handleMessage);
