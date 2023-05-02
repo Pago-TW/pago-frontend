@@ -10,7 +10,7 @@ import { Typography } from "./ui/Typography";
 export type ChosenShopperProps = Shopper;
 
 export const ChosenShopper = (props: ChosenShopperProps) => {
-  const { avatarUrl, fullName, latestDeliveryDate, userId } = props;
+  const { userId, avatarUrl, fullName, latestDeliveryDate } = props;
 
   const lang = useLanguage();
 

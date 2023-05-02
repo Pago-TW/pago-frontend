@@ -21,6 +21,7 @@ export const AvailableShoppers = (props: AvailableShoppersProps) => {
     <Stack
       direction="row"
       spacing={2}
+      justifyContent="center"
       alignItems="center"
       sx={{ "&&": { mt: 5 } }}
     >
@@ -45,7 +46,7 @@ export const AvailableShoppers = (props: AvailableShoppersProps) => {
             size="small"
             LinkComponent={Link}
             href={href}
-            sx={{ display: { xs: "inline-block", md: "none" } }}
+            sx={{ display: { xs: "none", md: "inline-flex" } }}
           >
             查看
           </Button>

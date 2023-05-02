@@ -99,14 +99,14 @@ const getSchema = (step: number) => {
 
 const EditOrderPage: NextPage = () => {
   const router = useRouter();
-  const id = router.query.id as string;
+  const orderId = router.query.orderId as string;
 
   const [step, setStep] = useState<number>(1);
 
   const isFirstStep = step === 1;
   const isLastStep = step === 3;
 
-  const { data: order } = useOrder(id);
+  const { data: order } = useOrder(orderId);
 
   const schema = getSchema(step);
   const methods = useForm<EditReviewFormValues>({
@@ -136,7 +136,7 @@ const EditOrderPage: NextPage = () => {
   };
   const handleFormSubmit = (data: EditReviewFormValues) => {
     updateOrder(
-      { orderId: id, data: transformEditReviewFormValues(data) },
+      { orderId, data: transformEditReviewFormValues(data) },
       { onSuccess: (data) => router.replace(`/orders/${data.orderId}`) }
     );
   };

@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export interface Order {
   orderId: string;
   serialNumber: string;
@@ -50,9 +52,7 @@ export interface OrderItem {
   fileUrls: string[];
 }
 
-export interface Shopper {
-  userId: string;
-  fullName: string;
-  avatarUrl: string;
+export interface Shopper
+  extends Pick<User, "userId" | "fullName" | "avatarUrl"> {
   latestDeliveryDate: string;
 }

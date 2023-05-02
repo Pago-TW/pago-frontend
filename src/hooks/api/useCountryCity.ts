@@ -7,10 +7,11 @@ const getCountryCity = async () => {
   return res.data;
 };
 
-export const useCountryCity = () => {
+export const useCountryCity = (options?: { enabled?: boolean }) => {
   return useQuery({
     queryKey: ["countryCityOptions"],
     queryFn: getCountryCity,
     refetchOnWindowFocus: false,
+    ...options,
   });
 };

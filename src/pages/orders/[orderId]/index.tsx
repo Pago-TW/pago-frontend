@@ -196,26 +196,26 @@ const DetailList = (
 
 const OrderDetailPage: NextPage = () => {
   const router = useRouter();
-  const id = router.query.id as string;
+  const orderId = router.query.orderId as string;
 
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
-  const { data: order } = useOrder(id);
+  const { data: order } = useOrder(orderId);
 
   const isOwner = userId !== undefined && userId === order?.consumerId;
   const isShopper = userId !== undefined && userId === order?.shopper?.userId;
 
-  const { data: shoppersData } = useMatchingShoppers(id, undefined, {
+  const { data: shoppersData } = useMatchingShoppers(orderId, undefined, {
     enabled: isOwner && !order?.shopper,
   });
   const {
     data: bidsData,
     hasNextPage: hasNextBidsPage,
     fetchNextPage: fetchNextBidsPage,
-  } = useBids(id, undefined, { enabled: isOwner && !order?.shopper });
+  } = useBids(orderId, undefined, { enabled: isOwner && !order?.shopper });
 
   const shoppers = useMemo(
     () => flattenInfinitePaginatedData(shoppersData),
@@ -235,7 +235,6 @@ const OrderDetailPage: NextPage = () => {
   if (!order) return null;
 
   const {
-    orderId,
     serialNumber,
     consumerId,
     destinationCountryName,
@@ -275,30 +274,30 @@ const OrderDetailPage: NextPage = () => {
   } = order;
 
   const handleDelete = () => {
-    deleteOrder({ orderId: id });
+    deleteOrder({ orderId });
     router.replace("/orders");
   };
   const handleEdit = () => {
-    router.push(`/orders/${id}/edit`);
+    router.push(`/orders/${orderId}/edit`);
   };
   const handleApplyCancel = (data: CancelFormValues) => {
     applyCancel({
-      orderId: id,
+      orderId,
       data: { cancelReason: data.reason, note: data.detail },
     });
   };
   const handleApplyPostpone = (data: PostponeFormValues) => {
     applyPostpone({
-      orderId: id,
+      orderId,
       data: { postponeReason: data.reason, note: data.detail },
     });
   };
   const handleUpdateOrder = (data: UpdateOrderData) => {
-    updateOrder({ orderId: id, data });
+    updateOrder({ orderId, data });
   };
   const handleTakeOrder = (data: TakeOrderFormValues) => {
     addBid({
-      orderId: id,
+      orderId,
       data: {
         tripId: data.tripId,
         bidAmount: data.amount,
@@ -324,7 +323,7 @@ const OrderDetailPage: NextPage = () => {
   const availableShoppers =
     isOwner && !shopper ? (
       <AvailableShoppers
-        orderId={id}
+        orderId={orderId}
         shoppers={shoppers}
         total={shoppersData?.pages[0]?.total}
       />
@@ -414,7 +413,7 @@ const OrderDetailPage: NextPage = () => {
         {/* AvailableShoppers (Mobile) */}
         {!isDesktop ? availableShoppers : null}
         <Actions
-          orderId={id}
+          orderId={orderId}
           perspective={perspective}
           status={orderStatus}
           isBidder={isBidder}

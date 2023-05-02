@@ -5,6 +5,7 @@ import type {
 import { CircularProgress, Button as MuiButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
+import { forwardRef } from "react";
 
 export interface ButtonProps
   extends MuiButtonProps<"button", { component?: "label" }> {
@@ -113,32 +114,38 @@ const StyledButton = styled(MuiButton, {
   }),
 }));
 
-export const Button = ({
-  size = "large",
-  variant = "contained",
-  endIcon,
-  loading = false,
-  disabled = false,
-  disableRipple = true,
-  children,
-  ...rest
-}: ButtonProps) => {
-  const _disabled = disabled || loading;
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(
+    {
+      size = "large",
+      variant = "contained",
+      endIcon,
+      loading = false,
+      disabled = false,
+      disableRipple = true,
+      children,
+      ...rest
+    },
+    ref
+  ) {
+    const _disabled = disabled || loading;
 
-  return (
-    <StyledButton
-      size={size}
-      variant={variant}
-      disabled={_disabled}
-      loading={loading}
-      disableRipple={disableRipple}
-      endIcon={endIcon || (loading && <StyledCircularProgress size={size} />)}
-      {...rest}
-    >
-      {children}
-    </StyledButton>
-  );
-};
+    return (
+      <StyledButton
+        size={size}
+        variant={variant}
+        disabled={_disabled}
+        loading={loading}
+        disableRipple={disableRipple}
+        endIcon={endIcon || (loading && <StyledCircularProgress size={size} />)}
+        ref={ref}
+        {...rest}
+      >
+        {children}
+      </StyledButton>
+    );
+  }
+);
 
 Button.propTypes = {
   /**
