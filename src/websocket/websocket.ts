@@ -61,7 +61,7 @@ export class WebSocketService {
     if (!this.eventListeners[event]) {
       this.eventListeners[event] = [];
     }
-    this.eventListeners[event].push(callback);
+    this.eventListeners[event]?.push(callback); // Temporarily fix this.eventListeners[event] undefined by using "?"
   }
 
   private emit(event: string) {
@@ -91,7 +91,8 @@ export class WebSocketService {
 
   public off(event: string, callback: EventCallback) {
     if (this.eventListeners[event]) {
-      this.eventListeners[event] = this.eventListeners[event].filter(
+      this.eventListeners[event] = this.eventListeners[event]!.filter(
+        // Temporarily fix this.eventListeners[event] undefined by using "!"
         (listener) => listener !== callback
       );
     }
