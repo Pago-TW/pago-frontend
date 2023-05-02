@@ -40,6 +40,7 @@ export const useChatroomMessages = (chatroomId: string, params?: Params) => {
       const lastIndex = getLastIndex(lastPage);
       return lastIndex < lastPage.total ? lastIndex + 1 : undefined;
     },
+    enabled: chatroomId !== "",
     refetchOnWindowFocus: false,
   });
 };
