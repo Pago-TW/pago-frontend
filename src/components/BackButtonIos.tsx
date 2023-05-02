@@ -3,12 +3,20 @@ import type { IconButtonProps } from "@mui/material";
 import { IconButton } from "@mui/material";
 import { useRouter } from "next/router";
 
-export type BackButtonIosProps = Omit<IconButtonProps, "children">;
+export type BackButtonIosProps = Omit<IconButtonProps, "children"> & {
+  onClick?: () => void;
+};
 
 export const BackButtonIos = ({ onClick, ...rest }: BackButtonIosProps) => {
   const router = useRouter();
 
-  const handleClick = onClick ? onClick : () => router.back();
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      router.back();
+    }
+  };
 
   return (
     <IconButton

@@ -5,9 +5,10 @@ import { Typography } from "./ui/Typography";
 
 interface HeaderProps {
   title: string | any;
+  onBackClick?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ title }) => {
+const Header: React.FC<HeaderProps> = ({ title, onBackClick }) => {
   return (
     <Box
       sx={{
@@ -23,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
       <Grid container alignItems="center">
         <Grid item xs={1}>
           <Box pl={2}>
-            <BackButtonIos />
+            <BackButtonIos onClick={onBackClick} />
           </Box>
         </Grid>
         <Grid item xs={10} display="flex" justifyContent="center">
