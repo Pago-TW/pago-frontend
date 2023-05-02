@@ -1,22 +1,33 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
 import Message from "./Message";
 
-interface MessageProps {
+type MessageProps = {
   senderName: string;
   content: string;
   sendDate: string;
   isSender: boolean;
   messageType: "TEXT" | "FILE";
-}
+};
 
-interface MessageBoardProps {
-  messages: Array<MessageProps>;
-}
+type MessageBoardProps = {
+  messages: MessageProps[];
+};
 
 const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      setIsLoaded(true);
+    }
+  }, [messages.length]);
+
   return (
     <Box
+      ref={scrollRef}
       sx={{
         marginTop: "1rem",
         paddingLeft: "1rem",
@@ -24,6 +35,7 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
         height: "calc(100vh - 156px)",
         overflowY: "scroll",
         color: "#f5f5f5",
+        visibility: isLoaded ? "visible" : "hidden",
       }}
     >
       {messages.map((message, index) => (

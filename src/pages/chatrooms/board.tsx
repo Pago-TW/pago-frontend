@@ -1,5 +1,7 @@
 import * as React from "react";
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useChatroom } from "@/hooks/api/useChatroom";
@@ -11,6 +13,10 @@ import { MessageResponse, SendMessageRequest } from "@/types/message";
 import Header from "@/components/Header";
 import InputSection from "@/components/InputSection";
 import MessageBoard from "@/components/MessageBoard";
+
+type HeaderProps = {
+  otherUserName: string;
+};
 
 type Message = {
   senderName: string;
@@ -62,10 +68,79 @@ const Chatroom: React.FC = () => {
         webSocketService.offMessage(handleMessage);
       };
     }
-  }, [webSocketService, chatroomData]);
+  }, [webSocketService, chatroomData, localMessages]);
 
   if (isChatroomLoading || isMessagesLoading) {
-    return <div>Loading...</div>;
+    const skeletonElements = Array.from({ length: 9 }, (_, index) => (
+      <Skeleton
+        key={index}
+        variant="text"
+        width="50%"
+        sx={{
+          marginLeft: "5px",
+          fontSize: "2rem",
+          borderRadius: "16px 16px 16px 0",
+        }}
+      />
+    ));
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          height: "100vh",
+          paddingTop: "10px",
+          display: "flex",
+          flexDirection: "column",
+          position: "relative",
+        }}
+      >
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+          }}
+        >
+          <Header
+            title={
+              chatroomData?.otherUser.fullName || (
+                <Skeleton
+                  width={120}
+                  height={38}
+                  sx={{
+                    borderRadius: "16px 16px 16px 16px",
+                  }}
+                />
+              )
+            }
+          />
+        </Box>
+
+        <Box
+          display="block"
+          justifyContent="flex-end"
+          alignItems="end"
+          mb={4}
+          width="100%"
+          sx={{
+            paddingTop: "56px",
+          }}
+        >
+          {skeletonElements}
+        </Box>
+
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: 0,
+            width: "100%",
+          }}
+        >
+          <InputSection onSend={() => {}} />
+        </Box>
+      </Box>
+    );
   }
 
   const messages =
