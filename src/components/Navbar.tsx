@@ -162,17 +162,21 @@ export const Navbar = () => {
   const [chatroomListOpen, setChatroomListOpen] = useState(false);
 
   const expandSearchBar = useAppbarStore((state) => state.searchBarExpand);
+  const router = useRouter();
 
   const handleOpen = useCallback(() => setOpen(true), []);
   const handleClose = useCallback(() => setOpen(false), []);
-  const handleChatroomListOpen = useCallback(
-    () => setChatroomListOpen(true),
-    []
-  );
+  const handleChatroomListOpen = useCallback(() => {
+    router.push("/chatrooms");
+    setChatroomListOpen(true);
+  }, []);
   const handleChatroomListClose = useCallback(
     () => setChatroomListOpen(false),
     []
   );
+  const handleMailIconClick = () => {
+    router.push("/chatrooms");
+  };
 
   const chatroomListDrawerContent = (
     <>
@@ -279,8 +283,6 @@ export const Navbar = () => {
             height: "100%",
             backgroundColor: "pago.500",
             color: "common.white",
-            borderTopRightRadius: 10,
-            borderBottomRightRadius: 10,
           },
         }}
       >
