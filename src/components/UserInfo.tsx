@@ -67,7 +67,7 @@ export const UserInfo: FC<UserInfoProps> = ({
         <Grid item xs={12} md={6}>
           <Stack spacing={1.5}>
             <Item label="Email" value={email} />
-            <Item label="手機電話" value={phone} />
+            {!!phone && <Item label="手機電話" value={phone} />}
             {!!countryCode && <Item label="居住國家" value={countryName} />}
           </Stack>
         </Grid>
