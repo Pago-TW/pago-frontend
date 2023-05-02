@@ -35,18 +35,29 @@ import { useCallback, useState } from "react";
 import { Search } from "./Search";
 import { Link } from "./ui/Link";
 import { Typography } from "./ui/Typography";
+import { ChatroomList } from "@/pages/chatrooms";
+
+type NavbarButtonsProps = {
+  handleChatroomListOpen: () => void;
+};
 
 const drawerWidth = 270;
 
-const NavbarButtons = () => {
+const NavbarButtons = ({ handleChatroomListOpen }: NavbarButtonsProps) => {
   const router = useRouter();
 
   const { status } = useSession();
+  const [chatroomListOpen, setChatroomListOpen] = useState(false);
 
   const content =
     status === "authenticated" ? (
       <>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+        <IconButton
+          size="large"
+          aria-label="show 4 new mails"
+          color="inherit"
+          onClick={handleChatroomListOpen}
+        >
           <Badge color="error">
             <Mail />
           </Badge>
@@ -148,11 +159,26 @@ const drawerIconSx: ListItemIconProps["sx"] = {
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [chatroomListOpen, setChatroomListOpen] = useState(false);
 
   const expandSearchBar = useAppbarStore((state) => state.searchBarExpand);
 
   const handleOpen = useCallback(() => setOpen(true), []);
   const handleClose = useCallback(() => setOpen(false), []);
+  const handleChatroomListOpen = useCallback(
+    () => setChatroomListOpen(true),
+    []
+  );
+  const handleChatroomListClose = useCallback(
+    () => setChatroomListOpen(false),
+    []
+  );
+
+  const chatroomListDrawerContent = (
+    <>
+      <ChatroomList onBackClick={handleChatroomListClose} />
+    </>
+  );
 
   const drawerContent = (
     <>
@@ -223,7 +249,7 @@ export const Navbar = () => {
             flexGrow={1}
           >
             <NavbarSearch />
-            <NavbarButtons />
+            <NavbarButtons handleChatroomListOpen={handleChatroomListOpen} />
           </Stack>
         </Toolbar>
       </AppBar>
@@ -242,6 +268,23 @@ export const Navbar = () => {
         }}
       >
         {drawerContent}
+      </SwipeableDrawer>
+      <SwipeableDrawer
+        open={chatroomListOpen}
+        onOpen={() => setChatroomListOpen(true)}
+        onClose={() => setChatroomListOpen(false)}
+        PaperProps={{
+          sx: {
+            width: "100%",
+            height: "100%",
+            backgroundColor: "pago.500",
+            color: "common.white",
+            borderTopRightRadius: 10,
+            borderBottomRightRadius: 10,
+          },
+        }}
+      >
+        {chatroomListDrawerContent}
       </SwipeableDrawer>
     </Box>
   );
