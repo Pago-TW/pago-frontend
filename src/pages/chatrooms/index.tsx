@@ -74,7 +74,7 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
           {chatrooms.map((chatRoom, index) => (
             <React.Fragment key={chatRoom.chatroomId}>
               <ChatroomListItem
-                senderId={chatRoom.otherUser.userId}
+                senderId={chatRoom.latestMessageSenderId}
                 senderName={chatRoom.otherUser.fullName}
                 latestMessageContent={chatRoom.latestMessageContent}
                 avatarUrl={chatRoom.otherUser.avatarUrl || ""}

@@ -6,6 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import UnreadMessageBadge from "./UnreadMessageBadge";
+import { useSession } from "next-auth/react";
 
 interface ChatRoomListItemProps {
   senderId: string;
@@ -30,8 +31,17 @@ const ChatRoomListItem: React.FC<ChatRoomListItemProps> = ({
 }) => {
   const hasUnreadMessages = totalUnreadMessages > 0;
 
-  const displayContent = messageType === "FILE" ? "傳送了圖片給你" : content;
+  const { data: session } = useSession();
+  const currentLoginUserId = session?.user?.id;
+  console.log("currentLoginUserId: ", currentLoginUserId);
 
+  const displayContent =
+    messageType === "FILE"
+      ? senderId === currentLoginUserId
+        ? "你傳送了圖片"
+        : "傳送了圖片給你"
+      : content;
+  console.log("senderId: ", senderId);
   const timeAgo = (dateString: string): string => {
     const date = new Date(dateString);
     const now = new Date();
