@@ -20,7 +20,15 @@ type Message = {
   messageType: "TEXT" | "FILE";
 };
 
-const Chatroom: React.FC = () => {
+type ChatroomProps = {
+  passedChatWith?: string;
+  onBackClick?: () => void;
+};
+
+export const Chatroom: React.FC<ChatroomProps> = ({
+  passedChatWith,
+  onBackClick,
+}) => {
   const router = useRouter();
   const { chatWith } = router.query;
   const { data: chatroomData, isLoading: isChatroomLoading } = useChatroom(
@@ -34,6 +42,10 @@ const Chatroom: React.FC = () => {
   const userId = session?.user?.id;
 
   const { webSocketService, isConnected, sendFileMessage } = useWebSocket();
+
+  const handleBackClick = () => {
+    router.back();
+  };
 
   React.useEffect(() => {
     if (webSocketService) {
@@ -102,7 +114,7 @@ const Chatroom: React.FC = () => {
         >
           <Header
             title={
-              chatroomData?.otherUser.fullName || (
+              chatroomData?.otherUser?.fullName || (
                 <Skeleton
                   width={120}
                   height={38}
@@ -112,6 +124,7 @@ const Chatroom: React.FC = () => {
                 />
               )
             }
+            onBackClick={handleBackClick}
           />
         </Box>
 
@@ -200,7 +213,10 @@ const Chatroom: React.FC = () => {
           width: "100%",
         }}
       >
-        <Header title={chatroomData?.otherUser.fullName || ""} />
+        <Header
+          title={chatroomData?.otherUser?.fullName || ""}
+          onBackClick={handleBackClick}
+        />
       </Box>
 
       <Box

@@ -15,6 +15,7 @@ interface ChatRoomListItemProps {
   avatarUrl: string;
   totalUnreadMessages: number;
   latestMessageType: "TEXT" | "FILE";
+  onClick?: () => void;
 }
 
 const ChatRoomListItem: React.FC<ChatRoomListItemProps> = ({
@@ -25,6 +26,7 @@ const ChatRoomListItem: React.FC<ChatRoomListItemProps> = ({
   avatarUrl,
   totalUnreadMessages,
   latestMessageType: messageType,
+  onClick,
 }) => {
   const hasUnreadMessages = totalUnreadMessages > 0;
 
@@ -58,6 +60,7 @@ const ChatRoomListItem: React.FC<ChatRoomListItemProps> = ({
           backgroundColor: "rgba(0, 0, 0, 0.1)",
         },
       }}
+      onClick={onClick}
     >
       <ListItemAvatar>
         <Avatar alt="Profile Picture" src={avatarUrl} />
