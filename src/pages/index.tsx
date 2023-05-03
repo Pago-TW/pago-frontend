@@ -1,5 +1,6 @@
 import { IndexCard } from "@/components/IndexCard";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
+import { OrderList } from "@/components/OrderList";
 import { CenterLayout } from "@/components/layouts/CenterLayout";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Tab as MuiTab, Stack, styled } from "@mui/material";
@@ -12,6 +13,8 @@ import * as React from "react";
 import { Typography } from "@/components/ui/Typography";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/components/ui/Link";
+import { useOrders } from "@/hooks/api/useOrders";
+import { Order } from "@/types/order";
 import { Add } from "@mui/icons-material";
 
 const TABS = [
@@ -31,6 +34,11 @@ type Tab = (typeof TABS)[number];
 const Home: NextPage = () => {
   const { status } = useSession();
   const [currentTab, setCurrentTab] = React.useState<Tab["value"]>("CONSUMER");
+  const { data, isLoading, isError } = useOrders();
+
+  const latestFiveOrders: Order[] | undefined = data?.pages
+    .flatMap((page) => page.data)
+    .slice(0, 5); // Extract only the first 5 orders
 
   return (
     <>
@@ -76,6 +84,9 @@ const Home: NextPage = () => {
                   {/* <Add /> */}
                   新增委託
                 </StyledButton>
+              </Box>
+              <Box>
+                <OrderList items={latestFiveOrders as Order[]} />
               </Box>
             </Box>
           </Box>
