@@ -1,6 +1,8 @@
+import type { User } from "./user";
+
 export interface Trip {
   tripId: string;
-  shopperId: string;
+  shopperId: User["userId"];
   fromCountry: string;
   fromCountryChineseName: string;
   fromCity: string;
@@ -14,10 +16,12 @@ export interface Trip {
   currency: string;
   createDate: string;
   updateDate: string;
-  tripStatus: string;
+  tripStatus: TripStatus;
   hasNewActivity: boolean;
   dashboard: Dashboard;
 }
+
+export type TripStatus = "ONGOING" | "UPCOMING" | "PAST";
 
 export interface Dashboard {
   requested: number;
