@@ -23,7 +23,6 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Skeleton,
   Stack,
   SwipeableDrawer,
   Toolbar,
@@ -108,9 +107,7 @@ const NavbarButtons = ({ handleChatroomListOpen }: NavbarButtonsProps) => {
       >
         登入
       </Button>
-    ) : (
-      <Skeleton variant="rounded" animation="wave" width={128} height="100%" />
-    );
+    ) : null;
 
   return <Box display="flex">{content}</Box>;
 };
