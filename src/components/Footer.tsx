@@ -1,9 +1,8 @@
 // Footer.tsx
-import React from "react";
-import { Box } from "@mui/material";
-import { Typography } from "@/components/ui/Typography";
 import { Link } from "@/components/ui/Link";
-import { Stack } from "@mui/material";
+import { Typography } from "@/components/ui/Typography";
+import { Box, Stack } from "@mui/material";
+import React from "react";
 
 const Footer: React.FC = () => {
   return (
@@ -33,6 +32,7 @@ const Footer: React.FC = () => {
           color="base.500"
           weightPreset="normal"
           textAlign={{ xs: "center", md: "left" }}
+          sx={{ display: "flex", justifyContent: "center" }}
         >
           <Stack spacing={2}>
             <Link href="#">會員中心</Link>
@@ -60,6 +60,7 @@ const Footer: React.FC = () => {
           color="base.500"
           weightPreset="normal"
           textAlign={{ xs: "center", md: "left" }}
+          sx={{ display: "flex", justifyContent: "center" }}
         >
           <Stack spacing={2}>
             <Link href="#">Instagram</Link>
@@ -83,6 +84,7 @@ const Footer: React.FC = () => {
           color="base.500"
           weightPreset="normal"
           textAlign={{ xs: "center", md: "left" }}
+          sx={{ display: "flex", justifyContent: "center" }}
         >
           <Stack spacing={2}>
             <Link href="#">使用者條款</Link>
