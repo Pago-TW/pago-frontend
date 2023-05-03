@@ -71,9 +71,11 @@ export const UserInfo: FC<UserInfoProps> = ({
             {!!countryCode && <Item label="居住國家" value={countryName} />}
           </Stack>
         </Grid>
-        <Grid item xs md={6}>
-          {!!aboutMe && <Item label="自我介紹" value={aboutMe} valueBlock />}
-        </Grid>
+        {!!aboutMe && (
+          <Grid item xs md={6}>
+            <Item label="自我介紹" value={aboutMe} valueBlock />
+          </Grid>
+        )}
       </Grid>
     </Paper>
   );
