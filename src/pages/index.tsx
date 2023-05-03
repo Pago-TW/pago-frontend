@@ -16,6 +16,7 @@ import { Link } from "@/components/ui/Link";
 import { useOrders } from "@/hooks/api/useOrders";
 import { Order } from "@/types/order";
 import { Add } from "@mui/icons-material";
+import Footer from "@/components/Footer";
 
 const TABS = [
   { label: "委託者", value: "CONSUMER" },
@@ -86,7 +87,7 @@ const Home: NextPage = () => {
                 </StyledButton>
               </Box>
               <Box>
-                <OrderList items={latestFiveOrders as Order[]} />
+                <OrderList items={latestFiveOrders || []} />
               </Box>
             </Box>
           </Box>
@@ -136,6 +137,7 @@ const Home: NextPage = () => {
               </Stack>
             </TabPanel>
           </TabContext>
+          <Footer />
         </Container>
       </BaseLayout>
     </>
