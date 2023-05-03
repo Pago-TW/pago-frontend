@@ -1,10 +1,11 @@
 import { useChatrooms } from "@/hooks/api/useChatrooms";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import { useNavbarStore } from "@/store/ui/useNavbarStore";
+import { ClickAwayListener } from "@mui/base";
 import {
-  AccountCircle,
   ChevronLeft,
   Error,
+  Logout,
   Mail,
   Menu,
   Notifications,
@@ -15,30 +16,138 @@ import {
 import type { ListItemIconProps, ListItemProps } from "@mui/material";
 import {
   AppBar,
+  Avatar,
   Badge,
   Box,
   Button,
   Collapse,
+  Fade,
   IconButton,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Popper,
   Stack,
   SwipeableDrawer,
   Toolbar,
+  alpha,
   styled,
 } from "@mui/material";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { ChatroomList } from "./ChatroomList";
 import { Search } from "./Search";
+import { Divider } from "./ui/Divider";
 import { Link } from "./ui/Link";
+import { Paper } from "./ui/Paper";
 import { Typography } from "./ui/Typography";
 
 const drawerWidth = 270;
+
+const UserButton = () => {
+  const { data: session } = useSession();
+
+  const [anchorAvatar, setAnchorAvatar] = useState<HTMLElement | null>(null);
+
+  const handleToggleUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorAvatar((prev) => (!prev ? event.currentTarget : null));
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorAvatar(null);
+  };
+
+  return (
+    <>
+      <ClickAwayListener onClickAway={handleCloseUserMenu}>
+        <IconButton
+          size="large"
+          edge="end"
+          aria-label="account of current user"
+          aria-haspopup="true"
+          color="inherit"
+          onClick={handleToggleUserMenu}
+        >
+          <Avatar
+            src={session?.user?.image || undefined}
+            sx={{ width: 24, height: 24 }}
+          />
+        </IconButton>
+      </ClickAwayListener>
+      <Popper
+        open={!!anchorAvatar}
+        anchorEl={anchorAvatar}
+        placement="bottom-start"
+        transition
+      >
+        {({ TransitionProps }) => (
+          <Fade {...TransitionProps}>
+            <Paper
+              sx={{
+                py: 2,
+                width: 300,
+                boxShadow: (theme) =>
+                  `0 2px 10px 2px ${alpha(theme.palette.pago.main, 0.5)}`,
+              }}
+            >
+              <Stack spacing={2}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    mx: 2,
+                    boxShadow: (theme) =>
+                      `0 2px 4px ${alpha(theme.palette.pago.main, 0.5)}`,
+                  }}
+                >
+                  <Stack spacing={2}>
+                    <Box display="flex" alignItems="center" gap={2}>
+                      <Avatar sx={{ width: 40, height: 40 }} />
+                      <Typography variant="h5" fontWeight="bold" as="p">
+                        {session?.user?.name}
+                      </Typography>
+                    </Box>
+                    <Divider />
+                    <Link href="/users/me" color="pago.main">
+                      查看詳細會員資訊
+                    </Link>
+                  </Stack>
+                </Paper>
+                <List disablePadding>
+                  <ListItem disablePadding sx={{ color: "pago.main" }}>
+                    <ListItemButton
+                      LinkComponent={Link}
+                      href="/users/me/settings"
+                    >
+                      <ListItemIcon
+                        sx={{ justifyContent: "center", color: "inherit" }}
+                      >
+                        <Settings />
+                      </ListItemIcon>
+                      <ListItemText primary="設定" />
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem disablePadding sx={{ color: "pago.main" }}>
+                    <ListItemButton onClick={() => signOut}>
+                      <ListItemIcon
+                        sx={{ justifyContent: "center", color: "inherit" }}
+                      >
+                        <Logout />
+                      </ListItemIcon>
+                      <ListItemText primary="登出" />
+                    </ListItemButton>
+                  </ListItem>
+                </List>
+              </Stack>
+            </Paper>
+          </Fade>
+        )}
+      </Popper>
+    </>
+  );
+};
 
 type NavbarButtonsProps = {
   onMailClick?: () => void;
@@ -84,15 +193,7 @@ const NavbarButtons = ({ onMailClick }: NavbarButtonsProps) => {
             <Notifications />
           </Badge>
         </IconButton>
-        <IconButton
-          size="large"
-          edge="end"
-          aria-label="account of current user"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
+        <UserButton />
       </>
     ) : status === "unauthenticated" ? (
       <Button
