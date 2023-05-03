@@ -130,7 +130,7 @@ const UserButton = () => {
                     </ListItemButton>
                   </ListItem>
                   <ListItem disablePadding sx={{ color: "pago.main" }}>
-                    <ListItemButton onClick={() => signOut}>
+                    <ListItemButton onClick={() => signOut()}>
                       <ListItemIcon
                         sx={{ justifyContent: "center", color: "inherit" }}
                       >
