@@ -1,8 +1,11 @@
 import * as React from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Tab as MuiTab, Stack, styled } from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import type { NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
@@ -33,6 +36,9 @@ const StyledButton = styled(Button)({
 type Tab = (typeof TABS)[number];
 
 const Home: NextPage = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const skeletonHeight = isMobile ? 131 : 290;
   const { status } = useSession();
   const [currentTab, setCurrentTab] = React.useState<Tab["value"]>("CONSUMER");
   const { data, isLoading, isError } = useOrders();
@@ -103,7 +109,8 @@ const Home: NextPage = () => {
                   justifyContent: "center",
                 }}
               >
-                將您計畫好的旅途，發佈在 Pago，您將看到符合您旅途範圍的委託單。
+                利用行李箱多餘的空間為別人代購 創造共享經濟
+                讓你出去玩，不再只是花錢
               </Typography>
               <Box
                 display="flex"
@@ -133,7 +140,42 @@ const Home: NextPage = () => {
                 >
                   最新發布委託
                 </Typography>
-                <OrderList items={latestFiveOrders || []} />
+                {isLoading ? (
+                  <Stack spacing={1}>
+                    <Skeleton
+                      variant="rounded"
+                      animation="wave"
+                      width="100%"
+                      height={skeletonHeight}
+                    />
+                    <Skeleton
+                      variant="rounded"
+                      animation="wave"
+                      width="100%"
+                      height={skeletonHeight}
+                    />
+                    <Skeleton
+                      variant="rounded"
+                      animation="wave"
+                      width="100%"
+                      height={skeletonHeight}
+                    />
+                    <Skeleton
+                      variant="rounded"
+                      animation="wave"
+                      width="100%"
+                      height={skeletonHeight}
+                    />
+                    <Skeleton
+                      variant="rounded"
+                      animation="wave"
+                      width="100%"
+                      height={skeletonHeight}
+                    />
+                  </Stack>
+                ) : (
+                  <OrderList items={latestFiveOrders || []} />
+                )}
               </Box>
             </Box>
           </Box>
