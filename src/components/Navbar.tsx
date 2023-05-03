@@ -1,4 +1,4 @@
-import { useAppbarStore } from "@/store/ui/appbar";
+import { useNavbarStore } from "@/store/ui/useNavbarStore";
 import {
   AccountCircle,
   ChevronLeft,
@@ -116,12 +116,12 @@ const NavbarButtons = ({ handleChatroomListOpen }: NavbarButtonsProps) => {
 };
 
 const NavbarSearch = () => {
-  const expand = useAppbarStore((state) => state.searchBarExpand);
-  const setExpand = useAppbarStore((state) => state.setSearchBarExpand);
+  const expand = useNavbarStore((state) => state.searchExpand);
+  const setExpand = useNavbarStore((state) => state.setSearchExpand);
 
-  const query = useAppbarStore((state) => state.searchQuery);
-  const setQuery = useAppbarStore((state) => state.setSearchQuery);
-  const clearQuery = useAppbarStore((state) => state.clearSearchQuery);
+  const query = useNavbarStore((state) => state.searchQuery);
+  const setQuery = useNavbarStore((state) => state.setSearchQuery);
+  const clearQuery = useNavbarStore((state) => state.clearSearchQuery);
 
   return (
     <Search
@@ -173,8 +173,7 @@ export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [chatroomListOpen, setChatroomListOpen] = useState(false);
 
-  const expandSearchBar = useAppbarStore((state) => state.searchBarExpand);
-  const router = useRouter();
+  const searchExpand = useNavbarStore((state) => state.searchExpand);
 
   const handleOpen = useCallback(() => setOpen(true), []);
   const handleClose = useCallback(() => setOpen(false), []);
@@ -244,7 +243,7 @@ export const Navbar = () => {
             <Menu />
           </IconButton>
           <Collapse
-            in={!expandSearchBar}
+            in={!searchExpand}
             orientation="horizontal"
             timeout={100}
             easing="ease-in-out"
