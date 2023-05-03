@@ -2,9 +2,28 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
+import { Typography } from "@/components/ui/Typography";
 
-export const IndexCard = () => {
+type IndexCardProps = {
+  step: number;
+  title: string;
+  content: string;
+  imageUrl: string;
+};
+
+const stepSvgList: string[] = [
+  "https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/f49d7a466b8f4e39b98af23c1630adb5_Step1.svg",
+  "https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/c6e629c93b8942adab72147a1b2777b1_Step2.svg",
+  "https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/eb63ef4954764270aa1923d59b913962_Step3.svg",
+  "https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/e1da7444cbb3431d8214c562401f5974_Step4.svg",
+];
+
+export const IndexCard = ({
+  step,
+  title,
+  content,
+  imageUrl,
+}: IndexCardProps) => {
   return (
     <Card sx={{ maxWidth: 848, width: 336, height: 243, display: "flex" }}>
       <Box sx={{ display: "flex" }}>
@@ -14,26 +33,25 @@ export const IndexCard = () => {
               sx={{
                 width: 94.24,
                 height: 52.69,
-                // position: 'absolute',
                 left: "-6px",
                 top: "8px",
                 transform: "rotate(8.63deg)",
               }}
-              image="https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/a67a7d4610ae427897ade65c3042c63e_Step1.svg"
+              image={stepSvgList[step]}
             />
           </Box>
           <Box>
             <CardContent>
               <Typography
-                sx={{ color: "#335891" }}
-                gutterBottom
                 variant="h5"
-                component="div"
+                color="primary.main"
+                weightPreset="bold"
+                sx={{ paddingBottom: 2 }}
               >
-                發布旅途
+                {title}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                將您計畫好的旅途，發佈在 Pago，您將看到符合您旅途範圍的委託單。
+              <Typography variant="h6" color="base.800" weightPreset="normal">
+                {content}
               </Typography>
             </CardContent>
           </Box>
@@ -41,8 +59,8 @@ export const IndexCard = () => {
         <Box>
           <CardMedia
             sx={{ height: 243, width: 160 }}
-            image="https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/89c47d5405504745bbdd013848d7e705_Step1%20-%20%E7%99%BC%E5%B8%83%E6%97%85%E9%80%94.png"
-            title="green iguana"
+            image={imageUrl}
+            title="Pago"
           />
         </Box>
       </Box>

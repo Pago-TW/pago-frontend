@@ -186,8 +186,30 @@ const Home: NextPage = () => {
                 alignItems="center"
                 spacing={6}
               >
-                <IndexCard />
-                <IndexCard />
+                <IndexCard
+                  step={1 - 1}
+                  title="發布旅途"
+                  content="為您想要購買的產品創建一個委託訂單，並自己訂定願意支付的代購費。"
+                  imageUrl="https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/2126344822034747a773800a5c8b8b80_Consumer%20-%20Step1.svg"
+                />
+                <IndexCard
+                  step={2 - 1}
+                  title="等待代購者出價"
+                  content="當您發布委託後，所有使用者將看到您的委託，且他們可以針對委託提出更合理的報價。"
+                  imageUrl="https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/7ed1d40c37b8467886f7cfc4e04b78d2_Consumer%20-%20Step2.svg"
+                />
+                <IndexCard
+                  step={3 - 1}
+                  title="選擇代購者"
+                  content="您可以從所有願意代購者中，選擇一位，並接受他的報價。"
+                  imageUrl="https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/b4f395160b364adc8e80ba3716b00cbc_Consumer%20-%20Step3.svg"
+                />
+                <IndexCard
+                  step={4 - 1}
+                  title="面交取得商品"
+                  content="與代購者相約時間、地點面交，取得商品，並為雙方在這次的交易體驗中評價。"
+                  imageUrl="https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/c262c7ac237046bb9223851b58de721b_Consumer%20-%20Step4.svg"
+                />
               </Stack>
             </TabPanel>
 
@@ -198,10 +220,30 @@ const Home: NextPage = () => {
                 alignItems="center"
                 spacing={6}
               >
-                <IndexCard />
-                <IndexCard />
-                <IndexCard />
-                <IndexCard />
+                <IndexCard
+                  step={1 - 1}
+                  title="發布旅途"
+                  content="將您計畫好的旅途，發布在Pago，您將看到符合您旅途範圍的委託單。"
+                  imageUrl="https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/ed579986c6874e40876eddb911e22a7a_Shopper%20-%20Step1.svg"
+                />
+                <IndexCard
+                  step={2 - 1}
+                  title="選擇委託單"
+                  content="您可以選擇願意代購的委託單，若您對代購費不滿意您可以向對方提出更合理的報價。"
+                  imageUrl="https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/8d762eca9b324e2fa98cd392f8526f6b_Shopper%20-%20Step2.svg"
+                />
+                <IndexCard
+                  step={3 - 1}
+                  title="購買商品"
+                  content="委託者接受了您的報價，接著您需要根據委託單的內容購買指定規格的商品。"
+                  imageUrl="https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/1825368b2c634c49b1b3ce75770c4a93_Shopper%20-%20Step3.svg"
+                />
+                <IndexCard
+                  step={4 - 1}
+                  title="面交商品"
+                  content="與委託者相約時間、地點面交，取得商品，並為雙方在這次的交易體驗中評價。"
+                  imageUrl="https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/8a9860b950144e4e8d9e75e83d242498_Shopper%20-%20Step4.svg"
+                />
               </Stack>
             </TabPanel>
           </TabContext>
