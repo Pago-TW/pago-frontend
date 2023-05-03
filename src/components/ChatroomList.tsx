@@ -1,22 +1,12 @@
-import React, { useMemo, useState, useCallback } from "react";
-import { useRouter } from "next/router";
-import ChatroomListItem from "@/components/ChatroomListItem";
 import { useChatrooms } from "@/hooks/api/useChatrooms";
+import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import {
-  CssBaseline,
-  Divider,
-  List,
-  Paper,
-  SwipeableDrawer,
-} from "@mui/material";
-
-import Header from "@/components/Header";
-import Chatroom from "./board";
-
-type ChatroomListProps = {
-  onBackClick?: () => void;
-};
+import { Divider, Drawer, List, Paper } from "@mui/material";
+import { useSession } from "next-auth/react";
+import { useEffect, useMemo } from "react";
+import { Chatroom } from "./Chatroom";
+import { ChatroomListItem } from "./ChatroomListItem";
+import { Header } from "./Header";
 
 const hideScrollbar = {
   "&::-webkit-scrollbar": {
@@ -25,41 +15,38 @@ const hideScrollbar = {
   scrollbarWidth: "none",
 };
 
+type ChatroomListProps = {
+  onBackClick?: () => void;
+};
+
 export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
-  const { data: chatroomsData } = useChatrooms();
+  const { status } = useSession();
+
+  const chatroomListOpen = useChatroomStore((state) => state.open);
+  const chatWith = useChatroomStore((state) => state.chatWith);
+  const setChatWith = useChatroomStore((state) => state.setChatWith);
+  const clearChatWith = useChatroomStore((state) => state.clearChatWith);
+
+  const { data: chatroomsData, refetch } = useChatrooms(undefined, {
+    enabled: status === "authenticated",
+    refetchOnWindowFocus: false,
+  });
 
   const chatrooms = useMemo(
-    () => flattenInfinitePaginatedData(chatroomsData) ?? [],
+    () => flattenInfinitePaginatedData(chatroomsData),
     [chatroomsData]
   );
 
-  const [chatroomOpen, setChatroomOpen] = useState(false);
-  const [selectedChatWith, setSelectedChatWith] = useState<string | undefined>(
-    undefined
-  );
-
-  const router = useRouter();
+  useEffect(() => {
+    if (chatroomListOpen) refetch();
+  }, [chatroomListOpen, refetch]);
 
   const handleChatroomItemClick = (chatWith: string) => {
-    setSelectedChatWith(chatWith);
-    setChatroomOpen(true);
-    router.push(`/chatrooms/board?chatWith=${chatWith}`);
+    setChatWith(chatWith);
   };
 
-  const handleChatroomClose = useCallback(() => setChatroomOpen(false), []);
-
-  const chatroomDrawerContent = (
-    <>
-      <Chatroom
-        onBackClick={handleChatroomClose}
-        passedChatWith={selectedChatWith}
-      />
-    </>
-  );
-
   return (
-    <React.Fragment>
-      <CssBaseline />
+    <>
       <Paper
         square
         sx={{
@@ -72,7 +59,7 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
         <Header title="聊天室列表" onBackClick={onBackClick} />
         <List sx={{ mb: 2 }}>
           {chatrooms.map((chatRoom, index) => (
-            <React.Fragment key={chatRoom.chatroomId}>
+            <div key={chatRoom.chatroomId}>
               <ChatroomListItem
                 senderId={chatRoom.latestMessageSenderId}
                 senderName={chatRoom.otherUser.fullName}
@@ -90,14 +77,14 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
               {index !== chatrooms.length - 1 && (
                 <Divider variant="inset" component="li" />
               )}
-            </React.Fragment>
+            </div>
           ))}
         </List>
       </Paper>
-      <SwipeableDrawer
-        open={chatroomOpen}
-        onOpen={() => setChatroomOpen(true)}
-        onClose={() => setChatroomOpen(false)}
+      <Drawer
+        anchor="right"
+        open={!!chatWith}
+        onClose={clearChatWith}
         PaperProps={{
           sx: {
             width: "100%",
@@ -107,9 +94,9 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
           },
         }}
       >
-        {chatroomDrawerContent}
-      </SwipeableDrawer>
-    </React.Fragment>
+        <Chatroom chatWith={chatWith} />
+      </Drawer>
+    </>
   );
 };
 

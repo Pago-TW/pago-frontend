@@ -1,3 +1,6 @@
+import { useChatroom } from "@/hooks/api/useChatroom";
+import useFileUpload from "@/hooks/api/useFileUpload";
+import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import React, {
   createContext,
   useContext,
@@ -5,9 +8,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useRouter } from "next/router";
-import { useChatroom } from "@/hooks/api/useChatroom";
-import useFileUpload from "@/hooks/api/useFileUpload";
 import { WebSocketService } from "../websocket";
 
 type WebSocketProviderProps = {
@@ -33,8 +33,8 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
   children,
   websocketUrl,
 }) => {
-  const router = useRouter();
-  const { chatWith } = router.query;
+  const chatWith = useChatroomStore((state) => state.chatWith);
+
   const webSocketServiceRef = useRef<WebSocketService | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [chatroomId, setChatroomId] = useState<string | null>(null);

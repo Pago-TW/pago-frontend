@@ -1,24 +1,24 @@
 import { create } from "zustand";
 
 type State = {
-  searchBarExpand: boolean;
+  searchExpand: boolean;
   searchQuery: string;
 };
 
 type Action = {
-  setSearchBarExpand: (show: boolean) => void;
+  setSearchExpand: (show: boolean) => void;
   setSearchQuery: (query: string) => void;
   clearSearchQuery: () => void;
 };
 
 const initialState: State = {
-  searchBarExpand: false,
+  searchExpand: false,
   searchQuery: "",
 };
 
-export const useAppbarStore = create<State & Action>()((set) => ({
+export const useNavbarStore = create<State & Action>()((set) => ({
   ...initialState,
-  setSearchBarExpand: (show) => set({ searchBarExpand: show }),
+  setSearchExpand: (show) => set({ searchExpand: show }),
   setSearchQuery: (query) => set({ searchQuery: query }),
   clearSearchQuery: () => set({ searchQuery: "" }),
 }));

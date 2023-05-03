@@ -2,6 +2,7 @@ import { axios } from "@/libs/axios";
 import type { PaginatedResponse, PaginationParams } from "@/types/api";
 import type { Chatroom } from "@/types/chatroom";
 import { getLastIndex } from "@/utils/getLastIndex";
+import type { InfiniteData } from "@tanstack/react-query";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 type Params = PaginationParams;
@@ -27,7 +28,11 @@ const getChatrooms = async (options: Options = {}, chatWith?: string) => {
 
 export const useChatrooms = (
   params?: Params,
-  options?: { enabled?: boolean }
+  options?: {
+    enabled?: boolean;
+    refetchOnWindowFocus?: boolean;
+    onSuccess?: (data: InfiniteData<PaginatedResponse<Chatroom[]>>) => void;
+  }
 ) => {
   return useInfiniteQuery({
     queryKey: ["chatrooms"],
@@ -36,7 +41,6 @@ export const useChatrooms = (
       const lastIndex = getLastIndex(lastPage);
       return lastIndex < lastPage.total ? lastIndex + 1 : undefined;
     },
-    // Help me!!
     ...options,
   });
 };

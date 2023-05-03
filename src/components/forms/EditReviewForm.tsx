@@ -1,3 +1,4 @@
+import { AddOrderData } from "@/hooks/api/useAddOrder";
 import { useCharge } from "@/hooks/api/useCharge";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -21,7 +22,9 @@ export const editReviewFormSchema = merchandiseFormSchema
 
 export type EditReviewFormValues = z.infer<typeof editReviewFormSchema>;
 
-export const transformEditReviewFormValues = (data: EditReviewFormValues) => {
+export const transformEditReviewFormValues = (
+  data: EditReviewFormValues
+): AddOrderData["data"] => {
   return {
     orderItem: {
       name: data.name,
@@ -32,8 +35,8 @@ export const transformEditReviewFormValues = (data: EditReviewFormValues) => {
       purchaseCity: data.purchase.cityCode,
       purchaseRoad: data.purchaseAddress,
     },
-    packaging: data.packing,
-    verification: data.receipt,
+    isPackagingRequired: data.packing,
+    isVerificationRequired: data.receipt,
     destinationCountry: data.destination.countryCode,
     destinationCity: data.destination.cityCode,
     travelerFee: data.fee,

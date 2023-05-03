@@ -1,4 +1,6 @@
-import { useAppbarStore } from "@/store/ui/appbar";
+import { useChatrooms } from "@/hooks/api/useChatrooms";
+import { useChatroomStore } from "@/store/ui/useChatroomStore";
+import { useNavbarStore } from "@/store/ui/useNavbarStore";
 import {
   AccountCircle,
   ChevronLeft,
@@ -23,7 +25,6 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Skeleton,
   Stack,
   SwipeableDrawer,
   Toolbar,
@@ -31,35 +32,35 @@ import {
 } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useCallback, useState, useEffect } from "react";
+import { useState } from "react";
+import { ChatroomList } from "./ChatroomList";
 import { Search } from "./Search";
 import { Link } from "./ui/Link";
 import { Typography } from "./ui/Typography";
-import { ChatroomList } from "@/pages/chatrooms";
-import useChatrooms from "@/hooks/api/useChatrooms";
-
-type NavbarButtonsProps = {
-  handleChatroomListOpen: () => void;
-};
 
 const drawerWidth = 270;
 
-const NavbarButtons = ({ handleChatroomListOpen }: NavbarButtonsProps) => {
+type NavbarButtonsProps = {
+  onMailClick?: () => void;
+};
+
+const NavbarButtons = ({ onMailClick }: NavbarButtonsProps) => {
   const router = useRouter();
 
   const { status } = useSession();
-  const [chatroomListOpen, setChatroomListOpen] = useState(false);
-  const chatroomsQuery = useChatrooms();
+
   const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
 
-  useEffect(() => {
-    if (chatroomsQuery.isSuccess) {
-      const hasUnread = chatroomsQuery.data.pages.some((page) =>
-        page.data.some((chatroom) => chatroom.totalUnreadMessage > 0)
+  useChatrooms(undefined, {
+    enabled: status === "authenticated",
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      const hasUnread = data.pages.some((page) =>
+        page.data.some((chatroom) => chatroom.totalUnreadMessage)
       );
       setHasUnreadMessages(hasUnread);
-    }
-  }, [chatroomsQuery.isSuccess, chatroomsQuery.data]);
+    },
+  });
 
   const content =
     status === "authenticated" ? (
@@ -68,7 +69,7 @@ const NavbarButtons = ({ handleChatroomListOpen }: NavbarButtonsProps) => {
           size="large"
           aria-label="show 4 new mails"
           color="inherit"
-          onClick={handleChatroomListOpen}
+          onClick={onMailClick}
         >
           <Badge color="error" variant="dot" invisible={!hasUnreadMessages}>
             <Mail />
@@ -108,20 +109,18 @@ const NavbarButtons = ({ handleChatroomListOpen }: NavbarButtonsProps) => {
       >
         登入
       </Button>
-    ) : (
-      <Skeleton variant="rounded" animation="wave" width={128} height="100%" />
-    );
+    ) : null;
 
   return <Box display="flex">{content}</Box>;
 };
 
 const NavbarSearch = () => {
-  const expand = useAppbarStore((state) => state.searchBarExpand);
-  const setExpand = useAppbarStore((state) => state.setSearchBarExpand);
+  const expand = useNavbarStore((state) => state.searchExpand);
+  const setExpand = useNavbarStore((state) => state.setSearchExpand);
 
-  const query = useAppbarStore((state) => state.searchQuery);
-  const setQuery = useAppbarStore((state) => state.setSearchQuery);
-  const clearQuery = useAppbarStore((state) => state.clearSearchQuery);
+  const query = useNavbarStore((state) => state.searchQuery);
+  const setQuery = useNavbarStore((state) => state.setSearchQuery);
+  const clearQuery = useNavbarStore((state) => state.clearSearchQuery);
 
   return (
     <Search
@@ -171,30 +170,20 @@ const drawerIconSx: ListItemIconProps["sx"] = {
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const [chatroomListOpen, setChatroomListOpen] = useState(false);
 
-  const expandSearchBar = useAppbarStore((state) => state.searchBarExpand);
-  const router = useRouter();
+  const searchExpand = useNavbarStore((state) => state.searchExpand);
+  const chatroomListOpen = useChatroomStore((state) => state.open);
+  const setChatroomListOpen = useChatroomStore((state) => state.setOpen);
 
-  const handleOpen = useCallback(() => setOpen(true), []);
-  const handleClose = useCallback(() => setOpen(false), []);
-  const handleChatroomListOpen = useCallback(() => {
-    router.push("/chatrooms");
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleChatroomListOpen = () => {
     setChatroomListOpen(true);
-  }, []);
-  const handleChatroomListClose = useCallback(() => {
-    router.back(); // Help me!!
-    setChatroomListOpen(false);
-  }, []);
-  const handleMailIconClick = () => {
-    router.push("/chatrooms");
   };
-
-  const chatroomListDrawerContent = (
-    <>
-      <ChatroomList onBackClick={handleChatroomListClose} />
-    </>
-  );
+  const handleChatroomListClose = () => {
+    setChatroomListOpen(false);
+  };
 
   const drawerContent = (
     <>
@@ -244,7 +233,7 @@ export const Navbar = () => {
             <Menu />
           </IconButton>
           <Collapse
-            in={!expandSearchBar}
+            in={!searchExpand}
             orientation="horizontal"
             timeout={100}
             easing="ease-in-out"
@@ -265,7 +254,7 @@ export const Navbar = () => {
             flexGrow={1}
           >
             <NavbarSearch />
-            <NavbarButtons handleChatroomListOpen={handleChatroomListOpen} />
+            <NavbarButtons onMailClick={handleChatroomListOpen} />
           </Stack>
         </Toolbar>
       </AppBar>
@@ -286,9 +275,10 @@ export const Navbar = () => {
         {drawerContent}
       </SwipeableDrawer>
       <SwipeableDrawer
+        anchor="right"
         open={chatroomListOpen}
-        onOpen={() => setChatroomListOpen(true)}
-        onClose={() => setChatroomListOpen(false)}
+        onOpen={handleChatroomListOpen}
+        onClose={handleChatroomListClose}
         PaperProps={{
           sx: {
             width: "100%",
@@ -298,7 +288,7 @@ export const Navbar = () => {
           },
         }}
       >
-        {chatroomListDrawerContent}
+        <ChatroomList onBackClick={handleChatroomListClose} />
       </SwipeableDrawer>
     </Box>
   );

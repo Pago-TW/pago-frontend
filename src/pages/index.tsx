@@ -7,7 +7,7 @@ import { Tab as MuiTab, Stack, styled } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import type { NextPage } from "next";
-import { signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import * as React from "react";
 import { Typography } from "@/components/ui/Typography";
@@ -51,8 +51,10 @@ const Home: NextPage = () => {
       <BaseLayout>
         <main>Pago Home Page</main>
         <p>{status}</p>
-        {status === "authenticated" && (
+        {status === "authenticated" ? (
           <button onClick={() => signOut()}>Sign Out</button>
+        ) : (
+          <button onClick={() => signIn()}>Sign In</button>
         )}
         <Container maxWidth="md">
           <Box sx={{ display: "flex", flexDirection: "column" }}>

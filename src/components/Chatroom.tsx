@@ -1,16 +1,16 @@
 import Header from "@/components/Header";
-import type { InputSectionProps } from "@/components/InputSection";
 import InputSection from "@/components/InputSection";
 import MessageBoard from "@/components/MessageBoard";
 import { useChatroom } from "@/hooks/api/useChatroom";
 import useChatroomMessages from "@/hooks/api/useChatroomMessages";
+import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import type { MessageResponse, SendMessageRequest } from "@/types/message";
 import { useWebSocket } from "@/websocket/contexts/WebSocketContext";
 import { Box } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import * as React from "react";
+import type { ChangeEvent } from "react";
+import { useEffect, useState } from "react";
 
 type Message = {
   senderName: string;
@@ -21,33 +21,27 @@ type Message = {
 };
 
 type ChatroomProps = {
-  passedChatWith?: string;
-  onBackClick?: () => void;
+  chatWith: string;
 };
 
-export const Chatroom: React.FC<ChatroomProps> = ({
-  passedChatWith,
-  onBackClick,
-}) => {
-  const router = useRouter();
-  const { chatWith } = router.query;
-  const { data: chatroomData, isLoading: isChatroomLoading } = useChatroom(
-    chatWith as string
-  );
-  const chatroomId = chatroomData?.chatroomId;
-  const { data: messagesData, isLoading: isMessagesLoading } =
-    useChatroomMessages(chatroomId || "");
-  const [localMessages, setLocalMessages] = React.useState<Message[]>([]);
+export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
-  const { webSocketService, isConnected, sendFileMessage } = useWebSocket();
+  const [localMessages, setLocalMessages] = useState<Message[]>([]);
 
-  const handleBackClick = () => {
-    router.back();
-  };
+  const clearChatWith = useChatroomStore((state) => state.clearChatWith);
 
-  React.useEffect(() => {
+  const { data: chatroomData, isLoading: isChatroomLoading } =
+    useChatroom(chatWith);
+
+  const chatroomId = chatroomData?.chatroomId;
+  const { data: messagesData, isLoading: isMessagesLoading } =
+    useChatroomMessages(chatroomId || "");
+
+  const { webSocketService, sendFileMessage } = useWebSocket();
+
+  useEffect(() => {
     if (webSocketService) {
       const handleMessage = (message: MessageResponse) => {
         const isSender = message.senderId === chatroomData?.currentLoginUserId;
@@ -68,16 +62,63 @@ export const Chatroom: React.FC<ChatroomProps> = ({
       };
 
       webSocketService.onMessage(handleMessage);
-
       return () => {
         webSocketService.offMessage(handleMessage);
       };
     }
   }, [webSocketService, chatroomData, localMessages]);
 
-  // TODO: Temporary handler here
-  const handleSend: InputSectionProps["onSend"] = (content, messageType) => {
-    console.log({ type: "onSend", content, messageType });
+  const handleBackClick = () => {
+    clearChatWith();
+  };
+
+  const scrollToBottom = () => {
+    const messageBoardElement = document.getElementById("message-board");
+    if (messageBoardElement) {
+      messageBoardElement.scrollTop = messageBoardElement.scrollHeight;
+    }
+  };
+
+  const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+
+    if (files) {
+      await sendFileMessage(files);
+      scrollToBottom();
+    }
+  };
+
+  const messages =
+    messagesData?.pages
+      .flatMap((page) => page.data)
+      .map((message) => ({
+        senderName: message.senderName,
+        content: message.content,
+        sendDate: new Date(message.sendDate).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        isSender: message.senderId === chatroomData?.currentLoginUserId,
+        messageType: message.messageType as "TEXT" | "FILE",
+      }))
+      .concat(localMessages) || [];
+
+  const handleSendMessage = (content: string, messageType: "TEXT" | "FILE") => {
+    if (!userId || !webSocketService) {
+      return;
+    }
+
+    if (webSocketService && chatroomId && userId) {
+      const messageToSend: SendMessageRequest = {
+        chatroomId,
+        content,
+        messageType,
+        senderId: userId,
+      };
+
+      webSocketService.sendMessage(messageToSend);
+      scrollToBottom();
+    }
   };
 
   if (isChatroomLoading || isMessagesLoading) {
@@ -148,51 +189,11 @@ export const Chatroom: React.FC<ChatroomProps> = ({
             width: "100%",
           }}
         >
-          <InputSection onSend={handleSend} />
+          <InputSection />
         </Box>
       </Box>
     );
   }
-
-  const scrollToBottom = () => {
-    const messageBoardElement = document.getElementById("message-board");
-    if (messageBoardElement) {
-      messageBoardElement.scrollTop = messageBoardElement.scrollHeight;
-    }
-  };
-
-  const messages =
-    messagesData?.pages
-      .flatMap((page) => page.data)
-      .map((message) => ({
-        senderName: message.senderName,
-        content: message.content,
-        sendDate: new Date(message.sendDate).toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        isSender: message.senderId === chatroomData?.currentLoginUserId,
-        messageType: message.messageType as "TEXT" | "FILE",
-      }))
-      .concat(localMessages) || [];
-
-  const handleSendMessage = (content: string, messageType: "TEXT" | "FILE") => {
-    if (!userId || !webSocketService) {
-      return;
-    }
-
-    if (webSocketService && chatroomId && userId) {
-      const messageToSend: SendMessageRequest = {
-        chatroomId,
-        content,
-        messageType,
-        senderId: userId,
-      };
-
-      webSocketService.sendMessage(messageToSend);
-      scrollToBottom();
-    }
-  };
 
   return (
     <Box
@@ -219,24 +220,11 @@ export const Chatroom: React.FC<ChatroomProps> = ({
         />
       </Box>
 
-      <Box
-        sx={{
-          flexGrow: 1,
-          paddingTop: "56px",
-        }}
-      >
+      <Box sx={{ flexGrow: 1, paddingTop: "56px" }}>
         <MessageBoard messages={messages} scrollToBottom={scrollToBottom} />
       </Box>
       <InputSection
-        onFileUpload={async (event) => {
-          const files = event.target.files;
-          if (files) {
-            await sendFileMessage(files);
-            setTimeout(() => {
-              scrollToBottom();
-            }, 300);
-          }
-        }}
+        onFileUpload={handleFileUpload}
         onSend={handleSendMessage}
       />
     </Box>
