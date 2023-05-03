@@ -46,6 +46,9 @@ export const authOptions: NextAuthOptions = {
         const { token, user: pagoUser } = res.data;
         user.accessToken = token.accessToken;
         user.id = pagoUser.userId;
+        user.name = pagoUser.fullName;
+        user.image = pagoUser.avatarUrl;
+        user.email = pagoUser.email;
 
         return true;
       }
@@ -58,6 +61,9 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.accessToken = user.accessToken;
         token.id = user.id;
+        token.name = user.name;
+        token.picture = user.image;
+        token.email = user.email;
       }
       return token;
     },
@@ -65,6 +71,9 @@ export const authOptions: NextAuthOptions = {
       session.accessToken = token.accessToken;
       if (session.user) {
         session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.image = token.picture;
+        session.user.email = token.email;
       }
       return session;
     },
