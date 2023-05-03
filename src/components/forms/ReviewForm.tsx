@@ -116,7 +116,14 @@ export const ReviewForm = () => {
               },
             })}
           >
-            {preview ? <Image src={preview} alt="Preview image" fill /> : null}
+            {preview ? (
+              <Image
+                src={preview}
+                alt="Preview image"
+                fill
+                style={{ objectFit: "cover", objectPosition: "center" }}
+              />
+            ) : null}
           </Box>
           <Stack justifyContent="space-between" flexGrow={1} py={1}>
             <Typography variant={mdDown ? "h5" : "h1"} weightPreset="bold">
