@@ -1,6 +1,6 @@
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import type { NextPage } from "next";
-import { signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 
 const Home: NextPage = () => {
@@ -16,8 +16,10 @@ const Home: NextPage = () => {
       <BaseLayout>
         <main>Pago Home Page</main>
         <p>{status}</p>
-        {status === "authenticated" && (
+        {status === "authenticated" ? (
           <button onClick={() => signOut()}>Sign Out</button>
+        ) : (
+          <button onClick={() => signIn()}>Sign In</button>
         )}
       </BaseLayout>
     </>

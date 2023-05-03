@@ -5,7 +5,7 @@ import React, { useState } from "react";
 
 export interface InputSectionProps {
   onFileUpload?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onSend: (content: string, messageType: "TEXT" | "FILE") => void;
+  onSend?: (content: string, messageType: "TEXT" | "FILE") => void;
 }
 
 const InputSection: React.FC<InputSectionProps> = ({
@@ -21,13 +21,13 @@ const InputSection: React.FC<InputSectionProps> = ({
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      onSend(inputValue, "TEXT");
+      if (onSend) onSend(inputValue, "TEXT");
       setInputValue("");
     }
   };
 
   const handleSendButtonClick = () => {
-    onSend(inputValue, "TEXT");
+    if (onSend) onSend(inputValue, "TEXT");
     setInputValue("");
   };
 

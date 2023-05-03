@@ -1,14 +1,14 @@
-import React from "react";
 import { Box, Grid } from "@mui/material";
+import type { FC, ReactNode } from "react";
 import { BackButtonIos } from "./BackButtonIos";
 import { Typography } from "./ui/Typography";
 
 interface HeaderProps {
-  title: string | any;
+  title: ReactNode;
   onBackClick?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, onBackClick }) => {
+export const Header: FC<HeaderProps> = ({ title, onBackClick }) => {
   return (
     <Box
       sx={{

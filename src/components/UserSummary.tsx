@@ -1,13 +1,13 @@
 import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import type { ReviewSummary } from "@/types/review";
 import type { User } from "@/types/user";
 import { Avatar, Box, Rating, Stack, styled } from "@mui/material";
 import { intlFormat, parseISO } from "date-fns";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import type { FC } from "react";
 import { Button } from "./ui/Button";
-import { Link } from "./ui/Link";
 import { Paper } from "./ui/Paper";
 import { Typography } from "./ui/Typography";
 
@@ -108,11 +108,21 @@ export const UserSummary: FC<UserSummaryProps> = ({
   consumerReview,
   completionRating,
 }) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const lang = useLanguage();
 
+  const setChatWith = useChatroomStore((state) => state.setChatWith);
+
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
+
+  const handleSendMessageClick = () => {
+    if (status !== "authenticated") {
+      signIn();
+      return;
+    }
+    setChatWith(userId);
+  };
 
   const formattedCreateDate = intlFormat(
     parseISO(createDate),
@@ -143,11 +153,7 @@ export const UserSummary: FC<UserSummaryProps> = ({
         <Stack spacing={2} justifyContent="center">
           <Typography variant="h3">{fullName}</Typography>
           {session?.user?.id !== userId && (
-            <Button
-              size="small"
-              LinkComponent={Link}
-              href={`/chatrooms/board?chatWith=${userId}`}
-            >
+            <Button size="small" onClick={handleSendMessageClick}>
               傳送訊息
             </Button>
           )}
