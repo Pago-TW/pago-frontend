@@ -40,3 +40,4 @@ Repository for the frontend of the Pago project.
 - [ ] Add a prompt at [`AvailableShoppers`](/src/components/AvailableShoppers.tsx) when there's no any shoppers available
 - [ ] Responsive font size in [`Typography`](/src/components/ui/Typography.tsx)
 - [ ] Define user on next-auth session (maybe)
+- [ ] Combine `useInView` and `useInfiniteQuery` to one hook
