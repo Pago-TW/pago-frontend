@@ -15,8 +15,8 @@ export type AddOrderData = {
       purchaseCity: string;
       purchaseRoad: string;
     };
-    packaging: boolean;
-    verification: boolean;
+    isPackagingRequired: boolean;
+    isVerificationRequired: boolean;
     destinationCountry: string;
     destinationCity: string;
     travelerFee: number | string;

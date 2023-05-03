@@ -1,3 +1,4 @@
+import { AddOrderData } from "@/hooks/api/useAddOrder";
 import { useCharge } from "@/hooks/api/useCharge";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -19,7 +20,9 @@ export const reviewFormSchema = merchandiseFormSchema.merge(needsFormSchema);
 
 export type ReviewFormValues = z.infer<typeof reviewFormSchema>;
 
-export const transformReviewFormValues = (data: ReviewFormValues) => {
+export const transformReviewFormValues = (
+  data: ReviewFormValues
+): AddOrderData => {
   return {
     file: data.images,
     data: {
@@ -32,8 +35,8 @@ export const transformReviewFormValues = (data: ReviewFormValues) => {
         purchaseCity: data.purchase.cityCode,
         purchaseRoad: data.purchaseAddress,
       },
-      packaging: data.packing,
-      verification: data.receipt,
+      isPackagingRequired: data.packing,
+      isVerificationRequired: data.receipt,
       destinationCountry: data.destination.countryCode,
       destinationCity: data.destination.cityCode,
       travelerFee: data.fee,
