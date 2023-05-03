@@ -1,11 +1,10 @@
-import { Review } from "./review";
+import type { ReviewCreator, ReviewSummary } from "./review";
 import type { Trip } from "./trip";
-import type { User } from "./user";
 
 export interface Bid {
   bidId: string;
   orderId: string;
-  creator: Creator;
+  creator: BidCreator;
   trip: Pick<
     Trip,
     | "tripId"
@@ -25,7 +24,6 @@ export interface Bid {
 
 export type BidStatus = "NOT_CHOSEN" | "IS_CHOSEN";
 
-export interface Creator
-  extends Pick<User, "userId" | "fullName" | "avatarUrl"> {
-  review: Review;
+export interface BidCreator extends ReviewCreator {
+  review: ReviewSummary;
 }

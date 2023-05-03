@@ -1,6 +1,6 @@
 import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import type { Review } from "@/types/review";
+import type { ReviewSummary } from "@/types/review";
 import type { User } from "@/types/user";
 import { Avatar, Box, Rating, Stack, styled } from "@mui/material";
 import { intlFormat, parseISO } from "date-fns";
@@ -20,7 +20,11 @@ const StyledRating = styled(Rating)(({ theme }) => ({
   },
 }));
 
-const UserRating: FC<Review> = ({ averageRating, totalReview, reviewType }) => {
+const UserRating: FC<ReviewSummary> = ({
+  averageRating,
+  totalReview,
+  reviewType,
+}) => {
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
   const typeText = reviewType === "FOR_SHOPPER" ? "代購者" : "消費者";
