@@ -41,3 +41,4 @@ Repository for the frontend of the Pago project.
 - [ ] Responsive font size in [`Typography`](/src/components/ui/Typography.tsx)
 - [ ] Define user on next-auth session (maybe)
 - [ ] Combine `useInView` and `useInfiniteQuery` to one hook
+- [ ] Merge [`Paper`](/src/components/ui/Paper.tsx) and [`PaperLayout`](/src/components/layouts/PaperLayout.tsx) into one component
