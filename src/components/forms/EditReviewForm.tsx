@@ -105,7 +105,12 @@ export const EditReviewForm: FC<EditMerchandiseFormProps> = ({
             })}
           >
             {imageUrls[0] !== undefined ? (
-              <Image src={imageUrls[0]} alt="Preview image" fill />
+              <Image
+                src={imageUrls[0]}
+                alt="Preview image"
+                fill
+                style={{ objectFit: "cover", objectPosition: "center" }}
+              />
             ) : null}
           </Box>
           <Stack justifyContent="space-between" flexGrow={1} py={1}>

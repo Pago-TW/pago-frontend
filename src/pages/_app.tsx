@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
+import { env } from "@/env/client.mjs";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { SnackbarProvider, closeSnackbar } from "notistack";
@@ -47,7 +48,7 @@ const PagoApp = ({
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider theme={theme}>
-            <WebSocketProvider websocketUrl="http://localhost:8080/api/v1/ws">
+            <WebSocketProvider websocketUrl={`${env.NEXT_PUBLIC_API_URL}/ws`}>
               <SnackbarProvider
                 autoHideDuration={5000}
                 TransitionComponent={(props: Omit<SlideProps, "direction">) => (
