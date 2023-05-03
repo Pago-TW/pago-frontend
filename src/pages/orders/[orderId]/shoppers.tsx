@@ -6,7 +6,7 @@ import { Paper } from "@/components/ui/Paper";
 import { Typography } from "@/components/ui/Typography";
 import { useMatchingShoppers } from "@/hooks/api/useMatchingShoppers";
 import { useOrder } from "@/hooks/api/useOrder";
-import type { Order, Shopper } from "@/types/order";
+import type { Shopper } from "@/types/order";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { ArrowDownward } from "@mui/icons-material";
 import { Avatar, Box, Container, Link, Stack } from "@mui/material";
@@ -17,11 +17,9 @@ import type { FC } from "react";
 import { useEffect, useMemo } from "react";
 import { useInView } from "react-intersection-observer";
 
-type ShopperChooserProps = Pick<Order, "orderId"> &
-  Pick<Shopper, "userId" | "fullName" | "avatarUrl">;
+type ShopperChooserProps = Pick<Shopper, "userId" | "fullName" | "avatarUrl">;
 
 const ShopperChooser: FC<ShopperChooserProps> = ({
-  orderId,
   userId,
   fullName,
   avatarUrl,
@@ -37,7 +35,7 @@ const ShopperChooser: FC<ShopperChooserProps> = ({
           variant="outlined"
           size="small"
           LinkComponent={Link}
-          href={`/orders/${orderId}/shoppers/${userId}`}
+          href={`/users/${userId}`}
         >
           查看代購者詳情
         </Button>
@@ -95,11 +93,7 @@ export default function OrderShoppersPage() {
               </Typography>
               <Stack spacing={2} mt={3}>
                 {shoppers.map((shopper) => (
-                  <ShopperChooser
-                    key={shopper.userId}
-                    orderId={orderId}
-                    {...shopper}
-                  />
+                  <ShopperChooser key={shopper.userId} {...shopper} />
                 ))}
                 <Button
                   ref={ref}
