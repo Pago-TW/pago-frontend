@@ -36,7 +36,7 @@ export const useChatrooms = (
       const lastIndex = getLastIndex(lastPage);
       return lastIndex < lastPage.total ? lastIndex + 1 : undefined;
     },
-    refetchOnWindowFocus: false,
+    // Help me!!
     ...options,
   });
 };

@@ -68,16 +68,18 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
       });
 
       webSocketServiceRef.current.connect();
-    } else {
-      webSocketServiceRef.current?.disconnect();
+
+      return () => {
+        webSocketServiceRef.current?.disconnect();
+      };
     }
   }, [websocketUrl, chatroomId]);
 
-  useEffect(() => {
-    return () => {
-      webSocketServiceRef.current?.disconnect();
-    };
-  }, [chatroomId]);
+  // useEffect(() => {
+  //   return () => {
+  //     webSocketServiceRef.current?.disconnect();
+  //   };
+  // }, [chatroomId]);
 
   const sendFileMessage = async (files: FileList) => {
     if (!webSocketServiceRef.current) return;

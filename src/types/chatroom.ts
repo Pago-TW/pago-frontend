@@ -2,6 +2,7 @@ export type Chatroom = {
   chatroomId: string;
   currentLoginUserId: string;
   totalUnreadMessage: number;
+  latestMessageSenderId: string;
   latestMessageSendDate: string;
   latestMessageContent: string;
   latestMessageType: string;

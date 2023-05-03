@@ -31,11 +31,12 @@ import {
 } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { Search } from "./Search";
 import { Link } from "./ui/Link";
 import { Typography } from "./ui/Typography";
 import { ChatroomList } from "@/pages/chatrooms";
+import useChatrooms from "@/hooks/api/useChatrooms";
 
 type NavbarButtonsProps = {
   handleChatroomListOpen: () => void;
@@ -48,6 +49,17 @@ const NavbarButtons = ({ handleChatroomListOpen }: NavbarButtonsProps) => {
 
   const { status } = useSession();
   const [chatroomListOpen, setChatroomListOpen] = useState(false);
+  const chatroomsQuery = useChatrooms();
+  const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
+
+  useEffect(() => {
+    if (chatroomsQuery.isSuccess) {
+      const hasUnread = chatroomsQuery.data.pages.some((page) =>
+        page.data.some((chatroom) => chatroom.totalUnreadMessage > 0)
+      );
+      setHasUnreadMessages(hasUnread);
+    }
+  }, [chatroomsQuery.isSuccess, chatroomsQuery.data]);
 
   const content =
     status === "authenticated" ? (
@@ -58,7 +70,7 @@ const NavbarButtons = ({ handleChatroomListOpen }: NavbarButtonsProps) => {
           color="inherit"
           onClick={handleChatroomListOpen}
         >
-          <Badge color="error">
+          <Badge color="error" variant="dot" invisible={!hasUnreadMessages}>
             <Mail />
           </Badge>
         </IconButton>
@@ -162,17 +174,21 @@ export const Navbar = () => {
   const [chatroomListOpen, setChatroomListOpen] = useState(false);
 
   const expandSearchBar = useAppbarStore((state) => state.searchBarExpand);
+  const router = useRouter();
 
   const handleOpen = useCallback(() => setOpen(true), []);
   const handleClose = useCallback(() => setOpen(false), []);
-  const handleChatroomListOpen = useCallback(
-    () => setChatroomListOpen(true),
-    []
-  );
-  const handleChatroomListClose = useCallback(
-    () => setChatroomListOpen(false),
-    []
-  );
+  const handleChatroomListOpen = useCallback(() => {
+    router.push("/chatrooms");
+    setChatroomListOpen(true);
+  }, []);
+  const handleChatroomListClose = useCallback(() => {
+    router.back(); // Help me!!
+    setChatroomListOpen(false);
+  }, []);
+  const handleMailIconClick = () => {
+    router.push("/chatrooms");
+  };
 
   const chatroomListDrawerContent = (
     <>
@@ -279,8 +295,6 @@ export const Navbar = () => {
             height: "100%",
             backgroundColor: "pago.500",
             color: "common.white",
-            borderTopRightRadius: 10,
-            borderBottomRightRadius: 10,
           },
         }}
       >

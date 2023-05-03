@@ -1,11 +1,18 @@
-import React, { useMemo } from "react";
-import Header from "@/components/Header";
+import React, { useMemo, useState, useCallback } from "react";
+import { useRouter } from "next/router";
 import ChatroomListItem from "@/components/ChatroomListItem";
 import { useChatrooms } from "@/hooks/api/useChatrooms";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { CssBaseline, Divider, List, Paper } from "@mui/material";
-import { Link } from "@/components/ui/Link";
-import { type } from "os";
+import {
+  CssBaseline,
+  Divider,
+  List,
+  Paper,
+  SwipeableDrawer,
+} from "@mui/material";
+
+import Header from "@/components/Header";
+import Chatroom from "./board";
 
 type ChatroomListProps = {
   onBackClick?: () => void;
@@ -26,6 +33,30 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
     [chatroomsData]
   );
 
+  const [chatroomOpen, setChatroomOpen] = useState(false);
+  const [selectedChatWith, setSelectedChatWith] = useState<string | undefined>(
+    undefined
+  );
+
+  const router = useRouter();
+
+  const handleChatroomItemClick = (chatWith: string) => {
+    setSelectedChatWith(chatWith);
+    setChatroomOpen(true);
+    router.push(`/chatrooms/board?chatWith=${chatWith}`);
+  };
+
+  const handleChatroomClose = useCallback(() => setChatroomOpen(false), []);
+
+  const chatroomDrawerContent = (
+    <>
+      <Chatroom
+        onBackClick={handleChatroomClose}
+        passedChatWith={selectedChatWith}
+      />
+    </>
+  );
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -42,22 +73,20 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
         <List sx={{ mb: 2 }}>
           {chatrooms.map((chatRoom, index) => (
             <React.Fragment key={chatRoom.chatroomId}>
-              <Link
-                href={`/chatrooms/board?chatWith=${chatRoom.otherUser.userId}`}
-              >
-                <ChatroomListItem
-                  senderId={chatRoom.otherUser.userId}
-                  senderName={chatRoom.otherUser.fullName}
-                  latestMessageContent={chatRoom.latestMessageContent}
-                  avatarUrl={chatRoom.otherUser.avatarUrl || ""}
-                  latestMessageSendDate={chatRoom.latestMessageSendDate}
-                  totalUnreadMessages={chatRoom.totalUnreadMessage}
-                  latestMessageType={
-                    chatRoom.latestMessageType as "FILE" | "TEXT"
-                  }
-                />
-              </Link>
-
+              <ChatroomListItem
+                senderId={chatRoom.latestMessageSenderId}
+                senderName={chatRoom.otherUser.fullName}
+                latestMessageContent={chatRoom.latestMessageContent}
+                avatarUrl={chatRoom.otherUser.avatarUrl || ""}
+                latestMessageSendDate={chatRoom.latestMessageSendDate}
+                totalUnreadMessages={chatRoom.totalUnreadMessage}
+                latestMessageType={
+                  chatRoom.latestMessageType as "FILE" | "TEXT"
+                }
+                onClick={() =>
+                  handleChatroomItemClick(chatRoom.otherUser.userId)
+                }
+              />
               {index !== chatrooms.length - 1 && (
                 <Divider variant="inset" component="li" />
               )}
@@ -65,6 +94,21 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
           ))}
         </List>
       </Paper>
+      <SwipeableDrawer
+        open={chatroomOpen}
+        onOpen={() => setChatroomOpen(true)}
+        onClose={() => setChatroomOpen(false)}
+        PaperProps={{
+          sx: {
+            width: "100%",
+            height: "100%",
+            backgroundColor: "#f5f5f5",
+            color: "common.white",
+          },
+        }}
+      >
+        {chatroomDrawerContent}
+      </SwipeableDrawer>
     </React.Fragment>
   );
 };
