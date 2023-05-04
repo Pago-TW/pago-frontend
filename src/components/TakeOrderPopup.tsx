@@ -4,6 +4,7 @@ import { NumberInput } from "@/components/inputs/NumberInput";
 import { SelectInput } from "@/components/inputs/SelectInput";
 import { Button } from "@/components/ui/Button";
 import { Typography } from "@/components/ui/Typography";
+import { useOrder } from "@/hooks/api/useOrder";
 import { useTakeOrderTrips } from "@/hooks/api/useTakeOrderTrips";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -32,11 +33,10 @@ export const takeOrderFormSchema = z.object({
 
 export type TakeOrderFormValues = z.infer<typeof takeOrderFormSchema>;
 
-const DEFAULT_VALUES: TakeOrderFormValues = {
+const DEFAULT_VALUES: Partial<TakeOrderFormValues> = {
   amount: 1,
   currency: "",
   tripId: "",
-  date: new Date(),
 };
 
 const StyledButton = styled(Button)({
@@ -65,13 +65,25 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm({
+    watch,
+  } = useForm<TakeOrderFormValues>({
     mode: "onBlur",
     defaultValues: DEFAULT_VALUES,
     resolver: zodResolver(takeOrderFormSchema),
   });
 
+  const { data: order } = useOrder(orderId);
   const { data: tripOptions = [] } = useTakeOrderTrips(orderId);
+
+  const selectedTrip = tripOptions.find(
+    (opt) => opt.tripId === watch("tripId")
+  );
+  const minDate = selectedTrip?.arrivalDate
+    ? parseISO(selectedTrip?.arrivalDate)
+    : undefined;
+  const maxDate = order?.latestReceiveItemDate
+    ? parseISO(order?.latestReceiveItemDate)
+    : undefined;
 
   const formatDate = (date: string) =>
     intlFormat(
@@ -146,8 +158,10 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
         <DatePicker
           control={control}
           name="date"
+          minDate={minDate}
+          maxDate={maxDate}
           label="預計日期"
-          disabled={!hasTripOptions}
+          disabled={!hasTripOptions || !selectedTrip}
           slotProps={{ popper: { placement: "bottom" } }}
         />
       </Stack>
