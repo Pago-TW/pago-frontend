@@ -1,69 +1,119 @@
+import { Typography } from "@/components/ui/Typography";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { alpha } from "@mui/material";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import { Typography } from "@/components/ui/Typography";
+import type { ImageProps } from "next/image";
+import Image from "next/image";
+import step1Label from "../../public/images/how-it-works/labels/step1.svg";
+import step2Label from "../../public/images/how-it-works/labels/step2.svg";
+import step3Label from "../../public/images/how-it-works/labels/step3.svg";
+import step4Label from "../../public/images/how-it-works/labels/step4.svg";
+
+const stepSvgList = [step1Label, step2Label, step3Label, step4Label];
 
 type IndexCardProps = {
   step: number;
   title: string;
   content: string;
-  imageUrl: string;
+  ImageProps: Pick<ImageProps, "src" | "alt" | "blurDataURL">;
 };
-
-const stepSvgList: string[] = [
-  "https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/f49d7a466b8f4e39b98af23c1630adb5_Step1.svg",
-  "https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/c6e629c93b8942adab72147a1b2777b1_Step2.svg",
-  "https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/eb63ef4954764270aa1923d59b913962_Step3.svg",
-  "https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/e1da7444cbb3431d8214c562401f5974_Step4.svg",
-];
 
 export const IndexCard = ({
   step,
   title,
   content,
-  imageUrl,
+  ImageProps,
 }: IndexCardProps) => {
+  const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
+
+  const isEven = step % 2 === 0;
+
   return (
-    <Card sx={{ maxWidth: 848, width: 336, height: 243, display: "flex" }}>
-      <Box sx={{ display: "flex" }}>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <Box>
-            <CardMedia
-              sx={{
-                width: 94.24,
-                height: 52.69,
-                left: "-6px",
-                top: "8px",
-                transform: "rotate(8.63deg)",
-              }}
-              image={stepSvgList[step]}
-            />
-          </Box>
-          <Box>
-            <CardContent>
-              <Typography
-                variant="h5"
-                color="primary.main"
-                weightPreset="bold"
-                sx={{ paddingBottom: 2 }}
-              >
-                {title}
-              </Typography>
-              <Typography variant="h6" color="base.800" weightPreset="normal">
-                {content}
-              </Typography>
-            </CardContent>
-          </Box>
+    <Box
+      position="relative"
+      width={{ xs: "100%", md: "80%" }}
+      height={{ xs: 250, md: 300 }}
+      alignSelf={isEven ? "start" : "end"}
+    >
+      {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
+      <Image
+        src={stepSvgList[step]}
+        alt="Step label"
+        width={108.24}
+        height={52.69}
+        style={{
+          position: "absolute",
+          transform: "scale(1.25)",
+          top: 5,
+          left: -12,
+        }}
+      />
+      <Card
+        sx={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          boxShadow: (theme) =>
+            `0 2px 4px ${alpha(theme.palette.pago.main, 0.5)}`,
+          borderRadius: 2.5,
+        }}
+      >
+        <Box width="50%">
+          <CardContent
+            sx={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              mt: 2,
+              ml: { xs: 1, md: 2 },
+              pr: 0,
+            }}
+          >
+            <Typography
+              variant={isDesktop ? "h3" : "h5"}
+              color="primary.main"
+              weightPreset="bold"
+            >
+              {title}
+            </Typography>
+            <Typography
+              variant={isDesktop ? "h4" : "h6"}
+              color="base.800"
+              weightPreset="normal"
+              sx={{ pt: { xs: 1, md: 3 } }}
+            >
+              {content}
+            </Typography>
+          </CardContent>
         </Box>
-        <Box>
-          <CardMedia
-            sx={{ height: 243, width: 160 }}
-            image={imageUrl}
-            title="Pago"
+        <CardMedia
+          sx={{
+            width: "50%",
+            height: "100%",
+            position: "relative",
+            clipPath: isEven
+              ? "polygon(25% 0, 100% 0%, 100% 100%, 0 100%)"
+              : "polygon(0 0, 100% 0%, 100% 100%, 25% 100%)",
+          }}
+        >
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
+          <Image
+            {...ImageProps}
+            placeholder="blur"
+            fill
+            sizes="50vw"
+            style={{
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
           />
-        </Box>
-      </Box>
-    </Card>
+        </CardMedia>
+      </Card>
+    </Box>
   );
 };

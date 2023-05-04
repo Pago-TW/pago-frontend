@@ -1,3 +1,5 @@
+import { env } from "@/env/client.mjs";
+import { WebSocketProvider } from "@/websocket/contexts/WebSocketContext";
 import type { EmotionCache } from "@emotion/react";
 import { CacheProvider } from "@emotion/react";
 import { Close } from "@mui/icons-material";
@@ -8,13 +10,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import { env } from "@/env/client.mjs";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { SnackbarProvider, closeSnackbar } from "notistack";
 import { theme } from "../styles/theme";
 import { createEmotionCache } from "../utils/createEmotionCache";
-import { WebSocketProvider } from "@/websocket/contexts/WebSocketContext";
 
 import "@fontsource/mallanna/400.css";
 import "@fontsource/noto-sans-tc/300.css";
@@ -47,8 +47,8 @@ const PagoApp = ({
       </Head>
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider theme={theme}>
-            <WebSocketProvider websocketUrl={`${env.NEXT_PUBLIC_API_URL}/ws`}>
+          <WebSocketProvider websocketUrl={`${env.NEXT_PUBLIC_API_URL}/ws`}>
+            <ThemeProvider theme={theme}>
               <SnackbarProvider
                 autoHideDuration={5000}
                 TransitionComponent={(props: Omit<SlideProps, "direction">) => (
@@ -66,8 +66,8 @@ const PagoApp = ({
                 <CssBaseline />
                 <Component {...pageProps} />
               </SnackbarProvider>
-            </WebSocketProvider>
-          </ThemeProvider>
+            </ThemeProvider>
+          </WebSocketProvider>
           <ReactQueryDevtools />
         </QueryClientProvider>
       </SessionProvider>
