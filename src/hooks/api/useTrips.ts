@@ -34,7 +34,7 @@ const getTrips = async (options: Options = {}) => {
 
 export const useTrips = (params?: Params, options?: { enabled?: boolean }) => {
   return useInfiniteQuery({
-    queryKey: ["trips"],
+    queryKey: ["trips", params],
     queryFn: ({ pageParam }) => getTrips({ params, pageParam }),
     getNextPageParam: (lastPage) => {
       const lastIndex = getLastIndex(lastPage);

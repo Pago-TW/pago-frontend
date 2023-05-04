@@ -36,7 +36,7 @@ const getOrders = async (options: Options = {}) => {
 
 export const useOrders = (params?: Params, options?: { enabled?: boolean }) => {
   return useInfiniteQuery({
-    queryKey: ["orders"],
+    queryKey: ["orders", params],
     queryFn: ({ pageParam }) => getOrders({ params, pageParam }),
     getNextPageParam: (lastPage) => {
       const lastIndex = getLastIndex(lastPage);
