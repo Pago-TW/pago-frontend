@@ -1,4 +1,4 @@
-import { AddOrderData } from "@/hooks/api/useAddOrder";
+import type { AddOrderData } from "@/hooks/api/useAddOrder";
 import { useCharge } from "@/hooks/api/useCharge";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
