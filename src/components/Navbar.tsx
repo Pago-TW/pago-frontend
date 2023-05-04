@@ -104,7 +104,10 @@ const UserButton = () => {
                 >
                   <Stack spacing={2}>
                     <Box display="flex" alignItems="center" gap={2}>
-                      <Avatar sx={{ width: 40, height: 40 }} />
+                      <Avatar
+                        src={session?.user?.image || undefined}
+                        sx={{ width: 40, height: 40 }}
+                      />
                       <Typography variant="h5" fontWeight="bold" as="p">
                         {session?.user?.name}
                       </Typography>
