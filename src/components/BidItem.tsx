@@ -1,8 +1,8 @@
 import { useCharge } from "@/hooks/api/useCharge";
+import { useChooseBid } from "@/hooks/api/useChooseBid";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useOpen } from "@/hooks/useOpen";
-import { axios } from "@/libs/axios";
 import type { Bid } from "@/types/bid";
 import { Star } from "@mui/icons-material";
 import {
@@ -41,11 +41,12 @@ const ConfirmChosenBid: FC<ConfirmChosenBidProps> = ({
     { refetchOnWindowFocus: false }
   );
 
-  const handleConfirm = async () => {
-    const res = await axios.patch(`/bids/${bidId}/choose`);
-    setFormHtml(res.data);
+  const { mutate: chooseBid } = useChooseBid();
 
-    onClose();
+  const handleConfirm = async () => {
+    chooseBid(bidId, {
+      onSuccess: (data) => setFormHtml(data),
+    });
   };
 
   useEffect(() => {
