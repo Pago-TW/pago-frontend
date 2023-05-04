@@ -40,6 +40,7 @@ const ActionsWrapper = ({ children }: { children: ReactNode }) => {
           left: 0,
           bottom: 0,
           width: "100%",
+          "&&": { mt: { xs: 0, md: 5 } },
         }}
       >
         <Box
@@ -356,6 +357,7 @@ const ConsumerActions = (props: ConsumerActionsProps) => {
           />
         </ActionsWrapper>
       );
+
     default:
       return null;
   }
