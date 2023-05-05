@@ -31,6 +31,8 @@ export const useChatrooms = (
   options?: {
     enabled?: boolean;
     refetchOnWindowFocus?: boolean;
+    refetchInterval?: number | false;
+    refetchIntervalInBackground?: boolean;
     onSuccess?: (data: InfiniteData<PaginatedResponse<Chatroom[]>>) => void;
   }
 ) => {

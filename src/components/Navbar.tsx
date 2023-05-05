@@ -164,8 +164,9 @@ const NavbarButtons = ({ onMailClick }: NavbarButtonsProps) => {
   const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
 
   useChatrooms(undefined, {
-    enabled: status === "authenticated",
-    refetchOnWindowFocus: false,
+    enabled: status === "authenticated" && !hasUnreadMessages,
+    refetchInterval: 10000,
+    refetchIntervalInBackground: true,
     onSuccess: (data) => {
       const hasUnread = data.pages.some((page) =>
         page.data.some((chatroom) => chatroom.totalUnreadMessage)
