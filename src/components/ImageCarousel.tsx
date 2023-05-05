@@ -41,7 +41,7 @@ export const ImageCarousel: FC<ImageCarouselProps> = (props) => {
   const { images, showButtons = true, showProgress = true } = props;
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    draggable: images.length > 1,
+    watchDrag: images.length > 1,
   });
   const [index, setIndex] = useState(1);
 
