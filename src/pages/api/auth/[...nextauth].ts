@@ -28,6 +28,9 @@ export const authOptions: NextAuthOptions = {
         if (token && user) {
           return {
             id: user.userId,
+            name: user.fullName,
+            email: user.email,
+            image: user.avatarUrl,
             accessToken: token.accessToken,
           };
         }
