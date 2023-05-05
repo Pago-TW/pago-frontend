@@ -156,6 +156,9 @@ devDependencies:
   '@types/node':
     specifier: ^20.0.0
     version: 20.0.0
+  '@types/prettier':
+    specifier: ^2.7.2
+    version: 2.7.2
   '@types/prop-types':
     specifier: ^15.7.5
     version: 15.7.5
@@ -4063,6 +4066,10 @@ packages:
 
   /@types/parse-json@4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
+
+  /@types/prettier@2.7.2:
+    resolution: {integrity: sha512-KufADq8uQqo1pYKVIYzfKbJfBAc0sOeXqGbFaSpv8MRmC/zXgowNZmFcbngndGk922QDmOASEXUZCaY48gs4cg==}
+    dev: true
 
   /@types/pretty-hrtime@1.0.1:
     resolution: {integrity: sha512-VjID5MJb1eGKthz2qUerWT8+R4b9N+CHvGCzg9fn4kWZgaF9AhdYikQio3R7wV8YY1NsQKPaCwKz1Yff+aHNUQ==}
