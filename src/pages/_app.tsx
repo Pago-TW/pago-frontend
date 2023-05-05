@@ -1,4 +1,4 @@
-import { env } from "@/env/client.mjs";
+import { env } from "@/env.mjs";
 import { WebSocketProvider } from "@/websocket/contexts/WebSocketContext";
 import type { EmotionCache } from "@emotion/react";
 import { CacheProvider } from "@emotion/react";

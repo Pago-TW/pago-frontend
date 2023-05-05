@@ -1,4 +1,4 @@
-import { env } from "@/env/client.mjs";
+import { env } from "@/env.mjs";
 import Axios from "axios";
 import { getSession } from "next-auth/react";
 
