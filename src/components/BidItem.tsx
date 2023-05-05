@@ -26,7 +26,7 @@ type ConfirmChosenBidProps = {
   onClose: () => void;
 };
 
-const ConfirmChosenBid: FC<ConfirmChosenBidProps> = ({
+const ConfirmAcceptBidDialog: FC<ConfirmChosenBidProps> = ({
   bidId,
   open,
   onClose,
@@ -185,7 +185,7 @@ export const BidItem = (props: BidItemProps) => {
           接受報價
         </Button>
       </Paper>
-      <ConfirmChosenBid bidId={id} open={open} onClose={handleClose} />
+      <ConfirmAcceptBidDialog bidId={id} open={open} onClose={handleClose} />
     </>
   );
 };
