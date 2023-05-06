@@ -67,7 +67,7 @@ export const ReplyDialog = <ApplyFor extends "postpone" | "cancel">({
       : "接受後此訂單將不成立";
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent sx={{ pb: 0 }}>
         <Box>
