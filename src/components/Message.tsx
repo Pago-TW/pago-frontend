@@ -34,6 +34,11 @@ const Message: React.FC<MessageProps> = ({
       />
     );
 
+  const sentTime = (
+    <Typography variant="caption" color="black" mx={1}>
+      {time}
+    </Typography>
+  );
   return (
     <Box>
       {!isSender && (
@@ -53,11 +58,7 @@ const Message: React.FC<MessageProps> = ({
         alignItems="flex-end"
         maxWidth="100%"
       >
-        {isSender && (
-          <Typography variant="caption" color="black" mr={1}>
-            {time}
-          </Typography>
-        )}
+        {isSender && sentTime}
         {messageType === "TEXT" ? (
           <Box
             maxWidth="70%"
@@ -76,11 +77,7 @@ const Message: React.FC<MessageProps> = ({
             {messageContent}
           </div>
         )}
-        {!isSender && (
-          <Typography variant="caption" color="black" ml={1}>
-            {time}
-          </Typography>
-        )}
+        {!isSender && sentTime}
       </Box>
     </Box>
   );

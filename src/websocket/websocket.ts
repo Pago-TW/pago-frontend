@@ -1,9 +1,8 @@
-// websocket.ts
-import { MessageResponse, SendMessageRequest } from "@/types/message";
+import type { Message, SendMessageRequest } from "@/types/message";
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 
-type MessageCallback = (message: MessageResponse) => void;
+type MessageCallback = (message: Message) => void;
 
 type EventCallback = () => void;
 
@@ -32,7 +31,7 @@ export class WebSocketService {
         this.stompClient.subscribe(
           `/chatrooms/${this.chatroomId}/message`,
           (message: any) => {
-            const parsedMessage: MessageResponse = JSON.parse(message.body);
+            const parsedMessage: Message = JSON.parse(message.body);
             this.messageListeners.forEach((listener) =>
               listener(parsedMessage)
             );

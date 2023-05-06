@@ -3,32 +3,63 @@ import InputSection from "@/components/InputSection";
 import MessageBoard from "@/components/MessageBoard";
 import { useChatroom } from "@/hooks/api/useChatroom";
 import useChatroomMessages from "@/hooks/api/useChatroomMessages";
+import { useLocale } from "@/hooks/useLocale";
+import { useTimezone } from "@/hooks/useTimezone";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
-import type { MessageResponse, SendMessageRequest } from "@/types/message";
+import type { Message, SendMessageRequest } from "@/types/message";
+import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { useWebSocket } from "@/websocket/contexts/WebSocketContext";
 import { Box } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
+import { intlFormat, parseISO } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
 import { useSession } from "next-auth/react";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 
-type Message = {
-  senderName: string;
-  content: string;
-  sendDate: string;
+type MessageState = Omit<Message, "senderId" | "chatroomId"> & {
   isSender: boolean;
-  messageType: "TEXT" | "FILE";
 };
 
 type ChatroomProps = {
   chatWith: string;
 };
 
+const transformMessage = ({
+  message,
+  userId,
+  locale,
+  timezone,
+}: {
+  message: Message;
+  userId?: string;
+  locale: string;
+  timezone: string;
+}) => {
+  const { senderName, content, sendDate, senderId, messageType } = message;
+
+  const isSender = senderId === userId;
+  return {
+    senderName,
+    content,
+    isSender,
+    messageType,
+    sendDate: intlFormat(
+      utcToZonedTime(parseISO(sendDate), timezone),
+      { hour: "2-digit", minute: "2-digit" },
+      { locale }
+    ),
+  } satisfies MessageState;
+};
+
 export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
-  const [localMessages, setLocalMessages] = useState<Message[]>([]);
+  const locale = useLocale();
+  const timezone = useTimezone();
+
+  const [localMessages, setLocalMessages] = useState<MessageState[]>([]);
 
   const clearChatWith = useChatroomStore((state) => state.clearChatWith);
 
@@ -43,30 +74,16 @@ export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
 
   useEffect(() => {
     if (webSocketService) {
-      const handleMessage = (message: MessageResponse) => {
-        const isSender = message.senderId === chatroomData?.currentLoginUserId;
-
-        setLocalMessages((prevMessages: Message[]) => [
+      const handleMessage = (message: Message) => {
+        setLocalMessages((prevMessages) => [
           ...prevMessages,
-          {
-            senderName: message.senderName,
-            content: message.content,
-            sendDate: new Date(message.sendDate).toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            }),
-            isSender: isSender,
-            messageType: message.messageType as "TEXT" | "FILE",
-          },
+          transformMessage({ message, userId, timezone, locale }),
         ]);
       };
-
       webSocketService.onMessage(handleMessage);
-      return () => {
-        webSocketService.offMessage(handleMessage);
-      };
+      return () => webSocketService.offMessage(handleMessage);
     }
-  }, [webSocketService, chatroomData, localMessages]);
+  }, [locale, timezone, userId, webSocketService]);
 
   const handleBackClick = () => {
     clearChatWith();
@@ -88,20 +105,12 @@ export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
     }
   };
 
-  const messages =
-    messagesData?.pages
-      .flatMap((page) => page.data)
-      .map((message) => ({
-        senderName: message.senderName,
-        content: message.content,
-        sendDate: new Date(message.sendDate).toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        isSender: message.senderId === chatroomData?.currentLoginUserId,
-        messageType: message.messageType as "TEXT" | "FILE",
-      }))
-      .concat(localMessages) || [];
+  const messages = [
+    ...flattenInfinitePaginatedData(messagesData).map((message) =>
+      transformMessage({ message, userId, timezone, locale })
+    ),
+    ...localMessages,
+  ];
 
   const handleSendMessage = (content: string, messageType: "TEXT" | "FILE") => {
     if (!userId || !webSocketService) {
