@@ -198,16 +198,23 @@ const OrderDetailPage: NextPage = () => {
 
   const isOwner = !!userId && userId === order?.consumerId;
   const isShopper = !!userId && userId === order?.shopper?.userId;
+  const isOwnerOrShopper = isOwner || isShopper;
+  const matched = !!order?.shopper;
 
   const { data: shoppersData } = useMatchingShoppers(orderId, undefined, {
-    enabled: isOwner && !order?.shopper,
+    // No need to fetch shoppers if the order is already matched
+    enabled: isOwner && matched,
   });
   const {
     data: bidsData,
     hasNextPage: hasNextBidsPage,
     fetchNextPage: fetchNextBidsPage,
-  } = useBids(orderId, undefined, { enabled: isOwner && !order?.shopper });
+  } = useBids(orderId, undefined, {
+    // No need to fetch bids if the order is already matched
+    enabled: isOwner && matched,
+  });
 
+  // Memoize the data to prevent heavy computations
   const shoppers = useMemo(
     () => flattenInfinitePaginatedData(shoppersData),
     [shoppersData]
@@ -221,24 +228,18 @@ const OrderDetailPage: NextPage = () => {
 
   const {
     serialNumber,
-    consumerId,
     destinationCountryName,
     destinationCityName,
-    destinationCountryCode,
-    destinationCityCode,
     latestReceiveItemDate,
     note,
     orderStatus,
     orderItem: {
-      orderItemId,
       name,
       description,
       quantity,
       unitPrice,
       purchaseCountryName,
       purchaseCityName,
-      purchaseCountryCode,
-      purchaseCityCode,
       purchaseDistrict,
       purchaseRoad,
       fileUrls,
@@ -248,11 +249,8 @@ const OrderDetailPage: NextPage = () => {
     platformFee,
     totalAmount,
     currency,
-    hasNewActivity,
     isPackagingRequired,
     isVerificationRequired,
-    createDate,
-    updateDate,
     shopper,
     isApplicant,
     isBidder,
@@ -265,6 +263,7 @@ const OrderDetailPage: NextPage = () => {
   const perspective = isOwner ? "consumer" : "shopper";
 
   const bidList =
+    // Only display when viewer is owner and the order is not matched yet
     isOwner && !shopper ? (
       <BidList
         bids={bids}
@@ -273,6 +272,7 @@ const OrderDetailPage: NextPage = () => {
       />
     ) : null;
   const availableShoppers =
+    // Only display when viewer is owner and the order is not matched yet
     isOwner && !shopper ? (
       <AvailableShoppers
         orderId={orderId}
@@ -320,9 +320,15 @@ const OrderDetailPage: NextPage = () => {
             ) : null}
           </Stack>
         </AreaWrapper>
-        {/* Status */}
-        <StatusText perspective={perspective} statusCode={orderStatus} />
-        {/* ChosenShopper */}
+        {/* Status, display when not matched (i.e. REQUESTED status) or when view is owner/shopper */}
+        {!matched || isOwnerOrShopper ? (
+          <StatusText
+            perspective={perspective}
+            status={orderStatus}
+            isApplicant={isApplicant}
+          />
+        ) : null}
+        {/* ChosenShopper, display when viewer is owner and the order is matched */}
         {isOwner && shopper ? <ChosenShopper {...shopper} /> : null}
         {/* Bids (PC) */}
         {isDesktop ? bidList : null}
