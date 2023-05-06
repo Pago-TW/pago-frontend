@@ -1,27 +1,18 @@
-import { Actions } from "@/components/Actions";
 import { AvailableShoppers } from "@/components/AvailableShoppers";
 import { BidList } from "@/components/BidList";
-import { type CancelFormValues } from "@/components/CancelModal";
 import { ChosenShopper } from "@/components/ChosenShopper";
 import { DetailItem } from "@/components/DetailItem";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { ImageCarousel } from "@/components/ImageCarousel";
 import { PageTitle } from "@/components/PageTitle";
-import type { PostponeFormValues } from "@/components/PostponeModal";
 import { ShareButton } from "@/components/ShareButton";
 import { StatusText } from "@/components/StatusText";
-import type { TakeOrderFormValues } from "@/components/TakeOrderPopup";
+import { Actions } from "@/components/actions/Actions";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { Typography } from "@/components/ui/Typography";
-import { useAddBid } from "@/hooks/api/useAddBid";
-import { useApplyCancelOrder } from "@/hooks/api/useApplyCancelOrder";
-import { useApplyPostponeOrder } from "@/hooks/api/useApplyPostponeOrder";
 import { useBids } from "@/hooks/api/useBids";
-import { useDeleteOrder } from "@/hooks/api/useDeleteOrder";
 import { useMatchingShoppers } from "@/hooks/api/useMatchingShoppers";
 import { useOrder } from "@/hooks/api/useOrder";
-import type { UpdateOrderData } from "@/hooks/api/useUpdateOrder";
-import { useUpdateOrder } from "@/hooks/api/useUpdateOrder";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Order } from "@/types/order";
@@ -205,8 +196,8 @@ const OrderDetailPage: NextPage = () => {
 
   const { data: order } = useOrder(orderId);
 
-  const isOwner = userId !== undefined && userId === order?.consumerId;
-  const isShopper = userId !== undefined && userId === order?.shopper?.userId;
+  const isOwner = !!userId && userId === order?.consumerId;
+  const isShopper = !!userId && userId === order?.shopper?.userId;
 
   const { data: shoppersData } = useMatchingShoppers(orderId, undefined, {
     enabled: isOwner && !order?.shopper,
@@ -225,12 +216,6 @@ const OrderDetailPage: NextPage = () => {
     () => flattenInfinitePaginatedData(bidsData),
     [bidsData]
   );
-
-  const { mutate: deleteOrder } = useDeleteOrder();
-  const { mutate: applyCancel } = useApplyCancelOrder();
-  const { mutate: applyPostpone } = useApplyPostponeOrder();
-  const { mutate: updateOrder } = useUpdateOrder();
-  const { mutate: addBid } = useAddBid();
 
   if (!order) return null;
 
@@ -272,40 +257,9 @@ const OrderDetailPage: NextPage = () => {
     isApplicant,
     isBidder,
   } = order;
+  // TODO: Apply cancel/postpone confirmation auto popup
+  // Using consumerId/shopperId + isApplicant to determine if the confirm popup should show
 
-  const handleDelete = () => {
-    deleteOrder({ orderId });
-    router.replace("/orders");
-  };
-  const handleEdit = () => {
-    router.push(`/orders/${orderId}/edit`);
-  };
-  const handleApplyCancel = (data: CancelFormValues) => {
-    applyCancel({
-      orderId,
-      data: { cancelReason: data.reason, note: data.detail },
-    });
-  };
-  const handleApplyPostpone = (data: PostponeFormValues) => {
-    applyPostpone({
-      orderId,
-      data: { postponeReason: data.reason, note: data.detail },
-    });
-  };
-  const handleUpdateOrder = (data: UpdateOrderData) => {
-    updateOrder({ orderId, data });
-  };
-  const handleTakeOrder = (data: TakeOrderFormValues) => {
-    addBid({
-      orderId,
-      data: {
-        tripId: data.tripId,
-        bidAmount: data.amount,
-        currency: data.currency,
-        latestDeliveryDate: data.date,
-      },
-    });
-  };
   const handleFavorite = () => {
     console.log({ type: "favorite" });
   };
@@ -413,17 +367,11 @@ const OrderDetailPage: NextPage = () => {
         {/* AvailableShoppers (Mobile) */}
         {!isDesktop ? availableShoppers : null}
         <Actions
-          orderId={orderId}
           perspective={perspective}
           status={orderStatus}
           isBidder={isBidder}
           isShopper={isShopper}
-          onDelete={handleDelete}
-          onEdit={handleEdit}
-          onApplyCancel={handleApplyCancel}
-          onApplyPostpone={handleApplyPostpone}
-          onUpdateOrder={handleUpdateOrder}
-          onTakeOrder={handleTakeOrder}
+          isApplicant={isApplicant}
         />
       </Stack>
     </Stack>
