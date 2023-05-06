@@ -1,4 +1,7 @@
+import { useLocale } from "@/hooks/useLocale";
+import { useTimezone } from "@/hooks/useTimezone";
 import type { Trip } from "@/types/trip";
+import { formatDate } from "@/utils/formatDate";
 import { Stack } from "@mui/material";
 import { Typography } from "./ui/Typography";
 
@@ -6,11 +9,18 @@ export type TripItemProps = Trip;
 
 export const TripItem = ({
   fromCountry,
-  fromCity,
   toCountry,
-  toCity,
   arrivalDate,
 }: TripItemProps) => {
+  const locale = useLocale();
+  const timezone = useTimezone();
+
+  const formattedArrivalDate = formatDate({
+    date: arrivalDate,
+    locale,
+    timezone,
+  });
+
   return (
     <Stack
       sx={{
@@ -26,7 +36,7 @@ export const TripItem = ({
       <Typography variant="h4">
         {fromCountry} → {toCountry}
       </Typography>
-      <Typography variant="h6">抵達時間: {arrivalDate}</Typography>
+      <Typography variant="h6">抵達時間: {formattedArrivalDate}</Typography>
     </Stack>
   );
 };
