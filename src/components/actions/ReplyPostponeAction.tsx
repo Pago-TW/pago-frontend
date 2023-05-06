@@ -19,7 +19,7 @@ export const ReplyPostponeAction: FC<ReplyPostponeActionProps> = ({
   const router = useRouter();
   const orderId = router.query.orderId as string;
 
-  const { open, handleOpen, handleClose } = useOpen(true);
+  const { open, handleOpen, handleClose } = useOpen(!isApplicant);
 
   const { data: postponeRecord, isLoading } = usePostponeRecord(orderId, {
     enabled: open,
@@ -37,8 +37,8 @@ export const ReplyPostponeAction: FC<ReplyPostponeActionProps> = ({
 
   return (
     <>
-      <ActionButton onClick={handleOpen}>
-        {isApplicant ? "確認延期申請" : "等待對方回覆延期申請"}
+      <ActionButton onClick={handleOpen} disabled={isApplicant}>
+        {isApplicant ? "等待對方回覆延期申請" : "確認延期申請"}
       </ActionButton>
       <ReplyDialog
         open={open}

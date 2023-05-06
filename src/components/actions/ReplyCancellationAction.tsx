@@ -19,7 +19,7 @@ export const ReplyCancellationAction: FC<ReplyCancellationActionProps> = ({
   const router = useRouter();
   const orderId = router.query.orderId as string;
 
-  const { open, handleOpen, handleClose } = useOpen(true);
+  const { open, handleOpen, handleClose } = useOpen(!isApplicant);
 
   const { data: cancellationRecord, isLoading } = useCancellationRecord(
     orderId,
@@ -37,8 +37,8 @@ export const ReplyCancellationAction: FC<ReplyCancellationActionProps> = ({
 
   return (
     <>
-      <ActionButton onClick={handleOpen} disabled={!isApplicant}>
-        {isApplicant ? "確認延期申請" : "等待對方回覆延期申請"}
+      <ActionButton onClick={handleOpen} disabled={isApplicant}>
+        {isApplicant ? "等待對方回覆延期申請" : "確認延期申請"}
       </ActionButton>
       <ReplyDialog
         open={open}
