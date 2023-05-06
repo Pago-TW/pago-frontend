@@ -5,8 +5,8 @@ import { ClickAwayListener } from "@mui/base";
 import {
   ChevronLeft,
   Error,
+  Forum,
   Logout,
-  Mail,
   Menu,
   Notifications,
   Place,
@@ -187,7 +187,7 @@ const NavbarButtons = ({ onMailClick }: NavbarButtonsProps) => {
           onClick={onMailClick}
         >
           <Badge color="error" variant="dot" invisible={!hasUnreadMessages}>
-            <Mail />
+            <Forum />
           </Badge>
         </IconButton>
         <IconButton
