@@ -1,11 +1,11 @@
 import { AvailableShoppers } from "@/components/AvailableShoppers";
 import { BidList } from "@/components/BidList";
-import { ChosenShopper } from "@/components/ChosenShopper";
 import { DetailItem } from "@/components/DetailItem";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { ImageCarousel } from "@/components/ImageCarousel";
 import { PageTitle } from "@/components/PageTitle";
 import { ShareButton } from "@/components/ShareButton";
+import { ShopperInfo } from "@/components/ShopperInfo";
 import { StatusText } from "@/components/StatusText";
 import { Actions } from "@/components/actions/Actions";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
@@ -328,8 +328,16 @@ const OrderDetailPage: NextPage = () => {
             isApplicant={isApplicant}
           />
         ) : null}
-        {/* ChosenShopper, display when viewer is owner and the order is matched */}
-        {isOwner && shopper ? <ChosenShopper {...shopper} /> : null}
+        {/* TODO: Make a ConsumerInfo component */}
+        {/* ShopperInfo, display when viewer is owner and the order is matched */}
+        {isOwner && shopper ? (
+          <ShopperInfo
+            userId={shopper.userId}
+            avatarUrl={shopper.avatarUrl}
+            fullName={shopper.fullName}
+            latestDeliveryDate={shopper.latestDeliveryDate}
+          />
+        ) : null}
         {/* Bids (PC) */}
         {isDesktop ? bidList : null}
         {/* AvailableShoppers (PC) */}

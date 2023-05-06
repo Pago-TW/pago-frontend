@@ -7,11 +7,17 @@ import { Button } from "./ui/Button";
 import { Link } from "./ui/Link";
 import { Typography } from "./ui/Typography";
 
-export type ChosenShopperProps = Shopper;
+export type ShopperInfoProps = Pick<
+  Shopper,
+  "userId" | "avatarUrl" | "fullName" | "latestDeliveryDate"
+>;
 
-export const ChosenShopper = (props: ChosenShopperProps) => {
-  const { userId, avatarUrl, fullName, latestDeliveryDate } = props;
-
+export const ShopperInfo = ({
+  userId,
+  avatarUrl,
+  fullName,
+  latestDeliveryDate,
+}: ShopperInfoProps) => {
   const locale = useLocale();
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
@@ -44,7 +50,7 @@ export const ChosenShopper = (props: ChosenShopperProps) => {
           variant="outlined"
           size="small"
           LinkComponent={Link}
-          href={`/user/${userId}`}
+          href={`/users/${userId}`}
         >
           查看代購者詳情
         </Button>
