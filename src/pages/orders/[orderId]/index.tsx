@@ -257,8 +257,6 @@ const OrderDetailPage: NextPage = () => {
     isApplicant,
     isBidder,
   } = order;
-  // TODO: Apply cancel/postpone confirmation auto popup
-  // Using consumerId/shopperId + isApplicant to determine if the confirm popup should show
 
   const handleFavorite = () => {
     console.log({ type: "favorite" });
