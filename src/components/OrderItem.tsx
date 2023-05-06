@@ -1,7 +1,11 @@
+import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useTimezone } from "@/hooks/useTimezone";
 import type { Order } from "@/types/order";
 import { ChevronRight } from "@mui/icons-material";
 import { Box, Paper, Skeleton, Stack } from "@mui/material";
+import { intlFormat, parseISO } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
 import Image from "next/image";
 import { Status } from "./Status";
 import { Divider } from "./ui/Divider";
@@ -24,6 +28,9 @@ export const OrderItem = ({
   totalAmount,
   latestReceiveItemDate,
 }: OrderItemProps) => {
+  const locale = useLocale();
+  const timezone = useTimezone();
+
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   const firstImageUrl = fileUrls?.[0];
@@ -85,7 +92,12 @@ export const OrderItem = ({
             {/* 期限 */}
             {!mdDown ? (
               <Typography variant="h4" color="base.main">
-                最晚收到商品時間: {latestReceiveItemDate}
+                最晚收到商品時間:{" "}
+                {intlFormat(
+                  utcToZonedTime(parseISO(latestReceiveItemDate), timezone),
+                  { year: "numeric", month: "2-digit", day: "2-digit" },
+                  { locale }
+                )}
               </Typography>
             ) : null}
           </Stack>
