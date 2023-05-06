@@ -1,60 +1,111 @@
 import type { Perspective } from "@/types/misc";
 import type { OrderStatus } from "@/types/order";
 import { Box } from "@mui/material";
+import type { FC } from "react";
+
+const getConsumerStatusText = ({
+  status,
+  isApplicant,
+}: {
+  status: OrderStatus;
+  isApplicant: boolean;
+}) => {
+  switch (status) {
+    case "REQUESTED":
+      return "已發布委託，等待代購者出價";
+    case "TO_BE_PURCHASED":
+      return "委託已接單，等待代購者購買";
+    case "TO_BE_DELIVERED":
+      return "代購者已購買到商品，等待面交";
+    case "DELIVERED":
+      return "商品已送達";
+    case "FINISHED":
+      return "訂單已完成";
+    case "CANCELLED":
+      return "此訂單不成立";
+    case "TO_BE_POSTPONED":
+      if (isApplicant) {
+        return "已送出延期原因，請等待代購者接受";
+      }
+      return "代購者申請延期，請確認是否接受";
+    case "TO_BE_CANCELLED":
+      if (isApplicant) {
+        return "已送出取消原因，請等待代購者接受";
+      }
+      return "代購者申請取消，請確認是否接受";
+  }
+};
+
+const getShopperStatusText = ({
+  status,
+  isApplicant,
+}: {
+  status: OrderStatus;
+  isApplicant: boolean;
+}) => {
+  switch (status) {
+    case "REQUESTED":
+      return "已向委託者出價，等待委託者回應";
+    case "TO_BE_PURCHASED":
+      return "委託媒合成功，請於指定地點購買商品";
+    case "TO_BE_DELIVERED":
+      return "已購買到商品，請於期限內進行面交";
+    case "DELIVERED":
+      return "商品已送達";
+    case "FINISHED":
+      return "訂單已完成";
+    case "CANCELLED":
+      return "此訂單不成立";
+    case "TO_BE_POSTPONED":
+      if (isApplicant) {
+        return "已送出延期原因，請等待委託者接受";
+      }
+      return "委託者申請延期，請確認是否接受";
+    case "TO_BE_CANCELLED":
+      if (isApplicant) {
+        return "已送出取消原因，請等待委託者接受";
+      }
+      return "委託者申請取消，請確認是否接受";
+  }
+};
+
+const getColor = ({ status }: { status: OrderStatus }) => {
+  switch (status) {
+    case "REQUESTED":
+      return "base.400";
+    case "TO_BE_PURCHASED":
+      return "secondary.main";
+    case "TO_BE_DELIVERED":
+      return "pago.main";
+    case "DELIVERED":
+      return "pago.main";
+    case "FINISHED":
+      return "pagoGreen.main";
+    case "CANCELLED":
+      return "pagoYellow.main";
+    case "TO_BE_CANCELLED":
+      return "pagoRed.300";
+    case "TO_BE_POSTPONED":
+      return "pagoRed.300";
+  }
+};
 
 interface StatusTextProps {
   perspective: Perspective;
-  statusCode: OrderStatus;
+  status: OrderStatus;
+  isApplicant: boolean;
 }
 
-const statusTextMap: Record<
-  Perspective,
-  Record<OrderStatus, { text: string; bgColor: string }>
-> = {
-  consumer: {
-    REQUESTED: { text: "已發布委託，等待代購者出價", bgColor: "base.400" },
-    TO_BE_PURCHASED: {
-      text: "媒合成功，代購方請於期限內購買商品",
-      bgColor: "secondary.main",
-    },
-    TO_BE_DELIVERED: { text: "商品已購買，等待交付", bgColor: "primary.main" },
-    DELIVERED: { text: "商品已送達", bgColor: "primary.main" },
-    FINISHED: { text: "訂單已完成", bgColor: "success.main" },
-    CANCELLED: { text: "此訂單不成立", bgColor: "warning.main" },
-    TO_BE_CANCELLED: {
-      text: "已送出取消原因，待代購者接受",
-      bgColor: "error.light",
-    },
-    TO_BE_POSTPONED: {
-      text: "代購者申請延期",
-      bgColor: "error.light",
-    },
-  },
-  shopper: {
-    REQUESTED: { text: "已向委託者出價，等待委託者回應", bgColor: "base.400" },
-    TO_BE_PURCHASED: {
-      text: "媒合成功，代購方請於期限內購買商品",
-      bgColor: "secondary.main",
-    },
-    TO_BE_DELIVERED: { text: "商品已購買，等待交付", bgColor: "primary.main" },
-    DELIVERED: { text: "商品已送達", bgColor: "primary.main" },
-    FINISHED: { text: "訂單已完成", bgColor: "success.main" },
-    CANCELLED: { text: "此訂單不成立", bgColor: "warning.main" },
-    TO_BE_CANCELLED: {
-      text: "委託者申請取消",
-      bgColor: "error.light",
-    },
-    TO_BE_POSTPONED: {
-      text: "已送出延期原因，待委託者接受",
-      bgColor: "error.light",
-    },
-  },
-};
-
-export const StatusText = (props: StatusTextProps) => {
-  const { perspective, statusCode } = props;
-
-  const { text, bgColor } = statusTextMap[perspective][statusCode];
+export const StatusText: FC<StatusTextProps> = ({
+  perspective,
+  status,
+  isApplicant,
+}) => {
+  const text =
+    perspective === "consumer"
+      ? getConsumerStatusText({ status, isApplicant })
+      : getShopperStatusText({ status, isApplicant });
+  const bgColor = getColor({ status });
 
   return (
     <Box
