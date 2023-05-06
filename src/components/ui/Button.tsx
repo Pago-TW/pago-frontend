@@ -157,7 +157,7 @@ Button.propTypes = {
    * The variant to use.
    * @default "contained"
    */
-  variant: PropTypes.oneOf(["contained", "outlined"]),
+  variant: PropTypes.oneOf(["text", "contained", "outlined"]),
   /**
    * Whether the button is loading.
    * @default false
