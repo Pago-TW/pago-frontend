@@ -23,8 +23,6 @@ export const ApplyPostponeAction: FC<
 
   return (
     <ActionWithModalAndConfirmation
-      variant="outlined"
-      color="error"
       disabled={disabled}
       confirmOptions={{ title: "確定申請延期？" }}
       onClick={handleSubmit}
