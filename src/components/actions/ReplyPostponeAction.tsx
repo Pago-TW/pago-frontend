@@ -33,6 +33,7 @@ export const ReplyPostponeAction: FC<ReplyPostponeActionProps> = ({
       orderId,
       data: { isPostponed },
     });
+    handleClose();
   };
 
   return (

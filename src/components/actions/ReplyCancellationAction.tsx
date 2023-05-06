@@ -33,6 +33,7 @@ export const ReplyCancellationAction: FC<ReplyCancellationActionProps> = ({
       orderId,
       data: { isCancelled },
     });
+    handleClose();
   };
 
   return (
