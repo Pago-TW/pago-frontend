@@ -36,15 +36,17 @@ const Message: React.FC<MessageProps> = ({
 
   return (
     <Box>
-      <Box
-        width="100%"
-        display="flex"
-        justifyContent={isSender ? "flex-end" : "flex-start"}
-      >
-        <Typography variant="caption" color="black" mb={1}>
-          {sender}
-        </Typography>
-      </Box>
+      {!isSender && (
+        <Box
+          width="100%"
+          display="flex"
+          justifyContent={isSender ? "flex-end" : "flex-start"}
+        >
+          <Typography variant="caption" color="black" mb={1}>
+            {sender}
+          </Typography>
+        </Box>
+      )}
       <Box
         display="flex"
         justifyContent={isSender ? "flex-end" : "flex-start"}

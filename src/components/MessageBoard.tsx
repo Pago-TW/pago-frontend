@@ -48,7 +48,7 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
           display="flex"
           justifyContent={message.isSender ? "flex-end" : "flex-start"}
           alignItems="end"
-          mb={4}
+          mb={2}
           width="100%"
           key={index}
         >
