@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Typography } from "@/components/ui/Typography";
 import { useOrder } from "@/hooks/api/useOrder";
 import { useTakeOrderTrips } from "@/hooks/api/useTakeOrderTrips";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Order } from "@/types/order";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -57,7 +57,7 @@ type TakeOrderPopupProps = {
 export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
   const { orderId, open, onOpen, onClose, onSubmit } = props;
 
-  const lang = useLanguage();
+  const locale = useLocale();
 
   const isTablet = useMediaQuery((theme) => theme.breakpoints.up("sm"));
 
@@ -88,8 +88,8 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
   const formatDate = (date: string) =>
     intlFormat(
       parseISO(date),
-      { year: "numeric", month: "numeric", day: "numeric" },
-      { locale: lang }
+      { year: "numeric", month: "2-digit", day: "2-digit" },
+      { locale }
     );
 
   const hasTripOptions = tripOptions.length !== 0;

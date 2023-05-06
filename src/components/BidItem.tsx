@@ -1,6 +1,6 @@
 import { useCharge } from "@/hooks/api/useCharge";
 import { useChooseBid } from "@/hooks/api/useChooseBid";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useOpen } from "@/hooks/useOpen";
 import type { Bid } from "@/types/bid";
@@ -124,7 +124,7 @@ export const BidItem = (props: BidItemProps) => {
     estDeliveryDate,
   } = props;
 
-  const lang = useLanguage();
+  const locale = useLocale();
 
   const { open, handleOpen, handleClose } = useOpen();
 
@@ -135,19 +135,19 @@ export const BidItem = (props: BidItemProps) => {
   const formattedDistance = intlFormatDistance(
     parseISO(createdAt),
     new Date(),
-    { locale: lang }
+    { locale }
   );
   const formattedEstDeliveryDate = intlFormat(
     parseISO(estDeliveryDate),
     {
       year: "numeric",
-      month: "numeric",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
       hour12: true,
     },
-    { locale: lang }
+    { locale }
   );
 
   return (

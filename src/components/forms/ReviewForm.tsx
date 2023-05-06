@@ -1,6 +1,6 @@
 import type { AddOrderData } from "@/hooks/api/useAddOrder";
 import { useCharge } from "@/hooks/api/useCharge";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Place } from "@mui/icons-material";
 import { Box, Skeleton, Stack } from "@mui/material";
@@ -50,7 +50,7 @@ export const transformReviewFormValues = (
 export const ReviewForm = () => {
   const [preview, setPreview] = useState<string>("");
 
-  const lang = useLanguage();
+  const locale = useLocale();
 
   const { getValues } = useFormContext<ReviewFormValues>();
 
@@ -172,8 +172,8 @@ export const ReviewForm = () => {
             label="最晚收到商品時間"
             value={intlFormat(
               deadline,
-              { year: "numeric", month: "numeric", day: "numeric" },
-              { locale: lang }
+              { year: "numeric", month: "2-digit", day: "2-digit" },
+              { locale }
             )}
             multiLine
           />

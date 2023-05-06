@@ -13,7 +13,7 @@ import { Typography } from "@/components/ui/Typography";
 import { useBids } from "@/hooks/api/useBids";
 import { useMatchingShoppers } from "@/hooks/api/useMatchingShoppers";
 import { useOrder } from "@/hooks/api/useOrder";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Order } from "@/types/order";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
@@ -88,7 +88,7 @@ const DetailList = (
     serialNumber,
   } = props;
 
-  const lang = useLanguage();
+  const locale = useLocale();
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
@@ -168,8 +168,8 @@ const DetailList = (
         label="最晚收到商品時間"
         value={intlFormat(
           parseISO(latestReceiveItemDate),
-          { year: "numeric", month: "numeric", day: "numeric" },
-          { locale: lang }
+          { year: "numeric", month: "2-digit", day: "2-digit" },
+          { locale }
         )}
         multiLine={multiline}
       />

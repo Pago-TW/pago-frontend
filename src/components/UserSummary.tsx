@@ -1,4 +1,4 @@
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import type { ReviewSummary } from "@/types/review";
@@ -110,7 +110,7 @@ export const UserSummary: FC<UserSummaryProps> = ({
 }) => {
   const { data: session, status } = useSession();
 
-  const lang = useLanguage();
+  const locale = useLocale();
 
   const setChatWith = useChatroomStore((state) => state.setChatWith);
 
@@ -126,8 +126,8 @@ export const UserSummary: FC<UserSummaryProps> = ({
 
   const formattedCreateDate = intlFormat(
     parseISO(createDate),
-    { year: "numeric", month: "numeric", day: "numeric" },
-    { locale: lang }
+    { year: "numeric", month: "2-digit", day: "2-digit" },
+    { locale }
   );
 
   return (

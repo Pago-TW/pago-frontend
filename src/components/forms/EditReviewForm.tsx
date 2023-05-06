@@ -1,6 +1,6 @@
 import type { AddOrderData } from "@/hooks/api/useAddOrder";
 import { useCharge } from "@/hooks/api/useCharge";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { translateBoolean } from "@/utils/translateBoolean";
 import { Place } from "@mui/icons-material";
@@ -53,7 +53,7 @@ type EditMerchandiseFormProps = {
 export const EditReviewForm: FC<EditMerchandiseFormProps> = ({
   imageUrls = [],
 }) => {
-  const lang = useLanguage();
+  const locale = useLocale();
 
   const { getValues } = useFormContext<EditReviewFormValues>();
 
@@ -160,8 +160,8 @@ export const EditReviewForm: FC<EditMerchandiseFormProps> = ({
             label="最晚收到商品時間"
             value={intlFormat(
               deadline,
-              { year: "numeric", month: "numeric", day: "numeric" },
-              { locale: lang }
+              { year: "numeric", month: "2-digit", day: "2-digit" },
+              { locale }
             )}
             multiLine
           />

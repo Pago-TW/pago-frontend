@@ -1,4 +1,4 @@
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Review } from "@/types/review";
 import type { Breakpoints } from "@mui/material";
@@ -38,7 +38,7 @@ export const ReviewItem: FC<ReviewItemProps> = ({
   content,
   fileUrls,
 }) => {
-  const lang = useLanguage();
+  const locale = useLocale();
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
@@ -46,12 +46,12 @@ export const ReviewItem: FC<ReviewItemProps> = ({
     parseISO(createDate),
     {
       year: "numeric",
-      month: "numeric",
-      day: "numeric",
-      hour: "numeric", // 24 hour here?
-      minute: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit", // 24 hour here?
+      minute: "2-digit",
     },
-    { locale: lang }
+    { locale }
   );
 
   return (

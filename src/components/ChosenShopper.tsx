@@ -1,4 +1,4 @@
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Shopper } from "@/types/order";
 import { Avatar, Box, Paper, Stack } from "@mui/material";
@@ -12,14 +12,14 @@ export type ChosenShopperProps = Shopper;
 export const ChosenShopper = (props: ChosenShopperProps) => {
   const { userId, avatarUrl, fullName, latestDeliveryDate } = props;
 
-  const lang = useLanguage();
+  const locale = useLocale();
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
   const formattedLatestDeliveryDate = intlFormat(
     parseISO(latestDeliveryDate),
-    { year: "numeric", month: "numeric", day: "numeric" },
-    { locale: lang }
+    { year: "numeric", month: "2-digit", day: "2-digit" },
+    { locale }
   );
 
   return (
