@@ -1,7 +1,7 @@
 // websocket.ts
-import SockJS from "sockjs-client";
-import { Stomp } from "@stomp/stompjs";
 import { MessageResponse, SendMessageRequest } from "@/types/message";
+import { Stomp } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 
 type MessageCallback = (message: MessageResponse) => void;
 
@@ -29,7 +29,6 @@ export class WebSocketService {
     this.stompClient.connect(
       {},
       (frame: any) => {
-        console.log("Connected to WebSocket:", frame);
         this.stompClient.subscribe(
           `/chatrooms/${this.chatroomId}/message`,
           (message: any) => {
@@ -42,7 +41,6 @@ export class WebSocketService {
         this.emit("connect");
       },
       (error: string) => {
-        console.log("STOMP error:", error);
         this.emit("disconnect");
       }
     );
@@ -51,7 +49,6 @@ export class WebSocketService {
   public disconnect() {
     if (this.stompClient) {
       this.stompClient.disconnect(() => {
-        console.log("Disconnected from WebSocket");
         this.emit("disconnect");
       });
     }

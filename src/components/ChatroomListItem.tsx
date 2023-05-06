@@ -33,7 +33,6 @@ export const ChatroomListItem: React.FC<ChatRoomListItemProps> = ({
 
   const { data: session } = useSession();
   const currentLoginUserId = session?.user?.id;
-  console.log("currentLoginUserId: ", currentLoginUserId);
 
   const displayContent =
     messageType === "FILE"
@@ -41,7 +40,7 @@ export const ChatroomListItem: React.FC<ChatRoomListItemProps> = ({
         ? "你傳送了圖片"
         : "傳送了圖片給你"
       : content;
-  console.log("senderId: ", senderId);
+
   const timeAgo = (dateString: string): string => {
     const date = new Date(dateString);
     const now = new Date();
