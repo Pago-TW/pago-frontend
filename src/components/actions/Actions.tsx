@@ -84,22 +84,22 @@ const ConsumerActions: FC<ConsumerActionsProps> = ({ status }) => {
   switch (status) {
     case "REQUESTED":
       return (
-        <>
+        <ActionsWrapper>
           <DynamicDeleteAction />
           <DynamicEditAction />
-        </>
+        </ActionsWrapper>
       );
     case "TO_BE_PURCHASED":
       return (
-        <>
+        <ActionsWrapper>
           <DynamicApplyCancelAction perspective="consumer" />
           {postponeAction}
-        </>
+        </ActionsWrapper>
       );
     case "TO_BE_DELIVERED":
     case "DELIVERED":
       return (
-        <>
+        <ActionsWrapper>
           {postponeAction}
           <DynamicUpdateStatusAction
             confirmOptions={{ title: "確定完成此訂單？" }}
@@ -107,7 +107,7 @@ const ConsumerActions: FC<ConsumerActionsProps> = ({ status }) => {
           >
             完成委託
           </DynamicUpdateStatusAction>
-        </>
+        </ActionsWrapper>
       );
     default:
       return null;
@@ -134,27 +134,27 @@ const ShopperActions: FC<ShopperActionsProps> = ({
   switch (status) {
     case "TO_BE_PURCHASED":
       return (
-        <>
+        <ActionsWrapper>
           <DynamicApplyCancelAction perspective="shopper" />
           <DynamicUpdateStatusAction
             confirmOptions={{ title: "確定進入面交流程嗎？" }}
             newStatus="TO_BE_DELIVERED"
           >
-            完成委託
+            準備面交
           </DynamicUpdateStatusAction>
-        </>
+        </ActionsWrapper>
       );
     case "TO_BE_DELIVERED":
       return (
-        <>
+        <ActionsWrapper>
           <DynamicApplyPostponeAction />
           <DynamicUpdateStatusAction
             confirmOptions={{ title: "確定完成此訂單？" }}
-            newStatus="TO_BE_DELIVERED"
+            newStatus="DELIVERED"
           >
             完成代購
           </DynamicUpdateStatusAction>
-        </>
+        </ActionsWrapper>
       );
     default:
       return null;
@@ -163,8 +163,8 @@ const ShopperActions: FC<ShopperActionsProps> = ({
 
 type ActionsProps = Omit<ConsumerActionsProps, "status"> &
   Omit<ShopperActionsProps, "status"> & {
-    isApplicant: boolean;
     status: OrderStatus;
+    isApplicant: boolean;
     perspective: Perspective;
   };
 
@@ -175,34 +175,32 @@ export const Actions: FC<ActionsProps> = ({
   isShopper,
   isApplicant,
 }) => {
-  let actions;
   if (status === "TO_BE_CANCELLED") {
     if (perspective !== "consumer" && !isShopper) return null;
-    actions = (
-      <DynamicReplyCancellationAction
-        perspective={perspective}
-        isApplicant={isApplicant}
-      />
-    );
-  } else if (status === "TO_BE_POSTPONED") {
-    if (perspective !== "consumer" && !isShopper) return null;
-    actions = (
-      <DynamicReplyPostponeAction
-        perspective={perspective}
-        isApplicant={isApplicant}
-      />
-    );
-  } else {
-    actions =
-      perspective === "consumer" ? (
-        <ConsumerActions status={status} />
-      ) : (
-        <ShopperActions
-          status={status}
-          isBidder={isBidder}
-          isShopper={isShopper}
+    return (
+      <ActionsWrapper>
+        <DynamicReplyCancellationAction
+          perspective={perspective}
+          isApplicant={isApplicant}
         />
-      );
+      </ActionsWrapper>
+    );
   }
-  return actions ? <ActionsWrapper>{actions}</ActionsWrapper> : null;
+  if (status === "TO_BE_POSTPONED") {
+    if (perspective !== "consumer" && !isShopper) return null;
+    return (
+      <ActionsWrapper>
+        <DynamicReplyPostponeAction
+          perspective={perspective}
+          isApplicant={isApplicant}
+        />
+      </ActionsWrapper>
+    );
+  }
+
+  return perspective === "consumer" ? (
+    <ConsumerActions status={status} />
+  ) : (
+    <ShopperActions status={status} isBidder={isBidder} isShopper={isShopper} />
+  );
 };
