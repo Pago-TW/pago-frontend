@@ -67,7 +67,7 @@ export const CountryCitySelect = <T extends FieldValues>(
 
   const [value, setValue] = useState("");
 
-  const { data: options = [] } = useCountryCity();
+  const { data: options = [] } = useCountryCity({ includeAny: true });
 
   const transformedOptions = useMemo(
     () => options.map((opt) => ({ id: getItemValue(opt), value: opt })),
