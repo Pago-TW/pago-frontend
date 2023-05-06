@@ -45,7 +45,7 @@ export const UserInfo: FC<UserInfoProps> = ({
   country: countryCode,
   aboutMe,
 }) => {
-  const { data: countryCityOptions = [] } = useCountryCity({
+  const { data: countryCityOptions = [] } = useCountryCity(undefined, {
     enabled: !!countryCode,
   });
 
