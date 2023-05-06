@@ -8,11 +8,10 @@ import { useTimezone } from "@/hooks/useTimezone";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import type { Message, SendMessageRequest } from "@/types/message";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { formateTime } from "@/utils/formatTime";
 import { useWebSocket } from "@/websocket/contexts/WebSocketContext";
 import { Box } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
-import { intlFormat, parseISO } from "date-fns";
-import { utcToZonedTime } from "date-fns-tz";
 import { useSession } from "next-auth/react";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
@@ -44,11 +43,7 @@ const transformMessage = ({
     content,
     isSender,
     messageType,
-    sendDate: intlFormat(
-      utcToZonedTime(parseISO(sendDate), timezone),
-      { hour: "2-digit", minute: "2-digit" },
-      { locale }
-    ),
+    sendDate: formateTime({ date: sendDate, timezone, locale }),
   } satisfies MessageState;
 };
 
