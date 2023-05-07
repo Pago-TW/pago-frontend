@@ -73,8 +73,6 @@ const TripDetailPage: NextPage = () => {
     locale,
   });
 
-  console.log({ timezone, locale });
-
   const filterOrders = (status: Tab["value"]) => {
     if (!tripOrders) return [];
 
