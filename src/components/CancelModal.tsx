@@ -18,14 +18,14 @@ import { FilledTextarea } from "./ui/FilledTextarea";
 import { Typography } from "./ui/Typography";
 
 export const reasons = [
-  "PRODUCT_FACTOR",
+  "OUT_OF_STOCK",
   "FORCE_MAJEURE",
   "PERSONAL_FACTOR",
   "OTHER",
 ] as const;
 
 const reasonLabelMap: Record<(typeof reasons)[number], string> = {
-  PRODUCT_FACTOR: "商品因素",
+  OUT_OF_STOCK: "商品缺貨",
   FORCE_MAJEURE: "不可抗力因素",
   PERSONAL_FACTOR: "個人因素",
   OTHER: "其他",
