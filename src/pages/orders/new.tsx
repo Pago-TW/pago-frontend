@@ -133,6 +133,7 @@ const NewOrderPage: NextPage = () => {
                   <Button
                     variant="outlined"
                     onClick={handleStepperPrev}
+                    disabled={isLoading || isSuccess}
                     sx={{ minWidth: 0, width: "100%" }}
                   >
                     上一步
