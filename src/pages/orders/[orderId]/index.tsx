@@ -202,16 +202,16 @@ const OrderDetailPage: NextPage = () => {
   const matched = !!order?.shopper;
 
   const { data: shoppersData } = useMatchingShoppers(orderId, undefined, {
-    // No need to fetch shoppers if the order is already matched
-    enabled: isOwner && matched,
+    // Fetch shoppers only if the order is not matched
+    enabled: isOwner && !matched,
   });
   const {
     data: bidsData,
     hasNextPage: hasNextBidsPage,
     fetchNextPage: fetchNextBidsPage,
   } = useBids(orderId, undefined, {
-    // No need to fetch bids if the order is already matched
-    enabled: isOwner && matched,
+    // Fetch shoppers only if the order is not matched
+    enabled: isOwner && !matched,
   });
 
   // Memoize the data to prevent heavy computations
