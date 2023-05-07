@@ -8,7 +8,9 @@ import { useOrder } from "@/hooks/api/useOrder";
 import { useTakeOrderTrips } from "@/hooks/api/useTakeOrderTrips";
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useTimezone } from "@/hooks/useTimezone";
 import type { Order } from "@/types/order";
+import { formatDate } from "@/utils/formatDate";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
@@ -20,7 +22,7 @@ import {
   SwipeableDrawer,
   styled,
 } from "@mui/material";
-import { intlFormat, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -59,6 +61,7 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
   const { orderId, open, onOpen, onClose, onSubmit } = props;
 
   const locale = useLocale();
+  const timezone = useTimezone();
 
   const isTablet = useMediaQuery((theme) => theme.breakpoints.up("sm"));
 
@@ -85,13 +88,6 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
   const maxDate = order?.latestReceiveItemDate
     ? parseISO(order?.latestReceiveItemDate)
     : undefined;
-
-  const formatDate = (date: string) =>
-    intlFormat(
-      parseISO(date),
-      { year: "numeric", month: "2-digit", day: "2-digit" },
-      { locale }
-    );
 
   const hasTripOptions = tripOptions.length !== 0;
 
@@ -147,7 +143,7 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
           {tripOptions.map((opt) => (
             <MenuItem key={opt.tripId} value={opt.tripId}>
               {opt.fromCountryChineseName} → {opt.toCountryChineseName} (
-              {formatDate(opt.arrivalDate)})
+              {formatDate({ date: opt.arrivalDate, timezone, locale })})
             </MenuItem>
           ))}
         </SelectInput>
