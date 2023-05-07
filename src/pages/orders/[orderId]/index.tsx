@@ -265,8 +265,8 @@ const OrderDetailPage: NextPage = () => {
   const perspective = isOwner ? "consumer" : "shopper";
 
   const bidList =
-    // Only display when viewer is owner and the order is not matched yet
-    isOwner && !shopper ? (
+    // Only display when the order is not matched yet
+    !shopper ? (
       <BidList
         bids={bids}
         hasMore={hasNextBidsPage}
