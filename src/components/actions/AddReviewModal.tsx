@@ -17,14 +17,17 @@ import type { ChangeEvent } from "react";
 import { useCallback, useEffect, useState } from "react";
 import type { Control, FieldValues, Path } from "react-hook-form";
 import { useController, useForm } from "react-hook-form";
+import SimpleBar from "simplebar-react";
 import { z } from "zod";
-import { Button } from "./ui/Button";
-import { FilledTextarea } from "./ui/FilledTextarea";
-import { Rating } from "./ui/Rating";
-import { Typography } from "./ui/Typography";
-import { Video } from "./ui/Video";
+import { Button } from "../ui/Button";
+import { FilledTextarea } from "../ui/FilledTextarea";
+import { Rating } from "../ui/Rating";
+import { Typography } from "../ui/Typography";
+import { Video } from "../ui/Video";
 
-export const ratingFormSchema = z.object({
+import "simplebar-react/dist/simplebar.min.css";
+
+export const addReviewFormSchema = z.object({
   rating: z.number().int().min(1).max(5),
   review: z.string().optional(),
   files: z
@@ -40,7 +43,7 @@ export const ratingFormSchema = z.object({
     }),
 });
 
-export type RatingFormValues = z.infer<typeof ratingFormSchema>;
+export type AddReviewFormValues = z.infer<typeof addReviewFormSchema>;
 
 const QuickReview = ({
   onClick,
@@ -117,58 +120,54 @@ const FileUpload = <T extends FieldValues>({
         />
       </Button>
       {previews.length > 0 ? (
-        <Stack
-          direction="row"
-          spacing={1}
-          width="100%"
-          height="100%"
-          sx={{ overflowX: "auto", overflowY: "hidden" }}
-        >
-          {previews.map((preview) => (
-            <Box
-              key={preview.url}
-              position="relative"
-              flexShrink={0}
-              width={{ xs: 75, md: 150 }}
-              height={{ xs: 75, md: 150 }}
-            >
-              {preview.type.startsWith("image/") ? (
-                <Image
-                  src={preview.url}
-                  alt="Preview image"
-                  onLoad={() => URL.revokeObjectURL(preview.url)}
-                  fill
-                  sizes="(max-width: 600px) 75px, 150px"
-                  style={{
-                    borderRadius: 2,
-                    flexShrink: 0,
-                    objectFit: "cover",
-                    objectPosition: "center center",
-                  }}
-                />
-              ) : (
-                <Video
-                  src={preview.url}
-                  width="100%"
-                  height="100%"
-                  autoPlay
-                  muted
-                  loop
-                  disablePictureInPicture
-                  disableRemotePlayback
-                  sx={{
-                    borderRadius: 2,
-                    flexShrink: 0,
-                    objectFit: "cover",
-                    objectPosition: "center center",
-                  }}
-                >
-                  <source src={preview.url} type={preview.type} />
-                </Video>
-              )}
-            </Box>
-          ))}
-        </Stack>
+        <SimpleBar>
+          <Stack direction="row" spacing={1} width="100%" height="100%">
+            {previews.map((preview) => (
+              <Box
+                key={preview.url}
+                position="relative"
+                flexShrink={0}
+                width={{ xs: 75, md: 100 }}
+                height={{ xs: 75, md: 100 }}
+              >
+                {preview.type.startsWith("image/") ? (
+                  <Image
+                    src={preview.url}
+                    alt="Preview image"
+                    onLoad={() => URL.revokeObjectURL(preview.url)}
+                    fill
+                    sizes="(max-width: 600px) 75px, 150px"
+                    style={{
+                      borderRadius: 2,
+                      flexShrink: 0,
+                      objectFit: "cover",
+                      objectPosition: "center center",
+                    }}
+                  />
+                ) : (
+                  <Video
+                    src={preview.url}
+                    width="100%"
+                    height="100%"
+                    autoPlay
+                    muted
+                    loop
+                    disablePictureInPicture
+                    disableRemotePlayback
+                    sx={{
+                      borderRadius: 2,
+                      flexShrink: 0,
+                      objectFit: "cover",
+                      objectPosition: "center center",
+                    }}
+                  >
+                    <source src={preview.url} type={preview.type} />
+                  </Video>
+                )}
+              </Box>
+            ))}
+          </Stack>
+        </SimpleBar>
       ) : null}
       {helperText ? (
         <FormHelperText sx={{ m: 0 }}>{helperText}</FormHelperText>
@@ -177,24 +176,24 @@ const FileUpload = <T extends FieldValues>({
   );
 };
 
-export type RatingModalProps = Pick<ModalProps, "open"> & {
+export type AddReviewModalProps = Pick<ModalProps, "open"> & {
   perspective: Perspective;
   onClose: () => void;
-  onSubmit: (data: RatingFormValues) => void;
+  onSubmit: (data: AddReviewFormValues) => void;
 };
 
-const DEFAULT_VALUES: Partial<RatingFormValues> = {
+const DEFAULT_VALUES: Partial<AddReviewFormValues> = {
   review: "",
   rating: 0,
   files: [],
 };
 
-export const RatingModal = ({
+export const AddReviewModal = ({
   open,
   perspective,
   onClose,
   onSubmit,
-}: RatingModalProps) => {
+}: AddReviewModalProps) => {
   const {
     register,
     control,
@@ -203,11 +202,10 @@ export const RatingModal = ({
     setValue,
     handleSubmit,
     reset,
-    watch,
-  } = useForm<RatingFormValues>({
+  } = useForm<AddReviewFormValues>({
     mode: "onBlur",
     defaultValues: DEFAULT_VALUES,
-    resolver: zodResolver(ratingFormSchema),
+    resolver: zodResolver(addReviewFormSchema),
   });
 
   useEffect(() => {

@@ -25,6 +25,9 @@ const DynamicReplyCancellationAction = dynamic(() =>
 const DynamicReplyPostponeAction = dynamic(() =>
   import("./ReplyPostponeAction").then((mod) => mod.ReplyPostponeAction)
 );
+const DynamicFinishAction = dynamic(() =>
+  import("./FinishAction").then((mod) => mod.FinishAction)
+);
 const DynamicTakeOrderAction = dynamic(() =>
   import("./TakeOrderAction").then((mod) => mod.TakeOrderAction)
 );
@@ -110,13 +113,13 @@ const ConsumerActions: FC<ConsumerActionsProps> = ({
       return (
         <ActionsWrapper>
           {postponeAction}
-          <DynamicUpdateStatusAction
-            confirmOptions={{ title: "確定完成此訂單？" }}
-            newStatus="FINISHED"
+          <DynamicFinishAction
+            perspective="consumer"
+            confirmOptions={{ title: "確定此次委託已完成？" }}
             disabled={status === "TO_BE_DELIVERED"}
           >
             完成委託
-          </DynamicUpdateStatusAction>
+          </DynamicFinishAction>
         </ActionsWrapper>
       );
     default:
@@ -169,12 +172,12 @@ const ShopperActions: FC<ShopperActionsProps> = ({
       return (
         <ActionsWrapper>
           <DynamicApplyPostponeAction disabled={hasPostponed} />
-          <DynamicUpdateStatusAction
-            confirmOptions={{ title: "確定完成此訂單？" }}
-            newStatus="DELIVERED"
+          <DynamicFinishAction
+            perspective="consumer"
+            confirmOptions={{ title: "確定此次代購已完成？" }}
           >
             完成代購
-          </DynamicUpdateStatusAction>
+          </DynamicFinishAction>
         </ActionsWrapper>
       );
     default:
