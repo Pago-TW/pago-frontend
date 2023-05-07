@@ -104,6 +104,7 @@ const ConsumerActions: FC<ConsumerActionsProps> = ({ status }) => {
           <DynamicUpdateStatusAction
             confirmOptions={{ title: "確定完成此訂單？" }}
             newStatus="FINISHED"
+            disabled={status === "TO_BE_DELIVERED"}
           >
             完成委託
           </DynamicUpdateStatusAction>
