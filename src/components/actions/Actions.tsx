@@ -126,7 +126,11 @@ const ShopperActions: FC<ShopperActionsProps> = ({
   isShopper,
 }) => {
   if (status === "REQUESTED") {
-    return !isBidder ? <DynamicTakeOrderAction /> : null;
+    return !isBidder ? (
+      <ActionsWrapper>
+        <DynamicTakeOrderAction />
+      </ActionsWrapper>
+    ) : null;
   }
 
   if (!isShopper) return null;
