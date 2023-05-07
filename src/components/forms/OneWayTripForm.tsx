@@ -2,7 +2,6 @@ import { useAddOneWayTrip } from "@/hooks/api/useAddOneWayTrip";
 import { useOpen } from "@/hooks/useOpen";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Stack } from "@mui/material";
-import { startOfDay } from "date-fns";
 import { useRouter } from "next/router";
 import type { FC } from "react";
 import { useCallback } from "react";
@@ -16,7 +15,7 @@ import CountryCitySelect, {
 import { DatePicker } from "../inputs/DatePicker";
 import { PaperLayout } from "../layouts/PaperLayout";
 
-const currentDate = startOfDay(new Date());
+const currentDate = new Date();
 
 export const oneWayTripFormSchema = z.object({
   from: countryCitySchema.refine(

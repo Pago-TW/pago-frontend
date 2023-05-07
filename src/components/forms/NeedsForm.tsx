@@ -1,5 +1,4 @@
 import { Box, Stack, TextField } from "@mui/material";
-import { startOfDay } from "date-fns";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 import { BooleanRadioGroup } from "../inputs/BooleanRadioGroup";
@@ -12,7 +11,7 @@ import { NumberInput } from "../inputs/NumberInput";
 import { PaperLayout } from "../layouts/PaperLayout";
 import { Typography } from "../ui/Typography";
 
-const currentDate = startOfDay(new Date());
+const currentDate = new Date();
 
 export const needsFormSchema = z.object({
   packing: z.boolean({

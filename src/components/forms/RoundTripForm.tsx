@@ -2,7 +2,6 @@ import { useAddRoundTrip } from "@/hooks/api/useAddRoundTrip";
 import { useOpen } from "@/hooks/useOpen";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Stack } from "@mui/material";
-import { startOfDay } from "date-fns";
 import { useRouter } from "next/router";
 import { useCallback, type FC } from "react";
 import { useForm } from "react-hook-form";
@@ -14,7 +13,7 @@ import { DatePicker } from "../inputs/DatePicker";
 import { PaperLayout } from "../layouts/PaperLayout";
 import { oneWayTripFormSchema } from "./OneWayTripForm";
 
-const currentDate = startOfDay(new Date());
+const currentDate = new Date();
 
 export const roundTripFormSchema = oneWayTripFormSchema
   .extend({
