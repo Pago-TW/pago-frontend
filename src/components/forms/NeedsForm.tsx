@@ -1,4 +1,5 @@
 import { Box, Stack, TextField } from "@mui/material";
+import { startOfDay } from "date-fns";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 import { BooleanRadioGroup } from "../inputs/BooleanRadioGroup";
@@ -10,6 +11,8 @@ import { DatePicker } from "../inputs/DatePicker";
 import { NumberInput } from "../inputs/NumberInput";
 import { PaperLayout } from "../layouts/PaperLayout";
 import { Typography } from "../ui/Typography";
+
+const currentDate = startOfDay(new Date());
 
 export const needsFormSchema = z.object({
   packing: z.boolean({
@@ -25,10 +28,12 @@ export const needsFormSchema = z.object({
     { message: "請選擇送達國家、縣市" }
   ),
   fee: z.number().min(1),
-  deadline: z.date({
-    invalid_type_error: "無效的日期",
-    required_error: "請選擇日期",
-  }),
+  deadline: z
+    .date({
+      invalid_type_error: "無效的日期",
+      required_error: "請選擇日期",
+    })
+    .min(currentDate, { message: "日期不可早於今天" }),
   note: z.string().optional(),
 });
 
@@ -93,7 +98,7 @@ export const NeedsForm = () => {
           control={control}
           name="deadline"
           label="最晚收到商品日期"
-          minDate={new Date()}
+          minDate={currentDate}
           slotProps={{
             textField: {
               error: !!errors?.deadline,
