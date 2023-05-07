@@ -40,7 +40,9 @@ export const FinishAction: FC<FinishActionProps> = ({
     });
     updateOrder({
       orderId: orderId,
-      data: { orderStatus: "FINISHED" },
+      data: {
+        orderStatus: perspective === "consumer" ? "FINISHED" : "DELIVERED",
+      },
     });
     handleClose();
   };
