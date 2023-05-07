@@ -10,7 +10,7 @@ import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useTimezone } from "@/hooks/useTimezone";
 import type { Order } from "@/types/order";
-import { formatDate } from "@/utils/formatDate";
+import { formatDate } from "@/utils/formatDateTime";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,

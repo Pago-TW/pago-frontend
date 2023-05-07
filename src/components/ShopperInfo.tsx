@@ -1,8 +1,9 @@
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useTimezone } from "@/hooks/useTimezone";
 import type { Shopper } from "@/types/order";
+import { formatDate } from "@/utils/formatDateTime";
 import { Avatar, Box, Paper, Stack } from "@mui/material";
-import { intlFormat, parseISO } from "date-fns";
 import { Button } from "./ui/Button";
 import { Link } from "./ui/Link";
 import { Typography } from "./ui/Typography";
@@ -19,14 +20,15 @@ export const ShopperInfo = ({
   latestDeliveryDate,
 }: ShopperInfoProps) => {
   const locale = useLocale();
+  const timezone = useTimezone();
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
-  const formattedLatestDeliveryDate = intlFormat(
-    parseISO(latestDeliveryDate),
-    { year: "numeric", month: "2-digit", day: "2-digit" },
-    { locale }
-  );
+  const formattedLatestDeliveryDate = formatDate({
+    date: latestDeliveryDate,
+    timezone,
+    locale,
+  });
 
   return (
     <Paper

@@ -2,7 +2,7 @@ import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useTimezone } from "@/hooks/useTimezone";
 import type { Order } from "@/types/order";
-import { formatDate } from "@/utils/formatDate";
+import { formatDate } from "@/utils/formatDateTime";
 import { ChevronRight } from "@mui/icons-material";
 import { Box, Paper, Skeleton, Stack } from "@mui/material";
 import Image from "next/image";

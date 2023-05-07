@@ -1,9 +1,10 @@
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useTimezone } from "@/hooks/useTimezone";
 import type { Review } from "@/types/review";
+import { formatDateTime } from "@/utils/formatDateTime";
 import type { Breakpoints } from "@mui/material";
 import { Avatar, Box, Rating, Stack, styled } from "@mui/material";
-import { intlFormat, parseISO } from "date-fns";
 import Image from "next/image";
 import { type FC } from "react";
 import SimpleBar from "simplebar-react";
@@ -39,20 +40,15 @@ export const ReviewItem: FC<ReviewItemProps> = ({
   fileUrls,
 }) => {
   const locale = useLocale();
+  const timezone = useTimezone();
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
-  const formattedCreateDate = intlFormat(
-    parseISO(createDate),
-    {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit", // 24 hour here?
-      minute: "2-digit",
-    },
-    { locale }
-  );
+  const formattedCreateDate = formatDateTime({
+    date: createDate,
+    timezone,
+    locale,
+  });
 
   return (
     <Paper sx={{ px: { xs: 2, md: 4 }, py: { xs: 1, md: 2 } }}>

@@ -1,10 +1,11 @@
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useTimezone } from "@/hooks/useTimezone";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import type { ReviewSummary } from "@/types/review";
 import type { User } from "@/types/user";
+import { formatDate } from "@/utils/formatDateTime";
 import { Avatar, Box, Rating, Stack, styled } from "@mui/material";
-import { intlFormat, parseISO } from "date-fns";
 import { signIn, useSession } from "next-auth/react";
 import type { FC } from "react";
 import { Button } from "./ui/Button";
@@ -111,6 +112,7 @@ export const UserSummary: FC<UserSummaryProps> = ({
   const { data: session, status } = useSession();
 
   const locale = useLocale();
+  const timezone = useTimezone();
 
   const setChatWith = useChatroomStore((state) => state.setChatWith);
 
@@ -124,11 +126,11 @@ export const UserSummary: FC<UserSummaryProps> = ({
     setChatWith(userId);
   };
 
-  const formattedCreateDate = intlFormat(
-    parseISO(createDate),
-    { year: "numeric", month: "2-digit", day: "2-digit" },
-    { locale }
-  );
+  const formattedCreateDate = formatDate({
+    date: createDate,
+    timezone,
+    locale,
+  });
 
   return (
     <Paper

@@ -8,7 +8,7 @@ import { useTimezone } from "@/hooks/useTimezone";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import type { Message, SendMessageRequest } from "@/types/message";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { formatTime } from "@/utils/formatTime";
+import { formatTime } from "@/utils/formatDateTime";
 import { useWebSocket } from "@/websocket/contexts/WebSocketContext";
 import { Box } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";

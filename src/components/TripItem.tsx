@@ -1,7 +1,7 @@
 import { useLocale } from "@/hooks/useLocale";
 import { useTimezone } from "@/hooks/useTimezone";
 import type { Trip } from "@/types/trip";
-import { formatDate } from "@/utils/formatDate";
+import { formatDate } from "@/utils/formatDateTime";
 import { Stack } from "@mui/material";
 import { Typography } from "./ui/Typography";
 

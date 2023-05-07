@@ -3,7 +3,9 @@ import { useChooseBid } from "@/hooks/api/useChooseBid";
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useOpen } from "@/hooks/useOpen";
+import { useTimezone } from "@/hooks/useTimezone";
 import type { Bid } from "@/types/bid";
+import { formatDateTime } from "@/utils/formatDateTime";
 import { Star } from "@mui/icons-material";
 import {
   Avatar,
@@ -15,7 +17,7 @@ import {
   Paper,
   Stack,
 } from "@mui/material";
-import { intlFormat, intlFormatDistance, parseISO } from "date-fns";
+import { intlFormatDistance, parseISO } from "date-fns";
 import { useEffect, useRef, useState, type FC } from "react";
 import { Button } from "./ui/Button";
 import { Typography } from "./ui/Typography";
@@ -125,6 +127,7 @@ export const BidItem = (props: BidItemProps) => {
   } = props;
 
   const locale = useLocale();
+  const timezone = useTimezone();
 
   const { open, handleOpen, handleClose } = useOpen();
 
@@ -137,18 +140,11 @@ export const BidItem = (props: BidItemProps) => {
     new Date(),
     { locale }
   );
-  const formattedEstDeliveryDate = intlFormat(
-    parseISO(estDeliveryDate),
-    {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    },
-    { locale }
-  );
+  const formattedEstDeliveryDate = formatDateTime({
+    date: estDeliveryDate,
+    timezone,
+    locale,
+  });
 
   return (
     <>

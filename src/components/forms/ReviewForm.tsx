@@ -2,9 +2,9 @@ import type { AddOrderData } from "@/hooks/api/useAddOrder";
 import { useCharge } from "@/hooks/api/useCharge";
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { formatDate } from "@/utils/formatDateTime";
 import { Place } from "@mui/icons-material";
 import { Box, Skeleton, Stack } from "@mui/material";
-import { intlFormat } from "date-fns";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
@@ -15,6 +15,7 @@ import { PaperLayout } from "../layouts/PaperLayout";
 import { Typography } from "../ui/Typography";
 import { merchandiseFormSchema } from "./MerchandiseForm";
 import { needsFormSchema } from "./NeedsForm";
+import { useTimezone } from "@/hooks/useTimezone";
 
 export const reviewFormSchema = merchandiseFormSchema.merge(needsFormSchema);
 
@@ -51,6 +52,7 @@ export const ReviewForm = () => {
   const [preview, setPreview] = useState<string>("");
 
   const locale = useLocale();
+  const timezone = useTimezone();
 
   const { getValues } = useFormContext<ReviewFormValues>();
 
@@ -170,11 +172,7 @@ export const ReviewForm = () => {
           />
           <DetailItem
             label="最晚收到商品時間"
-            value={intlFormat(
-              deadline,
-              { year: "numeric", month: "2-digit", day: "2-digit" },
-              { locale }
-            )}
+            value={formatDate({ date: deadline, timezone, locale })}
             multiLine
           />
           <DetailItem label="備註" value={note} multiLine />
