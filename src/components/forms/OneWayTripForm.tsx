@@ -94,7 +94,7 @@ export const OneWayTripForm: FC = () => {
           <DatePicker
             control={control}
             name="arrivalDate"
-            label="出發時間"
+            label="抵達時間"
             minDate={currentDate}
             slotProps={{
               textField: {
