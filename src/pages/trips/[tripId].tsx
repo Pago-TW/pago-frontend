@@ -13,6 +13,7 @@ import { useOrders } from "@/hooks/api/useOrders";
 import { useTrip } from "@/hooks/api/useTrip";
 import { useLocale } from "@/hooks/useLocale";
 import { useTimezone } from "@/hooks/useTimezone";
+import { Trip } from "@/types/trip";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { formatDate } from "@/utils/formatDateTime";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
@@ -20,7 +21,7 @@ import { Box, Container, Stack } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { FC, useMemo, useState } from "react";
 
 const TABS = [
   { label: "全部", value: "ALL" },
@@ -34,12 +35,64 @@ const TABS = [
 
 type Tab = (typeof TABS)[number];
 
+type TripInfoProps = Pick<
+  Trip,
+  "fromCountryChineseName" | "toCountryChineseName" | "arrivalDate" | "profit"
+> & {
+  totalTripOrders?: number;
+  totalMatchedOrders?: number;
+};
+
+const TripInfo: FC<TripInfoProps> = ({
+  fromCountryChineseName,
+  toCountryChineseName,
+  arrivalDate,
+  profit,
+  totalTripOrders,
+  totalMatchedOrders,
+}) => {
+  const locale = useLocale();
+  const timezone = useTimezone();
+
+  const formattedArrivalDate = formatDate({
+    date: arrivalDate,
+    timezone,
+    locale,
+  });
+
+  return (
+    <PaperLayout>
+      <Stack spacing={3}>
+        <Typography variant="h3" weightPreset="bold" textAlign="center">
+          {fromCountryChineseName} → {toCountryChineseName}
+        </Typography>
+        <Typography
+          variant="h6"
+          weightPreset="light"
+          textAlign="center"
+          color="base.800"
+        >
+          抵達時間: {formattedArrivalDate}
+        </Typography>
+        <DetailItem label="淨賺" value={profit} />
+        <DetailItem label="已接單委託" value={`${totalTripOrders}筆`} />
+        <DetailItem
+          label="與本趟旅途相符之委託還有"
+          value={`${totalMatchedOrders}筆`}
+        />
+        <Stack direction="row" spacing={2}>
+          <Button size="medium" sx={{ flexGrow: 1 }}>
+            編輯旅途
+          </Button>
+        </Stack>
+      </Stack>
+    </PaperLayout>
+  );
+};
+
 const TripDetailPage: NextPage = () => {
   const router = useRouter();
   const tripId = router.query.tripId as string;
-
-  const locale = useLocale();
-  const timezone = useTimezone();
 
   const [currentTab, setCurrentTab] = useState<Tab["value"]>("ALL");
 
@@ -65,13 +118,8 @@ const TripDetailPage: NextPage = () => {
 
   if (!trip) return null;
 
-  const { profit, fromCountry, toCountry, arrivalDate } = trip;
-
-  const formattedArrivalDate = formatDate({
-    date: arrivalDate,
-    timezone,
-    locale,
-  });
+  const { profit, fromCountryChineseName, toCountryChineseName, arrivalDate } =
+    trip;
 
   const filterOrders = (status: Tab["value"]) => {
     if (!tripOrders) return [];
@@ -90,32 +138,14 @@ const TripDetailPage: NextPage = () => {
         <PageTitle title="旅途詳情" endButton={<ShareButton />} />
         <Container>
           <Stack component="main" spacing={2}>
-            <PaperLayout>
-              <Stack spacing={3}>
-                <Typography variant="h3" weightPreset="bold" textAlign="center">
-                  {fromCountry} → {toCountry}
-                </Typography>
-                <Typography
-                  variant="h6"
-                  weightPreset="light"
-                  textAlign="center"
-                  color="base.800"
-                >
-                  抵達時間: {formattedArrivalDate}
-                </Typography>
-                <DetailItem label="淨賺" value={profit} />
-                <DetailItem label="已接單委託" value={`${totalTripOrders}筆`} />
-                <DetailItem
-                  label="與本趟旅途相符之委託還有"
-                  value={`${totalMatchedOrders}筆`}
-                />
-                <Stack direction="row" spacing={2}>
-                  <Button size="medium" sx={{ flexGrow: 1 }}>
-                    編輯旅途
-                  </Button>
-                </Stack>
-              </Stack>
-            </PaperLayout>
+            <TripInfo
+              fromCountryChineseName={fromCountryChineseName}
+              toCountryChineseName={toCountryChineseName}
+              arrivalDate={arrivalDate}
+              profit={profit}
+              totalTripOrders={totalTripOrders}
+              totalMatchedOrders={totalMatchedOrders}
+            />
             <Stack component="section" spacing={2}>
               <TabContext value={currentTab}>
                 <Box borderBottom={1} borderColor="divider">
