@@ -76,10 +76,16 @@ const ActionsWrapper = ({ children }: { children: ReactNode }) => {
 
 type ConsumerActionsProps = {
   status: Exclude<OrderStatus, "TO_BE_CANCELLED" | "TO_BE_POSTPONED">;
+  hasCancelled: boolean;
+  hasPostponed: boolean;
 };
 
-const ConsumerActions: FC<ConsumerActionsProps> = ({ status }) => {
-  const postponeAction = <DynamicApplyPostponeAction />;
+const ConsumerActions: FC<ConsumerActionsProps> = ({
+  status,
+  hasCancelled,
+  hasPostponed,
+}) => {
+  const postponeAction = <DynamicApplyPostponeAction disabled={hasPostponed} />;
 
   switch (status) {
     case "REQUESTED":
@@ -92,7 +98,10 @@ const ConsumerActions: FC<ConsumerActionsProps> = ({ status }) => {
     case "TO_BE_PURCHASED":
       return (
         <ActionsWrapper>
-          <DynamicApplyCancelAction perspective="consumer" />
+          <DynamicApplyCancelAction
+            perspective="consumer"
+            disabled={hasCancelled}
+          />
           {postponeAction}
         </ActionsWrapper>
       );
@@ -119,12 +128,16 @@ type ShopperActionsProps = {
   status: Exclude<OrderStatus, "TO_BE_CANCELLED" | "TO_BE_POSTPONED">;
   isBidder: boolean;
   isShopper: boolean;
+  hasCancelled: boolean;
+  hasPostponed: boolean;
 };
 
 const ShopperActions: FC<ShopperActionsProps> = ({
   status,
   isBidder,
   isShopper,
+  hasCancelled,
+  hasPostponed,
 }) => {
   if (status === "REQUESTED") {
     return !isBidder ? (
@@ -140,7 +153,10 @@ const ShopperActions: FC<ShopperActionsProps> = ({
     case "TO_BE_PURCHASED":
       return (
         <ActionsWrapper>
-          <DynamicApplyCancelAction perspective="shopper" />
+          <DynamicApplyCancelAction
+            perspective="shopper"
+            disabled={hasCancelled}
+          />
           <DynamicUpdateStatusAction
             confirmOptions={{ title: "確定進入面交流程嗎？" }}
             newStatus="TO_BE_DELIVERED"
@@ -152,7 +168,7 @@ const ShopperActions: FC<ShopperActionsProps> = ({
     case "TO_BE_DELIVERED":
       return (
         <ActionsWrapper>
-          <DynamicApplyPostponeAction />
+          <DynamicApplyPostponeAction disabled={hasPostponed} />
           <DynamicUpdateStatusAction
             confirmOptions={{ title: "確定完成此訂單？" }}
             newStatus="DELIVERED"
@@ -179,6 +195,8 @@ export const Actions: FC<ActionsProps> = ({
   isBidder,
   isShopper,
   isApplicant,
+  hasCancelled,
+  hasPostponed,
 }) => {
   if (status === "TO_BE_CANCELLED") {
     if (perspective !== "consumer" && !isShopper) return null;
@@ -204,8 +222,18 @@ export const Actions: FC<ActionsProps> = ({
   }
 
   return perspective === "consumer" ? (
-    <ConsumerActions status={status} />
+    <ConsumerActions
+      status={status}
+      hasCancelled={hasCancelled}
+      hasPostponed={hasPostponed}
+    />
   ) : (
-    <ShopperActions status={status} isBidder={isBidder} isShopper={isShopper} />
+    <ShopperActions
+      status={status}
+      isBidder={isBidder}
+      isShopper={isShopper}
+      hasCancelled={hasCancelled}
+      hasPostponed={hasPostponed}
+    />
   );
 };

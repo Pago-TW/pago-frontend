@@ -25,6 +25,8 @@ export interface Order {
   shopper?: Shopper;
   isApplicant: boolean;
   isBidder: boolean;
+  hasCancelled: boolean;
+  hasPostponed: boolean;
 }
 
 export type OrderStatus =
