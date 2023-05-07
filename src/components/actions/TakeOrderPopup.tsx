@@ -37,6 +37,7 @@ const DEFAULT_VALUES: Partial<TakeOrderFormValues> = {
   amount: 1,
   currency: "",
   tripId: "",
+  date: new Date(),
 };
 
 const StyledButton = styled(Button)({
