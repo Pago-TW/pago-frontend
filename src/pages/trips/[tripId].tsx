@@ -11,7 +11,10 @@ import { Typography } from "@/components/ui/Typography";
 import { useMatchingOrders } from "@/hooks/api/useMatchingOrders";
 import { useOrders } from "@/hooks/api/useOrders";
 import { useTrip } from "@/hooks/api/useTrip";
+import { useLocale } from "@/hooks/useLocale";
+import { useTimezone } from "@/hooks/useTimezone";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { formatDate } from "@/utils/formatDateTime";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Container, Stack } from "@mui/material";
 import type { NextPage } from "next";
@@ -32,10 +35,13 @@ const TABS = [
 type Tab = (typeof TABS)[number];
 
 const TripDetailPage: NextPage = () => {
-  const [currentTab, setCurrentTab] = useState<Tab["value"]>("ALL");
-
   const router = useRouter();
   const tripId = router.query.tripId as string;
+
+  const locale = useLocale();
+  const timezone = useTimezone();
+
+  const [currentTab, setCurrentTab] = useState<Tab["value"]>("ALL");
 
   const { data: trip } = useTrip(tripId);
   const { data: tripOrdersData } = useOrders({ tripId });
@@ -52,18 +58,22 @@ const TripDetailPage: NextPage = () => {
     return flattenInfinitePaginatedData(matchedOrdersData);
   }, [matchedOrdersData]);
 
+  const totalTripOrders =
+    tripOrdersData?.pages[tripOrdersData.pages.length - 1]?.total;
+  const totalMatchedOrders =
+    matchedOrdersData?.pages[matchedOrdersData.pages.length - 1]?.total;
+
   if (!trip) return null;
 
-  const {
-    profit,
-    fromCountry,
-    fromCity,
-    toCountry,
-    toCity,
-    arrivalDate,
-    createDate,
-    updateDate,
-  } = trip;
+  const { profit, fromCountry, toCountry, arrivalDate } = trip;
+
+  const formattedArrivalDate = formatDate({
+    date: arrivalDate,
+    timezone,
+    locale,
+  });
+
+  console.log({ timezone, locale });
 
   const filterOrders = (status: Tab["value"]) => {
     if (!tripOrders) return [];
@@ -93,11 +103,14 @@ const TripDetailPage: NextPage = () => {
                   textAlign="center"
                   color="base.800"
                 >
-                  抵達時間: {arrivalDate}
+                  抵達時間: {formattedArrivalDate}
                 </Typography>
                 <DetailItem label="淨賺" value={profit} />
-                <DetailItem label="已接單委託" value="2筆" />
-                <DetailItem label="與本趟旅途相符之委託還有" value="20筆" />
+                <DetailItem label="已接單委託" value={`${totalTripOrders}筆`} />
+                <DetailItem
+                  label="與本趟旅途相符之委託還有"
+                  value={`${totalMatchedOrders}筆`}
+                />
                 <Stack direction="row" spacing={2}>
                   <Button size="medium" sx={{ flexGrow: 1 }}>
                     編輯旅途
