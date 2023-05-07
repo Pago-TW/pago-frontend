@@ -9,11 +9,12 @@ type BidListProps = {
   bids?: Bid[];
   hasMore?: boolean;
   onShowMore: () => void;
+  isOwner: boolean;
   sx?: SxProps;
 };
 
 export const BidList = (props: BidListProps) => {
-  const { bids, hasMore, onShowMore, sx } = props;
+  const { bids, hasMore, onShowMore, isOwner, sx } = props;
 
   const hasBids = bids && bids.length !== 0;
 
@@ -37,6 +38,7 @@ export const BidList = (props: BidListProps) => {
                 reviewCount={bid.creator.review.totalReview}
                 createdAt={bid.createDate}
                 estDeliveryDate={bid.latestDeliveryDate}
+                isOwner={isOwner}
               />
             );
           })

@@ -269,6 +269,7 @@ const OrderDetailPage: NextPage = () => {
         bids={bids}
         hasMore={hasNextBidsPage}
         onShowMore={() => fetchNextBidsPage()}
+        isOwner={isOwner}
       />
     ) : null;
   const availableShoppers =
