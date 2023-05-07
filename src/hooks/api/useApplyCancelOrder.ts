@@ -25,7 +25,7 @@ const applyCancelOrder = async (params: ApplyCancelOrderParams) => {
   const { orderId, data } = params;
 
   const res = await axios.post<ApplyCancelResponse>(
-    `/orders/${orderId}/cancel-record`,
+    `/orders/${orderId}/cancellation-record`,
     data
   );
   return res.data;
