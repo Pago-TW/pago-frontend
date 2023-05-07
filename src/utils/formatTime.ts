@@ -1,7 +1,7 @@
 import { intlFormat, parseISO } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 
-export const formateTime = ({
+export const formatTime = ({
   date,
   timezone,
   locale,

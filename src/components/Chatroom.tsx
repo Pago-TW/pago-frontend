@@ -8,7 +8,7 @@ import { useTimezone } from "@/hooks/useTimezone";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import type { Message, SendMessageRequest } from "@/types/message";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { formateTime } from "@/utils/formatTime";
+import { formatTime } from "@/utils/formatTime";
 import { useWebSocket } from "@/websocket/contexts/WebSocketContext";
 import { Box } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
@@ -43,7 +43,7 @@ const transformMessage = ({
     content,
     isSender,
     messageType,
-    sendDate: formateTime({ date: sendDate, timezone, locale }),
+    sendDate: formatTime({ date: sendDate, timezone, locale }),
   } satisfies MessageState;
 };
 
