@@ -1,4 +1,4 @@
-import { useAddTrip } from "@/hooks/api/useAddTrip";
+import { useAddRoundTrip } from "@/hooks/api/useAddRoundTrip";
 import { useOpen } from "@/hooks/useOpen";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Stack } from "@mui/material";
@@ -57,29 +57,23 @@ export const RoundTripForm: FC = () => {
     resolver: zodResolver(roundTripFormSchema),
   });
 
-  const { mutate: addTrip, isLoading, isSuccess } = useAddTrip();
+  const { mutate: addRoundTrip, isLoading, isSuccess } = useAddRoundTrip();
 
   const handleFormSubmit = useCallback(
     (data: RoundTripFormValues) => {
-      addTrip({
-        fromCountry: data.from.countryCode,
-        fromCity: data.from.cityCode,
-        toCountry: data.to.countryCode,
-        toCity: data.to.cityCode,
-        arrivalDate: data.arrivalDate,
-      });
-      addTrip(
+      addRoundTrip(
         {
-          fromCountry: data.to.countryCode,
-          fromCity: data.to.cityCode,
-          toCountry: data.from.countryCode,
-          toCity: data.from.cityCode,
-          arrivalDate: data.returnDate,
+          fromCountry: data.from.countryCode,
+          fromCity: data.from.cityCode,
+          toCountry: data.to.countryCode,
+          toCity: data.to.cityCode,
+          arrivalDate: data.arrivalDate,
+          returnDate: data.returnDate,
         },
-        { onSuccess: () => router.push("/trips") }
+        { onSuccess: () => router.replace("/trips") }
       );
     },
-    [addTrip, router]
+    [addRoundTrip, router]
   );
 
   const handleButtonClick = useCallback(async () => {

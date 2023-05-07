@@ -1,4 +1,4 @@
-import { useAddTrip } from "@/hooks/api/useAddTrip";
+import { useAddOneWayTrip } from "@/hooks/api/useAddOneWayTrip";
 import { useOpen } from "@/hooks/useOpen";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Stack } from "@mui/material";
@@ -26,7 +26,7 @@ export const oneWayTripFormSchema = z.object({
   to: countryCitySchema.refine((value) => Object.values(value).every(Boolean), {
     message: "請選擇目的地",
   }),
-  arrivalDate: z.date().min(currentDate, { message: "出發時間不可早於今天" }),
+  arrivalDate: z.date().min(currentDate, { message: "抵達時間不可早於今天" }),
 });
 
 export type OneWayTripFormValues = z.infer<typeof oneWayTripFormSchema>;
@@ -57,11 +57,11 @@ export const OneWayTripForm: FC = () => {
     resolver: zodResolver(oneWayTripFormSchema),
   });
 
-  const { mutate: addTrip, isLoading, isSuccess } = useAddTrip();
+  const { mutate: addOneWayTrip, isLoading, isSuccess } = useAddOneWayTrip();
 
   const handleFormSubmit = useCallback(
     (data: OneWayTripFormValues) => {
-      addTrip(
+      addOneWayTrip(
         {
           fromCountry: data.from.countryCode,
           fromCity: data.from.cityCode,
@@ -72,7 +72,7 @@ export const OneWayTripForm: FC = () => {
         { onSuccess: (data) => router.push(`/trips/${data.tripId}`) }
       );
     },
-    [addTrip, router]
+    [addOneWayTrip, router]
   );
 
   const handleButtonClick = useCallback(async () => {
