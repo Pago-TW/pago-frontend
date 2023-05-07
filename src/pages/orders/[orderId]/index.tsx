@@ -321,7 +321,7 @@ const OrderDetailPage: NextPage = () => {
           </Stack>
         </AreaWrapper>
         {/* Status, display when not matched (i.e. REQUESTED status) or when view is owner/shopper */}
-        {!matched || isOwnerOrShopper ? (
+        {(!matched && isBidder) || isOwnerOrShopper ? (
           <StatusText
             perspective={perspective}
             status={orderStatus}
