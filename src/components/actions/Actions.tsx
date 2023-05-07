@@ -173,7 +173,7 @@ const ShopperActions: FC<ShopperActionsProps> = ({
         <ActionsWrapper>
           <DynamicApplyPostponeAction disabled={hasPostponed} />
           <DynamicFinishAction
-            perspective="consumer"
+            perspective="shopper"
             confirmOptions={{ title: "確定此次代購已完成？" }}
           >
             完成代購
