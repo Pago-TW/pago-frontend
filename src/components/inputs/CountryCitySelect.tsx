@@ -38,6 +38,7 @@ export type CountryInputProps<T extends FieldValues> = {
   fullWidth?: boolean;
   menuMaxHeight?: number;
   noInputLabelOnShrink?: boolean;
+  includeAny?: boolean;
 };
 
 const getItemValue = (item: CountryCityOption) =>
@@ -58,6 +59,7 @@ export const CountryCitySelect = <T extends FieldValues>(
     fullWidth = true,
     menuMaxHeight = 300,
     noInputLabelOnShrink: noLabelOnShrink,
+    includeAny,
   } = props;
 
   const {
@@ -67,7 +69,7 @@ export const CountryCitySelect = <T extends FieldValues>(
 
   const [value, setValue] = useState("");
 
-  const { data: options = [] } = useCountryCity({ includeAny: true });
+  const { data: options = [] } = useCountryCity({ includeAny });
 
   const transformedOptions = useMemo(
     () => options.map((opt) => ({ id: getItemValue(opt), value: opt })),

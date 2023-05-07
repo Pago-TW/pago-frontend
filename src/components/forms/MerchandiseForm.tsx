@@ -235,6 +235,7 @@ export const MerchandiseForm = () => {
             name="purchase"
             label="購買國家縣市"
             noInputLabelOnShrink
+            includeAny
           />
           <TextField
             variant="standard"
