@@ -35,6 +35,6 @@ export const useApplyCancelOrder = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: applyCancelOrder,
-    onSuccess: () => qc.invalidateQueries(["orders"]),
+    onSuccess: () => qc.refetchQueries(["orders"]),
   });
 };

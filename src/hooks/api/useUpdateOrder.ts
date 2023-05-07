@@ -24,6 +24,6 @@ export const useUpdateOrder = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: updateOrder,
-    onSuccess: () => qc.invalidateQueries(["orders"]),
+    onSuccess: () => qc.refetchQueries(["orders"]),
   });
 };

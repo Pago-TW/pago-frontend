@@ -34,6 +34,6 @@ export const useApplyPostponeOrder = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: applyPostponeOrder,
-    onSuccess: () => qc.invalidateQueries(["orders"]),
+    onSuccess: () => qc.refetchQueries(["orders"]),
   });
 };
