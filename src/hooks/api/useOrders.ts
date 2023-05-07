@@ -45,5 +45,3 @@ export const useOrders = (params?: Params, options?: { enabled?: boolean }) => {
     ...options,
   });
 };
-
-export default useOrders;

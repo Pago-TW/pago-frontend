@@ -2,13 +2,14 @@ import { DetailItem } from "@/components/DetailItem";
 import { OrderList } from "@/components/OrderList";
 import { PageTitle } from "@/components/PageTitle";
 import { ShareButton } from "@/components/ShareButton";
+import { ShowMoreButton } from "@/components/ShowMoreButton";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { PaperLayout } from "@/components/layouts/PaperLayout";
 import { Button } from "@/components/ui/Button";
-import { Link } from "@/components/ui/Link";
 import { Tab } from "@/components/ui/Tab";
 import { Typography } from "@/components/ui/Typography";
 import { useMatchingOrders } from "@/hooks/api/useMatchingOrders";
+import { useOrders } from "@/hooks/api/useOrders";
 import { useTrip } from "@/hooks/api/useTrip";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
@@ -37,8 +38,16 @@ const TripDetailPage: NextPage = () => {
   const tripId = router.query.tripId as string;
 
   const { data: trip } = useTrip(tripId);
-  const { data: matchedOrdersData } = useMatchingOrders(tripId);
+  const { data: tripOrdersData } = useOrders({ tripId });
+  const {
+    data: matchedOrdersData,
+    hasNextPage: hasNextMatchedOrdersPage,
+    fetchNextPage: fetchNextMatchedOrdersPage,
+  } = useMatchingOrders(tripId);
 
+  const tripOrders = useMemo(() => {
+    return flattenInfinitePaginatedData(tripOrdersData);
+  }, [tripOrdersData]);
   const matchedOrders = useMemo(() => {
     return flattenInfinitePaginatedData(matchedOrdersData);
   }, [matchedOrdersData]);
@@ -57,11 +66,11 @@ const TripDetailPage: NextPage = () => {
   } = trip;
 
   const filterOrders = (status: Tab["value"]) => {
-    if (!matchedOrders) return [];
+    if (!tripOrders) return [];
 
-    if (status === "ALL") return matchedOrders;
+    if (status === "ALL") return tripOrders;
 
-    return matchedOrders.filter((order) => order.orderStatus === status);
+    return tripOrders.filter((order) => order.orderStatus === status);
   };
 
   return (
@@ -90,9 +99,6 @@ const TripDetailPage: NextPage = () => {
                 <DetailItem label="已接單委託" value="2筆" />
                 <DetailItem label="與本趟旅途相符之委託還有" value="20筆" />
                 <Stack direction="row" spacing={2}>
-                  <Button variant="outlined" size="medium" sx={{ flexGrow: 1 }}>
-                    申請延期
-                  </Button>
                   <Button size="medium" sx={{ flexGrow: 1 }}>
                     編輯旅途
                   </Button>
@@ -119,15 +125,16 @@ const TripDetailPage: NextPage = () => {
                 ))}
               </TabContext>
             </Stack>
-            <Stack component="section" spacing={2}>
-              <Typography variant="h3" weightPreset="bold" textAlign="center">
-                其他相符委託
-              </Typography>
-              <OrderList items={filterOrders("ALL")} />
-              <Stack direction="row" justifyContent="center">
-                <Link>顯示更多</Link>
-              </Stack>
-            </Stack>
+          </Stack>
+          <Stack component="section" spacing={2} mt={5}>
+            <Typography variant="h3" weightPreset="bold" textAlign="center">
+              其他相符委託
+            </Typography>
+            <OrderList items={matchedOrders} />
+            <ShowMoreButton
+              hasMore={hasNextMatchedOrdersPage}
+              onClick={() => fetchNextMatchedOrdersPage()}
+            />
           </Stack>
         </Container>
       </BaseLayout>
