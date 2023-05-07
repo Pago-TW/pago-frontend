@@ -9,12 +9,12 @@ import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ConfirmDialog } from "../ConfirmDialog";
+import { SubmitButton } from "../SubmitButton";
 import CountryCitySelect, {
   countryCitySchema,
 } from "../inputs/CountryCitySelect";
 import { DatePicker } from "../inputs/DatePicker";
 import { PaperLayout } from "../layouts/PaperLayout";
-import { Button } from "../ui/Button";
 
 const currentDate = startOfDay(new Date());
 
@@ -48,7 +48,7 @@ export const OneWayTripForm: FC = () => {
 
   const {
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     handleSubmit,
     trigger,
   } = useForm<OneWayTripFormValues>({
@@ -57,11 +57,11 @@ export const OneWayTripForm: FC = () => {
     resolver: zodResolver(oneWayTripFormSchema),
   });
 
-  const { mutate } = useAddTrip();
+  const { mutate: addTrip, isLoading, isSuccess } = useAddTrip();
 
   const handleFormSubmit = useCallback(
     (data: OneWayTripFormValues) => {
-      mutate(
+      addTrip(
         {
           fromCountry: data.from.countryCode,
           fromCity: data.from.cityCode,
@@ -72,7 +72,7 @@ export const OneWayTripForm: FC = () => {
         { onSuccess: (data) => router.push(`/trips/${data.tripId}`) }
       );
     },
-    [mutate, router]
+    [addTrip, router]
   );
 
   const handleButtonClick = useCallback(async () => {
@@ -106,9 +106,13 @@ export const OneWayTripForm: FC = () => {
           />
         </Stack>
       </PaperLayout>
-      <Button onClick={handleButtonClick} loading={isSubmitting}>
+      <SubmitButton
+        onClick={handleButtonClick}
+        loading={isLoading}
+        success={isSuccess}
+      >
         新增旅途
-      </Button>
+      </SubmitButton>
       <ConfirmDialog
         title="確定發布旅途？"
         open={dialogOpen}

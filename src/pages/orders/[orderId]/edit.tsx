@@ -1,4 +1,5 @@
 import { PageTitle } from "@/components/PageTitle";
+import { SubmitButton } from "@/components/SubmitButton";
 import {
   EditMerchandiseForm,
   editMerchandiseFormSchema,
@@ -18,7 +19,6 @@ import { useOrder } from "@/hooks/api/useOrder";
 import { useUpdateOrder } from "@/hooks/api/useUpdateOrder";
 import type { Order } from "@/types/order";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check } from "@mui/icons-material";
 import { Box, Stack, Step, alpha, styled } from "@mui/material";
 import { parseISO } from "date-fns";
 import type { NextPage } from "next";
@@ -115,13 +115,9 @@ const EditOrderPage: NextPage = () => {
     resolver: schema ? zodResolver(schema) : undefined,
     defaultValues: DEFAULT_VALUES,
   });
-  const {
-    formState: { isSubmitting, isSubmitSuccessful },
-    handleSubmit,
-    trigger,
-  } = methods;
+  const { handleSubmit, trigger } = methods;
 
-  const { mutate: updateOrder } = useUpdateOrder();
+  const { mutate: updateOrder, isLoading, isSuccess } = useUpdateOrder();
 
   const handlePrevStep = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -180,7 +176,7 @@ const EditOrderPage: NextPage = () => {
                   <StyledButton
                     variant="outlined"
                     onClick={handlePrevStep}
-                    disabled={isSubmitSuccessful}
+                    disabled={isLoading || isSuccess}
                   >
                     上一步
                   </StyledButton>
@@ -188,15 +184,9 @@ const EditOrderPage: NextPage = () => {
                 {!isLastStep ? (
                   <StyledButton onClick={handleNextStep}>下一步</StyledButton>
                 ) : (
-                  <StyledButton
-                    type="submit"
-                    loading={isSubmitting}
-                    disabled={isSubmitSuccessful}
-                    color={isSubmitSuccessful ? "success" : undefined}
-                    endIcon={isSubmitSuccessful ? <Check /> : undefined}
-                  >
+                  <SubmitButton loading={isLoading} success={isSuccess}>
                     儲存編輯
-                  </StyledButton>
+                  </SubmitButton>
                 )}
               </Stack>
             </form>

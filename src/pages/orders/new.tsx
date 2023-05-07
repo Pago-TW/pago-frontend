@@ -1,4 +1,5 @@
 import { PageTitle } from "@/components/PageTitle";
+import { SubmitButton } from "@/components/SubmitButton";
 import {
   MerchandiseForm,
   merchandiseFormSchema,
@@ -86,13 +87,9 @@ const NewOrderPage: NextPage = () => {
     defaultValues: DEFAULT_VALUES,
     resolver,
   });
-  const {
-    formState: { isSubmitting },
-    handleSubmit,
-    trigger,
-  } = methods;
+  const { handleSubmit, trigger } = methods;
 
-  const { mutate: addOrder } = useAddOrder();
+  const { mutate: addOrder, isLoading, isSuccess } = useAddOrder();
 
   const handleNext = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -142,13 +139,9 @@ const NewOrderPage: NextPage = () => {
                   </Button>
                 ) : null}
                 {activeStep === totalSteps - 1 ? (
-                  <Button
-                    type="submit"
-                    sx={{ minWidth: 0, width: "100%" }}
-                    loading={isSubmitting}
-                  >
+                  <SubmitButton loading={isLoading} success={isSuccess}>
                     發布委託
-                  </Button>
+                  </SubmitButton>
                 ) : (
                   <Button
                     onClick={handleNext}

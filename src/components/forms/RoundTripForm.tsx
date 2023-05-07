@@ -8,10 +8,10 @@ import { useCallback, type FC } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ConfirmDialog } from "../ConfirmDialog";
+import { SubmitButton } from "../SubmitButton";
 import { CountryCitySelect } from "../inputs/CountryCitySelect";
 import { DatePicker } from "../inputs/DatePicker";
 import { PaperLayout } from "../layouts/PaperLayout";
-import { Button } from "../ui/Button";
 import { oneWayTripFormSchema } from "./OneWayTripForm";
 
 const currentDate = startOfDay(new Date());
@@ -48,7 +48,7 @@ export const RoundTripForm: FC = () => {
     watch,
     setValue,
     getValues,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     handleSubmit,
     trigger,
   } = useForm<RoundTripFormValues>({
@@ -57,18 +57,18 @@ export const RoundTripForm: FC = () => {
     resolver: zodResolver(roundTripFormSchema),
   });
 
-  const { mutate } = useAddTrip();
+  const { mutate: addTrip, isLoading, isSuccess } = useAddTrip();
 
   const handleFormSubmit = useCallback(
     (data: RoundTripFormValues) => {
-      mutate({
+      addTrip({
         fromCountry: data.from.countryCode,
         fromCity: data.from.cityCode,
         toCountry: data.to.countryCode,
         toCity: data.to.cityCode,
         arrivalDate: data.arrivalDate,
       });
-      mutate(
+      addTrip(
         {
           fromCountry: data.to.countryCode,
           fromCity: data.to.cityCode,
@@ -79,7 +79,7 @@ export const RoundTripForm: FC = () => {
         { onSuccess: () => router.push("/trips") }
       );
     },
-    [mutate, router]
+    [addTrip, router]
   );
 
   const handleButtonClick = useCallback(async () => {
@@ -141,9 +141,13 @@ export const RoundTripForm: FC = () => {
           </Stack>
         </Stack>
       </PaperLayout>
-      <Button onClick={handleButtonClick} loading={isSubmitting}>
+      <SubmitButton
+        onClick={handleButtonClick}
+        loading={isLoading}
+        success={isSuccess}
+      >
         新增旅途
-      </Button>
+      </SubmitButton>
       <ConfirmDialog
         title="確定發布旅途？"
         open={dialogOpen}
