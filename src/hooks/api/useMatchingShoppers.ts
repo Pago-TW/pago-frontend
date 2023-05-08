@@ -1,6 +1,6 @@
 import { axios } from "@/libs/axios";
 import type { PaginatedResponse, PaginationParams } from "@/types/api";
-import type { Order, Shopper } from "@/types/order";
+import type { Order, OrderShopper } from "@/types/order";
 import { getLastIndex } from "@/utils/getLastIndex";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
@@ -11,7 +11,9 @@ type Options = {
   pageParam?: number;
 };
 
-type MatchingShoppersResponse = PaginatedResponse<Shopper[]> & { order: Order };
+type MatchingShoppersResponse = PaginatedResponse<OrderShopper[]> & {
+  order: Order;
+};
 
 const getMatchingShoppers = async (
   orderId: Order["orderId"],

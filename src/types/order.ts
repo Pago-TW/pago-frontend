@@ -3,7 +3,7 @@ import type { User } from "./user";
 export interface Order {
   orderId: string;
   serialNumber: string;
-  consumerId: string;
+  consumer: OrderConsumer;
   destinationCountryName: string;
   destinationCityName: string;
   destinationCountryCode: string;
@@ -22,7 +22,7 @@ export interface Order {
   isVerificationRequired: boolean;
   createDate: string;
   updateDate: string;
-  shopper?: Shopper;
+  shopper?: OrderShopper;
   isApplicant: boolean;
   isBidder: boolean;
   hasCancellationRecord: boolean;
@@ -56,7 +56,10 @@ export interface OrderItem {
   fileUrls: string[];
 }
 
-export interface Shopper
-  extends Pick<User, "userId" | "fullName" | "avatarUrl"> {
+export type OrderUser = Pick<User, "userId" | "fullName" | "avatarUrl">;
+
+export type OrderConsumer = OrderUser;
+
+export interface OrderShopper extends OrderUser {
   latestDeliveryDate: string;
 }

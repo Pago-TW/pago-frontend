@@ -1,6 +1,6 @@
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import type { Shopper } from "@/types/order";
+import type { OrderShopper } from "@/types/order";
 import { formatDate } from "@/utils/formatDateTime";
 import { Avatar, Box, Paper, Stack } from "@mui/material";
 import { Button } from "./ui/Button";
@@ -8,7 +8,7 @@ import { Link } from "./ui/Link";
 import { Typography } from "./ui/Typography";
 
 export type ShopperInfoProps = Pick<
-  Shopper,
+  OrderShopper,
   "userId" | "avatarUrl" | "fullName" | "latestDeliveryDate"
 >;
 

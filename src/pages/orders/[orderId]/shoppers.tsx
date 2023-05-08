@@ -6,7 +6,7 @@ import { Paper } from "@/components/ui/Paper";
 import { Typography } from "@/components/ui/Typography";
 import { useMatchingShoppers } from "@/hooks/api/useMatchingShoppers";
 import { useOrder } from "@/hooks/api/useOrder";
-import type { Shopper } from "@/types/order";
+import type { OrderShopper } from "@/types/order";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { ArrowDownward } from "@mui/icons-material";
 import { Avatar, Box, Container, Link, Stack } from "@mui/material";
@@ -17,7 +17,10 @@ import type { FC } from "react";
 import { useEffect, useMemo } from "react";
 import { useInView } from "react-intersection-observer";
 
-type ShopperChooserProps = Pick<Shopper, "userId" | "fullName" | "avatarUrl">;
+type ShopperChooserProps = Pick<
+  OrderShopper,
+  "userId" | "fullName" | "avatarUrl"
+>;
 
 const ShopperChooser: FC<ShopperChooserProps> = ({
   userId,
