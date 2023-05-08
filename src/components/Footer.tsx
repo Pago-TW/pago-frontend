@@ -11,6 +11,7 @@ const Footer: React.FC = () => {
   return (
     <Box
       sx={{
+        position: "relative",
         display: "grid",
         gridTemplateRows: { xs: "auto 1fr", md: "1fr" },
         gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
@@ -135,15 +136,24 @@ const Footer: React.FC = () => {
           </Box>
         </Stack>
       </Box>
-      {/* <Typography
-        variant="h6"
-        color="primary.main"
-        weightPreset="normal"
-        textAlign={{ xs: "center", md: "left" }}
-        sx={{ gridRow: { xs: "2", md: "1" }, gridColumn: { md: "span 3" } }}
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: 20,
+          left: "50%",
+          transform: "translateX(-50%)",
+          display: "grid",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          paddingTop: 2,
+          backgroundColor: (theme) => theme.palette.background.paper,
+        }}
       >
-        Copyright © 2023 Pago
-      </Typography> */}
+        <Typography variant="body1" color="base.500">
+          聯絡信箱：pago.service.me@gmail.com
+        </Typography>
+      </Box>
     </Box>
   );
 };
