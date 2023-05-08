@@ -1,5 +1,5 @@
-import type { CancelFormValues } from "@/components/CancelModal";
-import { CancelModal } from "@/components/CancelModal";
+import type { ApplyCancelFormValues } from "@/components/actions/ApplyCancelModal";
+import { ApplyCancelModal } from "@/components/actions/ApplyCancelModal";
 import { useApplyCancelOrder } from "@/hooks/api/useApplyCancelOrder";
 import type { Perspective } from "@/types/misc";
 import { useRouter } from "next/router";
@@ -8,7 +8,10 @@ import type { ActionWithModalAndConfirmationProps } from "./ActionWithModalAndCo
 import { ActionWithModalAndConfirmation } from "./ActionWithModalAndConfirmation";
 
 export const ApplyCancelAction: FC<
-  Pick<ActionWithModalAndConfirmationProps<CancelFormValues>, "disabled"> & {
+  Pick<
+    ActionWithModalAndConfirmationProps<ApplyCancelFormValues>,
+    "disabled"
+  > & {
     perspective: Perspective;
   }
 > = ({ disabled, perspective }) => {
@@ -17,7 +20,7 @@ export const ApplyCancelAction: FC<
 
   const { mutate: applyCancel } = useApplyCancelOrder();
 
-  const handleSubmit = (data: CancelFormValues) =>
+  const handleSubmit = (data: ApplyCancelFormValues) =>
     applyCancel({
       orderId,
       data: { cancelReason: data.reason, note: data.detail },
@@ -30,7 +33,7 @@ export const ApplyCancelAction: FC<
       disabled={disabled}
       confirmOptions={{ title: "確定取消此代購？" }}
       onClick={handleSubmit}
-      Modal={CancelModal}
+      Modal={ApplyCancelModal}
     >
       {perspective === "consumer" ? "取消委託" : "取消代購"}
     </ActionWithModalAndConfirmation>

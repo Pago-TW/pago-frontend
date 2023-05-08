@@ -12,10 +12,10 @@ import {
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { RadioGroupInput } from "./inputs/RadioGroupInput";
-import { Button } from "./ui/Button";
-import { FilledTextarea } from "./ui/FilledTextarea";
-import { Typography } from "./ui/Typography";
+import { RadioGroupInput } from "../inputs/RadioGroupInput";
+import { Button } from "../ui/Button";
+import { FilledTextarea } from "../ui/FilledTextarea";
+import { Typography } from "../ui/Typography";
 
 export const reasons = [
   "OUT_OF_STOCK",
@@ -31,7 +31,7 @@ const reasonLabelMap: Record<(typeof reasons)[number], string> = {
   OTHER: "其他",
 };
 
-export const cancelFormSchema = z
+export const applyCancelFormSchema = z
   .object({
     reason: z.enum(reasons),
     detail: z.string().optional(),
@@ -41,19 +41,23 @@ export const cancelFormSchema = z
     path: ["detail"],
   });
 
-const DEFAULT_VALUES: CancelFormValues = {
+const DEFAULT_VALUES: ApplyCancelFormValues = {
   reason: reasons[0],
   detail: "",
 };
 
-export type CancelFormValues = z.infer<typeof cancelFormSchema>;
+export type ApplyCancelFormValues = z.infer<typeof applyCancelFormSchema>;
 
-export type CancelModalProps = Pick<ModalProps, "open"> & {
+export type ApplyCancelModalProps = Pick<ModalProps, "open"> & {
   onClose: () => void;
-  onSubmit: (data: CancelFormValues) => void;
+  onSubmit: (data: ApplyCancelFormValues) => void;
 };
 
-export const CancelModal = ({ open, onClose, onSubmit }: CancelModalProps) => {
+export const ApplyCancelModal = ({
+  open,
+  onClose,
+  onSubmit,
+}: ApplyCancelModalProps) => {
   const [showTextarea, setShowTextarea] = useState(false);
 
   const {
@@ -65,7 +69,7 @@ export const CancelModal = ({ open, onClose, onSubmit }: CancelModalProps) => {
   } = useForm({
     mode: "onBlur",
     defaultValues: DEFAULT_VALUES,
-    resolver: zodResolver(cancelFormSchema),
+    resolver: zodResolver(applyCancelFormSchema),
   });
 
   const handleRadioChange = useCallback(
@@ -147,4 +151,4 @@ export const CancelModal = ({ open, onClose, onSubmit }: CancelModalProps) => {
   );
 };
 
-export default CancelModal;
+export default ApplyCancelModal;

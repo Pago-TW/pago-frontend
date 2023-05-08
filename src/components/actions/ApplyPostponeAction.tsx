@@ -1,5 +1,5 @@
-import type { PostponeFormValues } from "@/components/PostponeModal";
-import { PostponeModal } from "@/components/PostponeModal";
+import type { ApplyPostponeFormValues } from "@/components/actions/ApplyPostponeModal";
+import { ApplyPostponeModal } from "@/components/actions/ApplyPostponeModal";
 import { useApplyPostponeOrder } from "@/hooks/api/useApplyPostponeOrder";
 import { useRouter } from "next/router";
 import type { FC } from "react";
@@ -7,14 +7,14 @@ import type { ActionWithModalAndConfirmationProps } from "./ActionWithModalAndCo
 import { ActionWithModalAndConfirmation } from "./ActionWithModalAndConfirmation";
 
 export const ApplyPostponeAction: FC<
-  Pick<ActionWithModalAndConfirmationProps<PostponeFormValues>, "disabled">
+  Pick<ActionWithModalAndConfirmationProps<ApplyPostponeFormValues>, "disabled">
 > = ({ disabled }) => {
   const router = useRouter();
   const orderId = router.query.orderId as string;
 
   const { mutate: applyPostpone } = useApplyPostponeOrder();
 
-  const handleSubmit = (data: PostponeFormValues) => {
+  const handleSubmit = (data: ApplyPostponeFormValues) => {
     applyPostpone({
       orderId,
       data: { postponeReason: data.reason, note: data.detail },
@@ -26,7 +26,7 @@ export const ApplyPostponeAction: FC<
       disabled={disabled}
       confirmOptions={{ title: "確定申請延期？" }}
       onClick={handleSubmit}
-      Modal={PostponeModal}
+      Modal={ApplyPostponeModal}
     >
       申請延期
     </ActionWithModalAndConfirmation>

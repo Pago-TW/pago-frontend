@@ -12,10 +12,10 @@ import {
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { RadioGroupInput } from "./inputs/RadioGroupInput";
-import { Button } from "./ui/Button";
-import { FilledTextarea } from "./ui/FilledTextarea";
-import { Typography } from "./ui/Typography";
+import { RadioGroupInput } from "../inputs/RadioGroupInput";
+import { Button } from "../ui/Button";
+import { FilledTextarea } from "../ui/FilledTextarea";
+import { Typography } from "../ui/Typography";
 
 export const reasons = ["FORCE_MAJEURE", "PERSONAL_FACTOR", "OTHER"] as const;
 
@@ -25,7 +25,7 @@ const reasonLabelMap: Record<(typeof reasons)[number], string> = {
   OTHER: "其他",
 };
 
-export const postponeFormSchema = z
+export const applyPostponeFormSchema = z
   .object({
     reason: z.enum(reasons),
     detail: z.string().optional(),
@@ -35,23 +35,23 @@ export const postponeFormSchema = z
     path: ["detail"],
   });
 
-const DEFAULT_VALUES: PostponeFormValues = {
+const DEFAULT_VALUES: ApplyPostponeFormValues = {
   reason: reasons[0],
   detail: "",
 };
 
-export type PostponeFormValues = z.infer<typeof postponeFormSchema>;
-
-export type PostponeModalProps = Pick<ModalProps, "open"> & {
+export type ApplyPostponeFormValues = z.infer<typeof applyPostponeFormSchema>;
+1;
+export type ApplyPostponeModalProps = Pick<ModalProps, "open"> & {
   onClose: () => void;
-  onSubmit: (data: PostponeFormValues) => void;
+  onSubmit: (data: ApplyPostponeFormValues) => void;
 };
 
-export const PostponeModal = ({
+export const ApplyPostponeModal = ({
   open,
   onClose,
   onSubmit,
-}: PostponeModalProps) => {
+}: ApplyPostponeModalProps) => {
   const [showTextarea, setShowTextarea] = useState(false);
 
   const {
@@ -63,7 +63,7 @@ export const PostponeModal = ({
   } = useForm({
     mode: "onBlur",
     defaultValues: DEFAULT_VALUES,
-    resolver: zodResolver(postponeFormSchema),
+    resolver: zodResolver(applyPostponeFormSchema),
   });
 
   const handleRadioChange = useCallback(
@@ -145,4 +145,4 @@ export const PostponeModal = ({
   );
 };
 
-export default PostponeModal;
+export default ApplyPostponeModal;
