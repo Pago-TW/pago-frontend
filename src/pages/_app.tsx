@@ -6,6 +6,8 @@ import { Close } from "@mui/icons-material";
 import type { SlideProps } from "@mui/material";
 import { CssBaseline, IconButton, Slide } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { Session } from "next-auth";
@@ -44,23 +46,25 @@ const PagoApp = ({
         <QueryClientProvider client={queryClient}>
           <WebSocketProvider websocketUrl={`${env.NEXT_PUBLIC_API_URL}/ws`}>
             <ThemeProvider theme={theme}>
-              <SnackbarProvider
-                autoHideDuration={5000}
-                TransitionComponent={(props: Omit<SlideProps, "direction">) => (
-                  <Slide direction="right" {...props} />
-                )}
-                action={(key) => (
-                  <IconButton
-                    onClick={() => closeSnackbar(key)}
-                    color="inherit"
-                  >
-                    <Close />
-                  </IconButton>
-                )}
-              >
-                <CssBaseline />
-                <Component {...pageProps} />
-              </SnackbarProvider>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <SnackbarProvider
+                  autoHideDuration={5000}
+                  TransitionComponent={(
+                    props: Omit<SlideProps, "direction">
+                  ) => <Slide direction="right" {...props} />}
+                  action={(key) => (
+                    <IconButton
+                      onClick={() => closeSnackbar(key)}
+                      color="inherit"
+                    >
+                      <Close />
+                    </IconButton>
+                  )}
+                >
+                  <CssBaseline />
+                  <Component {...pageProps} />
+                </SnackbarProvider>
+              </LocalizationProvider>
             </ThemeProvider>
           </WebSocketProvider>
           <ReactQueryDevtools />
