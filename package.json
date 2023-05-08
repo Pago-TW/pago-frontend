@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",
+    "@next/bundle-analyzer": "^13.4.1",
     "@storybook/addon-a11y": "^7.0.9",
     "@storybook/addon-actions": "^7.0.9",
     "@storybook/addon-essentials": "^7.0.9",
