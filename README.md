@@ -11,17 +11,17 @@ Repository for the frontend of the Pago project.
 - [x] Multi images
   - [x] Display in `/orders/\[id\]` page
   - [x] Update `/orders/new` form to allow multi img upload
-- [ ] `/orders/\[id\]` feature
+- [x] `/orders/\[id\]` feature
   - [x] Order deleting
-  - [ ] Order editing
+  - [x] Order editing
   - [x] Status color
   - [x] (Action) buttons at the bottom of the page
-    - [ ] Test if the buttons work
+    - [x] Test if the buttons work
 - [ ] `/trips/\[id\]` feature
   - [ ] Trip deleting
   - [ ] Trip editing
   - [x] (Action) buttons at the bottom of the page
-    - [ ] Test if the buttons work
+    - [x] Test if the buttons work
 - [ ] Remove `error` and `helperText` props from all the components that used
      `useController` and use `field.error` instead
 - [ ] Turn multi steps form into wizard form
