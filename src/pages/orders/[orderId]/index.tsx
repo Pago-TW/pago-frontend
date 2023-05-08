@@ -5,8 +5,8 @@ import { FavoriteButton } from "@/components/FavoriteButton";
 import { ImageCarousel } from "@/components/ImageCarousel";
 import { PageTitle } from "@/components/PageTitle";
 import { ShareButton } from "@/components/ShareButton";
-import { ShopperInfo } from "@/components/ShopperInfo";
 import { StatusText } from "@/components/StatusText";
+import { UserCard } from "@/components/UserCard";
 import { Actions } from "@/components/actions/Actions";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { Typography } from "@/components/ui/Typography";
@@ -192,7 +192,7 @@ const OrderDetailPage: NextPage = () => {
 
   const { data: order } = useOrder(orderId);
 
-  const isOwner = !!userId && userId === order?.consumerId;
+  const isOwner = !!userId && userId === order?.consumer.userId;
   const isShopper = !!userId && userId === order?.shopper?.userId;
   const isOwnerOrShopper = isOwner || isShopper;
   const matched = !!order?.shopper;
@@ -223,6 +223,7 @@ const OrderDetailPage: NextPage = () => {
   if (!order) return null;
 
   const {
+    consumer,
     serialNumber,
     destinationCountryName,
     destinationCityName,
@@ -260,6 +261,28 @@ const OrderDetailPage: NextPage = () => {
 
   const perspective = isOwner ? "consumer" : "shopper";
 
+  const userCard = isOwner ? (
+    // If the viewer is owner and the shopper is matched, display shopper's card
+    shopper ? (
+      <UserCard
+        userId={shopper.userId}
+        avatarUrl={shopper.avatarUrl}
+        fullName={shopper.fullName}
+        latestDeliveryDate={shopper.latestDeliveryDate}
+        perspective="consumer"
+      />
+    ) : null
+  ) : (
+    // If the viewer is shopper or other ppl, display consumer's card
+    <UserCard
+      userId={consumer.userId}
+      avatarUrl={consumer.avatarUrl}
+      fullName={consumer.fullName}
+      // The latest delivery date may be undefined if the order is not matched yet
+      latestDeliveryDate={shopper?.latestDeliveryDate}
+      perspective="shopper"
+    />
+  );
   const bidList =
     // Only display when the order is not matched yet
     !shopper ? (
@@ -327,16 +350,8 @@ const OrderDetailPage: NextPage = () => {
             isApplicant={isApplicant}
           />
         ) : null}
-        {/* TODO: Make a ConsumerInfo component */}
-        {/* ShopperInfo, display when viewer is owner and the order is matched */}
-        {isOwner && shopper ? (
-          <ShopperInfo
-            userId={shopper.userId}
-            avatarUrl={shopper.avatarUrl}
-            fullName={shopper.fullName}
-            latestDeliveryDate={shopper.latestDeliveryDate}
-          />
-        ) : null}
+        {/* Consumer info, display when the order is not matched yet, or the view is the owner/shopper */}
+        {(!matched || isOwnerOrShopper) && userCard}
         {/* Bids (PC) */}
         {isDesktop ? bidList : null}
         {/* AvailableShoppers (PC) */}
