@@ -3,6 +3,7 @@ import type { Bid } from "@/types/bid";
 import type { Order } from "@/types/order";
 import type { Trip } from "@/types/trip";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { zonedTimeToUtc } from "date-fns-tz";
 
 type AddBidParams = {
   orderId: Trip["tripId"];
@@ -29,7 +30,15 @@ type AddBidResponse = {
 const addBid = async (params: AddBidParams) => {
   const { orderId, data } = params;
 
-  const res = await axios.post<AddBidResponse>(`/orders/${orderId}/bids`, data);
+  const postData = {
+    ...data,
+    latestDeliveryDate: zonedTimeToUtc(data.latestDeliveryDate, "UTC"),
+  };
+  const res = await axios.post<AddBidResponse>(
+    `/orders/${orderId}/bids`,
+    postData
+  );
+
   return res.data;
 };
 
