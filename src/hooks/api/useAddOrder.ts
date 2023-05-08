@@ -1,6 +1,7 @@
 import { axios } from "@/libs/axios";
 import type { Order } from "@/types/order";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { zonedTimeToUtc } from "date-fns-tz";
 import { serialize } from "object-to-formdata";
 
 export type AddOrderData = {
@@ -27,16 +28,24 @@ export type AddOrderData = {
 };
 
 const addOrder = async (data: AddOrderData) => {
-  const serializedData = serialize(
+  const { file, data: orderData } = data;
+
+  const postData = {
+    ...orderData,
+    latestReceiveItemDate: zonedTimeToUtc(
+      orderData.latestReceiveItemDate,
+      "UTC"
+    ),
+  };
+  const serializedPostData = serialize(
     {
-      file: data.file,
-      data: JSON.stringify(data.data),
+      file,
+      data: JSON.stringify(postData),
     },
-    {
-      noFilesWithArrayNotation: true,
-    }
+    { noFilesWithArrayNotation: true }
   );
-  const res = await axios.post<Order>("/orders", serializedData);
+  const res = await axios.post<Order>("/orders", serializedPostData);
+
   return res.data;
 };
 

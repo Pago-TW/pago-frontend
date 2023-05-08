@@ -2,6 +2,7 @@ import { axios } from "@/libs/axios";
 import type { Order, OrderStatus } from "@/types/order";
 import type { AtLeastOneRequired } from "@/types/util";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { zonedTimeToUtc } from "date-fns-tz";
 import type { AddOrderData } from "./useAddOrder";
 
 export type UpdateOrderData = AtLeastOneRequired<
@@ -16,7 +17,17 @@ type UpdateOrderParams = {
 const updateOrder = async (params: UpdateOrderParams) => {
   const { orderId, data } = params;
 
-  const res = await axios.patch(`/orders/${orderId}`, data);
+  const patchData = data.latestReceiveItemDate
+    ? {
+        ...data,
+        latestReceiveItemDate: zonedTimeToUtc(
+          data.latestReceiveItemDate,
+          "UTC"
+        ),
+      }
+    : data;
+  const res = await axios.patch<Order>(`/orders/${orderId}`, patchData);
+
   return res.data;
 };
 
