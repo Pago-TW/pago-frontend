@@ -16,7 +16,7 @@ export type AddReviewData = {
 const addReview = async (data: AddReviewData) => {
   const { orderId, ...postData } = data;
 
-  const serializedData = serialize(
+  const serializedPostData = serialize(
     {
       file: postData.file,
       data: JSON.stringify(postData.data),
@@ -26,7 +26,7 @@ const addReview = async (data: AddReviewData) => {
 
   const res = await axios.post<Review>(
     `/orders/${orderId}/reviews`,
-    serializedData
+    serializedPostData
   );
   return res.data;
 };
