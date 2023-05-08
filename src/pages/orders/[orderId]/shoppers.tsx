@@ -56,7 +56,7 @@ export default function OrderShoppersPage() {
 
   const { data: order } = useOrder(orderId);
 
-  const isOwner = userId !== undefined && userId === order?.consumerId;
+  const isOwner = userId !== undefined && userId === order?.consumer.userId;
 
   const {
     data: shoppersData,
