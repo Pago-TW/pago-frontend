@@ -15,7 +15,6 @@ import { PaperLayout } from "../layouts/PaperLayout";
 import { Typography } from "../ui/Typography";
 import { merchandiseFormSchema } from "./MerchandiseForm";
 import { needsFormSchema } from "./NeedsForm";
-import { useTimezone } from "@/hooks/useTimezone";
 
 export const reviewFormSchema = merchandiseFormSchema.merge(needsFormSchema);
 
@@ -52,7 +51,6 @@ export const ReviewForm = () => {
   const [preview, setPreview] = useState<string>("");
 
   const locale = useLocale();
-  const timezone = useTimezone();
 
   const { getValues } = useFormContext<ReviewFormValues>();
 
@@ -172,7 +170,7 @@ export const ReviewForm = () => {
           />
           <DetailItem
             label="最晚收到商品時間"
-            value={formatDate({ date: deadline, timezone, locale })}
+            value={formatDate({ date: deadline, locale })}
             multiLine
           />
           <DetailItem label="備註" value={note} multiLine />

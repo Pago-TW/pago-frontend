@@ -2,7 +2,6 @@ import type { AddOrderData } from "@/hooks/api/useAddOrder";
 import { useCharge } from "@/hooks/api/useCharge";
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useTimezone } from "@/hooks/useTimezone";
 import { formatDate } from "@/utils/formatDateTime";
 import { translateBoolean } from "@/utils/translateBoolean";
 import { Place } from "@mui/icons-material";
@@ -55,7 +54,6 @@ export const EditReviewForm: FC<EditMerchandiseFormProps> = ({
   imageUrls = [],
 }) => {
   const locale = useLocale();
-  const timezone = useTimezone();
 
   const { getValues } = useFormContext<EditReviewFormValues>();
 
@@ -160,7 +158,7 @@ export const EditReviewForm: FC<EditMerchandiseFormProps> = ({
           />
           <DetailItem
             label="最晚收到商品時間"
-            value={formatDate({ date: deadline, timezone, locale })}
+            value={formatDate({ date: deadline, locale })}
             multiLine
           />
           <DetailItem label="備註" value={note} multiLine />

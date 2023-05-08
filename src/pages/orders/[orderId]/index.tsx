@@ -15,7 +15,6 @@ import { useMatchingShoppers } from "@/hooks/api/useMatchingShoppers";
 import { useOrder } from "@/hooks/api/useOrder";
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useTimezone } from "@/hooks/useTimezone";
 import type { Order } from "@/types/order";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { formatDate } from "@/utils/formatDateTime";
@@ -90,7 +89,6 @@ const DetailList = (
   } = props;
 
   const locale = useLocale();
-  const timezone = useTimezone();
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
@@ -168,7 +166,7 @@ const DetailList = (
       />
       <DetailItem
         label="最晚收到商品時間"
-        value={formatDate({ date: latestReceiveItemDate, timezone, locale })}
+        value={formatDate({ date: latestReceiveItemDate, locale })}
         multiLine={multiline}
       />
       <DetailItem label="備註" value={note} multiLine={multiline} />

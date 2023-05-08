@@ -8,7 +8,6 @@ import { useOrder } from "@/hooks/api/useOrder";
 import { useTakeOrderTrips } from "@/hooks/api/useTakeOrderTrips";
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useTimezone } from "@/hooks/useTimezone";
 import type { Order } from "@/types/order";
 import { formatDate } from "@/utils/formatDateTime";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -61,7 +60,6 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
   const { orderId, open, onOpen, onClose, onSubmit } = props;
 
   const locale = useLocale();
-  const timezone = useTimezone();
 
   const isTablet = useMediaQuery((theme) => theme.breakpoints.up("sm"));
 
@@ -143,7 +141,7 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
           {tripOptions.map((opt) => (
             <MenuItem key={opt.tripId} value={opt.tripId}>
               {opt.fromCountryChineseName} → {opt.toCountryChineseName} (
-              {formatDate({ date: opt.arrivalDate, timezone, locale })})
+              {formatDate({ date: opt.arrivalDate, locale })})
             </MenuItem>
           ))}
         </SelectInput>

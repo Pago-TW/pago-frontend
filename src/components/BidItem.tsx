@@ -1,6 +1,5 @@
 import { useLocale } from "@/hooks/useLocale";
 import { useOpen } from "@/hooks/useOpen";
-import { useTimezone } from "@/hooks/useTimezone";
 import type { Bid } from "@/types/bid";
 import { formatDateTime } from "@/utils/formatDateTime";
 import { Star } from "@mui/icons-material";
@@ -41,7 +40,6 @@ export const BidItem = (props: BidItemProps) => {
   } = props;
 
   const locale = useLocale();
-  const timezone = useTimezone();
 
   const { open, handleOpen, handleClose } = useOpen();
 
@@ -56,7 +54,6 @@ export const BidItem = (props: BidItemProps) => {
   );
   const formattedEstDeliveryDate = formatDateTime({
     date: estDeliveryDate,
-    timezone,
     locale,
   });
 

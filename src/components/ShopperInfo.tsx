@@ -1,6 +1,5 @@
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useTimezone } from "@/hooks/useTimezone";
 import type { Shopper } from "@/types/order";
 import { formatDate } from "@/utils/formatDateTime";
 import { Avatar, Box, Paper, Stack } from "@mui/material";
@@ -20,13 +19,11 @@ export const ShopperInfo = ({
   latestDeliveryDate,
 }: ShopperInfoProps) => {
   const locale = useLocale();
-  const timezone = useTimezone();
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
   const formattedLatestDeliveryDate = formatDate({
     date: latestDeliveryDate,
-    timezone,
     locale,
   });
 

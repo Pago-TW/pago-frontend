@@ -1,5 +1,4 @@
 import { useLocale } from "@/hooks/useLocale";
-import { useTimezone } from "@/hooks/useTimezone";
 import type { Trip } from "@/types/trip";
 import { formatDate } from "@/utils/formatDateTime";
 import { Stack } from "@mui/material";
@@ -13,12 +12,10 @@ export const TripItem = ({
   arrivalDate,
 }: TripItemProps) => {
   const locale = useLocale();
-  const timezone = useTimezone();
 
   const formattedArrivalDate = formatDate({
     date: arrivalDate,
     locale,
-    timezone,
   });
 
   return (

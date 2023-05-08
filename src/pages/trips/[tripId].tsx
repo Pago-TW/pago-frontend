@@ -12,7 +12,6 @@ import { useMatchingOrders } from "@/hooks/api/useMatchingOrders";
 import { useOrders } from "@/hooks/api/useOrders";
 import { useTrip } from "@/hooks/api/useTrip";
 import { useLocale } from "@/hooks/useLocale";
-import { useTimezone } from "@/hooks/useTimezone";
 import type { Trip } from "@/types/trip";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { formatDate } from "@/utils/formatDateTime";
@@ -53,11 +52,9 @@ const TripInfo: FC<TripInfoProps> = ({
   totalMatchedOrders,
 }) => {
   const locale = useLocale();
-  const timezone = useTimezone();
 
   const formattedArrivalDate = formatDate({
     date: arrivalDate,
-    timezone,
     locale,
   });
 

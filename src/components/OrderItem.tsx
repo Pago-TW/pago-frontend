@@ -1,6 +1,5 @@
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useTimezone } from "@/hooks/useTimezone";
 import type { Order } from "@/types/order";
 import { formatDate } from "@/utils/formatDateTime";
 import { ChevronRight } from "@mui/icons-material";
@@ -28,13 +27,11 @@ export const OrderItem = ({
   latestReceiveItemDate,
 }: OrderItemProps) => {
   const locale = useLocale();
-  const timezone = useTimezone();
 
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   const formattedLatestReceiveItemDate = formatDate({
     date: latestReceiveItemDate,
-    timezone,
     locale,
   });
   const firstImageUrl = fileUrls?.[0];
