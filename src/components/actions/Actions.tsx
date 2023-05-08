@@ -1,6 +1,6 @@
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Perspective } from "@/types/misc";
-import type { OrderStatus } from "@/types/order";
+import type { Order, OrderStatus } from "@/types/order";
 import { Box, Paper } from "@mui/material";
 import type { ConfirmOptions } from "material-ui-confirm";
 import { ConfirmProvider } from "material-ui-confirm";
@@ -77,18 +77,21 @@ const ActionsWrapper = ({ children }: { children: ReactNode }) => {
   );
 };
 
-type ConsumerActionsProps = {
+type ConsumerActionsProps = Pick<
+  Order,
+  "hasCancellationRecord" | "hasPostponeRecord"
+> & {
   status: Exclude<OrderStatus, "TO_BE_CANCELLED" | "TO_BE_POSTPONED">;
-  hasCancelled: boolean;
-  hasPostponed: boolean;
 };
 
 const ConsumerActions: FC<ConsumerActionsProps> = ({
   status,
-  hasCancelled,
-  hasPostponed,
+  hasCancellationRecord,
+  hasPostponeRecord,
 }) => {
-  const postponeAction = <DynamicApplyPostponeAction disabled={hasPostponed} />;
+  const postponeAction = (
+    <DynamicApplyPostponeAction disabled={hasPostponeRecord} />
+  );
 
   switch (status) {
     case "REQUESTED":
@@ -103,7 +106,7 @@ const ConsumerActions: FC<ConsumerActionsProps> = ({
         <ActionsWrapper>
           <DynamicApplyCancelAction
             perspective="consumer"
-            disabled={hasCancelled}
+            disabled={hasCancellationRecord}
           />
           {postponeAction}
         </ActionsWrapper>
@@ -127,20 +130,20 @@ const ConsumerActions: FC<ConsumerActionsProps> = ({
   }
 };
 
-type ShopperActionsProps = {
+type ShopperActionsProps = Pick<
+  Order,
+  "hasCancellationRecord" | "hasPostponeRecord" | "isBidder"
+> & {
   status: Exclude<OrderStatus, "TO_BE_CANCELLED" | "TO_BE_POSTPONED">;
-  isBidder: boolean;
   isShopper: boolean;
-  hasCancelled: boolean;
-  hasPostponed: boolean;
 };
 
 const ShopperActions: FC<ShopperActionsProps> = ({
   status,
   isBidder,
   isShopper,
-  hasCancelled,
-  hasPostponed,
+  hasCancellationRecord,
+  hasPostponeRecord,
 }) => {
   if (status === "REQUESTED") {
     return !isBidder ? (
@@ -158,7 +161,7 @@ const ShopperActions: FC<ShopperActionsProps> = ({
         <ActionsWrapper>
           <DynamicApplyCancelAction
             perspective="shopper"
-            disabled={hasCancelled}
+            disabled={hasCancellationRecord}
           />
           <DynamicUpdateStatusAction
             confirmOptions={{ title: "確定進入面交流程嗎？" }}
@@ -171,7 +174,7 @@ const ShopperActions: FC<ShopperActionsProps> = ({
     case "TO_BE_DELIVERED":
       return (
         <ActionsWrapper>
-          <DynamicApplyPostponeAction disabled={hasPostponed} />
+          <DynamicApplyPostponeAction disabled={hasPostponeRecord} />
           <DynamicFinishAction
             perspective="shopper"
             confirmOptions={{ title: "確定此次代購已完成？" }}
@@ -198,8 +201,8 @@ export const Actions: FC<ActionsProps> = ({
   isBidder,
   isShopper,
   isApplicant,
-  hasCancelled,
-  hasPostponed,
+  hasCancellationRecord,
+  hasPostponeRecord,
 }) => {
   if (status === "TO_BE_CANCELLED") {
     if (perspective !== "consumer" && !isShopper) return null;
@@ -227,16 +230,16 @@ export const Actions: FC<ActionsProps> = ({
   return perspective === "consumer" ? (
     <ConsumerActions
       status={status}
-      hasCancelled={hasCancelled}
-      hasPostponed={hasPostponed}
+      hasCancellationRecord={hasCancellationRecord}
+      hasPostponeRecord={hasPostponeRecord}
     />
   ) : (
     <ShopperActions
       status={status}
       isBidder={isBidder}
       isShopper={isShopper}
-      hasCancelled={hasCancelled}
-      hasPostponed={hasPostponed}
+      hasCancellationRecord={hasCancellationRecord}
+      hasPostponeRecord={hasPostponeRecord}
     />
   );
 };

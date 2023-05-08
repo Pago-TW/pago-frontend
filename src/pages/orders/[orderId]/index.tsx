@@ -250,8 +250,8 @@ const OrderDetailPage: NextPage = () => {
     shopper,
     isApplicant,
     isBidder,
-    hasCancelled,
-    hasPostponed,
+    hasCancellationRecord,
+    hasPostponeRecord,
   } = order;
 
   const handleFavorite = () => {
@@ -383,8 +383,8 @@ const OrderDetailPage: NextPage = () => {
           isBidder={isBidder}
           isShopper={isShopper}
           isApplicant={isApplicant}
-          hasCancelled={hasCancelled}
-          hasPostponed={hasPostponed}
+          hasCancellationRecord={hasCancellationRecord}
+          hasPostponeRecord={hasPostponeRecord}
         />
       </Stack>
     </Stack>
