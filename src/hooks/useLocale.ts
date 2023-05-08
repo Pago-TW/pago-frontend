@@ -22,7 +22,7 @@ const getLocale = () => {
 };
 
 export const useLocale = () => {
-  const [locale, setLocale] = useState(getLocale());
+  const [locale, setLocale] = useState("en-US");
 
   useEffect(() => {
     setLocale(getLocale());
