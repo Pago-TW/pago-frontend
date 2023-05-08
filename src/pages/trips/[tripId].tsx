@@ -13,7 +13,7 @@ import { useOrders } from "@/hooks/api/useOrders";
 import { useTrip } from "@/hooks/api/useTrip";
 import { useLocale } from "@/hooks/useLocale";
 import { useTimezone } from "@/hooks/useTimezone";
-import { Trip } from "@/types/trip";
+import type { Trip } from "@/types/trip";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { formatDate } from "@/utils/formatDateTime";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
@@ -21,7 +21,8 @@ import { Box, Container, Stack } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { FC, useMemo, useState } from "react";
+import type { FC } from "react";
+import { useMemo, useState } from "react";
 
 const TABS = [
   { label: "全部", value: "ALL" },
