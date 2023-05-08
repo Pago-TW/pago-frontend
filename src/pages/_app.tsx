@@ -1,5 +1,5 @@
+import { WebSocketProvider } from "@/contexts/WebSocketContext";
 import { env } from "@/env.mjs";
-import { WebSocketProvider } from "@/websocket/contexts/WebSocketContext";
 import type { EmotionCache } from "@emotion/react";
 import { CacheProvider } from "@emotion/react";
 import { Close } from "@mui/icons-material";

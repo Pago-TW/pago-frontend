@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import InputSection from "@/components/InputSection";
 import MessageBoard from "@/components/MessageBoard";
+import { useWebSocket } from "@/contexts/WebSocketContext";
 import { useChatroom } from "@/hooks/api/useChatroom";
 import useChatroomMessages from "@/hooks/api/useChatroomMessages";
 import { useLocale } from "@/hooks/useLocale";
@@ -9,7 +10,6 @@ import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import type { Message, SendMessageRequest } from "@/types/message";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { formatTime } from "@/utils/formatDateTime";
-import { useWebSocket } from "@/websocket/contexts/WebSocketContext";
 import { Box } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 import { useSession } from "next-auth/react";
