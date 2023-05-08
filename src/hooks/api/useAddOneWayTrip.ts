@@ -1,6 +1,7 @@
 import { axios } from "@/libs/axios";
 import type { Trip } from "@/types/trip";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { zonedTimeToUtc } from "date-fns-tz";
 
 type AddOneWayTripData = {
   fromCountry: string;
@@ -11,7 +12,10 @@ type AddOneWayTripData = {
 };
 
 const addOneWayTrip = async (data: AddOneWayTripData) => {
-  const res = await axios.post<Trip>("/trips", data);
+  const res = await axios.post<Trip>("/trips", {
+    ...data,
+    arrivalDate: zonedTimeToUtc(data.arrivalDate, "UTC"),
+  });
   return res.data;
 };
 

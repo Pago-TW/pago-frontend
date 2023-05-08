@@ -2,6 +2,7 @@ import { useAddRoundTrip } from "@/hooks/api/useAddRoundTrip";
 import { useOpen } from "@/hooks/useOpen";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Stack } from "@mui/material";
+import { startOfDay, subDays } from "date-fns";
 import { useRouter } from "next/router";
 import { useCallback, type FC } from "react";
 import { useForm } from "react-hook-form";
@@ -13,7 +14,8 @@ import { DatePicker } from "../inputs/DatePicker";
 import { PaperLayout } from "../layouts/PaperLayout";
 import { oneWayTripFormSchema } from "./OneWayTripForm";
 
-const currentDate = new Date();
+const currentDate = startOfDay(new Date());
+const minDate = subDays(currentDate, 1);
 
 export const roundTripFormSchema = oneWayTripFormSchema
   .extend({
@@ -96,7 +98,7 @@ export const RoundTripForm: FC = () => {
               control={control}
               name="arrivalDate"
               label="抵達時間"
-              minDate={currentDate}
+              minDate={minDate}
               onChange={(date) => {
                 if (date) {
                   const returnDate = getValues("returnDate");

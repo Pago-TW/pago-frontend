@@ -2,6 +2,7 @@ import { useAddOneWayTrip } from "@/hooks/api/useAddOneWayTrip";
 import { useOpen } from "@/hooks/useOpen";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Stack } from "@mui/material";
+import { startOfDay, subDays } from "date-fns";
 import { useRouter } from "next/router";
 import type { FC } from "react";
 import { useCallback } from "react";
@@ -15,7 +16,8 @@ import CountryCitySelect, {
 import { DatePicker } from "../inputs/DatePicker";
 import { PaperLayout } from "../layouts/PaperLayout";
 
-const currentDate = new Date();
+const currentDate = startOfDay(new Date());
+const minDate = subDays(currentDate, 1);
 
 export const oneWayTripFormSchema = z.object({
   from: countryCitySchema.refine(
@@ -25,7 +27,7 @@ export const oneWayTripFormSchema = z.object({
   to: countryCitySchema.refine((value) => Object.values(value).every(Boolean), {
     message: "請選擇目的地",
   }),
-  arrivalDate: z.date().min(currentDate, { message: "抵達時間不可早於今天" }),
+  arrivalDate: z.date().min(minDate, { message: "不合理的抵達時間" }),
 });
 
 export type OneWayTripFormValues = z.infer<typeof oneWayTripFormSchema>;
@@ -94,7 +96,7 @@ export const OneWayTripForm: FC = () => {
             control={control}
             name="arrivalDate"
             label="抵達時間"
-            minDate={currentDate}
+            minDate={minDate}
             slotProps={{
               textField: {
                 error: !!errors.arrivalDate,
