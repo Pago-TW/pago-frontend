@@ -1,21 +1,16 @@
-import { useChatrooms } from "@/hooks/api/useChatrooms";
+import { HorizontalCenterTabList, StyledTab } from "@/components/UserTabs";
+import { TabPanel } from "@/components/ui/TabPanel";
 import { useNotifications } from "@/hooks/api/useNotifications";
+import { useMarkNotificationAsRead } from "@/hooks/api/useMarkNotificationAsRead";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { Divider, Drawer, List, Paper, Box } from "@mui/material";
+import { TabContext } from "@mui/lab";
+import { Box, Divider, Drawer, List, Paper } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import { Chatroom } from "./Chatroom";
-import { ChatroomListItem } from "./ChatroomListItem";
-import { NotificationListItem } from "./NotificationListItem";
 import { Header } from "./Header";
-import { TabContext } from "@mui/lab";
-import { TabPanel } from "@/components/ui/TabPanel";
-import {
-  HorizontalCenterTabList,
-  RequestedCommissions,
-  StyledTab,
-} from "@/components/UserTabs";
+import { NotificationListItem } from "./NotificationListItem";
 import { Typography } from "./ui/Typography";
 
 const PAGE_TABS = [
@@ -44,16 +39,16 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
   const setChatWith = useChatroomStore((state) => state.setChatWith);
   const clearChatWith = useChatroomStore((state) => state.clearChatWith);
   const [tab, setTab] = useState<PageTabValue>("ORDER");
+  const markNotificationAsReadMutation = useMarkNotificationAsRead();
+
+  const handleNotificationClick = (notificationId: string) => {
+    markNotificationAsReadMutation.mutate({ notificationId });
+  };
 
   const handleTabChange = (
     _event: React.SyntheticEvent,
     newTab: PageTabValue
   ) => setTab(newTab);
-
-  //   const { data: chatroomsData, refetch } = useChatrooms(undefined, {
-  //     enabled: status === "authenticated",
-  //     refetchOnWindowFocus: false,
-  //   });
 
   const { data: notificationData, refetch } = useNotifications(undefined, {
     enabled: status === "authenticated",
@@ -64,11 +59,6 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
     () => flattenInfinitePaginatedData(notificationData),
     [notificationData]
   );
-
-  //   const chatrooms = useMemo(
-  //     () => flattenInfinitePaginatedData(chatroomsData),
-  //     [chatroomsData]
-  //   );
 
   useEffect(() => {
     if (chatroomListOpen) refetch();
@@ -117,13 +107,16 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
                           notificationId={notification.notificationId}
                           content={notification.content}
                           imageUrl={notification.imageUrl || ""}
-                          updateDate={notification.updateDate}
+                          createDate={notification.createDate}
                           isRead={notification.isRead}
                           notificationType={
                             notification.notificationType as
                               | "TRIP"
                               | "ORDER"
                               | "SYSTEM"
+                          }
+                          onClick={() =>
+                            handleNotificationClick(notification.notificationId)
                           }
                         />
                         {index !== notifications.length - 1 && (
@@ -163,13 +156,16 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
                           notificationId={notification.notificationId}
                           content={notification.content}
                           imageUrl={notification.imageUrl || ""}
-                          updateDate={notification.updateDate}
+                          createDate={notification.updateDate}
                           isRead={notification.isRead}
                           notificationType={
                             notification.notificationType as
                               | "TRIP"
                               | "ORDER"
                               | "SYSTEM"
+                          }
+                          onClick={() =>
+                            handleNotificationClick(notification.notificationId)
                           }
                         />
                         {index !== notifications.length - 1 && (
