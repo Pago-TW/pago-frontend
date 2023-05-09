@@ -32,7 +32,7 @@ export const UserCard = ({
       ? `將由 ${fullName} 進行代購`
       : `將為 ${fullName} 進行代購`;
 
-  let latestDeliveryDateElm;
+  let latestDeliveryDateElem;
   if (latestDeliveryDate) {
     const formattedLatestDeliveryDate = formatDate({
       date: latestDeliveryDate,
@@ -42,7 +42,7 @@ export const UserCard = ({
       perspective === "consumer"
         ? `預計將於 ${formattedLatestDeliveryDate} 前購買並面交商品`
         : `請於 ${formattedLatestDeliveryDate} 前購買並面交商品`;
-    latestDeliveryDateElm = (
+    latestDeliveryDateElem = (
       <Typography variant="h6" color="base.500" as="p">
         {latestDeliveryDateMsg}
       </Typography>
@@ -76,7 +76,7 @@ export const UserCard = ({
           查看代購者詳情
         </Button>
       </Box>
-      {latestDeliveryDateElm}
+      {latestDeliveryDateElem}
     </Paper>
   );
 };
