@@ -68,11 +68,6 @@ export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
   const { webSocketService, sendFileMessage } = useWebSocket();
 
   useEffect(() => {
-    if (!!chatWith) window.addEventListener("popstate", clearChatWith);
-    return () => window.removeEventListener("popstate", clearChatWith);
-  }, [chatWith, clearChatWith]);
-
-  useEffect(() => {
     if (webSocketService) {
       const handleMessage = (message: Message) => {
         setLocalMessages((prevMessages) => [

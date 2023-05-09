@@ -4,7 +4,7 @@ import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedDa
 import { Divider, Drawer, List, Paper } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { Chatroom } from "./Chatroom";
 import { ChatroomListItem } from "./ChatroomListItem";
 import { Header } from "./Header";
@@ -44,10 +44,21 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
     if (chatroomListOpen) refetch();
   }, [chatroomListOpen, refetch]);
 
-  const handleChatroomItemClick = (chatWith: string) => {
+  const handleChatroomOpen = (chatWith: string) => {
     setChatWith(chatWith);
     router.push(router.asPath, undefined, { shallow: true });
   };
+
+  const handleChatroomClose = useCallback(() => {
+    if (!!chatWith) clearChatWith();
+  }, [chatWith, clearChatWith]);
+
+  useEffect(() => {
+    window.addEventListener("popstate", handleChatroomClose);
+    return () => {
+      window.removeEventListener("popstate", handleChatroomClose);
+    };
+  }, [handleChatroomClose]);
 
   return (
     <>
@@ -73,9 +84,7 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
                 latestMessageType={
                   chatRoom.latestMessageType as "FILE" | "TEXT"
                 }
-                onClick={() =>
-                  handleChatroomItemClick(chatRoom.otherUser.userId)
-                }
+                onClick={() => handleChatroomOpen(chatRoom.otherUser.userId)}
               />
               {index !== chatrooms.length - 1 && (
                 <Divider variant="inset" component="li" />
@@ -87,7 +96,7 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
       <Drawer
         anchor="right"
         open={!!chatWith}
-        onClose={clearChatWith}
+        onClose={handleChatroomClose}
         PaperProps={{
           sx: {
             width: "100%",

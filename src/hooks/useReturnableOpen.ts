@@ -13,8 +13,7 @@ export const useReturnableOpen = () => {
   };
   const handleClose = useCallback(() => {
     setOpen(false);
-    router.back();
-  }, [router, setOpen]);
+  }, [setOpen]);
 
   useEffect(() => {
     if (open) window.addEventListener("popstate", handleClose);
