@@ -5,7 +5,7 @@ import { FavoriteButton } from "@/components/FavoriteButton";
 import { ImageCarousel } from "@/components/ImageCarousel";
 import { PageTitle } from "@/components/PageTitle";
 import { ShareButton } from "@/components/ShareButton";
-import { StatusText } from "@/components/StatusText";
+import { StatusBox } from "@/components/StatusBox";
 import { UserCard } from "@/components/UserCard";
 import { Actions } from "@/components/actions/Actions";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
@@ -344,7 +344,7 @@ const OrderDetailPage: NextPage = () => {
         </AreaWrapper>
         {/* Status, display when not matched (i.e. REQUESTED status) or when view is owner/shopper */}
         {(!matched && isBidder) || isOwnerOrShopper ? (
-          <StatusText
+          <StatusBox
             perspective={perspective}
             status={orderStatus}
             isApplicant={isApplicant}
