@@ -5,7 +5,7 @@ import { formatDate } from "@/utils/formatDateTime";
 import { ChevronRight } from "@mui/icons-material";
 import { Box, Paper, Skeleton, Stack } from "@mui/material";
 import Image from "next/image";
-import { Status } from "./Status";
+import { StatusText } from "./StatusText";
 import { Divider } from "./ui/Divider";
 import { Typography } from "./ui/Typography";
 
