@@ -20,6 +20,7 @@ export const Header: FC<HeaderProps> = ({ title, onBackClick }) => {
         background: "#ffffff",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
         position: "fixed",
+        zIndex: (theme) => theme.zIndex.appBar,
       }}
     >
       <Grid container alignItems="center">
