@@ -45,5 +45,5 @@ Repository for the frontend of the Pago project.
 - [ ] No using `variant` prop to control [`Typography`](/src/components/ui/Typography.tsx) font size
 - [x] Extract date formation to an util function
 - [ ] Consider to do date transform before mapping as items
-- [ ] Disable the submit button when the form is submitting and after the form is submitted successfully
+- [x] Disable the submit button when the form is submitting and after the form is submitted successfully
 - [ ] Use setQueryData to update the query cache after the form is submitted successfully
