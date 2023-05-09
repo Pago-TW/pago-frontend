@@ -1,4 +1,5 @@
 import { useChatrooms } from "@/hooks/api/useChatrooms";
+import { useOpen } from "@/hooks/useOpen";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import { useNavbarStore } from "@/store/ui/useNavbarStore";
 import { ClickAwayListener } from "@mui/base";
@@ -37,6 +38,7 @@ import {
 } from "@mui/material";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import type { FC } from "react";
 import { useState } from "react";
 import { ChatroomList } from "./ChatroomList";
 import { Search } from "./Search";
@@ -45,7 +47,7 @@ import { Link } from "./ui/Link";
 import { Paper } from "./ui/Paper";
 import { Typography } from "./ui/Typography";
 
-const drawerWidth = 270;
+const leftNavbarDrawerWidth = 270;
 
 const UserButton = () => {
   const { data: session } = useSession();
@@ -155,10 +157,10 @@ const UserButton = () => {
 };
 
 type NavbarButtonsProps = {
-  onMailClick?: () => void;
+  onMessageClick?: () => void;
 };
 
-const NavbarButtons = ({ onMailClick }: NavbarButtonsProps) => {
+const NavbarButtons = ({ onMessageClick: onMailClick }: NavbarButtonsProps) => {
   const router = useRouter();
 
   const { status } = useSession();
@@ -275,28 +277,31 @@ const drawerIconSx: ListItemIconProps["sx"] = {
   color: "inherit",
 };
 
-export const Navbar = () => {
-  const [open, setOpen] = useState(false);
+type SideDrawerProps = {
+  open: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+};
 
-  const searchExpand = useNavbarStore((state) => state.searchExpand);
-  const chatroomListOpen = useChatroomStore((state) => state.open);
-  const setChatroomListOpen = useChatroomStore((state) => state.setOpen);
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const handleChatroomListOpen = () => {
-    setChatroomListOpen(true);
-  };
-  const handleChatroomListClose = () => {
-    setChatroomListOpen(false);
-  };
-
-  const drawerContent = (
-    <>
+const LeftNavbarDrawer: FC<SideDrawerProps> = ({ open, onOpen, onClose }) => {
+  return (
+    <SwipeableDrawer
+      open={open}
+      onOpen={onOpen}
+      onClose={onClose}
+      PaperProps={{
+        sx: {
+          width: leftNavbarDrawerWidth,
+          backgroundColor: "pago.500",
+          color: "common.white",
+          borderTopRightRadius: 10,
+          borderBottomRightRadius: 10,
+        },
+      }}
+    >
       <DrawerToolbar>
         <IconButton
-          onClick={handleClose}
+          onClick={onClose}
           sx={{
             color: "inherit",
             transition: (theme) => theme.transitions.create("background-color"),
@@ -322,8 +327,52 @@ export const Navbar = () => {
           </ListItem>
         ))}
       </List>
-    </>
+    </SwipeableDrawer>
   );
+};
+
+const RightChatroomDrawer: FC<SideDrawerProps> = ({
+  open,
+  onOpen,
+  onClose,
+}) => {
+  return (
+    <SwipeableDrawer
+      anchor="right"
+      open={open}
+      onOpen={onOpen}
+      onClose={onClose}
+      PaperProps={{
+        sx: {
+          width: "100%",
+          height: "100%",
+          backgroundColor: "pago.500",
+          color: "common.white",
+        },
+      }}
+    >
+      <ChatroomList onBackClick={onClose} />
+    </SwipeableDrawer>
+  );
+};
+
+export const Navbar = () => {
+  const {
+    open: leftNavbarOpen,
+    handleOpen: handleLeftNavbarOpen,
+    handleClose: handleLeftNavbarClose,
+  } = useOpen();
+
+  const searchExpand = useNavbarStore((state) => state.searchExpand);
+  const chatroomListOpen = useChatroomStore((state) => state.open);
+  const setChatroomListOpen = useChatroomStore((state) => state.setOpen);
+
+  const handleRightChatroomOpen = () => {
+    setChatroomListOpen(true);
+  };
+  const handleRightChatroomClose = () => {
+    setChatroomListOpen(false);
+  };
 
   return (
     <Box>
@@ -335,7 +384,7 @@ export const Navbar = () => {
             color="inherit"
             aria-label="menu"
             sx={{ mr: { xs: 1, sx: 2 } }}
-            onClick={handleOpen}
+            onClick={handleLeftNavbarOpen}
           >
             <Menu />
           </IconButton>
@@ -361,42 +410,20 @@ export const Navbar = () => {
             flexGrow={1}
           >
             <NavbarSearch />
-            <NavbarButtons onMailClick={handleChatroomListOpen} />
+            <NavbarButtons onMessageClick={handleRightChatroomOpen} />
           </Stack>
         </Toolbar>
       </AppBar>
-      <SwipeableDrawer
-        open={open}
-        onOpen={handleOpen}
-        onClose={handleClose}
-        PaperProps={{
-          sx: {
-            width: drawerWidth,
-            backgroundColor: "pago.500",
-            color: "common.white",
-            borderTopRightRadius: 10,
-            borderBottomRightRadius: 10,
-          },
-        }}
-      >
-        {drawerContent}
-      </SwipeableDrawer>
-      <SwipeableDrawer
-        anchor="right"
+      <LeftNavbarDrawer
+        open={leftNavbarOpen}
+        onOpen={handleLeftNavbarOpen}
+        onClose={handleLeftNavbarClose}
+      />
+      <RightChatroomDrawer
         open={chatroomListOpen}
-        onOpen={handleChatroomListOpen}
-        onClose={handleChatroomListClose}
-        PaperProps={{
-          sx: {
-            width: "100%",
-            height: "100%",
-            backgroundColor: "pago.500",
-            color: "common.white",
-          },
-        }}
-      >
-        <ChatroomList onBackClick={handleChatroomListClose} />
-      </SwipeableDrawer>
+        onOpen={handleRightChatroomOpen}
+        onClose={handleRightChatroomClose}
+      />
     </Box>
   );
 };
