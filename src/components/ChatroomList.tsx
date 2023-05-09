@@ -3,8 +3,7 @@ import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { Divider, Drawer, List, Paper } from "@mui/material";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Chatroom } from "./Chatroom";
 import { ChatroomListItem } from "./ChatroomListItem";
 import { Header } from "./Header";
@@ -21,8 +20,6 @@ type ChatroomListProps = {
 };
 
 export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
-  const router = useRouter();
-
   const { status } = useSession();
 
   const chatroomListOpen = useChatroomStore((state) => state.open);
@@ -46,19 +43,7 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
 
   const handleChatroomOpen = (chatWith: string) => {
     setChatWith(chatWith);
-    router.push(router.asPath, undefined, { shallow: true });
   };
-
-  const handleChatroomClose = useCallback(() => {
-    if (!!chatWith) clearChatWith();
-  }, [chatWith, clearChatWith]);
-
-  useEffect(() => {
-    window.addEventListener("popstate", handleChatroomClose);
-    return () => {
-      window.removeEventListener("popstate", handleChatroomClose);
-    };
-  }, [handleChatroomClose]);
 
   return (
     <>
@@ -96,7 +81,7 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
       <Drawer
         anchor="right"
         open={!!chatWith}
-        onClose={handleChatroomClose}
+        onClose={clearChatWith}
         PaperProps={{
           sx: {
             width: "100%",
