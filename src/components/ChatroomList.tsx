@@ -3,6 +3,7 @@ import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { Divider, Drawer, List, Paper } from "@mui/material";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
 import { Chatroom } from "./Chatroom";
 import { ChatroomListItem } from "./ChatroomListItem";
@@ -20,6 +21,8 @@ type ChatroomListProps = {
 };
 
 export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
+  const router = useRouter();
+
   const { status } = useSession();
 
   const chatroomListOpen = useChatroomStore((state) => state.open);
@@ -43,6 +46,7 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
 
   const handleChatroomItemClick = (chatWith: string) => {
     setChatWith(chatWith);
+    router.push(router.asPath, undefined, { shallow: true });
   };
 
   return (
@@ -50,14 +54,13 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
       <Paper
         square
         sx={{
-          pb: "50px",
           overflowY: "scroll",
           height: "100%",
           ...hideScrollbar,
         }}
       >
         <Header title="聊天室列表" onBackClick={onBackClick} />
-        <List sx={{ mb: 2 }}>
+        <List sx={{ pt: "56px" }}>
           {chatrooms.map((chatRoom, index) => (
             <div key={chatRoom.chatroomId}>
               <ChatroomListItem
