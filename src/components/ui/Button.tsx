@@ -1,3 +1,4 @@
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type {
   ButtonProps as MuiButtonProps,
   CircularProgressProps as MuiCircularProgressProps,
@@ -128,8 +129,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) {
+    const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
     const _disabled = disabled || loading;
 
+    const loadingIcon = loading && <StyledCircularProgress size={size} />;
     return (
       <StyledButton
         size={size}
@@ -137,11 +140,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={_disabled}
         loading={loading}
         disableRipple={disableRipple}
-        endIcon={endIcon || (loading && <StyledCircularProgress size={size} />)}
+        endIcon={endIcon || (!isMobile && loadingIcon)}
         ref={ref}
         {...rest}
       >
-        {children}
+        {isMobile ? loadingIcon : children}
       </StyledButton>
     );
   }
