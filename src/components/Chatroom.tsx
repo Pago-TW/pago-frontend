@@ -204,7 +204,6 @@ export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
       sx={{
         width: "100%",
         height: "100vh",
-        paddingTop: "10px",
         display: "flex",
         flexDirection: "column",
         position: "relative",
