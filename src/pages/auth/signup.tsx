@@ -1,4 +1,5 @@
 import { PasswordInput } from "@/components/inputs/PasswordInput";
+import { PhoneInput } from "@/components/inputs/PhoneInput";
 import { CenterLayout } from "@/components/layouts/CenterLayout";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/components/ui/Link";
@@ -32,7 +33,10 @@ export const signUpFormSchema = z
     confirmPassword: z.string().trim().min(1, { message: "請再次輸入密碼" }),
     firstName: z.string().trim().min(1, { message: "請輸入名稱" }),
     lastName: z.string().trim().min(1, { message: "請輸入姓氏" }),
-    phone: z.string().trim().length(10, { message: "無效的電話號碼" }),
+    phone: z
+      .string()
+      .trim()
+      .regex(/^09[0-9]{8}/, { message: "無效的電話號碼" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "輸入的密碼不一致",
@@ -142,14 +146,7 @@ const SignUpPage: NextPage = () => {
                 {...register("lastName")}
               />
             </Stack>
-            <TextField
-              type="tel"
-              variant="outlined"
-              label="手機電話"
-              error={!!errors.phone}
-              helperText={errors.phone?.message}
-              {...register("phone")}
-            />
+            <PhoneInput label="手機電話" {...register("phone")} />
             <TextField
               type="email"
               variant="outlined"
