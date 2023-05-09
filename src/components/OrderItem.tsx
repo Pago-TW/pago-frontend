@@ -93,11 +93,11 @@ export const OrderItem = ({
   const purchaseLocation = [
     getCountryChineseName(purchaseCountryCode, purchaseCountryName),
     getCityChineseName(purchaseCityCode, purchaseCityName),
-  ].join(" ");
+  ].join(",");
   const destinationLocation = [
     getCountryChineseName(destinationCountryCode, destinationCountryName),
     getCityChineseName(destinationCityCode, destinationCityName),
-  ].join(" ");
+  ].join(",");
 
   return (
     <Paper elevation={3} sx={{ p: { xs: 1, md: 2 } }}>
