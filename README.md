@@ -47,3 +47,4 @@ Repository for the frontend of the Pago project.
 - [ ] Consider to do date transform before mapping as items
 - [x] Disable the submit button when the form is submitting and after the form is submitted successfully
 - [ ] Use setQueryData to update the query cache after the form is submitted successfully
+- [x] FIX GIT
