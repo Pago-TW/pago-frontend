@@ -1,6 +1,8 @@
 import { useChatrooms } from "@/hooks/api/useChatrooms";
+import { useNotifications } from "@/hooks/api/useNotifications";
 import { useOpen } from "@/hooks/useOpen";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
+import { useNotificationStore } from "@/store/ui/useNotificationStore";
 import { useNavbarStore } from "@/store/ui/useNavbarStore";
 import { ClickAwayListener } from "@mui/base";
 import {
@@ -41,6 +43,7 @@ import { useRouter } from "next/router";
 import type { FC } from "react";
 import { useCallback, useState } from "react";
 import { ChatroomList } from "./ChatroomList";
+import { NotificationtList } from "./NotificationList";
 import { Search } from "./Search";
 import { Divider } from "./ui/Divider";
 import { Link } from "./ui/Link";
@@ -158,14 +161,20 @@ const UserButton = () => {
 
 type NavbarButtonsProps = {
   onMessageClick?: () => void;
+  onNotificationClick?: () => void;
 };
 
-const NavbarButtons = ({ onMessageClick: onMailClick }: NavbarButtonsProps) => {
+const NavbarButtons = ({
+  onMessageClick: onMailClick,
+  onNotificationClick,
+}: NavbarButtonsProps) => {
   const router = useRouter();
 
   const { status } = useSession();
 
   const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
+
+  const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
 
   useChatrooms(undefined, {
     enabled: status === "authenticated" && !hasUnreadMessages,
@@ -176,6 +185,18 @@ const NavbarButtons = ({ onMessageClick: onMailClick }: NavbarButtonsProps) => {
         page.data.some((chatroom) => chatroom.totalUnreadMessage)
       );
       setHasUnreadMessages(hasUnread);
+    },
+  });
+
+  useNotifications(undefined, {
+    enabled: status === "authenticated" && !hasUnreadMessages,
+    refetchInterval: 10000,
+    refetchIntervalInBackground: true,
+    onSuccess: (data) => {
+      const hasUnread = data.pages.some((page) =>
+        page.data.some((notification) => !notification.isRead)
+      );
+      setHasUnreadNotifications(hasUnread);
     },
   });
 
@@ -196,8 +217,13 @@ const NavbarButtons = ({ onMessageClick: onMailClick }: NavbarButtonsProps) => {
           size="large"
           aria-label="show 17 new notifications"
           color="inherit"
+          onClick={onNotificationClick}
         >
-          <Badge color="error">
+          <Badge
+            color="error"
+            variant="dot"
+            invisible={!hasUnreadNotifications}
+          >
             <Notifications />
           </Badge>
         </IconButton>
@@ -356,6 +382,31 @@ const RightChatroomDrawer: FC<SideDrawerProps> = ({
   );
 };
 
+const RightNotificationDrawer: FC<SideDrawerProps> = ({
+  open,
+  onOpen,
+  onClose,
+}) => {
+  return (
+    <SwipeableDrawer
+      anchor="right"
+      open={open}
+      onOpen={onOpen}
+      onClose={onClose}
+      PaperProps={{
+        sx: {
+          width: "100%",
+          height: "100%",
+          backgroundColor: "pago.500",
+          color: "common.white",
+        },
+      }}
+    >
+      <NotificationtList onBackClick={onClose} />
+    </SwipeableDrawer>
+  );
+};
+
 export const Navbar = () => {
   const {
     open: leftNavbarOpen,
@@ -366,6 +417,10 @@ export const Navbar = () => {
   const searchExpand = useNavbarStore((state) => state.searchExpand);
   const chatroomListOpen = useChatroomStore((state) => state.open);
   const setChatroomListOpen = useChatroomStore((state) => state.setOpen);
+  const notificationListOpen = useNotificationStore((state) => state.open);
+  const setNotificationListOpen = useNotificationStore(
+    (state) => state.setOpen
+  );
 
   const handleRightChatroomOpen = () => {
     setChatroomListOpen(true);
@@ -373,6 +428,13 @@ export const Navbar = () => {
   const handleRightChatroomClose = useCallback(() => {
     setChatroomListOpen(false);
   }, [setChatroomListOpen]);
+
+  const handleRightNotificationOpen = () => {
+    setNotificationListOpen(true);
+  };
+  const handleRightNotificationClose = useCallback(() => {
+    setNotificationListOpen(false);
+  }, [setNotificationListOpen]);
 
   return (
     <Box>
@@ -410,7 +472,10 @@ export const Navbar = () => {
             flexGrow={1}
           >
             <NavbarSearch />
-            <NavbarButtons onMessageClick={handleRightChatroomOpen} />
+            <NavbarButtons
+              onMessageClick={handleRightChatroomOpen}
+              onNotificationClick={handleRightNotificationOpen}
+            />
           </Stack>
         </Toolbar>
       </AppBar>
@@ -423,6 +488,11 @@ export const Navbar = () => {
         open={chatroomListOpen}
         onOpen={handleRightChatroomOpen}
         onClose={handleRightChatroomClose}
+      />
+      <RightNotificationDrawer
+        open={notificationListOpen}
+        onOpen={handleRightNotificationOpen}
+        onClose={handleRightNotificationClose}
       />
     </Box>
   );
