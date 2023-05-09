@@ -89,7 +89,27 @@ export default function OrderShoppersPage() {
         <PageTitle title="媒合結果" />
         <Container>
           <Box>
-            <OrderItem {...order} />
+            <OrderItem
+              orderStatus={order.orderStatus}
+              currency={order.currency}
+              travelerFee={order.travelerFee}
+              totalAmount={order.totalAmount}
+              latestReceiveItemDate={order.latestReceiveItemDate}
+              destinationCountryCode={order.destinationCountryCode}
+              destinationCityCode={order.destinationCityCode}
+              destinationCountryName={order.destinationCountryName}
+              destinationCityName={order.destinationCityName}
+              isPackagingRequired={order.isPackagingRequired}
+              name={order.orderItem.name}
+              description={order.orderItem.description}
+              quantity={order.orderItem.quantity}
+              fileUrls={order.orderItem.fileUrls}
+              purchaseCountryName={order.orderItem.purchaseCountryName}
+              purchaseCityName={order.orderItem.purchaseCityName}
+              purchaseCountryCode={order.orderItem.purchaseCountryCode}
+              purchaseCityCode={order.orderItem.purchaseCityCode}
+              createDate={order.createDate}
+            />
             <Box mt={4}>
               <Typography variant="h4" textAlign="center">
                 以下代購者的旅途與您的委託相符
