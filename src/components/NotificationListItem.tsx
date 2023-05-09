@@ -12,7 +12,7 @@ import Badge from "@mui/material/Badge";
 interface NotificationListItemProps {
   notificationId: string;
   content: string;
-  updateDate: string;
+  createDate: string;
   imageUrl: string;
   isRead: boolean;
   notificationType: "ORDER" | "TRIP" | "SYSTEM";
@@ -22,7 +22,7 @@ interface NotificationListItemProps {
 export const NotificationListItem: React.FC<NotificationListItemProps> = ({
   notificationId: notificationId,
   content: content,
-  updateDate: sendDate,
+  createDate: sendDate,
   imageUrl: imageUrl,
   isRead: isRead,
   notificationType: notificationType,
