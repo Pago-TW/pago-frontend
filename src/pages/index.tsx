@@ -39,7 +39,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
-  const { data: ordersData, isLoading } = useOrders();
+  const { data: ordersData, isLoading } = useOrders({ status: "REQUESTED" });
 
   const latestFiveOrders = flattenInfinitePaginatedData(ordersData).slice(0, 5);
 
