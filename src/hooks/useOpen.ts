@@ -10,5 +10,6 @@ export const useOpen = (initialOpen?: boolean) => {
     open,
     handleOpen,
     handleClose,
+    setOpen,
   };
 };

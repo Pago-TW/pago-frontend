@@ -1,5 +1,5 @@
 import { useChatrooms } from "@/hooks/api/useChatrooms";
-import { useOpen } from "@/hooks/useOpen";
+import { useReturnableOpen } from "@/hooks/useReturnableOpen";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import { useNavbarStore } from "@/store/ui/useNavbarStore";
 import { ClickAwayListener } from "@mui/base";
@@ -39,7 +39,7 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import type { FC } from "react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ChatroomList } from "./ChatroomList";
 import { Search } from "./Search";
 import { Divider } from "./ui/Divider";
@@ -361,7 +361,7 @@ export const Navbar = () => {
     open: leftNavbarOpen,
     handleOpen: handleLeftNavbarOpen,
     handleClose: handleLeftNavbarClose,
-  } = useOpen();
+  } = useReturnableOpen();
 
   const searchExpand = useNavbarStore((state) => state.searchExpand);
   const chatroomListOpen = useChatroomStore((state) => state.open);
@@ -370,9 +370,15 @@ export const Navbar = () => {
   const handleRightChatroomOpen = () => {
     setChatroomListOpen(true);
   };
-  const handleRightChatroomClose = () => {
+  const handleRightChatroomClose = useCallback(() => {
     setChatroomListOpen(false);
-  };
+  }, [setChatroomListOpen]);
+  useEffect(() => {
+    if (chatroomListOpen)
+      window.addEventListener("popstate", handleRightChatroomClose);
+    return () =>
+      window.removeEventListener("popstate", handleRightChatroomClose);
+  }, [chatroomListOpen, handleLeftNavbarClose, handleRightChatroomClose]);
 
   return (
     <Box>
