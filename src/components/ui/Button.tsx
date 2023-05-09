@@ -132,7 +132,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
     const _disabled = disabled || loading;
 
-    const loadingIcon = loading && <StyledCircularProgress size={size} />;
+    const loadingIcon = <StyledCircularProgress size={size} />;
     return (
       <StyledButton
         size={size}
@@ -140,11 +140,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={_disabled}
         loading={loading}
         disableRipple={disableRipple}
-        endIcon={endIcon || (!isMobile && loadingIcon)}
+        endIcon={endIcon || (loading && !isMobile && loadingIcon)}
         ref={ref}
         {...rest}
       >
-        {isMobile ? loadingIcon : children}
+        {loading && isMobile ? loadingIcon : children}
       </StyledButton>
     );
   }
