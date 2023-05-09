@@ -33,7 +33,6 @@ export const merchandiseFormSchema = z.object({
       },
       { message: "無效的檔案" }
     )
-    .refine((files) => files?.length > 0, "至少需要上傳 1 張商品圖片")
     .refine((files) => files?.length <= 3, "最多只能上傳 3 張商品圖片")
     .refine(
       (files) =>
