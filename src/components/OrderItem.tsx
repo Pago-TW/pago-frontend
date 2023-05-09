@@ -53,8 +53,6 @@ export const OrderItem = ({
                 src={firstImageUrl}
                 alt={`Image of ${name}`}
                 fill
-                placeholder="blur"
-                blurDataURL={`/_next/image?url=${firstImageUrl}&w=16&q=1`}
                 sizes="(max-width: 600px) 74px, 200px"
                 style={{
                   objectFit: "cover",
