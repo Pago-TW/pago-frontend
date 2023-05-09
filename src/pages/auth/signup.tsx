@@ -1,4 +1,5 @@
 import { PasswordInput } from "@/components/inputs/PasswordInput";
+import { PhoneInput } from "@/components/inputs/PhoneInput";
 import { CenterLayout } from "@/components/layouts/CenterLayout";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/components/ui/Link";
@@ -16,19 +17,29 @@ import { z } from "zod";
 
 export const signUpFormSchema = z
   .object({
-    account: z.string().min(1),
+    account: z.string().trim().min(1, { message: "請輸入帳號" }),
     email: z
       .string()
       .min(1, { message: "請輸入電子郵件" })
       .email({ message: "輸入的電子郵件無效" }),
-    password: z.string().min(1, { message: "請輸入密碼" }),
-    confirmPassword: z.string().min(1, { message: "請再次輸入密碼" }),
-    firstName: z.string().min(1),
-    lastName: z.string().min(1),
-    phone: z.string().min(1),
+    password: z
+      .string()
+      .trim()
+      .min(1, { message: "請輸入密碼" })
+      .min(8, { message: "長度不得小於 8" })
+      .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\s!@#$%^&*]+$/, {
+        message: "需至少包含英文字母與數字各一",
+      }),
+    confirmPassword: z.string().trim().min(1, { message: "請再次輸入密碼" }),
+    firstName: z.string().trim().min(1, { message: "請輸入名稱" }),
+    lastName: z.string().trim().min(1, { message: "請輸入姓氏" }),
+    phone: z
+      .string()
+      .trim()
+      .regex(/^09[0-9]{8}/, { message: "無效的電話號碼" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "兩次輸入的密碼不一致",
+    message: "輸入的密碼不一致",
     path: ["confirmPassword"],
   });
 
@@ -106,6 +117,7 @@ const SignUpPage: NextPage = () => {
               label="密碼"
               error={!!errors.password || !!errors.confirmPassword}
               helperText={errors.password?.message}
+              showStrength
               {...register("password", {
                 onBlur: handlePasswordCheck,
               })}
@@ -134,14 +146,7 @@ const SignUpPage: NextPage = () => {
                 {...register("lastName")}
               />
             </Stack>
-            <TextField
-              type="tel"
-              variant="outlined"
-              label="手機電話"
-              error={!!errors.phone}
-              helperText={errors.phone?.message}
-              {...register("phone")}
-            />
+            <PhoneInput label="手機電話" {...register("phone")} />
             <TextField
               type="email"
               variant="outlined"

@@ -76,7 +76,7 @@ export const NeedsForm = () => {
           <CountryCitySelect
             control={control}
             name="destination"
-            label="購買國家縣市"
+            label="送達國家縣市"
             noInputLabelOnShrink
           />
         </Stack>
