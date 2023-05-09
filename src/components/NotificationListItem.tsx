@@ -7,21 +7,20 @@ import Typography from "@mui/material/Typography";
 import { useSession } from "next-auth/react";
 import React from "react";
 import UnreadMessageBadge from "./UnreadMessageBadge";
+import Badge from "@mui/material/Badge";
 
 interface NotificationListItemProps {
   notificationId: string;
-  senderName?: string;
   content: string;
   updateDate: string;
   imageUrl: string;
-  isRead: number;
+  isRead: boolean;
   notificationType: "ORDER" | "TRIP" | "SYSTEM";
   onClick?: () => void;
 }
 
 export const NotificationListItem: React.FC<NotificationListItemProps> = ({
   notificationId: notificationId,
-  senderName,
   content: content,
   updateDate: sendDate,
   imageUrl: imageUrl,
@@ -29,7 +28,7 @@ export const NotificationListItem: React.FC<NotificationListItemProps> = ({
   notificationType: notificationType,
   onClick,
 }) => {
-  const hasUnreadMessages = isRead > 0;
+  const isReadNotification = isRead;
 
   const { data: session } = useSession();
   const currentLoginUserId = session?.user?.id;
@@ -72,7 +71,9 @@ export const NotificationListItem: React.FC<NotificationListItemProps> = ({
       onClick={onClick}
     >
       <ListItemAvatar>
-        <Avatar alt="Profile Picture" src={imageUrl} />
+        <Badge color="primary" variant="dot" invisible={isRead}>
+          <Avatar alt="Notification Picture" src={imageUrl} />
+        </Badge>
       </ListItemAvatar>
       <ListItemText
         primary={
@@ -90,12 +91,12 @@ export const NotificationListItem: React.FC<NotificationListItemProps> = ({
               overflow="hidden"
               textOverflow="ellipsis"
               sx={{
-                fontWeight: hasUnreadMessages ? "bold" : "normal",
+                fontWeight: isReadNotification ? "normal" : "bold",
               }}
             >
-              {senderName}
+              {}
             </Typography>
-            {hasUnreadMessages && <UnreadMessageBadge count={isRead} />}
+            {isRead && <UnreadMessageBadge count={0} />}
           </Box>
         }
         secondary={
@@ -103,14 +104,14 @@ export const NotificationListItem: React.FC<NotificationListItemProps> = ({
             <Typography
               component="span"
               variant="body2"
-              color="#7b7b7b"
+              color={isRead ? "base.500" : "text.primary"}
               sx={{
                 display: "-webkit-box",
                 WebkitBoxOrient: "vertical",
                 WebkitLineClamp: 1,
                 overflow: "hidden",
                 textOverflow: "ellipsis",
-                fontWeight: hasUnreadMessages ? "bold" : "normal",
+                fontWeight: isRead ? "normal" : "bold",
               }}
             >
               {displayContent}
@@ -130,4 +131,4 @@ export const NotificationListItem: React.FC<NotificationListItemProps> = ({
   );
 };
 
-export default Notification;
+export default NotificationListItem;

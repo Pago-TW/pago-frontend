@@ -16,6 +16,7 @@ import {
   RequestedCommissions,
   StyledTab,
 } from "@/components/UserTabs";
+import { Typography } from "./ui/Typography";
 
 const PAGE_TABS = [
   { label: "委託", value: "ORDER" },
@@ -97,32 +98,97 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
                 ))}
               </HorizontalCenterTabList>
               <TabPanel value="ORDER">
-                {notifications.map((notification, index) => (
-                  <div key={notification.notificationId}>
-                    <NotificationListItem
-                      notificationId={notification.notificationId}
-                      content={notification.content}
-                      imageUrl={notification.imageUrl || ""}
-                      updateDate={notification.updateDate}
-                      isRead={1}
-                      notificationType={
-                        notification.notificationType as
-                          | "TRIP"
-                          | "ORDER"
-                          | "SYSTEM"
-                      }
-                      //   onClick={() =>
-                      //     handleChatroomOpen(chatRoom.otherUser.userId)
-                      //   }
-                    />
-                    {index !== notifications.length - 1 && (
-                      <Divider variant="inset" component="li" />
-                    )}
-                  </div>
-                ))}
+                {notifications.filter(
+                  (notification) => notification.notificationType === "ORDER"
+                ).length > 0 ? (
+                  notifications
+                    .filter(
+                      (notification) =>
+                        notification.notificationType === "ORDER"
+                    )
+                    .map((notification, index) => (
+                      <div
+                        key={notification.notificationId}
+                        onClick={() =>
+                          (window.location.href = notification.redirectUrl)
+                        }
+                      >
+                        <NotificationListItem
+                          notificationId={notification.notificationId}
+                          content={notification.content}
+                          imageUrl={notification.imageUrl || ""}
+                          updateDate={notification.updateDate}
+                          isRead={notification.isRead}
+                          notificationType={
+                            notification.notificationType as
+                              | "TRIP"
+                              | "ORDER"
+                              | "SYSTEM"
+                          }
+                        />
+                        {index !== notifications.length - 1 && (
+                          <Divider variant="inset" component="li" />
+                        )}
+                      </div>
+                    ))
+                ) : (
+                  <Typography
+                    variant="body1"
+                    color="base.500"
+                    sx={{
+                      textAlign: "center",
+                    }}
+                  >
+                    目前沒有通知
+                  </Typography>
+                )}
               </TabPanel>
 
-              <TabPanel value="TRIP"></TabPanel>
+              <TabPanel value="TRIP">
+                {notifications.filter(
+                  (notification) => notification.notificationType === "TRIP"
+                ).length > 0 ? (
+                  notifications
+                    .filter(
+                      (notification) => notification.notificationType === "TRIP"
+                    )
+                    .map((notification, index) => (
+                      <div
+                        key={notification.notificationId}
+                        onClick={() =>
+                          (window.location.href = notification.redirectUrl)
+                        }
+                      >
+                        <NotificationListItem
+                          notificationId={notification.notificationId}
+                          content={notification.content}
+                          imageUrl={notification.imageUrl || ""}
+                          updateDate={notification.updateDate}
+                          isRead={notification.isRead}
+                          notificationType={
+                            notification.notificationType as
+                              | "TRIP"
+                              | "ORDER"
+                              | "SYSTEM"
+                          }
+                        />
+                        {index !== notifications.length - 1 && (
+                          <Divider variant="inset" component="li" />
+                        )}
+                      </div>
+                    ))
+                ) : (
+                  <Typography
+                    variant="body1"
+                    color="base.500"
+                    sx={{
+                      textAlign: "center",
+                    }}
+                  >
+                    目前沒有通知
+                  </Typography>
+                )}
+              </TabPanel>
               <TabPanel value="PERSONAL_REVIEWS"></TabPanel>
             </TabContext>
           </Box>
