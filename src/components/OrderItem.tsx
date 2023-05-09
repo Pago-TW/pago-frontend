@@ -1,34 +1,83 @@
+import { useCountryCity } from "@/hooks/api/useCountryCity";
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useTimezone } from "@/hooks/useTimezone";
 import type { Order } from "@/types/order";
+import { extractCountriesCities } from "@/utils/extractCountriesCities";
 import { formatDate } from "@/utils/formatDateTime";
 import { ChevronRight } from "@mui/icons-material";
 import { Box, Paper, Skeleton, Stack } from "@mui/material";
+import { intlFormatDistance, parseISO } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
 import Image from "next/image";
+import { useMemo } from "react";
+import { PackagingText } from "./PackagingText";
 import { StatusText } from "./StatusText";
 import { Divider } from "./ui/Divider";
 import { Typography } from "./ui/Typography";
 
 export type OrderItemProps = Pick<
   Order,
-  "orderStatus" | "currency" | "totalAmount" | "latestReceiveItemDate"
-> & {
-  orderItem: Pick<
+  | "orderStatus"
+  | "currency"
+  | "travelerFee"
+  | "totalAmount"
+  | "latestReceiveItemDate"
+  | "destinationCountryCode"
+  | "destinationCityCode"
+  | "destinationCountryName"
+  | "destinationCityName"
+  | "isPackagingRequired"
+  | "createDate"
+> &
+  Pick<
     Order["orderItem"],
-    "name" | "description" | "quantity" | "fileUrls"
-  >;
-};
+    | "name"
+    | "description"
+    | "quantity"
+    | "fileUrls"
+    | "purchaseCountryCode"
+    | "purchaseCityCode"
+    | "purchaseCountryName"
+    | "purchaseCityName"
+  > & {
+    variant?: "default" | "detailed";
+  };
 
 export const OrderItem = ({
-  orderItem: { name, description, quantity, fileUrls },
   orderStatus,
   currency,
+  travelerFee,
   totalAmount,
   latestReceiveItemDate,
+  destinationCountryCode,
+  destinationCityCode,
+  destinationCountryName,
+  destinationCityName,
+  isPackagingRequired,
+  createDate,
+  name,
+  description,
+  quantity,
+  fileUrls,
+  purchaseCountryCode,
+  purchaseCityCode,
+  purchaseCountryName,
+  purchaseCityName,
+  variant = "default",
 }: OrderItemProps) => {
   const locale = useLocale();
+  const timezone = useTimezone();
 
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
+
+  const { data: countriesAndCities = [] } = useCountryCity({
+    includeAny: true,
+  });
+  const { countries, cities } = useMemo(
+    () => extractCountriesCities(countriesAndCities),
+    [countriesAndCities]
+  );
 
   const formattedLatestReceiveItemDate = formatDate({
     date: latestReceiveItemDate,
@@ -36,11 +85,25 @@ export const OrderItem = ({
   });
   const firstImageUrl = fileUrls?.[0];
 
+  const getCountryChineseName = (countryCode: string, fallback?: string) =>
+    countries[countryCode]?.chineseName ?? fallback ?? countryCode;
+  const getCityChineseName = (cityCode: string, fallback?: string) =>
+    cities[cityCode]?.chineseName ?? fallback ?? cityCode;
+
+  const purchaseLocation = [
+    getCountryChineseName(purchaseCountryCode, purchaseCountryName),
+    getCityChineseName(purchaseCityCode, purchaseCityName),
+  ].join(" ");
+  const destinationLocation = [
+    getCountryChineseName(destinationCountryCode, destinationCountryName),
+    getCityChineseName(destinationCityCode, destinationCityName),
+  ].join(" ");
+
   return (
     <Paper elevation={3} sx={{ p: { xs: 1, md: 2 } }}>
       <Stack spacing={mdDown ? 1 : 2}>
         <Stack direction="row" spacing={2} flexGrow={1}>
-          {/* 左方圖片 */}
+          {/* Upper left image area */}
           <Box
             sx={{
               position: "relative",
@@ -63,51 +126,56 @@ export const OrderItem = ({
               <Skeleton variant="rectangular" width="100%" height="100%" />
             )}
           </Box>
-          {/* 右方資訊 */}
+          {/* Upper right info area */}
           <Stack flexGrow={1} justifyContent="space-between">
-            <Stack direction="row" justifyContent="space-between">
-              {/* 名稱 */}
+            <Box display="flex" justifyContent="space-between">
+              {/* Name */}
               <Typography
                 variant={mdDown ? "h5" : "h2"}
                 weightPreset={mdDown ? "normal" : "bold"}
+                noWrap
               >
                 {name}
               </Typography>
-              {/* 狀態 */}
-              <Status statusCode={orderStatus} />
-            </Stack>
-            <Stack
-              direction={mdDown ? "row" : "column"}
-              flexGrow={mdDown ? 0 : 1}
-              justifyContent={mdDown ? "space-between" : "space-evenly"}
-            >
-              {/* 描述 */}
-              <Typography variant={mdDown ? "h6" : "h3"} color="base.main">
-                {description}
-              </Typography>
-              {/* 數量 */}
+              {/* Status/Packaging text */}
+              {variant === "default" ? (
+                <StatusText status={orderStatus} />
+              ) : (
+                <PackagingText isPackagingRequired={isPackagingRequired} />
+              )}
+            </Box>
+            <Box display="flex" justifyContent="space-between">
+              {/* Description/Purchase location text */}
+              {variant === "default" ? (
+                <Typography variant={mdDown ? "h6" : "h4"} color="base.main">
+                  {description}
+                </Typography>
+              ) : (
+                <Typography variant={mdDown ? "h6" : "h4"} color="base.main">
+                  從 {purchaseLocation} 送到 {destinationLocation}
+                </Typography>
+              )}
+              {/* Quantity */}
               <Typography variant={mdDown ? "h6" : "h3"}>{quantity}</Typography>
-            </Stack>
-            {/* 期限 */}
-            {!mdDown ? (
-              <Typography variant="h4" color="base.main">
-                最晚收到商品時間: {formattedLatestReceiveItemDate}
-              </Typography>
-            ) : null}
+            </Box>
           </Stack>
         </Stack>
         <Divider sx={{ borderColor: (theme) => theme.palette.pago[100] }} />
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            width="100%"
-          >
+        <Box display="flex" justifyContent="space-between">
+          <Stack spacing={mdDown ? 1 : 2}>
+            {variant === "detailed" ? (
+              <Typography variant={mdDown ? "h6" : "h4"} color="base.main">
+                代購費:{" "}
+                <Typography
+                  as="span"
+                  variant={mdDown ? "h6" : "h4"}
+                  weightPreset="bold"
+                  color="primary.main"
+                >
+                  {travelerFee.toLocaleString()} {currency}
+                </Typography>
+              </Typography>
+            ) : null}
             <Typography variant={mdDown ? "h6" : "h4"} color="base.main">
               訂單金額:{" "}
               <Typography
@@ -118,9 +186,21 @@ export const OrderItem = ({
                 {totalAmount.toLocaleString()} {currency}
               </Typography>
             </Typography>
-            <ChevronRight sx={{ color: (theme) => theme.palette.pago.main }} />
           </Stack>
-        </Stack>
+          <Typography variant={mdDown ? "h6" : "h5"} color="base.main">
+            {intlFormatDistance(
+              utcToZonedTime(parseISO(createDate), timezone),
+              new Date(),
+              { locale }
+            )}
+          </Typography>
+        </Box>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant={mdDown ? "h6" : "h4"} color="base.main">
+            最晚收到商品時間: {formattedLatestReceiveItemDate}
+          </Typography>
+          <ChevronRight sx={{ color: (theme) => theme.palette.pago.main }} />
+        </Box>
       </Stack>
     </Paper>
   );
