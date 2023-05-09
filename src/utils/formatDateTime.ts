@@ -1,4 +1,5 @@
 import { intlFormat, parseISO } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
 
 type IntlFormatOptions = {
   localeMatcher?: "lookup" | "best fit";
@@ -26,16 +27,22 @@ type FormatDateTimeParams = Omit<IntlFormatOptions, "timeZone"> &
     timezone?: string;
   };
 
+export const parseDate = ({
+  date,
+  timezone,
+}: Pick<FormatDateTimeParams, "date" | "timezone">) =>
+  (timezone && utcToZonedTime(date, timezone)) ||
+  (date instanceof Date && date) ||
+  parseISO(date);
+
 export const formatDateTime = ({
   date,
   timezone,
   locale,
   ...formatOptions
 }: FormatDateTimeParams) => {
-  const parsedDate = date instanceof Date ? date : parseISO(date);
-
   return intlFormat(
-    parsedDate,
+    parseDate({ date, timezone }),
     {
       year: "numeric",
       month: "2-digit",
@@ -55,10 +62,8 @@ export const formatDate = ({
   locale,
   ...formatOptions
 }: Omit<FormatDateTimeParams, "hour" | "minute" | "second">) => {
-  const parsedDate = date instanceof Date ? date : parseISO(date);
-
   return intlFormat(
-    parsedDate,
+    parseDate({ date, timezone }),
     {
       year: "numeric",
       month: "2-digit",
@@ -79,10 +84,8 @@ export const formatTime = ({
   FormatDateTimeParams,
   "weekday" | "era" | "year" | "month" | "day"
 >) => {
-  const parsedDate = date instanceof Date ? date : parseISO(date);
-
   return intlFormat(
-    parsedDate,
+    parseDate({ date, timezone }),
     {
       hour: "2-digit",
       minute: "2-digit",
