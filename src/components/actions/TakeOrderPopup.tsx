@@ -1,6 +1,5 @@
 import { CurrencyInput } from "@/components/inputs/CurrencyInput";
 import { DatePicker } from "@/components/inputs/DatePicker";
-import { NumberInput } from "@/components/inputs/NumberInput";
 import { SelectInput } from "@/components/inputs/SelectInput";
 import { Button } from "@/components/ui/Button";
 import { Typography } from "@/components/ui/Typography";
@@ -22,7 +21,8 @@ import {
   styled,
 } from "@mui/material";
 import { parseISO } from "date-fns";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import { NumericFormat } from "react-number-format";
 import { z } from "zod";
 
 export const takeOrderFormSchema = z.object({
@@ -35,8 +35,8 @@ export const takeOrderFormSchema = z.object({
 export type TakeOrderFormValues = z.infer<typeof takeOrderFormSchema>;
 
 const DEFAULT_VALUES: Partial<TakeOrderFormValues> = {
-  amount: 1,
-  currency: "",
+  amount: 0,
+  currency: "TWD",
   tripId: "",
   date: new Date(),
 };
@@ -47,6 +47,27 @@ const StyledButton = styled(Button)({
   width: "100%",
   fontSize: 14,
 });
+
+const StyledInput = styled("input")(({ theme }) => ({
+  border: 0,
+  outline: 0,
+  borderBottom: `1px solid ${theme.palette.base.main}`,
+  transition: theme.transitions.create("border-color"),
+  "&:hover:not(:disabled)": {
+    borderBottom: `2px solid ${theme.palette.pago.main}`,
+  },
+  "&:focus:not(:disabled)": {
+    borderBottom: `2px solid ${theme.palette.pago.main}`,
+  },
+  "&:disabled": {
+    color: theme.palette.text.disabled,
+    borderBottom: `1px solid ${theme.palette.base.main}`,
+    pointerEvents: "none",
+  },
+  padding: theme.spacing(0.5, 0),
+  fontSize: 16,
+  width: "100%",
+}));
 
 type TakeOrderPopupProps = {
   orderId: Order["orderId"];
@@ -63,12 +84,7 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
 
   const isTablet = useMediaQuery((theme) => theme.breakpoints.up("sm"));
 
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-    watch,
-  } = useForm<TakeOrderFormValues>({
+  const { control, handleSubmit, watch } = useForm<TakeOrderFormValues>({
     mode: "onBlur",
     defaultValues: DEFAULT_VALUES,
     resolver: zodResolver(takeOrderFormSchema),
@@ -95,16 +111,20 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
         <Typography variant="h5" as="p">
           向委託者出價
         </Typography>
-        <Box display="flex" alignItems="end">
-          <NumberInput
+        <Box display="flex">
+          <Controller
             control={control}
             name="amount"
-            inputProps={{ min: 1 }}
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-            error={!!errors?.amount}
-            helperText={errors.amount?.message}
-            disabled={!hasTripOptions}
+            render={({ field: { onChange, ...field } }) => (
+              <NumericFormat
+                disabled={!hasTripOptions}
+                allowNegative={false}
+                customInput={StyledInput}
+                decimalScale={0}
+                onValueChange={(values) => onChange(values.floatValue ?? 0)}
+                {...field}
+              />
+            )}
           />
           <CurrencyInput
             control={control}
