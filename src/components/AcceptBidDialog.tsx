@@ -63,10 +63,10 @@ export const AcceptBidDialog: FC<AcceptBidDialogProps> = ({
         </Box>
         <Stack spacing={1} mt={2} color="base.500">
           <Typography variant={isTablet ? "h5" : "h6"} as="p">
-            代購者報價: {charge?.travelerFee}
+            代購者報價: {charge?.travelerFee} {charge?.currency}
           </Typography>
           <Typography variant={isTablet ? "h5" : "h6"} as="p">
-            即將付款總金額: {charge?.totalAmount}
+            即將付款總金額: {charge?.totalAmount} {charge?.currency}
           </Typography>
         </Stack>
       </DialogContent>
