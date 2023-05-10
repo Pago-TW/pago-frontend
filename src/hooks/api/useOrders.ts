@@ -11,8 +11,10 @@ type Params = PaginationParams<{
   tripId: Trip["tripId"];
   status: OrderStatus;
   search: string;
-  from: string;
-  to: string;
+  fromCountry: string;
+  fromCity: string;
+  toCountry: string;
+  toCity: string;
   isPackagingRequired: boolean;
 }>;
 
