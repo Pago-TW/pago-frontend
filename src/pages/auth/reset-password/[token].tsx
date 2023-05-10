@@ -60,7 +60,7 @@ const ResetPasswordPage: NextPage = () => {
       try {
         await axios.post(`/auth/reset-password/${token}`, data);
         enqueueSnackbar("密碼重設成功", { variant: "success" });
-        router.push("/auth/login");
+        router.push("/auth/signin");
       } catch (e) {
         enqueueSnackbar("密碼重設失敗", { variant: "error" });
       }
