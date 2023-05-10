@@ -5,8 +5,21 @@ import { Typography } from "@/components/ui/Typography";
 import { Stack, TextField } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useState } from "react";
+import { useRequestPasswordReset } from "@/hooks/api/useRequestPasswordReset";
 
 const ForgotPasswordPage: NextPage = () => {
+  const [email, setEmail] = useState("");
+  const passwordResetMutation = useRequestPasswordReset();
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    passwordResetMutation.mutate({ email });
+  };
+
   return (
     <>
       <Head>
@@ -23,8 +36,15 @@ const ForgotPasswordPage: NextPage = () => {
           <Typography variant="h4" color="base.main" textAlign="center">
             輸入 Email 以重設密碼
           </Typography>
-          <TextField variant="outlined" type="email" label="Email" required />
-          <Button>獲取信件</Button>
+          <TextField
+            variant="outlined"
+            type="email"
+            label="Email"
+            required
+            value={email}
+            onChange={handleEmailChange}
+          />
+          <Button onClick={handleSubmit}>獲取信件</Button>
           <Stack direction="row" justifyContent="center" alignItems="center">
             <Typography variant="h5" color="base.main">
               <Link href="/auth/signin">登入</Link>
