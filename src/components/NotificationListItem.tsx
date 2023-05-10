@@ -33,12 +33,7 @@ export const NotificationListItem: React.FC<NotificationListItemProps> = ({
   const { data: session } = useSession();
   const currentLoginUserId = session?.user?.id;
 
-  const displayContent =
-    notificationType === "TRIP"
-      ? notificationId === currentLoginUserId
-        ? "你傳送了圖片"
-        : "傳送了圖片給你"
-      : content;
+  const displayContent = content;
 
   const timeAgo = (dateString: string): string => {
     const date = new Date(dateString);
