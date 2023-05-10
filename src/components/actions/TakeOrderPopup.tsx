@@ -95,36 +95,26 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
         <Typography variant="h5" as="p">
           向委託者出價
         </Typography>
-        <Box position="relative">
+        <Box display="flex" alignItems="end">
           <NumberInput
+            control={control}
+            name="amount"
             inputProps={{ min: 1 }}
             InputLabelProps={{ shrink: true }}
             fullWidth
             error={!!errors?.amount}
             helperText={errors.amount?.message}
             disabled={!hasTripOptions}
-            InputProps={{
-              endAdornment: (
-                <CurrencyInput
-                  control={control}
-                  name="currency"
-                  label="貨幣單位"
-                  FormControlProps={{
-                    disabled: !hasTripOptions,
-                    size: "small",
-                    sx: {
-                      position: "absolute",
-                      right: 0,
-                      top: -9,
-                      minWidth: 120,
-                    },
-                  }}
-                />
-              ),
-            }}
-            sx={{ "& input": { mr: 1 } }}
+          />
+          <CurrencyInput
             control={control}
-            name="amount"
+            name="currency"
+            label="貨幣單位"
+            FormControlProps={{
+              disabled: !hasTripOptions,
+              size: "small",
+              sx: { minWidth: 120 },
+            }}
           />
         </Box>
       </Stack>
