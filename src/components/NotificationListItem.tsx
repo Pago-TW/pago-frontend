@@ -108,7 +108,7 @@ export const NotificationListItem: React.FC<NotificationListItemProps> = ({
               sx={{
                 display: "-webkit-box",
                 WebkitBoxOrient: "vertical",
-                WebkitLineClamp: 1,
+                WebkitLineClamp: 3,
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 fontWeight: isRead ? "normal" : "bold",
