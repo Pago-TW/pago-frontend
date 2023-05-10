@@ -4,6 +4,7 @@ import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedDa
 import { Divider, List, Paper, SwipeableDrawer } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo } from "react";
+import { useWindowSize } from "react-use";
 import { Chatroom } from "./Chatroom";
 import { ChatroomListItem } from "./ChatroomListItem";
 import { Header } from "./Header";
@@ -41,6 +42,8 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
     if (chatroomListOpen) refetch();
   }, [chatroomListOpen, refetch]);
 
+  const { height } = useWindowSize();
+
   const handleChatroomOpen = (chatWith: string) => {
     setChatWith(chatWith);
   };
@@ -50,8 +53,8 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
       <Paper
         square
         sx={{
-          overflowY: "scroll",
-          height: "100%",
+          overflowY: "hidden",
+          minHeight: height,
           ...hideScrollbar,
         }}
       >
