@@ -55,14 +55,18 @@ const ResetPasswordPage: NextPage = () => {
 
   const { enqueueSnackbar } = useSnackbar();
 
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
   const handlePasswordReset = useCallback(
     async (data: ResetPasswordFormValues) => {
+      setIsButtonDisabled(true);
       try {
         await axios.post(`/auth/reset-password/${token}`, data);
         enqueueSnackbar("密碼重設成功", { variant: "success" });
         router.push("/auth/signin");
       } catch (e) {
         enqueueSnackbar("密碼重設失敗", { variant: "error" });
+        setIsButtonDisabled(false);
       }
     },
     [enqueueSnackbar, router, token]
@@ -119,7 +123,9 @@ const ResetPasswordPage: NextPage = () => {
               })}
             />
 
-            <Button type="submit">確認送出</Button>
+            <Button disabled={isButtonDisabled} type="submit">
+              確認送出
+            </Button>
           </Stack>
         </Stack>
       </CenterLayout>
