@@ -20,7 +20,7 @@ const getNotifications = async (options: Options = {}) => {
     {
       params: {
         startIndex: pageParam,
-        size: 10,
+        size: 25,
         ...params,
       },
     }
