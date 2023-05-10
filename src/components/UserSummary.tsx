@@ -66,6 +66,7 @@ const completionRatingChipMap: Record<
   VERY_GOOD: { label: "優良", backgroundColor: "pago.main" },
   GOOD: { label: "良好", backgroundColor: "warning.main" },
   POOR: { label: "不良", backgroundColor: "error.main" },
+  NOU: { label: "未知", backgroundColor: "base.main" },
 };
 
 const UserCompletionRating: FC<Pick<User, "completionRating">> = ({
