@@ -1,7 +1,7 @@
 import { useChatrooms } from "@/hooks/api/useChatrooms";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { Divider, Drawer, List, Paper } from "@mui/material";
+import { Divider, List, Paper, SwipeableDrawer } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo } from "react";
 import { Chatroom } from "./Chatroom";
@@ -78,10 +78,12 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
           ))}
         </List>
       </Paper>
-      <Drawer
+      <SwipeableDrawer
         anchor="right"
         open={!!chatWith}
+        onOpen={clearChatWith}
         onClose={clearChatWith}
+        disableSwipeToOpen
         PaperProps={{
           sx: {
             width: "100%",
@@ -92,7 +94,7 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
         }}
       >
         <Chatroom chatWith={chatWith} />
-      </Drawer>
+      </SwipeableDrawer>
     </>
   );
 };

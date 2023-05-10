@@ -2,8 +2,8 @@ import { useChatrooms } from "@/hooks/api/useChatrooms";
 import { useNotifications } from "@/hooks/api/useNotifications";
 import { useOpen } from "@/hooks/useOpen";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
-import { useNotificationStore } from "@/store/ui/useNotificationStore";
 import { useNavbarStore } from "@/store/ui/useNavbarStore";
+import { useNotificationStore } from "@/store/ui/useNotificationStore";
 import { ClickAwayListener } from "@mui/base";
 import {
   ChevronLeft,
@@ -368,6 +368,7 @@ const RightChatroomDrawer: FC<SideDrawerProps> = ({
       open={open}
       onOpen={onOpen}
       onClose={onClose}
+      disableSwipeToOpen
       PaperProps={{
         sx: {
           width: "100%",
@@ -393,6 +394,7 @@ const RightNotificationDrawer: FC<SideDrawerProps> = ({
       open={open}
       onOpen={onOpen}
       onClose={onClose}
+      disableSwipeToOpen
       PaperProps={{
         sx: {
           width: "100%",
