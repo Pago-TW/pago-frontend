@@ -27,4 +27,9 @@ export type Gender = "MALE" | "FEMALE" | "OTHER" | "PREFER_NOT_TO_SAY";
 
 export type AccountStatus = "ACTIVE" | "INACTIVE" | "DELETED";
 
-export type CompletionRating = "EXCELLENT" | "VERY_GOOD" | "GOOD" | "POOR";
+export type CompletionRating =
+  | "EXCELLENT"
+  | "VERY_GOOD"
+  | "GOOD"
+  | "POOR"
+  | "NOU";
