@@ -84,7 +84,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                 weightPreset="bold"
                 textAlign={{ xs: "center", md: "left" }}
               >
-                Pago 讓你邊玩邊賺
+                Pago 讓你輕鬆代購
               </Typography>
               <Box mt={{ xs: 4, md: 6 }}>
                 <Typography
@@ -93,7 +93,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                   color="secondary.dark"
                   textAlign={{ xs: "center", md: "left" }}
                 >
-                  利用行李箱多餘的空間為別人代購，創造共享經濟
+                  你全球購物路上的得力助手
                 </Typography>
                 <Typography
                   variant="h5"
@@ -102,7 +102,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                   textAlign={{ xs: "center", md: "left" }}
                   sx={{ mt: 3 }}
                 >
-                  讓你出去玩，不再只是花錢
+                  讓你在家省到，在外賺到
                 </Typography>
               </Box>
               <Stack
