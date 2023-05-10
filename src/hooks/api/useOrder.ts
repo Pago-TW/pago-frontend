@@ -9,7 +9,7 @@ const getOrder = async (orderId: Order["orderId"]) => {
 
 export const useOrder = (orderId: Order["orderId"]) => {
   return useQuery({
-    queryKey: ["order", orderId],
+    queryKey: ["orders", orderId],
     queryFn: () => getOrder(orderId),
     enabled: !!orderId,
   });
