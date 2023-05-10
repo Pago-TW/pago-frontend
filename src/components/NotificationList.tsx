@@ -1,18 +1,18 @@
 import { HorizontalCenterTabList, StyledTab } from "@/components/UserTabs";
 import { TabPanel } from "@/components/ui/TabPanel";
-import { useNotifications } from "@/hooks/api/useNotifications";
 import { useMarkNotificationAsRead } from "@/hooks/api/useMarkNotificationAsRead";
+import { useNotifications } from "@/hooks/api/useNotifications";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { TabContext } from "@mui/lab";
 import { Box, Divider, Drawer, List, Paper } from "@mui/material";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { Chatroom } from "./Chatroom";
 import { Header } from "./Header";
 import { NotificationListItem } from "./NotificationListItem";
 import { Typography } from "./ui/Typography";
-import { Link } from "./ui/Link";
 
 const PAGE_TABS = [
   { label: "委託", value: "ORDER" },
@@ -33,6 +33,8 @@ type ChatroomListProps = {
 };
 
 export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
+  const router = useRouter();
+
   const { status } = useSession();
 
   const chatroomListOpen = useChatroomStore((state) => state.open);
@@ -42,8 +44,14 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
   const [tab, setTab] = useState<PageTabValue>("ORDER");
   const markNotificationAsReadMutation = useMarkNotificationAsRead();
 
-  const handleNotificationClick = (notificationId: string) => {
-    markNotificationAsReadMutation.mutate({ notificationId });
+  const handleNotificationClick = (
+    notificationId: string,
+    redirectUrl: string
+  ) => {
+    markNotificationAsReadMutation.mutate(
+      { notificationId },
+      { onSuccess: () => router.push(redirectUrl) }
+    );
   };
 
   const handleTabChange = (
@@ -98,12 +106,7 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
                         notification.notificationType === "ORDER"
                     )
                     .map((notification, index) => (
-                      <Link
-                        key={notification.notificationId}
-                        onClick={() =>
-                          (window.location.href = notification.redirectUrl)
-                        }
-                      >
+                      <div key={notification.notificationId}>
                         <NotificationListItem
                           notificationId={notification.notificationId}
                           content={notification.content}
@@ -117,13 +120,16 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
                               | "SYSTEM"
                           }
                           onClick={() =>
-                            handleNotificationClick(notification.notificationId)
+                            handleNotificationClick(
+                              notification.notificationId,
+                              notification.redirectUrl
+                            )
                           }
                         />
                         {index !== notifications.length - 1 && (
                           <Divider variant="inset" component="li" />
                         )}
-                      </Link>
+                      </div>
                     ))
                 ) : (
                   <Typography
@@ -147,12 +153,7 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
                       (notification) => notification.notificationType === "TRIP"
                     )
                     .map((notification, index) => (
-                      <Link
-                        key={notification.notificationId}
-                        onClick={() =>
-                          (window.location.href = notification.redirectUrl)
-                        }
-                      >
+                      <div key={notification.notificationId}>
                         <NotificationListItem
                           notificationId={notification.notificationId}
                           content={notification.content}
@@ -166,13 +167,16 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
                               | "SYSTEM"
                           }
                           onClick={() =>
-                            handleNotificationClick(notification.notificationId)
+                            handleNotificationClick(
+                              notification.notificationId,
+                              notification.redirectUrl
+                            )
                           }
                         />
                         {index !== notifications.length - 1 && (
                           <Divider variant="inset" component="li" />
                         )}
-                      </Link>
+                      </div>
                     ))
                 ) : (
                   <Typography
