@@ -18,7 +18,7 @@ export const useCountryCity = (
   options?: { enabled?: boolean; refetchOnWindowFocus?: boolean }
 ) => {
   return useQuery({
-    queryKey: ["countryCityOptions"],
+    queryKey: ["countryCityOptions", params],
     queryFn: () => getCountryCity(params),
     refetchOnWindowFocus: false,
     ...options,
