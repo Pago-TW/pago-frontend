@@ -15,14 +15,14 @@ const getLocale = () => {
   try {
     Intl.DateTimeFormat.supportedLocalesOf([locale]);
   } catch (_err) {
-    locale = "en-US";
+    locale = "zh-TW";
   }
 
   return locale;
 };
 
 export const useLocale = () => {
-  const [locale, setLocale] = useState("en-US");
+  const [locale, setLocale] = useState("zh-TW");
 
   useEffect(() => {
     setLocale(getLocale());
