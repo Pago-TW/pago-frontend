@@ -8,6 +8,7 @@ import { useWindowSize } from "react-use";
 import { Chatroom } from "./Chatroom";
 import { ChatroomListItem } from "./ChatroomListItem";
 import { Header } from "./Header";
+import { Typography } from "./ui/Typography";
 
 const hideScrollbar = {
   "&::-webkit-scrollbar": {
@@ -60,25 +61,38 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
       >
         <Header title="聊天室列表" onBackClick={onBackClick} />
         <List disablePadding>
-          {chatrooms.map((chatRoom, index) => (
-            <div key={chatRoom.chatroomId}>
-              <ChatroomListItem
-                senderId={chatRoom.latestMessageSenderId}
-                senderName={chatRoom.otherUser.fullName}
-                latestMessageContent={chatRoom.latestMessageContent}
-                avatarUrl={chatRoom.otherUser.avatarUrl || ""}
-                latestMessageSendDate={chatRoom.latestMessageSendDate}
-                totalUnreadMessages={chatRoom.totalUnreadMessage}
-                latestMessageType={
-                  chatRoom.latestMessageType as "FILE" | "TEXT"
-                }
-                onClick={() => handleChatroomOpen(chatRoom.otherUser.userId)}
-              />
-              {index !== chatrooms.length - 1 && (
-                <Divider variant="inset" component="li" />
-              )}
-            </div>
-          ))}
+          {chatrooms.length > 0 ? (
+            chatrooms.map((chatRoom, index) => (
+              <div key={chatRoom.chatroomId}>
+                <ChatroomListItem
+                  senderId={chatRoom.latestMessageSenderId}
+                  senderName={chatRoom.otherUser.fullName}
+                  latestMessageContent={chatRoom.latestMessageContent}
+                  avatarUrl={chatRoom.otherUser.avatarUrl || ""}
+                  latestMessageSendDate={chatRoom.latestMessageSendDate}
+                  totalUnreadMessages={chatRoom.totalUnreadMessage}
+                  latestMessageType={
+                    chatRoom.latestMessageType as "FILE" | "TEXT"
+                  }
+                  onClick={() => handleChatroomOpen(chatRoom.otherUser.userId)}
+                />
+                {index !== chatrooms.length - 1 && (
+                  <Divider variant="inset" component="li" />
+                )}
+              </div>
+            ))
+          ) : (
+            <Typography
+              variant="body1"
+              color="base.500"
+              sx={{
+                textAlign: "center",
+                marginTop: 2,
+              }}
+            >
+              目前沒有聊天室
+            </Typography>
+          )}
         </List>
       </Paper>
       <SwipeableDrawer
