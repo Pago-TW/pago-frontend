@@ -12,6 +12,7 @@ import { Chatroom } from "./Chatroom";
 import { Header } from "./Header";
 import { NotificationListItem } from "./NotificationListItem";
 import { Typography } from "./ui/Typography";
+import { Link } from "./ui/Link";
 
 const PAGE_TABS = [
   { label: "委託", value: "ORDER" },
@@ -97,7 +98,7 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
                         notification.notificationType === "ORDER"
                     )
                     .map((notification, index) => (
-                      <div
+                      <Link
                         key={notification.notificationId}
                         onClick={() =>
                           (window.location.href = notification.redirectUrl)
@@ -122,7 +123,7 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
                         {index !== notifications.length - 1 && (
                           <Divider variant="inset" component="li" />
                         )}
-                      </div>
+                      </Link>
                     ))
                 ) : (
                   <Typography
@@ -146,7 +147,7 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
                       (notification) => notification.notificationType === "TRIP"
                     )
                     .map((notification, index) => (
-                      <div
+                      <Link
                         key={notification.notificationId}
                         onClick={() =>
                           (window.location.href = notification.redirectUrl)
@@ -171,7 +172,7 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
                         {index !== notifications.length - 1 && (
                           <Divider variant="inset" component="li" />
                         )}
-                      </div>
+                      </Link>
                     ))
                 ) : (
                   <Typography
