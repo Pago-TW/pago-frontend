@@ -49,7 +49,6 @@ export const formatDateTime = ({
       day: "2-digit",
       hour: "2-digit",
       minute: "2-digit",
-      timeZone: timezone,
       ...formatOptions,
     },
     { locale }
@@ -68,7 +67,6 @@ export const formatDate = ({
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
-      timeZone: timezone,
       ...formatOptions,
     },
     { locale }
@@ -89,7 +87,6 @@ export const formatTime = ({
     {
       hour: "2-digit",
       minute: "2-digit",
-      timeZone: timezone,
       ...formatOptions,
     },
     { locale }
