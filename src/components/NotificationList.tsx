@@ -2,7 +2,7 @@ import { HorizontalCenterTabList, StyledTab } from "@/components/UserTabs";
 import { TabPanel } from "@/components/ui/TabPanel";
 import { useMarkNotificationAsRead } from "@/hooks/api/useMarkNotificationAsRead";
 import { useNotifications } from "@/hooks/api/useNotifications";
-import { useChatroomStore } from "@/store/ui/useChatroomStore";
+import { useNotificationStore } from "@/store/ui/useNotificationStore";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { TabContext } from "@mui/lab";
 import { Box, Divider, Drawer, List, Paper } from "@mui/material";
@@ -37,10 +37,12 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
 
   const { status } = useSession();
 
-  const chatroomListOpen = useChatroomStore((state) => state.open);
-  const chatWith = useChatroomStore((state) => state.chatWith);
-  const setChatWith = useChatroomStore((state) => state.setChatWith);
-  const clearChatWith = useChatroomStore((state) => state.clearChatWith);
+  const chatroomListOpen = useNotificationStore((state) => state.open);
+  const chatWith = useNotificationStore((state) => state.notificationId);
+  const setChatWith = useNotificationStore((state) => state.setNotificationId);
+  const clearChatWith = useNotificationStore(
+    (state) => state.clearNotificationId
+  );
   const [tab, setTab] = useState<PageTabValue>("ORDER");
   const markNotificationAsReadMutation = useMarkNotificationAsRead();
 
@@ -50,7 +52,11 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
   ) => {
     markNotificationAsReadMutation.mutate(
       { notificationId },
-      { onSuccess: () => router.push(redirectUrl) }
+      {
+        onSuccess: () => {
+          router.push(redirectUrl);
+        },
+      }
     );
   };
 
