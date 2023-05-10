@@ -227,7 +227,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               >
                 <IndexCard
                   step={1 - 1}
-                  title="發布旅途"
+                  title="發布委託"
                   content="為您想要購買的產品創建一個委託訂單，並自己訂定願意支付的代購費。"
                   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                   ImageProps={images.howItWorks.consumer[0]!}
