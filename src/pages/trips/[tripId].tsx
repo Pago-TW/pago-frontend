@@ -72,12 +72,16 @@ const TripInfo: FC<TripInfoProps> = ({
         >
           抵達時間: {formattedArrivalDate}
         </Typography>
-        <DetailItem label="淨賺" value={profit} />
-        <DetailItem label="已接單委託" value={`${totalTripOrders}筆`} />
-        <DetailItem
-          label="與本趟旅途相符之委託還有"
-          value={`${totalMatchedOrders}筆`}
-        />
+        {profit !== undefined && <DetailItem label="預計淨賺" value={profit} />}
+        {totalTripOrders !== undefined && (
+          <DetailItem label="已接單委託" value={`${totalTripOrders}筆`} />
+        )}
+        {totalMatchedOrders !== undefined && (
+          <DetailItem
+            label="與本趟旅途相符之委託還有"
+            value={`${totalMatchedOrders}筆`}
+          />
+        )}
         <Stack direction="row" spacing={2}>
           <Button size="medium" sx={{ flexGrow: 1 }}>
             編輯旅途
