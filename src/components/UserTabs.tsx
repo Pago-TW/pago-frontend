@@ -117,7 +117,7 @@ export const PersonalReviews: FC<TabContentProps> = ({ userId }) => {
     hasNextPage,
     fetchNextPage,
     isFetching,
-  } = useReviews(userId);
+  } = useReviews(userId, { type: tab });
 
   const reviews = useMemo(
     () => flattenInfinitePaginatedData(reviewsData),
