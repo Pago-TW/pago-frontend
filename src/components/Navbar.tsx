@@ -375,7 +375,6 @@ const RightChatroomDrawer: FC<SideDrawerProps> = ({
           height: "100%",
           backgroundColor: "pago.500",
           color: "common.white",
-          overflowY: "hidden",
         },
       }}
     >
