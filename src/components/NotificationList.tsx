@@ -2,14 +2,12 @@ import { HorizontalCenterTabList, StyledTab } from "@/components/UserTabs";
 import { TabPanel } from "@/components/ui/TabPanel";
 import { useMarkNotificationAsRead } from "@/hooks/api/useMarkNotificationAsRead";
 import { useNotifications } from "@/hooks/api/useNotifications";
-import { useNotificationStore } from "@/store/ui/useNotificationStore";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { TabContext } from "@mui/lab";
-import { Box, Divider, Drawer, List, Paper } from "@mui/material";
+import { Box, Divider, List, Paper } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
-import { Chatroom } from "./Chatroom";
 import { Header } from "./Header";
 import { NotificationListItem } from "./NotificationListItem";
 import { Typography } from "./ui/Typography";
@@ -37,26 +35,16 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
 
   const { status } = useSession();
 
-  const chatroomListOpen = useNotificationStore((state) => state.open);
-  const chatWith = useNotificationStore((state) => state.notificationId);
-  const setChatWith = useNotificationStore((state) => state.setNotificationId);
-  const clearChatWith = useNotificationStore(
-    (state) => state.clearNotificationId
-  );
   const [tab, setTab] = useState<PageTabValue>("ORDER");
-  const markNotificationAsReadMutation = useMarkNotificationAsRead();
+  const { mutate: markAsRead } = useMarkNotificationAsRead();
 
   const handleNotificationClick = (
     notificationId: string,
     redirectUrl: string
   ) => {
-    markNotificationAsReadMutation.mutate(
+    markAsRead(
       { notificationId },
-      {
-        onSuccess: () => {
-          router.push(redirectUrl);
-        },
-      }
+      { onSuccess: () => router.push(redirectUrl) }
     );
   };
 
@@ -70,18 +58,21 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
     refetchOnWindowFocus: false,
   });
 
-  const notifications = useMemo(
-    () => flattenInfinitePaginatedData(notificationData),
-    [notificationData]
-  );
+  const { orderNotifications, tripNotifications } = useMemo(() => {
+    const notifications = flattenInfinitePaginatedData(notificationData);
+    return {
+      orderNotifications: notifications.filter(
+        ({ notificationType }) => notificationType === "ORDER"
+      ),
+      tripNotifications: notifications.filter(
+        ({ notificationType }) => notificationType === "TRIP"
+      ),
+    };
+  }, [notificationData]);
 
   useEffect(() => {
-    if (chatroomListOpen) refetch();
-  }, [chatroomListOpen, refetch]);
-
-  const handleChatroomOpen = (chatWith: string) => {
-    setChatWith(chatWith);
-  };
+    refetch();
+  }, [refetch, tab]);
 
   return (
     <>
@@ -103,40 +94,33 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
                 ))}
               </HorizontalCenterTabList>
               <TabPanel value="ORDER">
-                {notifications.filter(
-                  (notification) => notification.notificationType === "ORDER"
-                ).length > 0 ? (
-                  notifications
-                    .filter(
-                      (notification) =>
-                        notification.notificationType === "ORDER"
-                    )
-                    .map((notification, index) => (
-                      <div key={notification.notificationId}>
-                        <NotificationListItem
-                          notificationId={notification.notificationId}
-                          content={notification.content}
-                          imageUrl={notification.imageUrl || ""}
-                          createDate={notification.createDate}
-                          isRead={notification.isRead}
-                          notificationType={
-                            notification.notificationType as
-                              | "TRIP"
-                              | "ORDER"
-                              | "SYSTEM"
-                          }
-                          onClick={() =>
-                            handleNotificationClick(
-                              notification.notificationId,
-                              notification.redirectUrl
-                            )
-                          }
-                        />
-                        {index !== notifications.length - 1 && (
-                          <Divider variant="inset" component="li" />
-                        )}
-                      </div>
-                    ))
+                {orderNotifications.length > 0 ? (
+                  orderNotifications.map((notification, index) => (
+                    <div key={notification.notificationId}>
+                      <NotificationListItem
+                        notificationId={notification.notificationId}
+                        content={notification.content}
+                        imageUrl={notification.imageUrl || ""}
+                        createDate={notification.createDate}
+                        isRead={notification.isRead}
+                        notificationType={
+                          notification.notificationType as
+                            | "TRIP"
+                            | "ORDER"
+                            | "SYSTEM"
+                        }
+                        onClick={() =>
+                          handleNotificationClick(
+                            notification.notificationId,
+                            notification.redirectUrl
+                          )
+                        }
+                      />
+                      {index !== orderNotifications.length - 1 && (
+                        <Divider variant="inset" component="li" />
+                      )}
+                    </div>
+                  ))
                 ) : (
                   <Typography
                     variant="body1"
@@ -151,39 +135,33 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
               </TabPanel>
 
               <TabPanel value="TRIP">
-                {notifications.filter(
-                  (notification) => notification.notificationType === "TRIP"
-                ).length > 0 ? (
-                  notifications
-                    .filter(
-                      (notification) => notification.notificationType === "TRIP"
-                    )
-                    .map((notification, index) => (
-                      <div key={notification.notificationId}>
-                        <NotificationListItem
-                          notificationId={notification.notificationId}
-                          content={notification.content}
-                          imageUrl={notification.imageUrl || ""}
-                          createDate={notification.updateDate}
-                          isRead={notification.isRead}
-                          notificationType={
-                            notification.notificationType as
-                              | "TRIP"
-                              | "ORDER"
-                              | "SYSTEM"
-                          }
-                          onClick={() =>
-                            handleNotificationClick(
-                              notification.notificationId,
-                              notification.redirectUrl
-                            )
-                          }
-                        />
-                        {index !== notifications.length - 1 && (
-                          <Divider variant="inset" component="li" />
-                        )}
-                      </div>
-                    ))
+                {tripNotifications.length > 0 ? (
+                  tripNotifications.map((notification, index) => (
+                    <div key={notification.notificationId}>
+                      <NotificationListItem
+                        notificationId={notification.notificationId}
+                        content={notification.content}
+                        imageUrl={notification.imageUrl || ""}
+                        createDate={notification.updateDate}
+                        isRead={notification.isRead}
+                        notificationType={
+                          notification.notificationType as
+                            | "TRIP"
+                            | "ORDER"
+                            | "SYSTEM"
+                        }
+                        onClick={() =>
+                          handleNotificationClick(
+                            notification.notificationId,
+                            notification.redirectUrl
+                          )
+                        }
+                      />
+                      {index !== tripNotifications.length - 1 && (
+                        <Divider variant="inset" component="li" />
+                      )}
+                    </div>
+                  ))
                 ) : (
                   <Typography
                     variant="body1"
@@ -201,21 +179,6 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
           </Box>
         </List>
       </Paper>
-      <Drawer
-        anchor="right"
-        open={!!chatWith}
-        onClose={clearChatWith}
-        PaperProps={{
-          sx: {
-            width: "100%",
-            height: "100%",
-            backgroundColor: "#f5f5f5",
-            color: "common.white",
-          },
-        }}
-      >
-        <Chatroom chatWith={chatWith} />
-      </Drawer>
     </>
   );
 };

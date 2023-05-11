@@ -3,7 +3,6 @@ import { useNotifications } from "@/hooks/api/useNotifications";
 import { useOpen } from "@/hooks/useOpen";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import { useNavbarStore } from "@/store/ui/useNavbarStore";
-import { useNotificationStore } from "@/store/ui/useNotificationStore";
 import { ClickAwayListener } from "@mui/base";
 import {
   ChevronLeft,
@@ -415,14 +414,15 @@ export const Navbar = () => {
     handleOpen: handleLeftNavbarOpen,
     handleClose: handleLeftNavbarClose,
   } = useOpen();
+  const {
+    open: rightNotificationOpen,
+    handleOpen: handleRightNotificationOpen,
+    handleClose: handleRightNotificationClose,
+  } = useOpen();
 
   const searchExpand = useNavbarStore((state) => state.searchExpand);
   const chatroomListOpen = useChatroomStore((state) => state.open);
   const setChatroomListOpen = useChatroomStore((state) => state.setOpen);
-  const notificationListOpen = useNotificationStore((state) => state.open);
-  const setNotificationListOpen = useNotificationStore(
-    (state) => state.setOpen
-  );
 
   const handleRightChatroomOpen = () => {
     setChatroomListOpen(true);
@@ -430,13 +430,6 @@ export const Navbar = () => {
   const handleRightChatroomClose = useCallback(() => {
     setChatroomListOpen(false);
   }, [setChatroomListOpen]);
-
-  const handleRightNotificationOpen = () => {
-    setNotificationListOpen(true);
-  };
-  const handleRightNotificationClose = useCallback(() => {
-    setNotificationListOpen(false);
-  }, [setNotificationListOpen]);
 
   return (
     <Box>
@@ -492,7 +485,7 @@ export const Navbar = () => {
         onClose={handleRightChatroomClose}
       />
       <RightNotificationDrawer
-        open={notificationListOpen}
+        open={rightNotificationOpen}
         onOpen={handleRightNotificationOpen}
         onClose={handleRightNotificationClose}
       />
