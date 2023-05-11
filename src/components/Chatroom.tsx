@@ -80,6 +80,10 @@ export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
     }
   }, [locale, timezone, userId, webSocketService]);
 
+  useEffect(() => {
+    if (!chatWith) setLocalMessages([]);
+  }, [chatWith]);
+
   const handleBackClick = () => {
     clearChatWith();
   };
