@@ -38,13 +38,8 @@ const InputSection: React.FC<InputSectionProps> = ({
       sx={{
         display: "flex",
         alignItems: "center",
-        p: 2,
-        backgroundColor: (theme) => theme.palette.background.default,
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        zIndex: (theme) => theme.zIndex.appBar,
+        px: 2,
+        py: 2,
       }}
     >
       <IconButton

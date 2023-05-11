@@ -80,6 +80,10 @@ export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
     }
   }, [locale, timezone, userId, webSocketService]);
 
+  useEffect(() => {
+    if (!chatWith) setLocalMessages([]);
+  }, [chatWith]);
+
   const handleBackClick = () => {
     clearChatWith();
   };
@@ -204,6 +208,7 @@ export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
       sx={{
         width: "100%",
         height: "100vh",
+        paddingTop: "10px",
         display: "flex",
         flexDirection: "column",
         position: "relative",
