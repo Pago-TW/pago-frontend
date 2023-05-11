@@ -15,6 +15,6 @@ export const useMarkNotificationAsRead = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: markNotificationAsRead,
-    onSuccess: () => qc.refetchQueries(["notifications"]),
+    onSuccess: () => qc.invalidateQueries(["notifications"]),
   });
 };
