@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Message from "./Message";
 
@@ -31,11 +31,10 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
   }, [messages]);
 
   return (
-    <Stack
+    <Box
       id="message-board"
-      spacing={2}
       sx={{
-        py: 1,
+        marginTop: "1rem",
         paddingLeft: "1rem",
         paddingRight: "1rem",
         height: "calc(100vh - 156px)",
@@ -49,6 +48,7 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
           display="flex"
           justifyContent={message.isSender ? "flex-end" : "flex-start"}
           alignItems="end"
+          mb={2}
           width="100%"
           key={index}
         >
@@ -61,7 +61,7 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
           />
         </Box>
       ))}
-    </Stack>
+    </Box>
   );
 };
 
