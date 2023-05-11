@@ -17,14 +17,16 @@ import { Button } from "../ui/Button";
 import { FilledTextarea } from "../ui/FilledTextarea";
 import { Typography } from "../ui/Typography";
 
-export const reasons = [
+export const cancelReasons = [
   "OUT_OF_STOCK",
   "FORCE_MAJEURE",
   "PERSONAL_FACTOR",
   "OTHER",
 ] as const;
 
-const reasonLabelMap: Record<(typeof reasons)[number], string> = {
+export type CancelReason = (typeof cancelReasons)[number];
+
+export const cancelReasonLabelMap: Record<CancelReason, string> = {
   OUT_OF_STOCK: "商品缺貨",
   FORCE_MAJEURE: "不可抗力因素",
   PERSONAL_FACTOR: "個人因素",
@@ -33,7 +35,7 @@ const reasonLabelMap: Record<(typeof reasons)[number], string> = {
 
 export const applyCancelFormSchema = z
   .object({
-    reason: z.enum(reasons),
+    reason: z.enum(cancelReasons),
     detail: z.string().optional(),
   })
   .refine((data) => data.reason !== "OTHER" || !!data.detail, {
@@ -42,7 +44,7 @@ export const applyCancelFormSchema = z
   });
 
 const DEFAULT_VALUES: ApplyCancelFormValues = {
-  reason: reasons[0],
+  reason: cancelReasons[0],
   detail: "",
 };
 
@@ -105,8 +107,8 @@ export const ApplyCancelModal = ({
                 <RadioGroupInput
                   control={control}
                   name="reason"
-                  choices={reasons.map((reason) => ({
-                    label: reasonLabelMap[reason],
+                  choices={cancelReasons.map((reason) => ({
+                    label: cancelReasonLabelMap[reason],
                     value: reason,
                   }))}
                   onChange={handleRadioChange}

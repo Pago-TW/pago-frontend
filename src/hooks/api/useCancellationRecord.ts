@@ -1,3 +1,4 @@
+import type { CancelReason } from "@/components/actions/ApplyCancelModal";
 import { axios } from "@/libs/axios";
 import type { Order } from "@/types/order";
 import type { User } from "@/types/user";
@@ -7,7 +8,7 @@ export type CancellationRecord = {
   cancellationRecordId: string;
   orderId: Order["orderId"];
   userId: User["userId"];
-  cancelReason: string;
+  cancelReason: CancelReason;
   note?: string;
   createDate: string;
   updateDate: string;

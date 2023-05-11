@@ -1,3 +1,4 @@
+import type { PostponeReason } from "@/components/actions/ApplyPostponeModal";
 import { axios } from "@/libs/axios";
 import type { Order, OrderStatus } from "@/types/order";
 import type { User } from "@/types/user";
@@ -7,7 +8,7 @@ export type PostponeRecord = {
   postponeRecordId: string;
   orderId: Order["orderId"];
   userId: User["userId"];
-  postponeReason: string;
+  postponeReason: PostponeReason;
   note?: string;
   createDate: string;
   updateDate: string;

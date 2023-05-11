@@ -14,6 +14,10 @@ import {
   Skeleton,
   styled,
 } from "@mui/material";
+import type { CancelReason } from "./ApplyCancelModal";
+import { cancelReasonLabelMap } from "./ApplyCancelModal";
+import type { PostponeReason } from "./ApplyPostponeModal";
+import { postponeReasonLabelMap } from "./ApplyPostponeModal";
 
 const DialogButton = styled(Button)(({ theme }) => ({
   minWidth: "fit-content",
@@ -60,6 +64,10 @@ export const ReplyDialog = <ApplyFor extends "postpone" | "cancel">({
   const applicant = perspective === "consumer" ? "代購者" : "委託者";
 
   const title = `${applicant}申請${applyForText}，是否接受？`;
+  const reasonText =
+    (applyFor !== "postpone"
+      ? postponeReasonLabelMap[reason as PostponeReason]
+      : cancelReasonLabelMap[reason as CancelReason]) || "";
   const alertSeverity = applyFor === "postpone" ? "warning" : "error";
   const alertDesc =
     applyFor === "postpone"
@@ -72,7 +80,7 @@ export const ReplyDialog = <ApplyFor extends "postpone" | "cancel">({
       <DialogContent sx={{ pb: 0 }}>
         <Box>
           <Typography variant="h5" as="p" color="base.900">
-            {isLoading ? <Skeleton /> : `原因: ${reason}`}
+            {isLoading ? <Skeleton /> : `原因: ${reasonText}`}
           </Typography>
           <Typography variant="h6" as="p" color="base.500" mt={2}>
             {isLoading ? <Skeleton /> : `說明: ${note ?? "(無)"}`}

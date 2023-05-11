@@ -17,9 +17,15 @@ import { Button } from "../ui/Button";
 import { FilledTextarea } from "../ui/FilledTextarea";
 import { Typography } from "../ui/Typography";
 
-export const reasons = ["FORCE_MAJEURE", "PERSONAL_FACTOR", "OTHER"] as const;
+export const postponeReasons = [
+  "FORCE_MAJEURE",
+  "PERSONAL_FACTOR",
+  "OTHER",
+] as const;
 
-const reasonLabelMap: Record<(typeof reasons)[number], string> = {
+export type PostponeReason = (typeof postponeReasons)[number];
+
+export const postponeReasonLabelMap: Record<PostponeReason, string> = {
   FORCE_MAJEURE: "不可抗力因素",
   PERSONAL_FACTOR: "個人因素",
   OTHER: "其他",
@@ -27,7 +33,7 @@ const reasonLabelMap: Record<(typeof reasons)[number], string> = {
 
 export const applyPostponeFormSchema = z
   .object({
-    reason: z.enum(reasons),
+    reason: z.enum(postponeReasons),
     detail: z.string().optional(),
   })
   .refine((data) => data.reason !== "OTHER" || !!data.detail, {
@@ -36,7 +42,7 @@ export const applyPostponeFormSchema = z
   });
 
 const DEFAULT_VALUES: ApplyPostponeFormValues = {
-  reason: reasons[0],
+  reason: postponeReasons[0],
   detail: "",
 };
 
@@ -99,8 +105,8 @@ export const ApplyPostponeModal = ({
                 <RadioGroupInput
                   control={control}
                   name="reason"
-                  choices={reasons.map((reason) => ({
-                    label: reasonLabelMap[reason],
+                  choices={postponeReasons.map((reason) => ({
+                    label: postponeReasonLabelMap[reason],
                     value: reason,
                   }))}
                   onChange={handleRadioChange}
