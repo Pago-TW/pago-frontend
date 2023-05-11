@@ -57,7 +57,7 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
         }}
       >
         <Header title="聊天室列表" onBackClick={onBackClick} />
-        <List disablePadding>
+        <List sx={{ pt: "56px" }}>
           {chatrooms.length > 0 ? (
             chatrooms.map((chatRoom, index) => (
               <div key={chatRoom.chatroomId}>
