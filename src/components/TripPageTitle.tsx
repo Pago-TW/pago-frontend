@@ -11,6 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { ActionWithConfirmation } from "./actions/ActionWithConfirmation";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IosShare } from "@mui/icons-material";
+import { useSession } from "next-auth/react";
 
 export type PageTitleProps = PropsWithChildren<{
   title: ReactNode;
@@ -24,12 +25,31 @@ export const TripPageTitle = ({
   endButton,
   children,
 }: PageTitleProps) => {
+  const { data: session } = useSession();
+  const userFullName = session?.user?.name;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const router = useRouter();
   const tripId = router.query.tripId as string;
 
   const { mutate: deleteTrip } = useDeleteTrip();
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Pago 旅途詳情頁面",
+          text: "來自 " + userFullName + " 的旅途",
+          url: window.location.href,
+        });
+        handleClose();
+      } catch (error) {
+        console.error("Something went wrong sharing the trip", error);
+      }
+    } else {
+      console.log("Your browser does not support the Share API");
+    }
+  };
 
   const handleConfirm = () => {
     deleteTrip({ tripId });
@@ -84,7 +104,7 @@ export const TripPageTitle = ({
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose} sx={{ color: "#335891" }}>
+              <MenuItem onClick={handleShare} sx={{ color: "#335891" }}>
                 <IosShare />
                 分享
               </MenuItem>
