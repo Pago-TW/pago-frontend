@@ -1,6 +1,7 @@
 import { DetailItem } from "@/components/DetailItem";
 import { OrderList } from "@/components/OrderList";
 import { PageTitle } from "@/components/PageTitle";
+import TripPageTitle from "@/components/TripPageTitle";
 import { ShareButton } from "@/components/ShareButton";
 import { ShowMoreButton } from "@/components/ShowMoreButton";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
@@ -17,6 +18,7 @@ import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedDa
 import { formatDate } from "@/utils/formatDateTime";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Container, Stack } from "@mui/material";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -137,7 +139,7 @@ const TripDetailPage: NextPage = () => {
         <title>旅途詳情</title>
       </Head>
       <BaseLayout>
-        <PageTitle title="旅途詳情" endButton={<ShareButton />} />
+        <TripPageTitle title="旅途詳情" endButton={<MoreHorizIcon />} />
         <Container>
           <Stack component="main" spacing={2}>
             <TripInfo
