@@ -35,10 +35,11 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
       id="message-board"
       spacing={2}
       sx={{
-        pt: 1,
-        pb: "72px",
+        py: 1,
         paddingLeft: "1rem",
         paddingRight: "1rem",
+        height: "calc(100vh - 156px)",
+        overflowY: "scroll",
         color: "#f5f5f5",
         visibility: isLoaded ? "visible" : "hidden",
       }}
