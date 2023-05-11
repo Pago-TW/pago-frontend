@@ -15,7 +15,6 @@ import Skeleton from "@mui/material/Skeleton";
 import { useSession } from "next-auth/react";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
-import { useWindowSize } from "react-use";
 
 type MessageState = Omit<Message, "senderId" | "chatroomId"> & {
   isSender: boolean;
@@ -67,8 +66,6 @@ export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
     useChatroomMessages(chatroomId || "");
 
   const { webSocketService, sendFileMessage } = useWebSocket();
-
-  const { height } = useWindowSize();
 
   useEffect(() => {
     if (webSocketService) {
@@ -203,13 +200,30 @@ export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
   }
 
   return (
-    <Box sx={{ width: "100%", minHeight: height }}>
-      <Header
-        title={chatroomData?.otherUser?.fullName || ""}
-        onBackClick={handleBackClick}
-      />
+    <Box
+      sx={{
+        width: "100%",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+      }}
+    >
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+        }}
+      >
+        <Header
+          title={chatroomData?.otherUser?.fullName || ""}
+          onBackClick={handleBackClick}
+        />
+      </Box>
 
-      <Box>
+      <Box sx={{ flexGrow: 1, paddingTop: "56px" }}>
         <MessageBoard messages={messages} scrollToBottom={scrollToBottom} />
       </Box>
       <InputSection
