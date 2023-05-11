@@ -51,6 +51,7 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
       <Paper
         square
         sx={{
+          pb: "50px",
           overflowY: "scroll",
           height: "100%",
           ...hideScrollbar,
