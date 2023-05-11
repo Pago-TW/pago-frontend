@@ -73,7 +73,7 @@ export const UserCard = ({
           LinkComponent={Link}
           href={`/users/${userId}`}
         >
-          查看代購者詳情
+          查看{perspective === "consumer" ? "代購者" : "委託者"}詳情
         </Button>
       </Box>
       {latestDeliveryDateElem}
