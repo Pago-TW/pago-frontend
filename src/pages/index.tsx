@@ -70,6 +70,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                 {...images.introduction}
                 fill
                 sizes="(max-width: 600px) 50vw, 100vw"
+                priority={true}
                 style={{
                   boxShadow: "0px 2px 4px rgba(51, 88, 145, 0.5)",
                   borderRadius: "6px",
