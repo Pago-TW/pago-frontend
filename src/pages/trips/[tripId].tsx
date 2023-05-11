@@ -139,7 +139,10 @@ const TripDetailPage: NextPage = () => {
         <title>旅途詳情</title>
       </Head>
       <BaseLayout>
-        <TripPageTitle title="旅途詳情" endButton={<MoreHorizIcon />} />
+        <TripPageTitle
+          title="旅途詳情"
+          endButton={<MoreHorizIcon sx={{ color: "#335891" }} />}
+        />
         <Container>
           <Stack component="main" spacing={2}>
             <TripInfo
