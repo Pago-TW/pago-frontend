@@ -43,7 +43,6 @@ const InputSection: React.FC<InputSectionProps> = ({
         bottom: 0,
         left: 0,
         width: "100%",
-        zIndex: (theme) => theme.zIndex.appBar,
       }}
     >
       <IconButton
