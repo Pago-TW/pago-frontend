@@ -16,6 +16,7 @@ import { useLocale } from "@/hooks/useLocale";
 import type { Trip } from "@/types/trip";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { formatDate } from "@/utils/formatDateTime";
+import { getInfinitePaginatedDataTotal } from "@/utils/getInfinitePaginatedDataTotal";
 import { Delete, IosShare, MoreHoriz } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import {
@@ -46,7 +47,7 @@ const TABS = [
 
 type Tab = (typeof TABS)[number];
 
-const MoreOptionsButton: FC = () => {
+const MoreOptionsButton: FC<{ deletable?: boolean }> = ({ deletable }) => {
   const router = useRouter();
   const tripId = router.query.tripId as string;
 
@@ -114,6 +115,7 @@ const MoreOptionsButton: FC = () => {
           分享
         </MenuItem>
         <MenuItem
+          disabled={!deletable}
           onClick={handleConfirm}
           sx={{ color: (theme) => theme.palette.pagoRed[900] }}
         >
@@ -203,10 +205,8 @@ const TripDetailPage: NextPage = () => {
     return flattenInfinitePaginatedData(matchedOrdersData);
   }, [matchedOrdersData]);
 
-  const totalTripOrders =
-    tripOrdersData?.pages[tripOrdersData.pages.length - 1]?.total;
-  const totalMatchedOrders =
-    matchedOrdersData?.pages[matchedOrdersData.pages.length - 1]?.total;
+  const totalTripOrders = getInfinitePaginatedDataTotal(tripOrdersData);
+  const totalMatchedOrders = getInfinitePaginatedDataTotal(matchedOrdersData);
 
   if (!trip) return null;
 
@@ -228,7 +228,10 @@ const TripDetailPage: NextPage = () => {
       </Head>
       <BaseLayout>
         <ConfirmProvider defaultOptions={defaultConfirmOptions}>
-          <PageTitle title="旅途詳情" endButton={<MoreOptionsButton />} />
+          <PageTitle
+            title="旅途詳情"
+            endButton={<MoreOptionsButton deletable={!totalTripOrders} />}
+          />
         </ConfirmProvider>
         <Container>
           <Stack component="main" spacing={2}>
