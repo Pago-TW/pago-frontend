@@ -1,14 +1,14 @@
 import { DetailItem } from "@/components/DetailItem";
 import { OrderList } from "@/components/OrderList";
 import { PageTitle } from "@/components/PageTitle";
-import TripPageTitle from "@/components/TripPageTitle";
-import { ShareButton } from "@/components/ShareButton";
 import { ShowMoreButton } from "@/components/ShowMoreButton";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { PaperLayout } from "@/components/layouts/PaperLayout";
 import { Button } from "@/components/ui/Button";
 import { Tab } from "@/components/ui/Tab";
 import { Typography } from "@/components/ui/Typography";
+import { defaultConfirmOptions } from "@/config/confirmOptions";
+import { useDeleteTrip } from "@/hooks/api/useDeleteTrip";
 import { useMatchingOrders } from "@/hooks/api/useMatchingOrders";
 import { useOrders } from "@/hooks/api/useOrders";
 import { useTrip } from "@/hooks/api/useTrip";
@@ -16,13 +16,22 @@ import { useLocale } from "@/hooks/useLocale";
 import type { Trip } from "@/types/trip";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { formatDate } from "@/utils/formatDateTime";
+import { Delete, IosShare, MoreHoriz } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Container, Stack } from "@mui/material";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import {
+  Box,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Stack,
+} from "@mui/material";
+import { ConfirmProvider, useConfirm } from "material-ui-confirm";
 import type { NextPage } from "next";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import type { FC } from "react";
+import type { FC, MouseEvent } from "react";
 import { useMemo, useState } from "react";
 
 const TABS = [
@@ -36,6 +45,85 @@ const TABS = [
 ] as const;
 
 type Tab = (typeof TABS)[number];
+
+const MoreOptionsButton: FC = () => {
+  const router = useRouter();
+  const tripId = router.query.tripId as string;
+
+  const { data: session } = useSession();
+  const username = session?.user?.name;
+
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const { mutate: deleteTrip } = useDeleteTrip();
+
+  const confirm = useConfirm();
+
+  const handleMore = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Pago 旅途詳情頁面",
+          text: `來自 ${username} 的旅途`,
+          url: window.location.href,
+        });
+        handleClose();
+      } catch (error) {
+        console.error("Something went wrong sharing the trip", error);
+      }
+    } else {
+      console.log("Your browser does not support the Share API");
+    }
+  };
+
+  const handleConfirm = async () => {
+    try {
+      await confirm({
+        title: "確定刪除此旅途？",
+      });
+      deleteTrip({ tripId }, { onSuccess: () => router.replace("/trips") });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return (
+    <>
+      <IconButton onClick={handleMore}>
+        <MoreHoriz />
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        MenuListProps={{ disablePadding: true }}
+      >
+        <MenuItem
+          onClick={handleShare}
+          sx={{ color: (theme) => theme.palette.pago.main }}
+        >
+          <IosShare />
+          分享
+        </MenuItem>
+        <MenuItem
+          onClick={handleConfirm}
+          sx={{ color: (theme) => theme.palette.pagoRed[900] }}
+        >
+          <Delete />
+          刪除
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
 
 type TripInfoProps = Pick<
   Trip,
@@ -139,10 +227,9 @@ const TripDetailPage: NextPage = () => {
         <title>旅途詳情</title>
       </Head>
       <BaseLayout>
-        <TripPageTitle
-          title="旅途詳情"
-          endButton={<MoreHorizIcon sx={{ color: "#335891" }} />}
-        />
+        <ConfirmProvider defaultOptions={defaultConfirmOptions}>
+          <PageTitle title="旅途詳情" endButton={<MoreOptionsButton />} />
+        </ConfirmProvider>
         <Container>
           <Stack component="main" spacing={2}>
             <TripInfo
