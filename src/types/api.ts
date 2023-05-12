@@ -2,7 +2,7 @@ export type PaginationParams<T extends object = object> = Partial<{
   startIndex: number;
   size: number;
   orderBy: string;
-  sort: string;
+  sort: "ASC" | "DESC";
 }> &
   Partial<T>;
 
