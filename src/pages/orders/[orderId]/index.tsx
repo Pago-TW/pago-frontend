@@ -24,6 +24,7 @@ import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { userInfo } from "os";
 import { useMemo, type ReactNode } from "react";
 import { translateBoolean } from "src/utils/translateBoolean";
 
@@ -255,6 +256,26 @@ const OrderDetailPage: NextPage = () => {
     hasPostponeRecord,
   } = order;
 
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Pago 委託詳情頁面",
+          text:
+            "由 Pago 用戶: " +
+            order.consumer.fullName +
+            " 發布的委託: " +
+            order.orderItem.name,
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.error("Something went wrong sharing the trip", error);
+      }
+    } else {
+      console.log("Your browser does not support the Share API");
+    }
+  };
+
   const handleFavorite = () => {
     console.log({ type: "favorite" });
   };
@@ -415,7 +436,7 @@ const OrderDetailPage: NextPage = () => {
           title="委託詳情"
           endButton={
             isOwner ? (
-              <ShareButton />
+              <ShareButton onClick={handleShare} sx={{ color: "#335891" }} />
             ) : (
               <FavoriteButton onClick={handleFavorite} />
             )
