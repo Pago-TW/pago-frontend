@@ -10,6 +10,9 @@ declare module "@mui/material/styles/createPalette" {
   interface Palette {
     base: PaletteColor & Color;
     pago: PaletteColor & Color;
+    pagoGreen: PaletteColor & Color;
+    pagoYellow: PaletteColor & Color;
+    pagoRed: PaletteColor & Color;
   }
   interface PaletteOptions {
     base?: SimplePaletteColorOptions & ColorPartial;
