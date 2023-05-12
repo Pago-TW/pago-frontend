@@ -1,8 +1,8 @@
+import { defaultConfirmOptions } from "@/config/confirmOptions";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Perspective } from "@/types/misc";
 import type { Order, OrderStatus } from "@/types/order";
 import { Box, Paper } from "@mui/material";
-import type { ConfirmOptions } from "material-ui-confirm";
 import { ConfirmProvider } from "material-ui-confirm";
 import dynamic from "next/dynamic";
 import type { FC, ReactNode } from "react";
@@ -35,17 +35,11 @@ const DynamicUpdateStatusAction = dynamic(() =>
   import("./UpdateStatusAction").then((mod) => mod.UpdateStatusAction)
 );
 
-const DEFAULT_CONFIRM_OPTIONS: ConfirmOptions = {
-  confirmationText: "是",
-  cancellationText: "否",
-  buttonOrder: ["confirm", "cancel"],
-};
-
 const ActionsWrapper = ({ children }: { children: ReactNode }) => {
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
   return (
-    <ConfirmProvider defaultOptions={DEFAULT_CONFIRM_OPTIONS}>
+    <ConfirmProvider defaultOptions={defaultConfirmOptions}>
       <Paper
         elevation={isDesktop ? 0 : 5}
         sx={{
