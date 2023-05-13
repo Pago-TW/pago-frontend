@@ -7,7 +7,10 @@ import { useRouter } from "next/router";
 import type { FC } from "react";
 import type { ActionWithConfirmationProps } from "./ActionWithConfirmation";
 import { ActionWithConfirmation } from "./ActionWithConfirmation";
-import type { AddReviewFormValues } from "./AddReviewModal";
+import type {
+  AddReviewFormValues,
+  AddReviewModalProps,
+} from "./AddReviewModal";
 import { AddReviewModal } from "./AddReviewModal";
 
 export type FinishActionProps = Pick<
@@ -16,12 +19,14 @@ export type FinishActionProps = Pick<
 > & {
   perspective: Perspective;
   confirmOptions: ConfirmOptions;
+  reviewTargetId: AddReviewModalProps["targetId"];
 };
 
 export const FinishAction: FC<FinishActionProps> = ({
   perspective,
   confirmOptions,
   disabled,
+  reviewTargetId,
   children,
 }) => {
   const router = useRouter();
@@ -61,6 +66,7 @@ export const FinishAction: FC<FinishActionProps> = ({
         onClose={handleClose}
         onSubmit={handleReviewSubmit}
         perspective={perspective}
+        targetId={reviewTargetId}
       />
     </>
   );

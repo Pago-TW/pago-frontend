@@ -1,4 +1,6 @@
+import { useUser } from "@/hooks/api/useUser";
 import type { Perspective } from "@/types/misc";
+import type { User } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { ModalProps } from "@mui/material";
 import {
@@ -68,7 +70,10 @@ const QuickReview = ({
   );
 };
 
-const QUICK_REVIEW_ITEMS = ["超快速的代購速度！", "優質的聯絡態度！"] as const;
+const QUICK_REVIEW_MAP: Record<Perspective, string[]> = {
+  consumer: ["超快速的代購速度！", "優質的聯絡態度！"],
+  shopper: ["優質的聯絡態度！"],
+};
 
 type FileUploadProps<T extends FieldValues> = {
   control: Control<T>;
@@ -180,6 +185,7 @@ export type AddReviewModalProps = Pick<ModalProps, "open"> & {
   perspective: Perspective;
   onClose: () => void;
   onSubmit: (data: AddReviewFormValues) => void;
+  targetId: User["userId"];
 };
 
 const DEFAULT_VALUES: Partial<AddReviewFormValues> = {
@@ -193,6 +199,7 @@ export const AddReviewModal = ({
   perspective,
   onClose,
   onSubmit,
+  targetId,
 }: AddReviewModalProps) => {
   const {
     register,
@@ -208,6 +215,8 @@ export const AddReviewModal = ({
     resolver: zodResolver(addReviewFormSchema),
   });
 
+  const { data: targetUser } = useUser(targetId);
+
   useEffect(() => {
     if (!open) reset();
   }, [open, reset]);
@@ -220,7 +229,11 @@ export const AddReviewModal = ({
     [getValues, setValue]
   );
 
-  const target = perspective === "consumer" ? "代購者" : "委託者";
+  const targetName = targetUser?.fullName;
+  const targetAvatar = targetUser?.avatarUrl;
+  const targetText = perspective === "consumer" ? "代購者" : "委託者";
+
+  const quickReviewItems = QUICK_REVIEW_MAP[perspective];
 
   return (
     <Modal open={open} onClose={onClose} closeAfterTransition>
@@ -240,11 +253,11 @@ export const AddReviewModal = ({
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={2} alignItems="center">
               <Typography variant="h5" weightPreset="bold" textAlign="center">
-                為此{target}評價
+                為此{targetText}評價
               </Typography>
               <Stack direction="row" spacing={2} alignItems="center">
-                <Avatar />
-                <Typography variant="h5">使用者名稱</Typography>
+                <Avatar src={targetAvatar} />
+                <Typography variant="h5">{targetName}</Typography>
               </Stack>
               <Rating name="rating" control={control} size="large" />
               <Collapse
@@ -270,7 +283,7 @@ export const AddReviewModal = ({
                     flexWrap="wrap"
                     pb={4}
                   >
-                    {QUICK_REVIEW_ITEMS.map((content) => (
+                    {quickReviewItems.map((content) => (
                       <QuickReview
                         key={content}
                         content={content}

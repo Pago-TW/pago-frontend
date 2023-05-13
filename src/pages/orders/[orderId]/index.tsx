@@ -24,7 +24,6 @@ import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { userInfo } from "os";
 import { useMemo, type ReactNode } from "react";
 import { translateBoolean } from "src/utils/translateBoolean";
 
@@ -421,6 +420,7 @@ const OrderDetailPage: NextPage = () => {
           isApplicant={isApplicant}
           hasCancellationRecord={hasCancellationRecord}
           hasPostponeRecord={hasPostponeRecord}
+          reviewTargetId={shopper?.userId as string}
         />
       </Stack>
     </Stack>
