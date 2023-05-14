@@ -286,7 +286,7 @@ type DrawerListItem = {
 const drawerListItems: DrawerListItem[] = [
   { href: "/orders", text: "我的委託", icon: <Receipt /> },
   { href: "/trips", text: "旅途管理", icon: <Place /> },
-  { href: "/marketplace", text: "瀏覽商品", icon: <ShoppingBag /> },
+  { href: "/marketplace", text: "商品瀏覽", icon: <ShoppingBag /> },
   { href: "/help", text: "幫助中心", icon: <Error /> },
   { href: "/settings", text: "設定", icon: <Settings /> },
 ];
