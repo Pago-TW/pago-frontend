@@ -93,7 +93,6 @@ export default function MarketplacePage() {
       draft.maxTravelerFee = typeof maxFee === "string" ? undefined : maxFee;
       draft.latestReceiveItemDate = latestReceiveDate || undefined;
     });
-    handleFilterMoreClose();
   };
 
   const total = orders.length;
