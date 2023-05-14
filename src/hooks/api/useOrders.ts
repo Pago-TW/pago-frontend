@@ -5,6 +5,7 @@ import type { Trip } from "@/types/trip";
 import type { User } from "@/types/user";
 import { getLastIndex } from "@/utils/getLastIndex";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { zonedTimeToUtc } from "date-fns-tz";
 
 export type Params = PaginationParams<{
   userId: User["userId"];
@@ -29,11 +30,17 @@ type Options = {
 const getOrders = async (options: Options = {}) => {
   const { params, pageParam = 0 } = options;
 
+  const getParams = {
+    ...params,
+    latestReceiveItemDate: params?.latestReceiveItemDate
+      ? zonedTimeToUtc(params.latestReceiveItemDate, "UTC")
+      : undefined,
+  };
   const res = await axios.get<PaginatedResponse<Order[]>>("/orders", {
     params: {
       startIndex: pageParam,
       size: 10,
-      ...params,
+      ...getParams,
     },
   });
   return res.data;
