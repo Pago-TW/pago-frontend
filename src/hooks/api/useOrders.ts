@@ -6,7 +6,7 @@ import type { User } from "@/types/user";
 import { getLastIndex } from "@/utils/getLastIndex";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-type Params = PaginationParams<{
+export type Params = PaginationParams<{
   userId: User["userId"];
   tripId: Trip["tripId"];
   status: OrderStatus;
@@ -16,6 +16,9 @@ type Params = PaginationParams<{
   toCountry: string;
   toCity: string;
   isPackagingRequired: boolean;
+  minTravelerFee: number;
+  maxTravelerFee: number;
+  latestReceiveItemDate: Date;
 }>;
 
 type Options = {
