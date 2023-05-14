@@ -32,7 +32,7 @@ export const NumberInput = <T extends FieldValues>(
   } = useController({ control, name });
 
   const handleValueChange = (values: NumberFormatValues) => {
-    onChange(values.floatValue);
+    onChange(values.floatValue || "");
   };
 
   return (

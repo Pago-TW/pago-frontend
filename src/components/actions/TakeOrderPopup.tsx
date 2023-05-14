@@ -26,7 +26,9 @@ import { NumericFormat } from "react-number-format";
 import { z } from "zod";
 
 export const takeOrderFormSchema = z.object({
-  amount: z.number().min(1, { message: "金額不可小於1" }),
+  amount: z
+    .number({ required_error: "請輸入金額", invalid_type_error: "請輸入金額" })
+    .min(1, { message: "金額不可小於1" }),
   currency: z.string().min(1, { message: "請選擇貨幣單位" }),
   tripId: z.string().min(1, { message: "請選擇旅途" }),
   date: z.date(),
