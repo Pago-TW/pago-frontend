@@ -1,40 +1,37 @@
 import { FilterButton } from "@/components/FilterButton";
-import { FilterMorePopup } from "@/components/FilterMorePopup";
-import OrderList from "@/components/OrderList";
-import PageTitle from "@/components/PageTitle";
-import CountryCitySelect, {
+import type { MoreFilterValues } from "@/components/MoreFilterPopup";
+import { MoreFilterPopup } from "@/components/MoreFilterPopup";
+import { OrderList } from "@/components/OrderList";
+import { PageTitle } from "@/components/PageTitle";
+import {
+  CountryCitySelect,
   countryCitySchema,
 } from "@/components/inputs/CountryCitySelect";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { Typography } from "@/components/ui/Typography";
+import type { Params } from "@/hooks/api/useOrders";
 import { useOrders } from "@/hooks/api/useOrders";
 import { useOpen } from "@/hooks/useOpen";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowDownward, Check, Close, ExpandMore } from "@mui/icons-material";
 import { Box, Container, Stack } from "@mui/material";
-import { endOfDay, isBefore } from "date-fns";
-import { zonedTimeToUtc } from "date-fns-tz";
 import Head from "next/head";
-import { useMemo } from "react";
-import { Controller, FormProvider, useForm } from "react-hook-form";
+import { useEffect, useMemo } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useImmer } from "use-immer";
 import { z } from "zod";
 
-const marketplaceFormSchema = z.object({
+const quickFilterSchema = z.object({
   from: countryCitySchema,
   to: countryCitySchema,
   sort: z.enum(["ASC", "DESC"]),
   packaging: z.boolean(),
-  fee: z.object({
-    min: z.number().positive().optional(),
-    max: z.number().positive().optional(),
-  }),
-  latestReceiveDate: z.date().nullable(),
 });
 
-type MarketplaceFormValues = z.infer<typeof marketplaceFormSchema>;
+type QuickFilterValues = z.infer<typeof quickFilterSchema>;
 
-const DEFAULT_VALUES: MarketplaceFormValues = {
+const DEFAULT_VALUES: QuickFilterValues = {
   from: {
     countryCode: "",
     cityCode: "",
@@ -44,55 +41,60 @@ const DEFAULT_VALUES: MarketplaceFormValues = {
     cityCode: "",
   },
   sort: "ASC",
-  packaging: false,
-  fee: {
-    min: 0,
-    max: 0,
-  },
-  latestReceiveDate: null,
+  packaging: true,
 };
 
 export default function MarketplacePage() {
+  const [params, setParams] = useImmer<Params>({
+    sort: DEFAULT_VALUES.sort,
+    isPackagingRequired: DEFAULT_VALUES.packaging,
+  });
+
   const {
     open: filterMoreOpen,
     handleOpen: handleFilterMoreOpen,
     handleClose: handleFilterMoreClose,
   } = useOpen();
 
-  const methods = useForm<MarketplaceFormValues>({
-    mode: "onChange",
+  const { control, watch } = useForm<QuickFilterValues>({
+    mode: "onBlur",
     defaultValues: DEFAULT_VALUES,
-    resolver: zodResolver(marketplaceFormSchema),
-  });
-  const { control, watch } = methods;
-
-  const formValues = watch();
-  const { data: ordersData } = useOrders({
-    fromCountry: formValues.from.countryCode,
-    fromCity: formValues.from.cityCode,
-    toCountry: formValues.to.countryCode,
-    toCity: formValues.to.cityCode,
-    sort: formValues.sort,
-    isPackagingRequired: formValues.packaging,
+    resolver: zodResolver(quickFilterSchema),
   });
 
-  const orders = useMemo(() => {
-    const {
-      fee: { min, max },
-      latestReceiveDate,
-    } = formValues;
-    return flattenInfinitePaginatedData(ordersData).filter(
-      (order) =>
-        (!min || (min && order.travelerFee >= min)) &&
-        (!max || (max && order.travelerFee <= max)) &&
-        (!latestReceiveDate ||
-          (latestReceiveDate &&
-            isBefore(
-              new Date(order.latestReceiveItemDate),
-              endOfDay(zonedTimeToUtc(latestReceiveDate, "UTC"))
-            )))
+  useEffect(() => {
+    const subscription = watch(({ from, to, sort, packaging }) =>
+      setParams((draft) => {
+        draft.fromCountry = from?.countryCode;
+        draft.fromCity = from?.cityCode;
+        draft.toCountry = to?.countryCode;
+        draft.toCity = to?.cityCode;
+        draft.sort = sort;
+        draft.isPackagingRequired = packaging;
+      })
     );
-  }, [formValues, ordersData]);
+    return () => subscription.unsubscribe();
+  }, [setParams, watch]);
+
+  const { data: ordersData } = useOrders(params);
+
+  const orders = useMemo(
+    () => flattenInfinitePaginatedData(ordersData),
+    [ordersData]
+  );
+
+  const handleFilterMoreSubmit = (data: MoreFilterValues) => {
+    const {
+      fee: { min: minFee, max: maxFee },
+      latestReceiveDate,
+    } = data;
+    setParams((draft) => {
+      draft.minTravelerFee = typeof minFee === "string" ? undefined : minFee;
+      draft.maxTravelerFee = typeof maxFee === "string" ? undefined : maxFee;
+      draft.latestReceiveItemDate = latestReceiveDate || undefined;
+    });
+    handleFilterMoreClose();
+  };
 
   const total = orders.length;
 
@@ -177,13 +179,12 @@ export default function MarketplacePage() {
                 其他
               </FilterButton>
             </Box>
-            <FormProvider {...methods}>
-              <FilterMorePopup
-                open={filterMoreOpen}
-                onOpen={handleFilterMoreOpen}
-                onClose={handleFilterMoreClose}
-              />
-            </FormProvider>
+            <MoreFilterPopup
+              open={filterMoreOpen}
+              onOpen={handleFilterMoreOpen}
+              onClose={handleFilterMoreClose}
+              onSubmit={handleFilterMoreSubmit}
+            />
           </Box>
           <Box>
             <Typography variant="h6" as="p" textAlign="center" my={2}>
