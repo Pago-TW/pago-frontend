@@ -61,7 +61,11 @@ export const AmountInput = <T extends FieldValues>(
     onChange(values.floatValue);
   };
 
-  const handleClick = (v: number) => onChange(value + v);
+  const handleClick = (v: number) => {
+    const newValue = value + v;
+    onChange(newValue < 0 && !allowNegative ? 0 : newValue);
+  };
+
   return (
     <div>
       <Box width="100%" position="relative">
