@@ -7,20 +7,23 @@ import { getLastIndex } from "@/utils/getLastIndex";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { zonedTimeToUtc } from "date-fns-tz";
 
-export type Params = PaginationParams<{
-  userId: User["userId"];
-  tripId: Trip["tripId"];
-  status: OrderStatus;
-  search: string;
-  fromCountry: string;
-  fromCity: string;
-  toCountry: string;
-  toCity: string;
-  isPackagingRequired: boolean;
-  minTravelerFee: number;
-  maxTravelerFee: number;
-  latestReceiveItemDate: Date;
-}>;
+export type Params = PaginationParams<
+  {
+    userId: User["userId"];
+    tripId: Trip["tripId"];
+    status: OrderStatus;
+    search: string;
+    fromCountry: string;
+    fromCity: string;
+    toCountry: string;
+    toCity: string;
+    isPackagingRequired: boolean;
+    minTravelerFee: number;
+    maxTravelerFee: number;
+    latestReceiveItemDate: Date;
+  },
+  Order
+>;
 
 type Options = {
   params?: Params;

@@ -4,6 +4,10 @@ import { MoreFilterPopup } from "@/components/MoreFilterPopup";
 import { OrderList } from "@/components/OrderList";
 import { PageTitle } from "@/components/PageTitle";
 import {
+  SortFilterPopup,
+  type SortFilterValues,
+} from "@/components/SortFilterPopup";
+import {
   CountryCitySelect,
   countryCitySchema,
 } from "@/components/inputs/CountryCitySelect";
@@ -12,21 +16,22 @@ import { Typography } from "@/components/ui/Typography";
 import type { Params } from "@/hooks/api/useOrders";
 import { useOrders } from "@/hooks/api/useOrders";
 import { useOpen } from "@/hooks/useOpen";
+import type { Order } from "@/types/order";
+import type { KeysToSnakeCase } from "@/types/util";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowDownward, Check, Close, ExpandMore } from "@mui/icons-material";
+import { ExpandMore } from "@mui/icons-material";
 import { Box, Container, Stack } from "@mui/material";
+import { snakeCase } from "lodash";
 import Head from "next/head";
 import { useEffect, useMemo } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useImmer } from "use-immer";
 import { z } from "zod";
 
 const quickFilterSchema = z.object({
   from: countryCitySchema,
   to: countryCitySchema,
-  sort: z.enum(["ASC", "DESC"]),
-  packaging: z.boolean(),
 });
 
 type QuickFilterValues = z.infer<typeof quickFilterSchema>;
@@ -40,20 +45,25 @@ const DEFAULT_VALUES: QuickFilterValues = {
     countryCode: "",
     cityCode: "",
   },
-  sort: "ASC",
-  packaging: true,
+};
+
+const defaultParams: Params = {
+  isPackagingRequired: true,
 };
 
 export default function MarketplacePage() {
-  const [params, setParams] = useImmer<Params>({
-    sort: DEFAULT_VALUES.sort,
-    isPackagingRequired: DEFAULT_VALUES.packaging,
-  });
+  const [params, setParams] = useImmer<Params>(defaultParams);
 
   const {
-    open: filterMoreOpen,
-    handleOpen: handleFilterMoreOpen,
-    handleClose: handleFilterMoreClose,
+    open: sortFilterOpen,
+    handleOpen: handleSortFilterOpen,
+    handleClose: handleSortFilterClose,
+  } = useOpen();
+
+  const {
+    open: moreFilterOpen,
+    handleOpen: handleMoreFilterOpen,
+    handleClose: handleMoreFilterClose,
   } = useOpen();
 
   const { control, watch } = useForm<QuickFilterValues>({
@@ -63,14 +73,12 @@ export default function MarketplacePage() {
   });
 
   useEffect(() => {
-    const subscription = watch(({ from, to, sort, packaging }) =>
+    const subscription = watch(({ from, to }) =>
       setParams((draft) => {
         draft.fromCountry = from?.countryCode;
         draft.fromCity = from?.cityCode;
         draft.toCountry = to?.countryCode;
         draft.toCity = to?.cityCode;
-        draft.sort = sort;
-        draft.isPackagingRequired = packaging;
       })
     );
     return () => subscription.unsubscribe();
@@ -83,7 +91,15 @@ export default function MarketplacePage() {
     [ordersData]
   );
 
-  const handleFilterMoreSubmit = (data: MoreFilterValues) => {
+  const handleSortFilterSubmit = ({ filter }: SortFilterValues) => {
+    setParams((draft) => {
+      draft.orderBy = snakeCase(
+        filter.orderBy
+      ) as unknown as KeysToSnakeCase<Order>;
+      draft.sort = filter.sort;
+    });
+  };
+  const handleMoreFilterSubmit = (data: MoreFilterValues) => {
     const {
       fee: { min: minFee, max: maxFee },
       latestReceiveDate,
@@ -92,6 +108,7 @@ export default function MarketplacePage() {
       draft.minTravelerFee = typeof minFee === "string" ? undefined : minFee;
       draft.maxTravelerFee = typeof maxFee === "string" ? undefined : maxFee;
       draft.latestReceiveItemDate = latestReceiveDate || undefined;
+      draft.isPackagingRequired = data.packaging;
     });
   };
 
@@ -136,51 +153,30 @@ export default function MarketplacePage() {
               alignItems="center"
               mt={2}
             >
-              <Controller
-                control={control}
-                name="sort"
-                defaultValue="ASC"
-                render={({ field: { onChange, value } }) => (
-                  <FilterButton
-                    onClick={() => onChange(value === "ASC" ? "DESC" : "ASC")}
-                    endIcon={
-                      <ArrowDownward
-                        sx={{
-                          transform:
-                            value === "ASC" ? "rotate(0)" : "rotate(-180deg)",
-                        }}
-                      />
-                    }
-                  >
-                    發布時間
-                  </FilterButton>
-                )}
-              />
-              <Controller
-                control={control}
-                name="packaging"
-                defaultValue={true}
-                render={({ field: { onChange, value } }) => (
-                  <FilterButton
-                    onClick={() => onChange(!value)}
-                    endIcon={value ? <Check /> : <Close />}
-                  >
-                    包裝有無
-                  </FilterButton>
-                )}
+              <FilterButton
+                endIcon={<ExpandMore />}
+                onClick={handleSortFilterOpen}
+              >
+                排序
+              </FilterButton>
+              <SortFilterPopup
+                open={sortFilterOpen}
+                onOpen={handleSortFilterOpen}
+                onClose={handleSortFilterClose}
+                onSubmit={handleSortFilterSubmit}
               />
               <FilterButton
                 endIcon={<ExpandMore />}
-                onClick={handleFilterMoreOpen}
+                onClick={handleMoreFilterOpen}
               >
                 其他
               </FilterButton>
             </Box>
             <MoreFilterPopup
-              open={filterMoreOpen}
-              onOpen={handleFilterMoreOpen}
-              onClose={handleFilterMoreClose}
-              onSubmit={handleFilterMoreSubmit}
+              open={moreFilterOpen}
+              onOpen={handleMoreFilterOpen}
+              onClose={handleMoreFilterClose}
+              onSubmit={handleMoreFilterSubmit}
             />
           </Box>
           <Box>

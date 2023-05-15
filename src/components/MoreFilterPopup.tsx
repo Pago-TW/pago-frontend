@@ -5,18 +5,22 @@ import {
   Box,
   Fade,
   FormControl,
+  FormControlLabel,
   FormHelperText,
+  FormLabel,
   IconButton,
   Modal,
   Paper,
+  RadioGroup,
   Stack,
   SwipeableDrawer,
 } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { DatePicker } from "./inputs/DatePicker";
 import { NumberInput } from "./inputs/NumberInput";
 import { Button } from "./ui/Button";
+import { Radio } from "./ui/Radio";
 import { Typography } from "./ui/Typography";
 
 const currentDate = new Date();
@@ -27,6 +31,10 @@ export const moreFilterSchema = z
       min: z.number().or(z.string()),
       max: z.number().or(z.string()),
     }),
+    packaging: z
+      .enum(["true", "false"])
+      .or(z.boolean())
+      .transform((v) => (typeof v === "string" ? v === "true" : v)),
     latestReceiveDate: z.date().nullable(),
   })
   .refine(({ fee: { min, max } }) => (!!min && !!max ? min <= max : true), {
@@ -41,6 +49,7 @@ export const DEFAULT_VALUES: MoreFilterValues = {
     min: "",
     max: "",
   },
+  packaging: true,
   latestReceiveDate: null,
 };
 
@@ -78,7 +87,7 @@ export const MoreFilterPopup = ({
   };
 
   const content = (
-    <Stack spacing={2}>
+    <Stack spacing={3}>
       <Stack spacing={2}>
         <Typography color="base.500">代購費</Typography>
         <Box display="flex" alignItems="center" gap={1}>
@@ -106,6 +115,29 @@ export const MoreFilterPopup = ({
             {errors.fee?.message}
           </Typography>
         )}
+      </Stack>
+      <Stack spacing={2}>
+        <Controller
+          control={control}
+          name="packaging"
+          render={({ field, fieldState: { error } }) => (
+            <FormControl error={!!error}>
+              <FormLabel>包裝有無</FormLabel>
+              <RadioGroup
+                {...field}
+                sx={{ mt: 1, "& .MuiFormControlLabel-label": { fontSize: 18 } }}
+              >
+                <FormControlLabel value="true" control={<Radio />} label="有" />
+                <FormControlLabel
+                  value="false"
+                  control={<Radio />}
+                  label="無"
+                />
+              </RadioGroup>
+              {!!error && <FormHelperText>{error?.message}</FormHelperText>}
+            </FormControl>
+          )}
+        />
       </Stack>
       <Stack spacing={2}>
         <Typography color="base.500">最晚收到商品時間</Typography>

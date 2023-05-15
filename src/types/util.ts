@@ -12,3 +12,14 @@ export type AtLeastOneRequired<T, Keys extends keyof T = keyof T> = Pick<
 export type OmitWithSubstring<T extends object, S extends string> = {
   [K in keyof T as Exclude<K, `${string}${S}${string}`>]: T[K];
 };
+
+export type CamelToSnakeCase<S extends string> =
+  S extends `${infer T}${infer U}`
+    ? `${T extends Capitalize<T>
+        ? "_"
+        : ""}${Lowercase<T>}${CamelToSnakeCase<U>}`
+    : S;
+
+export type KeysToSnakeCase<T> = {
+  [K in keyof T as CamelToSnakeCase<string & K>]: T[K];
+};

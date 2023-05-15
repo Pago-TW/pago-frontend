@@ -1,7 +1,12 @@
-export type PaginationParams<T extends object = object> = Partial<{
+import type { KeysToSnakeCase } from "./util";
+
+export type PaginationParams<
+  T extends object = object,
+  D extends object = object
+> = Partial<{
   startIndex: number;
   size: number;
-  orderBy: string;
+  orderBy: KeysToSnakeCase<D>;
   sort: "ASC" | "DESC";
 }> &
   Partial<T>;
