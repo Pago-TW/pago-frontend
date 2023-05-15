@@ -176,15 +176,6 @@ export const EditReviewForm: FC<EditMerchandiseFormProps> = ({
             value={withCurrency(fee)}
             valueProps={{ weightPreset: "bold" }}
           />
-          {charge?.tariffFee !== undefined ? (
-            <DetailItem
-              label="關稅"
-              value={withCurrency(charge?.tariffFee)}
-              valueProps={{ weightPreset: "bold" }}
-            />
-          ) : (
-            detailItemSkeleton
-          )}
           {charge?.platformFee !== undefined ? (
             <DetailItem
               label="平台費"

@@ -46,7 +46,6 @@ const DetailList = (
     | "destinationCountryName"
     | "destinationCityName"
     | "travelerFee"
-    | "tariffFee"
     | "platformFee"
     | "totalAmount"
     | "isPackagingRequired"
@@ -76,7 +75,6 @@ const DetailList = (
     destinationCountryName,
     unitPrice,
     travelerFee,
-    tariffFee,
     platformFee,
     totalAmount,
     description,
@@ -117,11 +115,6 @@ const DetailList = (
       <DetailItem
         label="願付代購費"
         value={withCurrency(travelerFee)}
-        valueProps={{ weightPreset: "bold" }}
-      />
-      <DetailItem
-        label="關稅"
-        value={withCurrency(tariffFee)}
         valueProps={{ weightPreset: "bold" }}
       />
       <DetailItem
@@ -242,7 +235,6 @@ const OrderDetailPage: NextPage = () => {
       fileUrls,
     },
     travelerFee,
-    tariffFee,
     platformFee,
     totalAmount,
     currency,
@@ -396,7 +388,6 @@ const OrderDetailPage: NextPage = () => {
             destinationCountryName={destinationCountryName}
             unitPrice={unitPrice}
             travelerFee={travelerFee}
-            tariffFee={tariffFee}
             platformFee={platformFee}
             totalAmount={totalAmount}
             description={description}

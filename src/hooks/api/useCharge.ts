@@ -5,7 +5,6 @@ import type { AddOrderData } from "./useAddOrder";
 
 export interface OrderCharge {
   travelerFee: number;
-  tariffFee: number;
   platformFee: number;
   totalAmount: number;
   currency: string;

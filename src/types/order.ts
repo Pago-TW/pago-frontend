@@ -13,7 +13,6 @@ export interface Order {
   orderStatus: OrderStatus;
   orderItem: OrderItem;
   travelerFee: number;
-  tariffFee: number;
   platformFee: number;
   totalAmount: number;
   currency: string;
