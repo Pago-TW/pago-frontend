@@ -155,8 +155,7 @@ export const EditMerchandiseForm: FC<EditMerchandiseFormProps> = ({
           <CountryCitySelect
             control={control}
             name="purchase"
-            label="購買國家縣市"
-            noInputLabelOnShrink
+            placeholder="購買國家縣市"
             includeAny
           />
           <TextField

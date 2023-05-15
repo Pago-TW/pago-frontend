@@ -26,7 +26,7 @@ export const needsFormSchema = z.object({
     (value) => Object.values(value).every(Boolean),
     { message: "請選擇送達國家、縣市" }
   ),
-  fee: z.number().min(1),
+  fee: z.number().min(1, { message: "代購費不可小於1" }),
   deadline: z
     .date({
       invalid_type_error: "無效的日期",
@@ -76,8 +76,7 @@ export const NeedsForm = () => {
           <CountryCitySelect
             control={control}
             name="destination"
-            label="送達國家縣市"
-            noInputLabelOnShrink
+            placeholder="送達國家縣市"
           />
         </Stack>
         <Box position="relative">

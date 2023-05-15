@@ -114,9 +114,8 @@ export default function MarketplacePage() {
                 <CountryCitySelect
                   control={control}
                   name="from"
-                  label="地區"
+                  placeholder="地區"
                   includeAny
-                  noInputLabelOnShrink
                 />
               </Stack>
               <Stack spacing={1}>
@@ -126,9 +125,8 @@ export default function MarketplacePage() {
                 <CountryCitySelect
                   control={control}
                   name="to"
-                  label="地區"
+                  placeholder="地區"
                   includeAny
-                  noInputLabelOnShrink
                 />
               </Stack>
             </Stack>

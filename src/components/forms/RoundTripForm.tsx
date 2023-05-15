@@ -91,8 +91,12 @@ export const RoundTripForm: FC = () => {
     <Stack component="form" spacing={3} justifyContent="space-between">
       <PaperLayout>
         <Stack spacing={3}>
-          <CountryCitySelect control={control} name="from" label="出發地" />
-          <CountryCitySelect control={control} name="to" label="目的地" />
+          <CountryCitySelect
+            control={control}
+            name="from"
+            placeholder="出發地"
+          />
+          <CountryCitySelect control={control} name="to" placeholder="目的地" />
           <Stack direction="row" spacing={2}>
             <DatePicker
               control={control}

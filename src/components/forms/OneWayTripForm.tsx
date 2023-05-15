@@ -10,7 +10,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ConfirmDialog } from "../ConfirmDialog";
 import { SubmitButton } from "../SubmitButton";
-import CountryCitySelect, {
+import {
+  CountryCitySelect,
   countryCitySchema,
 } from "../inputs/CountryCitySelect";
 import { DatePicker } from "../inputs/DatePicker";
@@ -90,8 +91,12 @@ export const OneWayTripForm: FC = () => {
     <Stack component="form" spacing={3} justifyContent="space-between">
       <PaperLayout>
         <Stack spacing={3}>
-          <CountryCitySelect control={control} name="from" label="出發地" />
-          <CountryCitySelect control={control} name="to" label="目的地" />
+          <CountryCitySelect
+            control={control}
+            name="from"
+            placeholder="出發地"
+          />
+          <CountryCitySelect control={control} name="to" placeholder="目的地" />
           <DatePicker
             control={control}
             name="arrivalDate"
