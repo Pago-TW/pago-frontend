@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import type { ChangeEvent } from "react";
 import { forwardRef, useState } from "react";
-import zxcvbn from "zxcvbn";
 import { Typography } from "../ui/Typography";
 
 const getStrengthLabel = (strength: number) => {
@@ -67,9 +66,10 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     const [show, setShow] = useState(false);
 
     const handleShow = () => setShow((prev) => !prev);
-    const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = async (evt: ChangeEvent<HTMLInputElement>) => {
       if (onChange) onChange(evt);
 
+      const zxcvbn = (await import("zxcvbn")).default;
       const strengthScore = zxcvbn(evt.target.value).score;
       setStrength(strengthScore);
     };
