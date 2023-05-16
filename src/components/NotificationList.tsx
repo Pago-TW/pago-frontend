@@ -5,6 +5,7 @@ import { useNotifications } from "@/hooks/api/useNotifications";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { TabContext } from "@mui/lab";
 import { Box, Divider, List, Paper } from "@mui/material";
+import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
@@ -38,13 +39,24 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
   const [tab, setTab] = useState<PageTabValue>("ORDER");
   const { mutate: markAsRead } = useMarkNotificationAsRead();
 
+  const qc = useQueryClient();
   const handleNotificationClick = (
     notificationId: string,
     redirectUrl: string
   ) => {
     markAsRead(
       { notificationId },
-      { onSuccess: () => router.push(redirectUrl) }
+      {
+        onSuccess: () => {
+          // Invalidate both orders and trips query since the notification doesn't  contain the explicit target type
+          const targetId = redirectUrl.split("/").pop();
+          qc.invalidateQueries(["orders", targetId]);
+          qc.invalidateQueries(["trips", targetId]);
+
+          router.push(redirectUrl);
+          if (onBackClick) onBackClick();
+        },
+      }
     );
   };
 
