@@ -12,6 +12,7 @@ export type NumberInputProps<T extends FieldValues> =
   NumericFormatProps<TextFieldProps> & {
     control: Control<T>;
     name: Path<T>;
+    valueAsString?: boolean;
   };
 
 export const NumberInput = <T extends FieldValues>(
@@ -24,6 +25,7 @@ export const NumberInput = <T extends FieldValues>(
     customInput = TextField,
     decimalScale = 0,
     variant = "standard",
+    valueAsString = false,
     ...rest
   } = props;
 
@@ -32,7 +34,7 @@ export const NumberInput = <T extends FieldValues>(
   } = useController({ control, name });
 
   const handleValueChange = (values: NumberFormatValues) => {
-    onChange(values.floatValue || "");
+    onChange(valueAsString ? values.value : values.floatValue || "");
   };
 
   return (
