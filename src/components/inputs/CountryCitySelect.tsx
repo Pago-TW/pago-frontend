@@ -1,5 +1,4 @@
 import { useCountryCity } from "@/hooks/api/useCountryCity";
-import { useOpen } from "@/hooks/useOpen";
 import type { TextFieldProps } from "@mui/material";
 import {
   Autocomplete,
@@ -218,12 +217,8 @@ export const CountryCitySelect = <T extends FieldValues>({
   includeAny,
 }: CountryInputProps<T>) => {
   const [inputValue, setInputValue] = useState("");
-  const { open, handleOpen, handleClose } = useOpen();
 
-  const { data: options = [], isFetching } = useCountryCity(
-    { includeAny },
-    { enabled: open }
-  );
+  const { data: options = [], isFetching } = useCountryCity({ includeAny });
 
   return (
     <Controller
@@ -236,9 +231,6 @@ export const CountryCitySelect = <T extends FieldValues>({
           blurOnSelect
           clearOnBlur
           disableListWrap
-          open={open}
-          onOpen={handleOpen}
-          onClose={handleClose}
           onChange={(_event, value) => {
             if (value)
               field.onChange({
