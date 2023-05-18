@@ -1,5 +1,5 @@
 import { useDistricts } from "@/hooks/api/useDistricts";
-import { District } from "@/types/bank";
+import type { District } from "@/types/bank";
 import type {
   AutocompleteProps,
   InputLabelProps,
