@@ -5,12 +5,10 @@ import type {
   TextFieldProps,
 } from "@mui/material";
 import { Autocomplete, TextField } from "@mui/material";
-import type { Control, FieldPath, FieldValues } from "react-hook-form";
+import type { FieldValues, UseControllerProps } from "react-hook-form";
 import { useController } from "react-hook-form";
 
-export type CitySelectProps<T extends FieldValues> = {
-  control: Control<T>;
-  name: FieldPath<T>;
+export type CitySelectProps<T extends FieldValues> = UseControllerProps<T> & {
   fullWidth?: AutocompleteProps<string, false, false, false>["fullWidth"];
   label?: TextFieldProps["label"];
   placeholder?: TextFieldProps["placeholder"];
@@ -18,17 +16,16 @@ export type CitySelectProps<T extends FieldValues> = {
 };
 
 export const CitySelect = <T extends FieldValues>({
-  control,
-  name,
   fullWidth,
   label,
   placeholder,
   shrink,
+  ...controllerProps
 }: CitySelectProps<T>) => {
   const {
     field,
     fieldState: { error },
-  } = useController({ control, name });
+  } = useController(controllerProps);
 
   const { data: options = [], isFetching } = useCities();
 

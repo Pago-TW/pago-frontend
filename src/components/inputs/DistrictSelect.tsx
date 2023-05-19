@@ -6,17 +6,16 @@ import type {
   TextFieldProps,
 } from "@mui/material";
 import { Autocomplete, TextField, createFilterOptions } from "@mui/material";
-import type { Control, FieldPath, FieldValues } from "react-hook-form";
+import type { FieldValues, UseControllerProps } from "react-hook-form";
 import { useController } from "react-hook-form";
 
-export type DistrictSelectProps<T extends FieldValues> = Pick<
-  AutocompleteProps<string, false, false, false>,
-  "fullWidth" | "disabled"
-> &
+export type DistrictSelectProps<T extends FieldValues> = UseControllerProps<T> &
+  Pick<
+    AutocompleteProps<string, false, false, false>,
+    "fullWidth" | "disabled"
+  > &
   Pick<TextFieldProps, "label" | "placeholder"> &
   Pick<InputLabelProps, "shrink"> & {
-    control: Control<T>;
-    name: FieldPath<T>;
     city?: string;
   };
 
@@ -26,25 +25,26 @@ const filterOptions = createFilterOptions<District>({
 });
 
 export const DistrictSelect = <T extends FieldValues>({
-  control,
-  name,
   fullWidth,
   label,
   placeholder,
   shrink,
   disabled,
   city,
+  ...controllerProps
 }: DistrictSelectProps<T>) => {
   const {
     field,
     fieldState: { error },
-  } = useController({ control, name });
+  } = useController(controllerProps);
 
   const { data: options = [], isFetching } = useDistricts(
     { administrativeDivision: city },
     { enabled: !disabled }
   );
   const districts = options[0]?.districtList || [];
+  const value =
+    districts.find((district) => district.zipCode === field.value) || null;
 
   return (
     <Autocomplete
@@ -55,6 +55,7 @@ export const DistrictSelect = <T extends FieldValues>({
       onChange={(_event, value) => {
         field.onChange(value?.zipCode);
       }}
+      value={value}
       loading={isFetching}
       loadingText="Loading..."
       noOptionsText="There's no city matched your search :("
@@ -62,7 +63,7 @@ export const DistrictSelect = <T extends FieldValues>({
       fullWidth={fullWidth}
       disabled={disabled}
       options={districts}
-      getOptionLabel={(option) => option.districtChineseName}
+      getOptionLabel={(option) => option?.districtChineseName || ""}
       filterOptions={filterOptions}
       renderInput={(params) => (
         <TextField

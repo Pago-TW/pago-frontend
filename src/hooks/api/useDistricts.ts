@@ -24,8 +24,9 @@ export const useDistricts = (
   options?: { enabled?: boolean }
 ) => {
   return useQuery({
-    queryKey: ["districts"],
+    queryKey: ["districts", params],
     queryFn: () => getDistricts({ params }),
+    refetchOnWindowFocus: false,
     ...options,
   });
 };

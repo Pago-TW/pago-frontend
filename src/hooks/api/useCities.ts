@@ -7,5 +7,9 @@ const getCities = async () => {
 };
 
 export const useCities = () => {
-  return useQuery({ queryKey: ["cities"], queryFn: getCities });
+  return useQuery({
+    queryKey: ["cities"],
+    queryFn: () => getCities(),
+    refetchOnWindowFocus: false,
+  });
 };
