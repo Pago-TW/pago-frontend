@@ -8,5 +8,9 @@ const getBanks = async () => {
 };
 
 export const useBanks = () => {
-  return useQuery({ queryKey: ["banks"], queryFn: getBanks });
+  return useQuery({
+    queryKey: ["banks"],
+    queryFn: () => getBanks(),
+    refetchOnWindowFocus: false,
+  });
 };
