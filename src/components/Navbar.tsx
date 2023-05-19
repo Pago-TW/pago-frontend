@@ -87,6 +87,7 @@ const UserButton = () => {
         anchorEl={anchorAvatar}
         placement="bottom-start"
         transition
+        sx={{ zIndex: (theme) => theme.zIndex.modal }}
       >
         {({ TransitionProps }) => (
           <Fade {...TransitionProps}>
