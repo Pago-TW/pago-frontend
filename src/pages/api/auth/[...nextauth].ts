@@ -27,11 +27,13 @@ export const authOptions: NextAuthOptions = {
 
         if (token && user) {
           return {
+            accessToken: token.accessToken,
             id: user.userId,
             name: user.fullName,
-            email: user.email,
             image: user.avatarUrl,
-            accessToken: token.accessToken,
+            email: user.email,
+            phone: user.phone,
+            verified: user.isPhoneVerified,
           };
         }
         return null;
@@ -52,6 +54,8 @@ export const authOptions: NextAuthOptions = {
         user.name = pagoUser.fullName;
         user.image = pagoUser.avatarUrl;
         user.email = pagoUser.email;
+        user.phone = pagoUser.phone;
+        user.verified = pagoUser.isPhoneVerified;
 
         return true;
       }
@@ -60,13 +64,29 @@ export const authOptions: NextAuthOptions = {
       }
       return false;
     },
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user, trigger }) => {
+      if (trigger === "update") {
+        const res = await axios.get("/users/me", {
+          headers: {
+            Authorization: `Bearer ${token.accessToken}`,
+          },
+        });
+        const data = res.data;
+
+        token.name = data.fullName;
+        token.phone = data.phone;
+        token.picture = data.avatarUrl;
+        token.verified = data.isPhoneVerified;
+      }
+
       if (user) {
         token.accessToken = user.accessToken;
         token.id = user.id;
         token.name = user.name;
-        token.picture = user.image;
         token.email = user.email;
+        token.phone = user.phone;
+        token.picture = user.image;
+        token.verified = user.verified;
       }
       return token;
     },
@@ -77,6 +97,8 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name;
         session.user.image = token.picture;
         session.user.email = token.email;
+        session.user.phone = token.phone;
+        session.user.verified = token.verified;
       }
       return session;
     },
