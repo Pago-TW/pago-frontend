@@ -4,6 +4,7 @@ import { BankSelect } from "@/components/inputs/BankSelect";
 import { CitySelect } from "@/components/inputs/CitySelect";
 import { DatePicker } from "@/components/inputs/DatePicker";
 import { DistrictSelect } from "@/components/inputs/DistrictSelect";
+import { OtpInput } from "@/components/inputs/OtpInput";
 import { PhoneInput, phoneSchema } from "@/components/inputs/PhoneInput";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { Button } from "@/components/ui/Button";
@@ -12,7 +13,8 @@ import { Typography } from "@/components/ui/Typography";
 import { useSendSns } from "@/hooks/api/useSendSns";
 import { useVerifyOtp } from "@/hooks/api/useVerifyOtp";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Container, Stack, TextField } from "@mui/material";
+import { CheckCircle } from "@mui/icons-material";
+import { Container, Stack, TextField, styled } from "@mui/material";
 import { AxiosError } from "axios";
 import { addSeconds, parseISO } from "date-fns";
 import { useSession } from "next-auth/react";
@@ -102,17 +104,15 @@ const UserInfoForm = () => {
   );
 };
 
-const bankInfoSchema = z.object({
+const bankInfoFormSchema = z.object({
   bankCode: z.string(),
   bankCity: z.string(),
   branchCode: z.string(),
   accountHolderName: z.string(),
   accountNumber: z.string(),
-  phone: phoneSchema,
-  otpCode: z.string(),
 });
 
-type BankInfoFormValues = z.infer<typeof bankInfoSchema>;
+type BankInfoFormValues = z.infer<typeof bankInfoFormSchema>;
 
 const DEFAULT_VALUES: BankInfoFormValues = {
   bankCode: "",
@@ -120,8 +120,6 @@ const DEFAULT_VALUES: BankInfoFormValues = {
   branchCode: "",
   accountHolderName: "",
   accountNumber: "",
-  phone: "",
-  otpCode: "",
 };
 
 const calcCountdownDate = (createDate: string, deltaInSeconds = 180) => {
@@ -130,123 +128,13 @@ const calcCountdownDate = (createDate: string, deltaInSeconds = 180) => {
 };
 
 const BankInfoForm = () => {
-  const { data: session } = useSession();
-
-  const [countdownDate, setCountdownDate] = useState<Date>(new Date());
-  const countdownRef = useRef<Countdown>(null);
-
-  const { register, control, watch, getValues, setValue, setError } =
-    useForm<BankInfoFormValues>({
-      mode: "onChange",
-      defaultValues: DEFAULT_VALUES,
-      resolver: zodResolver(bankInfoSchema),
-    });
+  const { register, control, watch } = useForm<BankInfoFormValues>({
+    mode: "onChange",
+    defaultValues: DEFAULT_VALUES,
+    resolver: zodResolver(bankInfoFormSchema),
+  });
 
   const [bankCode, bankCity] = watch(["bankCode", "bankCity"]);
-
-  const { mutate: sendSns } = useSendSns();
-  const { mutate: verifyOtp } = useVerifyOtp();
-
-  useEffect(() => {
-    countdownRef.current?.start();
-  }, [countdownDate]);
-
-  useEffect(() => {
-    setValue("phone", session?.user?.phone ?? "");
-  }, [session?.user?.phone, setValue]);
-
-  const handleSendVerificationCode = () => {
-    const phone = getValues("phone");
-    const isPhoneValid = phoneSchema.safeParse(phone).success;
-
-    if (!isPhoneValid) return;
-
-    sendSns(
-      { phone },
-      {
-        onSuccess: (data) => {
-          setCountdownDate(calcCountdownDate(data.createDate));
-        },
-        onError: (error) => {
-          if (error instanceof AxiosError) {
-            if (error.response?.status === 429) {
-              const { createDate, secondsRemaining } = error.response.data;
-              if (createDate) {
-                setCountdownDate(
-                  calcCountdownDate(createDate, secondsRemaining)
-                );
-              } else {
-                setError("phone", {
-                  message: "請求次數已超過上限，請明天再試",
-                });
-              }
-            }
-          }
-        },
-      }
-    );
-  };
-
-  const handleVerifyOtp = () => {
-    const [phone, otpCode] = getValues(["phone", "otpCode"]);
-    const isPhoneValid = phoneSchema.safeParse(phone).success;
-
-    if (!isPhoneValid) return;
-
-    verifyOtp({ phone, otpCode });
-  };
-
-  const countdownButtonRenderer = ({
-    completed,
-    formatted,
-  }: CountdownRenderProps) => {
-    let content;
-    if (completed) {
-      content = (
-        <>
-          <PhoneInput
-            label="手機號碼"
-            variant="standard"
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-            disabled={!!session?.user?.phone}
-            {...register("phone", {
-              setValueAs: (value) => value?.replace(/\s/g, ""),
-            })}
-          />
-          <Button
-            variant="outlined"
-            size="small"
-            disabled={session?.user?.verified}
-            onClick={handleSendVerificationCode}
-          >
-            發送驗證碼
-          </Button>
-        </>
-      );
-    } else {
-      content = (
-        <>
-          <PhoneInput
-            label="手機號碼"
-            variant="standard"
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-            disabled
-            value={getValues("phone")}
-          />
-          <Button variant="outlined" size="small" disabled>
-            {formatted.minutes}:{formatted.seconds}
-          </Button>
-        </>
-      );
-    }
-    return (
-      <Stack direction="row" spacing={1} alignItems="end">
-        {content}
-      </Stack>
-    );
-  };
 
   return (
     <form>
@@ -286,32 +174,180 @@ const BankInfoForm = () => {
           fullWidth
           {...register("accountNumber")}
         />
-        <Stack spacing={3}>
-          <Countdown
-            date={countdownDate}
-            ref={countdownRef}
-            renderer={countdownButtonRenderer}
+        <PhoneVerifyForm />
+      </Stack>
+    </form>
+  );
+};
+
+const phoneVerifyFormSchema = z.object({
+  phone: phoneSchema,
+  otpCode: z.string().regex(/\d{6}/, { message: "無效的驗證碼" }),
+});
+
+type PhoneVerifyFormValues = z.infer<typeof phoneVerifyFormSchema>;
+
+const PHONE_DEFAULT_VALUES: PhoneVerifyFormValues = {
+  phone: "",
+  otpCode: "",
+};
+
+const VerifiedIcon = styled(CheckCircle)(({ theme }) => ({
+  color: theme.palette.pagoGreen.main,
+}));
+
+const PhoneVerifyForm = () => {
+  const { data: session } = useSession();
+  const isVerified = session?.user?.verified;
+
+  const [countdownDate, setCountdownDate] = useState<Date>(new Date());
+  const countdownRef = useRef<Countdown>(null);
+
+  const { register, control, getValues, setValue, setError } = useForm({
+    mode: "onBlur",
+    defaultValues: PHONE_DEFAULT_VALUES,
+    resolver: zodResolver(phoneVerifyFormSchema),
+  });
+
+  const { mutate: sendSns, isLoading: isSending } = useSendSns();
+  const { mutate: verifyOtp, isLoading: isVerifying } = useVerifyOtp();
+
+  useEffect(() => {
+    countdownRef.current?.start();
+  }, [countdownDate]);
+
+  useEffect(() => {
+    setValue("phone", session?.user?.phone ?? "");
+  }, [session?.user?.phone, setValue]);
+
+  const countdownButtonRenderer = ({
+    completed,
+    formatted,
+  }: CountdownRenderProps) => {
+    if (completed) {
+      return (
+        <Stack direction="row" spacing={1} alignItems="end">
+          <PhoneInput
+            label="手機號碼"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            fullWidth
+            disabled={!!session?.user?.phone}
+            {...register("phone", {
+              setValueAs: (value) => value?.replace(/\s/g, ""),
+            })}
           />
-          <Stack direction="row" spacing={1} alignItems="end">
-            <TextField
-              label="驗證碼"
-              variant="standard"
-              InputLabelProps={{ shrink: true }}
-              fullWidth
-              {...register("otpCode")}
-            />
+          {isVerified ? (
+            <VerifiedIcon />
+          ) : (
             <Button
               variant="outlined"
               size="small"
-              disabled={session?.user?.verified}
-              onClick={handleVerifyOtp}
+              loading={isSending}
+              disabled={isVerified}
+              onClick={handleSendVerificationCode}
             >
-              驗證
+              發送驗證碼
             </Button>
-          </Stack>
+          )}
         </Stack>
+      );
+    }
+    return (
+      <Stack direction="row" spacing={1} alignItems="end">
+        <PhoneInput
+          label="手機號碼"
+          variant="standard"
+          InputLabelProps={{ shrink: true }}
+          fullWidth
+          disabled
+          value={getValues("phone")}
+        />
+        {isVerified ? (
+          <VerifiedIcon />
+        ) : (
+          <Button variant="outlined" size="small" disabled>
+            {formatted.minutes}:{formatted.seconds}
+          </Button>
+        )}
       </Stack>
-    </form>
+    );
+  };
+
+  const handleSendVerificationCode = () => {
+    const phone = getValues("phone");
+    const isPhoneValid = phoneSchema.safeParse(phone).success;
+
+    if (!isPhoneValid) return;
+
+    sendSns(
+      { phone },
+      {
+        onSuccess: (data) => {
+          setCountdownDate(calcCountdownDate(data.createDate));
+        },
+        onError: (error) => {
+          if (error instanceof AxiosError) {
+            if (error.response?.status === 429) {
+              const { createDate, secondsRemaining } = error.response.data;
+              if (createDate) {
+                setCountdownDate(
+                  calcCountdownDate(createDate, secondsRemaining)
+                );
+              } else {
+                setError("phone", {
+                  message: "請求次數已超過上限，請明天再試",
+                });
+              }
+            }
+          }
+        },
+      }
+    );
+  };
+
+  const handleVerifyOtp = () => {
+    const data = getValues();
+    verifyOtp(data);
+  };
+
+  return (
+    <Stack spacing={3}>
+      <Countdown
+        date={countdownDate}
+        ref={countdownRef}
+        renderer={countdownButtonRenderer}
+      />
+      {!isVerified && (
+        <Stack direction="row" spacing={1} alignItems="end">
+          <fieldset
+            disabled={isVerified}
+            style={{ padding: 0, margin: 0, border: 0 }}
+          >
+            <OtpInput
+              control={control}
+              name="otpCode"
+              InputProps={{
+                gap: { xs: 0.5, sm: 1 },
+                length: 6,
+                TextFieldsProps: { size: "small" },
+                validateChar: (char) => char === "" || /\d/.test(char),
+                onComplete: handleVerifyOtp,
+              }}
+            />
+          </fieldset>
+          <Button
+            variant="outlined"
+            size="small"
+            loading={isVerifying}
+            disabled={isVerified}
+            onClick={handleVerifyOtp}
+          >
+            驗證
+          </Button>
+        </Stack>
+      )}
+    </Stack>
   );
 };
 
