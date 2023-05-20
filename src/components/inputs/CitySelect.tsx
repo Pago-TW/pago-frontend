@@ -35,9 +35,8 @@ export const CitySelect = <T extends FieldValues>({
       autoHighlight
       blurOnSelect
       clearOnBlur
-      onChange={(_event, value) => {
-        field.onChange(value);
-      }}
+      onChange={(_event, value) => field.onChange(value)}
+      value={field.value || null}
       loading={isFetching}
       loadingText="Loading..."
       noOptionsText="There's no city matched your search :("

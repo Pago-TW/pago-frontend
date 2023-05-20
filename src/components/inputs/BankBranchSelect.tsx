@@ -46,15 +46,17 @@ export const BankBranchSelect = <T extends FieldValues>({
     { enabled: !disabled }
   );
 
+  const value =
+    options.find((option) => option.branchCode === field.value) || null;
+
   return (
     <Autocomplete
       autoComplete
       autoHighlight
       blurOnSelect
       clearOnBlur
-      onChange={(_event, value) => {
-        field.onChange(value?.bankCode);
-      }}
+      onChange={(_event, value) => field.onChange(value?.branchCode)}
+      value={value}
       loading={isFetching}
       loadingText="Loading..."
       noOptionsText="There's no bank matched your search :("

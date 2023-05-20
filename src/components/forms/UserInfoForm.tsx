@@ -2,45 +2,41 @@ import { CitySelect } from "@/components/inputs/CitySelect";
 import { DatePicker } from "@/components/inputs/DatePicker";
 import { DistrictSelect } from "@/components/inputs/DistrictSelect";
 import { Typography } from "@/components/ui/Typography";
+import { useAddBankAccFormContext } from "@/contexts/AddBankFormContext";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Stack, TextField } from "@mui/material";
+import { Box, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/Button";
 import { Paper } from "../ui/Paper";
 
 export const userInfoFormSchema = z.object({
-  legalName: z.string().min(1, "請輸入真實姓名"),
+  legalName: z.string().trim().min(1, "請輸入真實姓名"),
   identityNumber: z
     .string()
+    .trim()
     .regex(
       /(?![LRSY])[A-Z][12]\d{8}/,
       "請輸入正確的身分證字號/統一證號/公司統編"
     ),
   birthDate: z.date(),
-  city: z.string(),
+  city: z.string().trim(),
   zipCode: z
     .string({ required_error: "請選擇鄉鎮市區" })
+    .trim()
     .length(3, "請選擇鄉鎮市區"),
-  residentialAddress: z.string().min(1, "請輸入地址"),
+  residentialAddress: z.string().trim().min(1, "請輸入地址"),
 });
 
 export type UserInfoFormValues = z.infer<typeof userInfoFormSchema>;
 
-const DEFAULT_VALUES: UserInfoFormValues = {
-  legalName: "",
-  identityNumber: "",
-  birthDate: new Date(),
-  city: "",
-  zipCode: "",
-  residentialAddress: "",
-};
-
 type UserInfoFormProps = {
-  onNext: (data: UserInfoFormValues) => void;
+  onNext: () => void;
 };
 
 export const UserInfoForm = ({ onNext }: UserInfoFormProps) => {
+  const { form, setForm } = useAddBankAccFormContext();
+
   const {
     register,
     control,
@@ -50,17 +46,24 @@ export const UserInfoForm = ({ onNext }: UserInfoFormProps) => {
     handleSubmit,
   } = useForm({
     mode: "onBlur",
-    defaultValues: DEFAULT_VALUES,
+    defaultValues: form.data.userInfo,
     resolver: zodResolver(userInfoFormSchema),
   });
+
+  const handleFormSubmit = (data: UserInfoFormValues) => {
+    setForm((draft) => {
+      draft.data.userInfo = data;
+    });
+    onNext();
+  };
 
   const city = watch("city");
 
   return (
-    <Stack
+    <Box
+      width="100%"
       component="form"
-      onSubmit={handleSubmit(onNext)}
-      sx={{ width: "100%" }}
+      onSubmit={handleSubmit(handleFormSubmit)}
     >
       <Paper sx={{ p: 2 }}>
         <Stack spacing={3}>
@@ -149,6 +152,6 @@ export const UserInfoForm = ({ onNext }: UserInfoFormProps) => {
       <Button type="submit" sx={{ mt: 3, width: "100%" }}>
         下一步
       </Button>
-    </Stack>
+    </Box>
   );
 };

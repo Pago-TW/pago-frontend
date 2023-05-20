@@ -1,8 +1,9 @@
 import { BankBranchSelect } from "@/components/inputs/BankBranchSelect";
 import { BankSelect } from "@/components/inputs/BankSelect";
 import { CitySelect } from "@/components/inputs/CitySelect";
+import { useAddBankAccFormContext } from "@/contexts/AddBankFormContext";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Stack, TextField } from "@mui/material";
+import { Box, Stack, TextField } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
@@ -17,36 +18,31 @@ export const bankInfoFormSchema = z.object({
   bankCity: z.string().trim().min(1, "請選擇地區"),
   branchCode: z.string().trim().min(1, "請選擇分行"),
   accountHolderName: z.string().trim().min(1, "請輸入銀行戶名"),
-  accountNumber: z.string().min(11, "請輸入銀行帳號").max(14, "無效的銀行帳號"),
+  accountNumber: z.string().min(11, "無效的銀行帳號").max(14, "無效的銀行帳號"),
 });
 
 export type BankInfoFormValues = z.infer<typeof bankInfoFormSchema>;
 
-const DEFAULT_VALUES: BankInfoFormValues = {
-  bankCode: "",
-  bankCity: "",
-  branchCode: "",
-  accountHolderName: "",
-  accountNumber: "",
-};
-
-type BankInfoProps = {
+type BankInfoFormProps = {
   onPrev: () => void;
-  onNext: (data: BankInfoFormValues) => void;
+  onNext: () => void;
 };
 
-export const BankInfoForm = ({ onPrev, onNext }: BankInfoProps) => {
+export const BankInfoForm = ({ onPrev, onNext }: BankInfoFormProps) => {
   const { data: session } = useSession();
+
+  const { form, setForm } = useAddBankAccFormContext();
 
   const {
     register,
     control,
     watch,
+    getValues,
     formState: { errors },
     handleSubmit,
   } = useForm<BankInfoFormValues>({
     mode: "onBlur",
-    defaultValues: DEFAULT_VALUES,
+    defaultValues: form.data.bankInfo,
     resolver: zodResolver(bankInfoFormSchema),
   });
 
@@ -54,19 +50,28 @@ export const BankInfoForm = ({ onPrev, onNext }: BankInfoProps) => {
 
   const handleFormSubmit = (data: BankInfoFormValues) => {
     if (session?.user?.verified) {
-      onNext(data);
+      setForm((draft) => {
+        draft.data.bankInfo = data;
+      });
+      onNext();
     } else {
       enqueueSnackbar({ variant: "error", message: "請先完成手機驗證" });
     }
+  };
+  const handlePrev = () => {
+    setForm((draft) => {
+      draft.data.bankInfo = getValues();
+    });
+    onPrev();
   };
 
   const [bankCode, bankCity] = watch(["bankCode", "bankCity"]);
 
   return (
-    <Stack
+    <Box
+      width="100%"
       component="form"
       onSubmit={handleSubmit(handleFormSubmit)}
-      sx={{ width: "100%" }}
     >
       <Paper sx={{ p: 2 }}>
         <Stack spacing={3}>
@@ -118,7 +123,7 @@ export const BankInfoForm = ({ onPrev, onNext }: BankInfoProps) => {
       <Stack direction="row" spacing={2} mt={3}>
         <Button
           variant="outlined"
-          onClick={onPrev}
+          onClick={handlePrev}
           sx={{ minWidth: 0, width: "100%" }}
         >
           上一步
@@ -127,6 +132,6 @@ export const BankInfoForm = ({ onPrev, onNext }: BankInfoProps) => {
           下一步
         </Button>
       </Stack>
-    </Stack>
+    </Box>
   );
 };

@@ -37,15 +37,17 @@ export const BankSelect = <T extends FieldValues>({
 
   const { data: options = [], isFetching } = useBanks();
 
+  const value =
+    options.find((option) => option.bankCode === field.value) || null;
+
   return (
     <Autocomplete
       autoComplete
       autoHighlight
       blurOnSelect
       clearOnBlur
-      onChange={(_event, value) => {
-        field.onChange(value?.bankCode);
-      }}
+      onChange={(_event, value) => field.onChange(value?.bankCode)}
+      value={value}
       loading={isFetching}
       loadingText="Loading..."
       noOptionsText="There's no bank matched your search :("

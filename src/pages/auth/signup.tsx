@@ -61,6 +61,7 @@ const SignUpPage: NextPage = () => {
 
   const {
     register,
+    control,
     formState: { errors, dirtyFields },
     handleSubmit,
     trigger,
@@ -146,7 +147,11 @@ const SignUpPage: NextPage = () => {
                 {...register("lastName")}
               />
             </Stack>
-            <PhoneInput label="手機電話" {...register("phone")} />
+            <PhoneInput
+              InputProps={{ label: "手機電話" }}
+              control={control}
+              name="phone"
+            />
             <TextField
               type="email"
               variant="outlined"

@@ -39,7 +39,7 @@ export default function UserPaymentPage() {
                 borderStyle: "dashed",
                 borderColor: "base.300",
               }}
-              href="/users/me/payment/new"
+              href="/users/me/payments/new"
             >
               <Typography
                 variant="h5"

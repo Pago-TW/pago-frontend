@@ -5,6 +5,7 @@ import type { TypographyProps } from "./ui/Typography";
 import { Typography } from "./ui/Typography";
 
 type DetailItemProps = {
+  spacing?: number;
   multiLine?: boolean;
   label: ReactNode;
   value: ReactNode;
@@ -14,6 +15,7 @@ type DetailItemProps = {
 
 export const DetailItem = (props: DetailItemProps) => {
   const {
+    spacing = 2,
     multiLine,
     label,
     value,
@@ -31,7 +33,7 @@ export const DetailItem = (props: DetailItemProps) => {
   return (
     <Stack
       direction={multiLine ? "column" : "row"}
-      spacing={2}
+      spacing={spacing}
       justifyContent="space-between"
       alignItems={multiLine ? "flex-start" : "center"}
       flexWrap="wrap"

@@ -1,3 +1,4 @@
+import { useAddBankAccFormContext } from "@/contexts/AddBankFormContext";
 import { useSendSns } from "@/hooks/api/useSendSns";
 import { useVerifyOtp } from "@/hooks/api/useVerifyOtp";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,11 +23,6 @@ export const phoneVerifyFormSchema = z.object({
 
 export type PhoneVerifyFormValues = z.infer<typeof phoneVerifyFormSchema>;
 
-const DEFAULT_VALUES: PhoneVerifyFormValues = {
-  phone: "",
-  otpCode: "",
-};
-
 const VerifiedIcon = styled(CheckCircle)(({ theme }) => ({
   color: theme.palette.pagoGreen.main,
 }));
@@ -40,17 +36,17 @@ export const PhoneVerifyForm = () => {
   const { data: session } = useSession();
   const isVerified = session?.user?.verified;
 
-  const [countdownDate, setCountdownDate] = useState<Date>(new Date());
+  const { form, setForm } = useAddBankAccFormContext();
+
+  const [countdownDate, setCountdownDate] = useState<Date>(
+    form.data.verifyPhone.countdownDate
+  );
   const countdownRef = useRef<Countdown>(null);
 
-  const { register, control, getValues, watch, setError } = useForm({
+  const { control, getValues, setError } = useForm({
     mode: "onBlur",
-    defaultValues: DEFAULT_VALUES,
+    defaultValues: form.data.verifyPhone,
     resolver: zodResolver(phoneVerifyFormSchema),
-    values: {
-      phone: session?.user?.phone ?? "",
-      otpCode: "",
-    },
   });
 
   const { mutate: sendSns, isLoading: isSending } = useSendSns();
@@ -68,15 +64,21 @@ export const PhoneVerifyForm = () => {
       return (
         <Stack direction="row" spacing={1} alignItems="end">
           <PhoneInput
-            label="手機號碼"
-            variant="standard"
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-            disabled={!!session?.user?.phone}
-            value={watch("phone")}
-            {...register("phone", {
-              setValueAs: (value) => value?.replace(/\s/g, ""),
-            })}
+            InputProps={{
+              label: "手機號碼",
+              variant: "standard",
+              InputLabelProps: { shrink: true },
+              fullWidth: true,
+              disabled: isVerified,
+            }}
+            control={control}
+            name="phone"
+            rules={{
+              onChange: (e) =>
+                setForm((draft) => {
+                  draft.data.verifyPhone.phone = e.target.value;
+                }),
+            }}
           />
           {isVerified ? (
             <VerifiedIcon />
@@ -97,12 +99,15 @@ export const PhoneVerifyForm = () => {
     return (
       <Stack direction="row" spacing={1} alignItems="end">
         <PhoneInput
-          label="手機號碼"
-          variant="standard"
-          InputLabelProps={{ shrink: true }}
-          fullWidth
-          disabled
-          value={getValues("phone")}
+          InputProps={{
+            label: "手機號碼",
+            variant: "standard",
+            InputLabelProps: { shrink: true },
+            fullWidth: true,
+            disabled: true,
+          }}
+          control={control}
+          name="phone"
         />
         {isVerified ? (
           <VerifiedIcon />
@@ -125,16 +130,25 @@ export const PhoneVerifyForm = () => {
       { phone },
       {
         onSuccess: (data) => {
-          setCountdownDate(calcCountdownDate(data.createDate));
+          const calculatedDate = calcCountdownDate(data.createDate);
+          setForm((draft) => {
+            draft.data.verifyPhone.countdownDate = calculatedDate;
+          });
+          setCountdownDate(calculatedDate);
         },
         onError: (error) => {
           if (error instanceof AxiosError) {
             if (error.response?.status === 429) {
               const { createDate, secondsRemaining } = error.response.data;
               if (createDate) {
-                setCountdownDate(
-                  calcCountdownDate(createDate, secondsRemaining)
+                const calculatedDate = calcCountdownDate(
+                  createDate,
+                  secondsRemaining
                 );
+                setForm((draft) => {
+                  draft.data.verifyPhone.countdownDate = calculatedDate;
+                });
+                setCountdownDate(calculatedDate);
               } else {
                 setError("phone", {
                   message: "請求次數已超過上限，請明天再試",
