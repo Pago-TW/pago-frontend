@@ -1,7 +1,4 @@
-import {
-  AddBankAccFormContextProvider,
-  useAddBankAccFormContext,
-} from "@/contexts/AddBankFormContext";
+import { useAddBankAccFormContext } from "@/contexts/AddBankFormContext";
 import { useAddBankAccount } from "@/hooks/api/useAddBankAccount";
 import { TabContext } from "@mui/lab";
 import { useRouter } from "next/router";
@@ -18,15 +15,7 @@ const TABS = [
 
 type TabValue = (typeof TABS)[number]["value"];
 
-export const AddBankAccFormContainer = () => {
-  return (
-    <AddBankAccFormContextProvider>
-      <AddBankAccForm />
-    </AddBankAccFormContextProvider>
-  );
-};
-
-const AddBankAccForm = () => {
+export const AddBankAccForm = () => {
   const router = useRouter();
 
   const { form, setForm } = useAddBankAccFormContext();

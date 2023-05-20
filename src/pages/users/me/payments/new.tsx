@@ -1,6 +1,7 @@
 import { PageTitle } from "@/components/PageTitle";
-import { AddBankAccFormContainer } from "@/components/forms/AddBankAccFormContainer";
+import { AddBankAccForm } from "@/components/forms/AddBankAccFormContainer";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
+import { AddBankAccFormContextProvider } from "@/contexts/AddBankFormContext";
 import { Container } from "@mui/material";
 import Head from "next/head";
 
@@ -13,7 +14,9 @@ export default function UserAddBankAccountPage() {
       <BaseLayout>
         <PageTitle title="使用者資訊" />
         <Container sx={{ display: "flex", justifyContent: "center" }}>
-          <AddBankAccFormContainer />
+          <AddBankAccFormContextProvider>
+            <AddBankAccForm />
+          </AddBankAccFormContextProvider>
         </Container>
       </BaseLayout>
     </>
