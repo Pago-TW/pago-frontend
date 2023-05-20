@@ -1,7 +1,10 @@
 import { useAddBankAccFormContext } from "@/contexts/AddBankFormContext";
 import { useAddBankAccount } from "@/hooks/api/useAddBankAccount";
 import { TabContext } from "@mui/lab";
+import { Step } from "@mui/material";
 import { useRouter } from "next/router";
+import { StepLabel } from "../ui/StepLabel";
+import { Stepper } from "../ui/Stepper";
 import { TabPanel } from "../ui/TabPanel";
 import { AddBankAccRecap } from "./AddBankAccRecap";
 import { BankInfoForm } from "./BankInfoForm";
@@ -54,16 +57,25 @@ export const AddBankAccForm = () => {
   const tab = TABS[form.step]?.value as TabValue;
 
   return (
-    <TabContext value={tab}>
-      <TabPanel value="USER_INFO" sx={{ width: "100%" }}>
-        <UserInfoForm onNext={handleNext} />
-      </TabPanel>
-      <TabPanel value="BANK_INFO" sx={{ width: "100%" }}>
-        <BankInfoForm onPrev={handlePrev} onNext={handleNext} />
-      </TabPanel>
-      <TabPanel value="CONFIRM_INFO" sx={{ width: "100%" }}>
-        <AddBankAccRecap onPrev={handlePrev} onSubmit={handleSubmit} />
-      </TabPanel>
-    </TabContext>
+    <div>
+      <Stepper activeStep={form.step} sx={{ mb: 1 }}>
+        {TABS.map(({ label, value }) => (
+          <Step key={value}>
+            <StepLabel>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+      <TabContext value={tab}>
+        <TabPanel value="USER_INFO" sx={{ width: "100%" }}>
+          <UserInfoForm onNext={handleNext} />
+        </TabPanel>
+        <TabPanel value="BANK_INFO" sx={{ width: "100%" }}>
+          <BankInfoForm onPrev={handlePrev} onNext={handleNext} />
+        </TabPanel>
+        <TabPanel value="CONFIRM_INFO" sx={{ width: "100%" }}>
+          <AddBankAccRecap onPrev={handlePrev} onSubmit={handleSubmit} />
+        </TabPanel>
+      </TabContext>
+    </div>
   );
 };

@@ -1,5 +1,5 @@
 import { PageTitle } from "@/components/PageTitle";
-import { AddBankAccForm } from "@/components/forms/AddBankAccFormContainer";
+import { AddBankAccForm } from "@/components/forms/AddBankAccForm";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { AddBankAccFormContextProvider } from "@/contexts/AddBankFormContext";
 import { Container } from "@mui/material";
