@@ -16,8 +16,6 @@ export const useVerifyOtp = () => {
   const { update } = useSession();
   return useMutation({
     mutationFn: verifyOtp,
-    onSuccess: (data) => {
-      if (data) update();
-    },
+    onSettled: () => update(),
   });
 };
