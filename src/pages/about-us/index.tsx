@@ -18,10 +18,7 @@ import Image from "next/image";
 import { getPlaiceholder } from "plaiceholder";
 import { useState } from "react";
 
-const TABS = [
-  { label: "委託者", value: "CONSUMER" },
-  { label: "代購者", value: "SHOPPER" },
-] as const;
+const TABS = [{ label: "創辦團隊", value: "TEAM" }] as const;
 
 const StyledButton = styled(Button)({
   minWidth: "fit-content",
@@ -34,7 +31,7 @@ type Tab = (typeof TABS)[number];
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   images,
 }) => {
-  const [currentTab, setCurrentTab] = useState<Tab["value"]>("CONSUMER");
+  const [currentTab, setCurrentTab] = useState<Tab["value"]>("TEAM");
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
@@ -62,7 +59,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           <Box position="relative" width="100%" sx={{ aspectRatio: "1 / 1" }}>
             {/* eslint-disable-next-line jsx-a11y/alt-text */}
             <Image
-              {...images.aboutUs.aboutUs[0]!}
+              {...images.aboutUs.cover[0]!}
               fill
               sizes="(max-width: 600px) 50vw, 100vw"
               priority={true}
@@ -259,7 +256,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         </Container>
 
         <TabContext value={currentTab}>
-          <TabPanel value="CONSUMER">
+          <TabPanel value="TEAM">
             <Stack
               direction="column"
               justifyContent="center"
@@ -270,69 +267,31 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                 name="邱奕勳"
                 job="PM、後端開發"
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.howItWorks.consumer[0]!}
+                ImageProps={images.aboutUs.team[0]!}
               />
               <AboutUsCard
                 name="陳俊廷"
                 job="設計、行銷"
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.howItWorks.consumer[0]!}
+                ImageProps={images.aboutUs.team[1]!}
               />
               <AboutUsCard
                 name="范詠淇"
                 job="設計、行銷"
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.howItWorks.consumer[0]!}
+                ImageProps={images.aboutUs.team[2]!}
               />
               <AboutUsCard
-                name="邱奕勳"
-                job="PM、後端開發"
+                name="曾瑞章"
+                job="前端開發"
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.howItWorks.consumer[0]!}
+                ImageProps={images.aboutUs.team[3]!}
               />
               <AboutUsCard
-                name="邱奕勳"
-                job="PM、後端開發"
+                name="戴宇辰"
+                job="後端開發"
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.howItWorks.consumer[0]!}
-              />
-            </Stack>
-          </TabPanel>
-
-          <TabPanel value="SHOPPER">
-            <Stack
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              spacing={6}
-            >
-              <IndexCard
-                step={1 - 1}
-                title="發布旅途"
-                content="將您計畫好的旅途，發布在Pago，您將看到符合您旅途範圍的委託單。"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.howItWorks.shopper[0]!}
-              />
-              <IndexCard
-                step={2 - 1}
-                title="選擇委託單"
-                content="您可以選擇願意代購的委託單，若您對代購費不滿意您可以向對方提出更合理的報價。"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.howItWorks.shopper[1]!}
-              />
-              <IndexCard
-                step={3 - 1}
-                title="購買商品"
-                content="委託者接受了您的報價，接著您需要根據委託單的內容購買指定規格的商品。"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.howItWorks.shopper[2]!}
-              />
-              <IndexCard
-                step={4 - 1}
-                title="面交商品"
-                content="與委託者相約時間、地點面交，取得商品，並為雙方在這次的交易體驗中評價。"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.howItWorks.shopper[3]!}
+                ImageProps={images.aboutUs.team[4]!}
               />
             </Stack>
           </TabPanel>
@@ -388,10 +347,20 @@ export const getStaticProps = async () => {
     ),
   };
 
-  const aboutUs = {
-    aboutUs: await getImagesBase64(["/images/about-us/about-us-cover-2.jpg"], {
+  const aboutUsImages = {
+    cover: await getImagesBase64(["/images/about-us/about-us-cover-2.jpg"], {
       alt: "about us",
     }),
+    team: await getImagesBase64(
+      [
+        "/images/about-us/team/shiun.svg",
+        "/images/about-us/team/jack.svg",
+        "/images/about-us/team/ariel.svg",
+        "/images/about-us/team/enderwolf.svg",
+        "/images/about-us/team/ycday.svg",
+      ],
+      { alt: "How it works image for shopper" }
+    ),
   };
 
   return {
@@ -399,7 +368,7 @@ export const getStaticProps = async () => {
       images: {
         introduction: introductionImage,
         howItWorks: howItWorksImages,
-        aboutUs: aboutUs,
+        aboutUs: aboutUsImages,
       },
     },
   };
