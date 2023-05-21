@@ -17,54 +17,75 @@ import step4Label from "../../public/images/how-it-works/labels/step4.svg";
 
 const stepSvgList = [step1Label, step2Label, step3Label, step4Label];
 
-type IndexCardProps = {
-  step: number;
-  title: string;
-  content: string;
+type AboutUsCardProps = {
+  name: string;
+  job: string;
   ImageProps: Pick<ImageProps, "src" | "alt" | "blurDataURL">;
 };
 
-export const AboutUsCard = ({
-  step,
-  title,
-  content,
-  ImageProps,
-}: IndexCardProps) => {
+export const AboutUsCard = ({ name, job, ImageProps }: AboutUsCardProps) => {
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
-  const isEven = step % 2 === 0;
   const theme = useTheme();
 
   return (
-    <Card sx={{ display: "flex", width: "100%" }}>
-      <CardMedia
-        component="img"
-        sx={{ width: 151 }}
-        image="https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/6f0938d16a7c4c44aea2efcbcae02f51_%E9%82%B1%E5%A5%95%E5%8B%B3%E9%A0%AD%E5%83%8F%201.svg"
-        alt="Live from space album cover"
-      />
+    <Card
+      sx={{
+        display: "flex",
+        width: "100%",
+        backgroundColor: "#e9e9e9",
+        boxShadow: "0px 2px 4px rgba(51, 88, 145, 0.5)",
+        borderRadius: 1,
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+        }}
+      >
+        <Box>
+          <CardMedia
+            component="img"
+            sx={{
+              width: "100px",
+              height: "106px",
+              marginTop: "24px",
+              marginBottom: "24px",
+              marginLeft: "16px",
+            }}
+            image="https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/6f0938d16a7c4c44aea2efcbcae02f51_%E9%82%B1%E5%A5%95%E5%8B%B3%E9%A0%AD%E5%83%8F%201.svg"
+            alt="Live from space album cover"
+          />
+        </Box>
+      </Box>
+
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
-          <Typography component="div" variant="h5">
-            邱奕勳
+          <Typography
+            variant={isDesktop ? "h3" : "h5"}
+            color="base.800"
+            weightPreset="bold"
+          >
+            {name}
           </Typography>
           <Typography
-            variant="subtitle1"
+            variant={isDesktop ? "h4" : "h6"}
             color="text.secondary"
-            component="div"
+            weightPreset="normal"
+            sx={{ pt: { xs: 2, md: 3 } }}
           >
-            PM、後端開發
+            {job}
           </Typography>
         </CardContent>
-        <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-          <IconButton aria-label="previous">
-            {theme.direction === "rtl" ? <LinkedInIcon /> : <LinkedInIcon />}
+        <Box sx={{ display: "flex", alignItems: "left", pl: 1, pb: 1 }}>
+          <IconButton>
+            <LinkedInIcon sx={{ height: 32, width: 32 }} />
           </IconButton>
-          <IconButton aria-label="play/pause">
-            <GitHubIcon sx={{ height: 38, width: 38 }} />
+          <IconButton>
+            <GitHubIcon sx={{ height: 32, width: 32 }} />
           </IconButton>
-          <IconButton aria-label="next">
-            {theme.direction === "rtl" ? <InstagramIcon /> : <InstagramIcon />}
+          <IconButton>
+            <InstagramIcon sx={{ height: 32, width: 32 }} />
           </IconButton>
         </Box>
       </Box>
