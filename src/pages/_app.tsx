@@ -1,10 +1,10 @@
 import { CloseSnackbarButton } from "@/components/CloseSnackbarButton";
+import { NotistackSnackbar } from "@/components/NotistackSnackbar";
 import { WebSocketProvider } from "@/contexts/WebSocketContext";
 import { env } from "@/env.mjs";
 import type { EmotionCache } from "@emotion/react";
 import { CacheProvider } from "@emotion/react";
-import type { SlideProps } from "@mui/material";
-import { CssBaseline, Slide } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -48,12 +48,15 @@ const PagoApp = ({
             <ThemeProvider theme={theme}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <SnackbarProvider
-                  autoHideDuration={5000}
-                  TransitionComponent={(
-                    props: Omit<SlideProps, "direction">
-                  ) => <Slide direction="right" {...props} />}
+                  Components={{
+                    default: NotistackSnackbar,
+                    success: NotistackSnackbar,
+                    error: NotistackSnackbar,
+                    warning: NotistackSnackbar,
+                    info: NotistackSnackbar,
+                  }}
                   anchorOrigin={{ horizontal: "center", vertical: "top" }}
-                  action={(key) => <CloseSnackbarButton key={key} />}
+                  action={(key) => <CloseSnackbarButton snackbarKey={key} />}
                 >
                   <CssBaseline />
                   <Component {...pageProps} />
