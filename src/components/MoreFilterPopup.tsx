@@ -184,6 +184,7 @@ export const MoreFilterPopup = ({
       open={open}
       onOpen={onOpen}
       onClose={handleClose}
+      disableSwipeToOpen
       anchor="bottom"
       PaperProps={{
         sx: {

@@ -214,6 +214,7 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
       open={open}
       onOpen={onOpen}
       onClose={onClose}
+      disableSwipeToOpen
       anchor="bottom"
       PaperProps={{
         sx: {
