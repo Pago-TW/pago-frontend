@@ -6,7 +6,7 @@ import { useBankAccounts } from "@/hooks/api/useBankAccounts";
 import { Container, Paper, Stack } from "@mui/material";
 import Head from "next/head";
 
-export default function UserPaymentPage() {
+export default function UserBankAccountsPage() {
   const { data: accounts } = useBankAccounts();
 
   return (
