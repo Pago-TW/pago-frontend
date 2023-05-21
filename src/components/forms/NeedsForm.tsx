@@ -81,7 +81,7 @@ export const NeedsForm = () => {
         </Stack>
         <Box position="relative">
           <NumberInput
-            label="最高願付代購費"
+            label="願付代購費"
             inputProps={{ min: 1 }}
             InputLabelProps={{ shrink: true }}
             fullWidth
