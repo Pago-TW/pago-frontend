@@ -28,3 +28,23 @@ export interface Otp {
   expiryDate: string;
   createDate: string;
 }
+
+export interface BankAccount {
+  bankAccountId: string;
+  userId: string;
+  legalName: string;
+  birthDate: string;
+  identityNumber: string;
+  residentialAddress: string;
+  zipCode: string;
+  bankCode: string;
+  bankName: string;
+  branchAdministrativeDivision: string;
+  branchCode: string;
+  branchName: string;
+  accountHolderName: string;
+  accountNumber: string;
+  createDate: string;
+  updateDate: string;
+  isDefault: boolean;
+}
