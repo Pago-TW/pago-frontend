@@ -1,37 +1,33 @@
 import type { StepLabelProps as MuiStepLabelProps } from "@mui/material";
-import {
-  stepIconClasses,
-  StepLabel as MuiStepLabel,
-  stepLabelClasses,
-  styled,
-} from "@mui/material";
+import { StepLabel as MuiStepLabel } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
 type StepLabelProps = MuiStepLabelProps;
 
 const StyledStepLabel = styled(MuiStepLabel)<StepLabelProps>(({ theme }) => ({
-  [`& .${stepLabelClasses.iconContainer}`]: {
-    [`& .${stepIconClasses.root}`]: {
-      color: theme.palette.pago[500],
-      [`& .${stepIconClasses.text}`]: {
+  ["& .MuiStepLabel-iconContainer"]: {
+    ["& .MuiStepIcon-root"]: {
+      color: theme.palette.pago.main,
+      ["& .MuiStepIcon-text"]: {
         fontSize: 14,
       },
     },
   },
-  [`& .${stepLabelClasses.labelContainer}`]: {
-    [`& .${stepLabelClasses.label}`]: {
+  ["& .MuiStepLabel-labelContainer"]: {
+    ["& .MuiStepLabel-label"]: {
       color: theme.palette.base[800],
       fontSize: 14,
     },
   },
-  [`&.${stepLabelClasses.disabled}`]: {
-    [`& .${stepLabelClasses.iconContainer}`]: {
-      [`& .${stepIconClasses.root}`]: {
-        color: theme.palette.base[400],
+  ["&.Mui-disabled"]: {
+    ["& .MuiStepLabel-iconContainer"]: {
+      ["& .MuiStepIcon-root"]: {
+        color: theme.palette.base.main,
       },
     },
-    [`& .${stepLabelClasses.labelContainer}`]: {
-      [`& .${stepLabelClasses.label}`]: {
-        color: theme.palette.base[400],
+    ["& .MuiStepLabel-labelContainer"]: {
+      ["& .MuiStepLabel-label"]: {
+        color: theme.palette.base.main,
       },
     },
   },

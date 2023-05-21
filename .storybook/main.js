@@ -8,17 +8,16 @@ module.exports = {
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
     "@storybook/addon-a11y",
-    "storybook-addon-designs",
-    "storybook-addon-pseudo-states",
+    "@storybook/addon-mdx-gfm",
   ],
   staticDirs: ["../public"],
   typescript: {
     check: true,
     reactDocgen: "react-docgen",
   },
-  framework: "@storybook/react",
-  core: {
-    builder: "@storybook/builder-webpack5",
+  framework: {
+    name: "@storybook/nextjs",
+    options: {},
   },
   webpackFinal: async (config, { configType }) => {
     config.resolve.plugins = [
@@ -27,5 +26,8 @@ module.exports = {
       }),
     ];
     return config;
+  },
+  docs: {
+    autodocs: true,
   },
 };

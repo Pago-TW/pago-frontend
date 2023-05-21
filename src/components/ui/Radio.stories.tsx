@@ -1,4 +1,4 @@
-import type { ComponentMeta, ComponentStoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 import { Radio } from "./Radio";
 
 export default {
@@ -10,17 +10,13 @@ export default {
       url: "https://www.figma.com/file/dinIbshcxJCt2c1jtN1Gm6/Pago---UI-Kit?node-id=48%3A126&t=oa1ENLEM9s30o6TL-1",
     },
   },
-  argTypes: {
-    size: {
-      defaultValue: "small",
-    },
-    disabled: {
-      defaultValue: false,
-    },
+  args: {
+    size: "small",
+    disabled: false,
   },
-} as ComponentMeta<typeof Radio>;
+} as Meta<typeof Radio>;
 
-type Story = ComponentStoryObj<typeof Radio>;
+type Story = StoryObj<typeof Radio>;
 
 export const Default: Story = {
   args: {},

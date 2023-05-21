@@ -1,7 +1,7 @@
 import type { RadioProps as MuiRadioProps } from "@mui/material";
-import { Radio as MuiRadio, styled } from "@mui/material";
+import { Radio as MuiRadio } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
-
 type RadioProps = MuiRadioProps;
 
 const radioSizes: {
@@ -21,7 +21,7 @@ const StyledRadio = styled(MuiRadio, {
     backgroundColor: theme.palette.base[100],
   },
   "&.Mui-checked": {
-    color: theme.palette.pago[500],
+    color: theme.palette.pago.main,
   },
   "&.Mui-disabled": {
     color: theme.palette.base[300],

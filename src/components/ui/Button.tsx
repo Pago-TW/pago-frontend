@@ -1,11 +1,15 @@
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type {
   ButtonProps as MuiButtonProps,
   CircularProgressProps as MuiCircularProgressProps,
 } from "@mui/material";
-import { Button as MuiButton, CircularProgress, styled } from "@mui/material";
+import { CircularProgress, Button as MuiButton } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
+import { forwardRef } from "react";
 
-interface ButtonProps extends MuiButtonProps {
+export interface ButtonProps
+  extends MuiButtonProps<"button", { component?: "label" }> {
   loading?: boolean;
 }
 
@@ -44,9 +48,13 @@ const buttonSizes: {
 
 const StyledButton = styled(MuiButton, {
   shouldForwardProp: (prop) => prop !== "loading",
-})<ButtonProps>(({ size = "small", theme }) => ({
+})<ButtonProps>(({ size = "large", color, loading, theme }) => ({
   ...(size && buttonSizes[size]),
   textTransform: "none",
+  "& .MuiButton-startIcon": {
+    position: "absolute",
+    left: 16,
+  },
   "& .MuiButton-endIcon": {
     position: "absolute",
     ...(size === "small" && {
@@ -59,68 +67,88 @@ const StyledButton = styled(MuiButton, {
       right: 24,
     }),
   },
-  "&.MuiButton-contained": {
-    backgroundColor: theme.palette.pago[500],
-    "&:hover": {
-      backgroundColor: theme.palette.pago[900],
-    },
-    "&:active": {
-      backgroundColor: theme.palette.pago[100],
+  ...(!color && {
+    "&.MuiButton-contained": {
+      backgroundColor: theme.palette.pago.main,
+      "&:hover": {
+        backgroundColor: theme.palette.pago[900],
+      },
+      "&:active": {
+        backgroundColor: theme.palette.pago[100],
+        "& .MuiButton-endIcon > *:first-of-type": {
+          color: theme.palette.pago.main,
+        },
+      },
+      "&.Mui-disabled": {
+        color: theme.palette.common.white,
+        backgroundColor: loading
+          ? theme.palette.pago[100]
+          : theme.palette.base[300],
+      },
       "& .MuiButton-endIcon > *:first-of-type": {
-        color: theme.palette.pago[500],
+        color: theme.palette.pago.main,
       },
     },
-    "&.Mui-disabled": {
-      color: theme.palette.common.white,
-      backgroundColor: theme.palette.base[300],
+    "&.MuiButton-outlined": {
+      color: theme.palette.pago.main,
+      borderColor: theme.palette.pago.main,
+      backgroundColor: "transparent",
+      "&:hover": {
+        backgroundColor: theme.palette.pago[25],
+      },
+      "&:active": {
+        backgroundColor: theme.palette.pago[100],
+      },
+      "&.Mui-disabled": {
+        color: loading ? theme.palette.pago.main : theme.palette.base[300],
+        borderColor: loading
+          ? theme.palette.pago.main
+          : theme.palette.base[300],
+        ...(loading && {
+          backgroundColor: theme.palette.pago[100],
+        }),
+      },
+      "& .MuiButton-endIcon > *:first-of-type": {
+        color: theme.palette.pago.main,
+      },
     },
-    "& .MuiButton-endIcon > *:first-of-type": {
-      color: theme.palette.pago[100],
-    },
-  },
-  "&.MuiButton-outlined": {
-    color: theme.palette.pago[500],
-    borderColor: theme.palette.pago[500],
-    "&:hover": {
-      backgroundColor: theme.palette.pago[25],
-    },
-    "&:active": {
-      backgroundColor: theme.palette.pago[100],
-    },
-    "&.Mui-disabled": {
-      color: theme.palette.base[300],
-      borderColor: theme.palette.base[300],
-      backgroundColor: theme.palette.common.white,
-    },
-    "& .MuiButton-endIcon > *:first-of-type": {
-      color: theme.palette.pago[500],
-    },
-  },
+  }),
 }));
 
-export const Button = ({
-  size = "small",
-  variant = "contained",
-  endIcon,
-  loading = false,
-  disabled = false,
-  disableRipple = true,
-  children,
-  ...rest
-}: ButtonProps) => {
-  return (
-    <StyledButton
-      size={size}
-      variant={variant}
-      disabled={disabled}
-      disableRipple={disableRipple}
-      endIcon={endIcon || (loading && <StyledCircularProgress size={size} />)}
-      {...rest}
-    >
-      {children}
-    </StyledButton>
-  );
-};
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(
+    {
+      size = "large",
+      variant = "contained",
+      endIcon,
+      loading = false,
+      disabled = false,
+      disableRipple = true,
+      children,
+      ...rest
+    },
+    ref
+  ) {
+    const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+    const _disabled = disabled || loading;
+
+    const loadingIcon = <StyledCircularProgress size={size} />;
+    return (
+      <StyledButton
+        size={size}
+        variant={variant}
+        disabled={_disabled}
+        loading={loading}
+        disableRipple={disableRipple}
+        endIcon={endIcon || (loading && !isMobile && loadingIcon)}
+        ref={ref}
+        {...rest}
+      >
+        {loading && isMobile ? loadingIcon : children}
+      </StyledButton>
+    );
+  }
+);
 
 Button.propTypes = {
   /**
@@ -132,7 +160,7 @@ Button.propTypes = {
    * The variant to use.
    * @default "contained"
    */
-  variant: PropTypes.oneOf(["contained", "outlined"]),
+  variant: PropTypes.oneOf(["text", "contained", "outlined"]),
   /**
    * Whether the button is loading.
    * @default false
