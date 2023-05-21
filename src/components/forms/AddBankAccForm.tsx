@@ -20,6 +20,8 @@ type TabValue = (typeof TABS)[number]["value"];
 
 export const AddBankAccForm = () => {
   const router = useRouter();
+  const redirectUrl =
+    (router.query.redirectUrl as string | undefined) ?? "/users/me/payments";
 
   const { form, setForm } = useAddBankAccFormContext();
 
@@ -50,7 +52,7 @@ export const AddBankAccForm = () => {
         accountHolderName: form.data.bankInfo.accountHolderName,
         accountNumber: form.data.bankInfo.accountNumber,
       },
-      { onSuccess: () => router.replace("/users/me/payments") }
+      { onSuccess: () => router.replace(redirectUrl) }
     );
   };
 
