@@ -43,13 +43,12 @@ const Footer: React.FC = () => {
           <Box>
             <Typography variant="h6" color="base.500" weightPreset="normal">
               <Stack spacing={2}>
-                <Link href="#">會員中心</Link>
-                <Link href="#">我的委託</Link>
-                <Link href="#">旅途管理</Link>
-                <Link href="#">設定</Link>
+                <Link href="/users/me">會員中心</Link>
+                <Link href="/orders">我的委託</Link>
+                <Link href="/trips">旅途管理</Link>
+                <Link href="/users/me/setting">設定</Link>
                 <Link href="#">我的收藏</Link>
-                <Link href="#">關於我們</Link>
-                <Link href="#">幫助中心</Link>
+                <Link href="/about-us">關於我們</Link>
               </Stack>
             </Typography>
           </Box>
@@ -76,7 +75,7 @@ const Footer: React.FC = () => {
           </Box>
           <Box>
             <Typography variant="h6" color="base.500" weightPreset="normal">
-              <Link href="#">
+              <Link href="https://www.instagram.com/pago.tw/">
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <InstagramIcon />
                   <Box sx={{ marginLeft: "9px" }}>Instagram</Box>
@@ -86,7 +85,7 @@ const Footer: React.FC = () => {
           </Box>
           <Box>
             <Typography variant="h6" color="base.500" weightPreset="normal">
-              <Link href="#">
+              <Link href="mailto:pago.service.me@gmail.com">
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <GoogleIcon />
                   <Box sx={{ marginLeft: "9px" }}>Google</Box>
@@ -96,7 +95,7 @@ const Footer: React.FC = () => {
           </Box>
           <Box>
             <Typography variant="h6" color="base.500" weightPreset="normal">
-              <Link href="#">
+              <Link href="https://www.facebook.com/pago.service.me">
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <FacebookRoundedIcon />
                   <Box sx={{ marginLeft: "9px" }}>Facebook</Box>
