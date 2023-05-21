@@ -50,6 +50,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       </Head>
       <BaseLayout>
         <PageTitle title="關於我們" />
+        {/* TODO HELP_ME: startButton 不知道為什麼消失了 */}
         <Stack
           gap={{ xs: 6, md: 6 }}
           direction={{ md: "row" }}
@@ -58,6 +59,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         >
           <Box position="relative" width="100%" sx={{ aspectRatio: "1 / 1" }}>
             {/* eslint-disable-next-line jsx-a11y/alt-text */}
+            {/* TODO HELP_ME: 如果圖片換成 about-us-cover.svg，下面會多一塊大大的東西，導致圖片會離"創立理念"很遠 */}
             <Image
               {...images.aboutUs.cover[0]!}
               fill
@@ -129,6 +131,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             }}
           ></Box> */}
 
+          {/* TODO HELP_ME: "核心價值"這裡根本大魔王關卡 */}
           <Typography
             variant="h1"
             color="base.800"
@@ -254,7 +257,6 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             </Typography>
           </Box>
         </Container>
-
         <TabContext value={currentTab}>
           <TabPanel value="TEAM">
             <Stack
@@ -348,7 +350,7 @@ export const getStaticProps = async () => {
   };
 
   const aboutUsImages = {
-    cover: await getImagesBase64(["/images/about-us/about-us-cover-2.jpg"], {
+    cover: await getImagesBase64(["/images/about-us/about-us-cover.jpg"], {
       alt: "about us",
     }),
     team: await getImagesBase64(

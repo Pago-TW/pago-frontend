@@ -58,7 +58,7 @@ export const AboutUsCard = ({ name, job, ImageProps }: AboutUsCardProps) => {
           />
         </Box>
       </Box>
-
+      {/* TODO HELP_ME: 我想把IconButton 那一列，離 {job} 近一點，讓他更像 Figma的排版 */}
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography
