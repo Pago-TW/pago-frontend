@@ -15,6 +15,7 @@ import {
   Receipt,
   Settings,
   ShoppingBag,
+  Groups,
 } from "@mui/icons-material";
 import type { ListItemIconProps, ListItemProps } from "@mui/material";
 import {
@@ -289,6 +290,7 @@ const drawerListItems: DrawerListItem[] = [
   { href: "/trips", text: "旅途管理", icon: <Place /> },
   { href: "/marketplace", text: "商品瀏覽", icon: <ShoppingBag /> },
   { href: "/help", text: "幫助中心", icon: <Error /> },
+  { href: "/about-us", text: "關於我們", icon: <Groups /> },
   { href: "/settings", text: "設定", icon: <Settings /> },
 ];
 
