@@ -1,4 +1,4 @@
-import { useAddBankAccFormContext } from "@/contexts/AddBankFormContext";
+import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";
 import { useAddBankAccount } from "@/hooks/api/useAddBankAccount";
 import { TabContext } from "@mui/lab";
 import { Step } from "@mui/material";
@@ -57,7 +57,7 @@ export const AddBankAccForm = () => {
   const tab = TABS[form.step]?.value as TabValue;
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <Stepper activeStep={form.step} sx={{ mb: 1 }}>
         {TABS.map(({ label, value }) => (
           <Step key={value}>

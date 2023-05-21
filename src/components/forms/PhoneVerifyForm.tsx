@@ -1,4 +1,4 @@
-import { useAddBankAccFormContext } from "@/contexts/AddBankFormContext";
+import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";
 import { useSendSns } from "@/hooks/api/useSendSns";
 import { useVerifyOtp } from "@/hooks/api/useVerifyOtp";
 import { zodResolver } from "@hookform/resolvers/zod";
