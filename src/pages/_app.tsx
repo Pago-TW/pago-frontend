@@ -1,10 +1,10 @@
+import { CloseSnackbarButton } from "@/components/CloseSnackbarButton";
 import { WebSocketProvider } from "@/contexts/WebSocketContext";
 import { env } from "@/env.mjs";
 import type { EmotionCache } from "@emotion/react";
 import { CacheProvider } from "@emotion/react";
-import { Close } from "@mui/icons-material";
 import type { SlideProps } from "@mui/material";
-import { CssBaseline, IconButton, Slide } from "@mui/material";
+import { CssBaseline, Slide } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -14,7 +14,7 @@ import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { SnackbarProvider, closeSnackbar } from "notistack";
+import { SnackbarProvider } from "notistack";
 import { theme } from "../styles/theme";
 import { createEmotionCache } from "../utils/createEmotionCache";
 
@@ -52,14 +52,8 @@ const PagoApp = ({
                   TransitionComponent={(
                     props: Omit<SlideProps, "direction">
                   ) => <Slide direction="right" {...props} />}
-                  action={(key) => (
-                    <IconButton
-                      onClick={() => closeSnackbar(key)}
-                      color="inherit"
-                    >
-                      <Close />
-                    </IconButton>
-                  )}
+                  anchorOrigin={{ horizontal: "center", vertical: "top" }}
+                  action={(key) => <CloseSnackbarButton key={key} />}
                 >
                   <CssBaseline />
                   <Component {...pageProps} />
