@@ -53,8 +53,8 @@ export const AboutUsCard = ({ name, job, ImageProps }: AboutUsCardProps) => {
               marginBottom: "24px",
               marginLeft: "16px",
             }}
-            image="https://pago-file-storage.s3.ap-northeast-1.amazonaws.com/6f0938d16a7c4c44aea2efcbcae02f51_%E9%82%B1%E5%A5%95%E5%8B%B3%E9%A0%AD%E5%83%8F%201.svg"
-            alt="Live from space album cover"
+            image={ImageProps.src as string}
+            alt="Teammate"
           />
         </Box>
       </Box>
