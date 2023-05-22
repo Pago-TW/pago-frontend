@@ -1,10 +1,10 @@
 // Footer.tsx
 import { Link } from "@/components/ui/Link";
 import { Typography } from "@/components/ui/Typography";
-import { Box, Stack, Grid } from "@mui/material";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import GoogleIcon from "@mui/icons-material/Google";
 import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
+import GoogleIcon from "@mui/icons-material/Google";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import { Box, Stack } from "@mui/material";
 import React from "react";
 
 const Footer: React.FC = () => {

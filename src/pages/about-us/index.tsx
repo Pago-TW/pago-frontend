@@ -1,46 +1,19 @@
 import { AboutUsCard } from "@/components/AboutUsCard";
 import Footer from "@/components/Footer";
-import { IndexCard } from "@/components/IndexCard";
 import PageTitle from "@/components/PageTitle";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { Button } from "@/components/ui/Button";
 import { Typography } from "@/components/ui/Typography";
-import { useOrders } from "@/hooks/api/useOrders";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { TabContext, TabPanel } from "@mui/lab";
-import { Stack, styled } from "@mui/material";
+import { Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import type { InferGetStaticPropsType, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { getPlaiceholder } from "plaiceholder";
-import { useState } from "react";
-
-const TABS = [{ label: "創辦團隊", value: "TEAM" }] as const;
-
-const StyledButton = styled(Button)({
-  minWidth: "fit-content",
-  width: "100%",
-  fontSize: 18,
-});
-
-type Tab = (typeof TABS)[number];
 
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   images,
 }) => {
-  const [currentTab, setCurrentTab] = useState<Tab["value"]>("TEAM");
-
-  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-
-  const { data: ordersData, isLoading } = useOrders({ status: "REQUESTED" });
-
-  const latestFiveOrders = flattenInfinitePaginatedData(ordersData).slice(0, 5);
-
-  const skeletonHeight = isMobile ? 131 : 290;
-
   return (
     <>
       <Head>
@@ -57,16 +30,17 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           justifyContent="center"
           alignItems="center"
         >
-          <Box position="relative" width="100%" sx={{ aspectRatio: "1 / 1" }}>
+          <Box position="relative" width="100%" height="40vh">
             {/* eslint-disable-next-line jsx-a11y/alt-text */}
-            {/* TODO HELP_ME: 如果圖片換成 about-us-cover.svg，下面會多一塊大大的東西，導致圖片會離"創立理念"很遠 */}
             <Image
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               {...images.aboutUs.cover[0]!}
               fill
-              sizes="(max-width: 600px) 50vw, 100vw"
+              sizes="100vw"
               priority={true}
               style={{
-                overflow: "hidden",
+                objectFit: "cover",
+                objectPosition: "bottom",
               }}
             />
           </Box>
@@ -256,49 +230,45 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               期望能共創一個高度透明、充分利用共享經濟並為每位用戶帶來價值的代購市場，讓每位用戶都能從中受益。
             </Typography>
           </Box>
+          <Stack
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            spacing={3}
+          >
+            <AboutUsCard
+              name="邱奕勳"
+              job="PM、後端開發"
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              ImageProps={images.aboutUs.team[0]!}
+            />
+            <AboutUsCard
+              name="陳俊廷"
+              job="設計、行銷"
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              ImageProps={images.aboutUs.team[1]!}
+            />
+            <AboutUsCard
+              name="范詠淇"
+              job="設計、行銷"
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              ImageProps={images.aboutUs.team[2]!}
+            />
+            <AboutUsCard
+              name="曾瑞章"
+              job="前端開發"
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              ImageProps={images.aboutUs.team[3]!}
+            />
+            <AboutUsCard
+              name="戴宇辰"
+              job="後端開發"
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              ImageProps={images.aboutUs.team[4]!}
+            />
+          </Stack>
         </Container>
-        <TabContext value={currentTab}>
-          <TabPanel value="TEAM">
-            <Stack
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              spacing={3}
-            >
-              <AboutUsCard
-                name="邱奕勳"
-                job="PM、後端開發"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.aboutUs.team[0]!}
-              />
-              <AboutUsCard
-                name="陳俊廷"
-                job="設計、行銷"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.aboutUs.team[1]!}
-              />
-              <AboutUsCard
-                name="范詠淇"
-                job="設計、行銷"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.aboutUs.team[2]!}
-              />
-              <AboutUsCard
-                name="曾瑞章"
-                job="前端開發"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.aboutUs.team[3]!}
-              />
-              <AboutUsCard
-                name="戴宇辰"
-                job="後端開發"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.aboutUs.team[4]!}
-              />
-            </Stack>
-          </TabPanel>
-        </TabContext>
-        <Box sx={{ flexGrow: 1 }} />
+
         {/* </Container> */}
         <Footer />
       </BaseLayout>
@@ -350,7 +320,7 @@ export const getStaticProps = async () => {
   };
 
   const aboutUsImages = {
-    cover: await getImagesBase64(["/images/about-us/about-us-cover.jpg"], {
+    cover: await getImagesBase64(["/images/about-us/about-us-cover.svg"], {
       alt: "about us",
     }),
     team: await getImagesBase64(
