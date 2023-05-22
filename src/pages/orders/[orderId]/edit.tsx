@@ -184,7 +184,11 @@ const EditOrderPage: NextPage = () => {
                 {!isLastStep ? (
                   <StyledButton onClick={handleNextStep}>下一步</StyledButton>
                 ) : (
-                  <SubmitButton loading={isLoading} success={isSuccess}>
+                  <SubmitButton
+                    fullWidth
+                    loading={isLoading}
+                    success={isSuccess}
+                  >
                     儲存編輯
                   </SubmitButton>
                 )}
