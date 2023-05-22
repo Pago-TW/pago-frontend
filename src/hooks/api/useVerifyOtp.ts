@@ -1,5 +1,5 @@
 import { axios } from "@/libs/axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 
 type VerifyOtpData = {
@@ -14,8 +14,13 @@ const verifyOtp = async (data: VerifyOtpData) => {
 
 export const useVerifyOtp = () => {
   const { update } = useSession();
+
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: verifyOtp,
-    onSettled: () => update(),
+    onSettled: () => {
+      qc.invalidateQueries(["users", "me"]);
+      update();
+    },
   });
 };
