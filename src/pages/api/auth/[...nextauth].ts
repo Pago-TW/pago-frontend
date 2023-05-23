@@ -34,6 +34,7 @@ export const authOptions: NextAuthOptions = {
             email: user.email,
             phone: user.phone,
             verified: user.isPhoneVerified,
+            provider: user.provider,
           };
         }
         return null;
@@ -56,6 +57,7 @@ export const authOptions: NextAuthOptions = {
         user.email = pagoUser.email;
         user.phone = pagoUser.phone;
         user.verified = pagoUser.isPhoneVerified;
+        user.provider = pagoUser.provider;
 
         return true;
       }
@@ -77,6 +79,7 @@ export const authOptions: NextAuthOptions = {
         token.phone = data.phone;
         token.picture = data.avatarUrl;
         token.verified = data.isPhoneVerified;
+        token.provider = data.provider;
       }
 
       if (user) {
@@ -87,6 +90,7 @@ export const authOptions: NextAuthOptions = {
         token.phone = user.phone;
         token.picture = user.image;
         token.verified = user.verified;
+        token.provider = user.provider;
       }
       return token;
     },
@@ -99,6 +103,7 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email;
         session.user.phone = token.phone;
         session.user.verified = token.verified;
+        session.user.provider = token.provider;
       }
       return session;
     },

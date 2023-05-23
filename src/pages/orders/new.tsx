@@ -140,7 +140,11 @@ const NewOrderPage: NextPage = () => {
                   </Button>
                 ) : null}
                 {activeStep === totalSteps - 1 ? (
-                  <SubmitButton loading={isLoading} success={isSuccess}>
+                  <SubmitButton
+                    fullWidth
+                    loading={isLoading}
+                    success={isSuccess}
+                  >
                     發布委託
                   </SubmitButton>
                 ) : (

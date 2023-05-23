@@ -1,23 +1,26 @@
 import { axios } from "@/libs/axios";
+import type { User } from "@/types/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 
-type VerifyOtpData = {
+type UpdateUserData = Partial<{
+  name: string;
   phone: string;
-  otpCode: string;
-};
+  country: string | null;
+  aboutMe: string | null;
+}>;
 
-const verifyOtp = async (data: VerifyOtpData) => {
-  const res = await axios.post<boolean>("/otp/validate", data);
+const updateUser = async (data: UpdateUserData) => {
+  const res = await axios.patch<User>("/users/me", data);
   return res.data;
 };
 
-export const useVerifyOtp = () => {
+export const useUpdateUser = () => {
   const { update } = useSession();
 
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: verifyOtp,
+    mutationFn: updateUser,
     onSettled: () => {
       qc.invalidateQueries(["users", "me"]);
       update();

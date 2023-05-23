@@ -12,13 +12,7 @@ import { Paper } from "../ui/Paper";
 
 export const userInfoFormSchema = z.object({
   legalName: z.string().trim().min(1, "請輸入真實姓名"),
-  identityNumber: z
-    .string()
-    .trim()
-    .regex(
-      /(?![LRSY])[A-Z][12]\d{8}/,
-      "請輸入正確的身分證字號/統一證號/公司統編"
-    ),
+  identityNumber: z.string().trim().min(1, "請輸入正確的身分證字號"),
   birthDate: z.date(),
   city: z.string().trim(),
   zipCode: z
@@ -78,7 +72,7 @@ export const UserInfoForm = ({ onNext }: UserInfoFormProps) => {
             {...register("legalName")}
           />
           <TextField
-            label="身分證字號/統一證號/公司統編"
+            label="身分證字號"
             variant="standard"
             InputLabelProps={{ shrink: true }}
             fullWidth
@@ -90,7 +84,7 @@ export const UserInfoForm = ({ onNext }: UserInfoFormProps) => {
             })}
           />
           <DatePicker
-            label="生日/公司核准設立日期"
+            label="生日"
             slotProps={{
               textField: {
                 fullWidth: true,
@@ -144,7 +138,7 @@ export const UserInfoForm = ({ onNext }: UserInfoFormProps) => {
           />
           <Typography as="p" fontSize={12} color="base.500">
             <em>
-              *提醒您，身分證字號/統一編號需與銀行帳號資訊一致，否則可能會影響日後撥款權益
+              *提醒您，身分證字號需與銀行帳號資訊一致，否則可能會影響日後撥款權益
             </em>
           </Typography>
         </Stack>

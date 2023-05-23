@@ -13,6 +13,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({
   success,
   successIcon,
   disabled,
+  fullWidth,
   onClick,
   sx,
   children,
@@ -23,10 +24,10 @@ export const SubmitButton: FC<SubmitButtonProps> = ({
       type={onClick ? "button" : "submit"}
       endIcon={success ? successIcon ?? <Check /> : null}
       disabled={disabled || success}
+      fullWidth={fullWidth}
       onClick={onClick}
       sx={{
         minWidth: 0,
-        width: "100%",
         ...(success && {
           "&&.Mui-disabled": {
             backgroundColor: (theme) => alpha(theme.palette.success.main, 0.5),

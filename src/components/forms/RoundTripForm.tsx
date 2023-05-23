@@ -141,6 +141,7 @@ export const RoundTripForm: FC = () => {
         </Stack>
       </PaperLayout>
       <SubmitButton
+        fullWidth
         onClick={handleButtonClick}
         loading={isLoading}
         success={isSuccess}
