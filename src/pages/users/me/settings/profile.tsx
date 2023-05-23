@@ -124,6 +124,8 @@ export default function UserProfileSettingPage() {
     </Stack>
   );
 
+  const inputDisabled = isLoading || isUpdating;
+
   return (
     <>
       <Head>
@@ -140,7 +142,7 @@ export default function UserProfileSettingPage() {
                   <TextField
                     label="名"
                     InputLabelProps={{ shrink: true }}
-                    disabled={isLoading || isUpdating}
+                    disabled={inputDisabled}
                     fullWidth
                     error={!!errors.firstName}
                     helperText={errors.firstName?.message}
@@ -149,7 +151,7 @@ export default function UserProfileSettingPage() {
                   <TextField
                     label="姓"
                     InputLabelProps={{ shrink: true }}
-                    disabled={isLoading || isUpdating}
+                    disabled={inputDisabled}
                     fullWidth
                     error={!!errors.lastName}
                     helperText={errors.lastName?.message}
@@ -166,7 +168,7 @@ export default function UserProfileSettingPage() {
                 <TextField
                   label="手機"
                   InputLabelProps={{ shrink: true }}
-                  disabled={session?.user?.verified || isLoading || isUpdating}
+                  disabled={session?.user?.verified || inputDisabled}
                   fullWidth
                   error={!!errors.phone}
                   helperText={errors.phone?.message}
@@ -174,13 +176,13 @@ export default function UserProfileSettingPage() {
                 />
                 <CountrySelect
                   label="居住國家"
-                  disabled={isLoading || isUpdating}
+                  disabled={inputDisabled}
                   fullWidth
                   control={control}
                   name="country"
                 />
                 <FilledTextarea
-                  disabled={isLoading || isUpdating}
+                  disabled={inputDisabled}
                   fullWidth
                   error={!!errors.aboutMe}
                   {...register("aboutMe")}
