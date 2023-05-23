@@ -6,16 +6,18 @@ import { DetailItem } from "./DetailItem";
 import { Paper } from "./ui/Paper";
 import { Typography } from "./ui/Typography";
 
-export type BankUserInfoProps = Pick<BankAccount, "legalName"> & {
+export type BankUserInfoProps = Pick<
+  BankAccount,
+  "legalName" | "residentialDistrict"
+> & {
   birthDate: BankAccount["birthDate"] | Date;
-  residentialArea: string;
 };
 
 export const BankUserInfo = ({
   legalName,
 
   birthDate,
-  residentialArea,
+  residentialDistrict,
 }: BankUserInfoProps) => {
   const locale = useLocale();
 
@@ -34,7 +36,7 @@ export const BankUserInfo = ({
         />
         <DetailItem
           label="居住地區"
-          value={residentialArea}
+          value={residentialDistrict}
           spacing={1}
           multiLine
         />

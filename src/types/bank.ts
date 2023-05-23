@@ -35,6 +35,7 @@ export interface BankAccount {
   legalName: string;
   birthDate: string;
   zipCode: string;
+  residentialDistrict: string;
   bankCode: string;
   bankName: string;
   bankLogoUrl: string;

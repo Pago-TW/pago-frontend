@@ -31,7 +31,7 @@ export const AddBankAccRecap = ({ onPrev, onSubmit }: AddBankRecapProps) => {
   const districts = districtOptions[0]?.districtList || [];
   const district =
     districts.find((d) => d.zipCode === zipCode)?.districtChineseName || "";
-  const residentialArea = `${city}${district}`;
+  const residentialDistrict = `${city}${district}`;
 
   const bankName = banks.find((b) => b.bankCode === bankCode)?.name || "";
   const branchName =
@@ -43,7 +43,7 @@ export const AddBankAccRecap = ({ onPrev, onSubmit }: AddBankRecapProps) => {
         <BankUserInfo
           legalName={legalName}
           birthDate={birthDate}
-          residentialArea={residentialArea}
+          residentialDistrict={residentialDistrict}
         />
         <BankAccountInfo
           bankName={bankName}
