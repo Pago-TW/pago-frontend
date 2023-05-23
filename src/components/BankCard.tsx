@@ -1,16 +1,23 @@
 import type { BankAccount } from "@/types/bank";
 import { Box } from "@mui/material";
+import Image from "next/image";
 import { BankCardRoot } from "./BankCardRoot";
 import { Typography } from "./ui/Typography";
 
 type BankCardProps = Pick<
   BankAccount,
-  "bankAccountId" | "bankName" | "accountNumber" | "legalName" | "isDefault"
+  | "bankAccountId"
+  | "bankName"
+  | "bankLogoUrl"
+  | "accountNumber"
+  | "legalName"
+  | "isDefault"
 >;
 
 export const BankCard = ({
   bankAccountId,
   bankName,
+  bankLogoUrl,
   accountNumber,
   legalName,
   isDefault,
@@ -19,14 +26,13 @@ export const BankCard = ({
     <BankCardRoot elevation={3} href={`/users/me/payments/${bankAccountId}`}>
       <Box display="flex" alignItems="center" gap={2}>
         <Box
-          width={36}
-          height={36}
           fontSize={10}
           textAlign="center"
           display="flex"
           justifyContent="center"
           alignItems="center"
           color="base.500"
+          position="relative"
           sx={{
             borderWidth: 1,
             borderRadius: 1,
@@ -34,7 +40,17 @@ export const BankCard = ({
             borderColor: "base.300",
           }}
         >
-          銀行 logo
+          <Image
+            src={bankLogoUrl}
+            alt="Bank's logo"
+            width={36}
+            height={36}
+            sizes="36px"
+            style={{
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+          />
         </Box>
         <Typography variant="h6" as="p">
           {bankName}

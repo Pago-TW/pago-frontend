@@ -6,19 +6,16 @@ import { DetailItem } from "./DetailItem";
 import { Paper } from "./ui/Paper";
 import { Typography } from "./ui/Typography";
 
-export type BankUserInfoProps = Pick<
-  BankAccount,
-  "legalName" | "identityNumber"
-> & {
+export type BankUserInfoProps = Pick<BankAccount, "legalName"> & {
   birthDate: BankAccount["birthDate"] | Date;
-  fullAddress: string;
+  residentialArea: string;
 };
 
 export const BankUserInfo = ({
   legalName,
-  identityNumber,
+
   birthDate,
-  fullAddress,
+  residentialArea,
 }: BankUserInfoProps) => {
   const locale = useLocale();
 
@@ -30,20 +27,14 @@ export const BankUserInfo = ({
         </Typography>
         <DetailItem label="真實姓名" value={legalName} spacing={1} multiLine />
         <DetailItem
-          label="身分證字號/統一證號/公司統編"
-          value={identityNumber}
-          spacing={1}
-          multiLine
-        />
-        <DetailItem
-          label="生日/公司核准設立日期"
+          label="生日"
           value={formatDate({ date: birthDate, locale })}
           spacing={1}
           multiLine
         />
         <DetailItem
-          label="戶籍地址/公司地址"
-          value={fullAddress}
+          label="居住地區"
+          value={residentialArea}
           spacing={1}
           multiLine
         />

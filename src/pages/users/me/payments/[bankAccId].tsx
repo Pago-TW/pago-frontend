@@ -21,7 +21,7 @@ export default function UserBankAccountDetailPage() {
     district = city.districtList.find((d) => d.zipCode === account?.zipCode);
     return district;
   });
-  const fullAddress = `${city?.administrativeDivisionChineseName}${district?.districtChineseName}${account?.residentialAddress}`;
+  const residentialArea = `${city?.administrativeDivisionChineseName}${district?.districtChineseName}`;
 
   return (
     <>
@@ -36,9 +36,8 @@ export default function UserBankAccountDetailPage() {
               <>
                 <BankUserInfo
                   legalName={account.legalName}
-                  identityNumber={account.identityNumber}
                   birthDate={account.birthDate}
-                  fullAddress={fullAddress}
+                  residentialArea={residentialArea}
                 />
                 <BankAccountInfo
                   bankName={account.bankName}

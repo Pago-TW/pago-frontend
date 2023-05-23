@@ -15,14 +15,7 @@ type AddBankRecapProps = {
 export const AddBankAccRecap = ({ onPrev, onSubmit }: AddBankRecapProps) => {
   const { form } = useAddBankAccFormContext();
 
-  const {
-    legalName,
-    identityNumber,
-    birthDate,
-    city,
-    zipCode,
-    residentialAddress,
-  } = form.data.userInfo;
+  const { legalName, birthDate, city, zipCode } = form.data.userInfo;
   const { bankCode, bankCity, branchCode, accountHolderName, accountNumber } =
     form.data.bankInfo;
 
@@ -38,7 +31,7 @@ export const AddBankAccRecap = ({ onPrev, onSubmit }: AddBankRecapProps) => {
   const districts = districtOptions[0]?.districtList || [];
   const district =
     districts.find((d) => d.zipCode === zipCode)?.districtChineseName || "";
-  const fullAddress = `${city}${district}${residentialAddress}`;
+  const residentialArea = `${city}${district}`;
 
   const bankName = banks.find((b) => b.bankCode === bankCode)?.name || "";
   const branchName =
@@ -49,9 +42,8 @@ export const AddBankAccRecap = ({ onPrev, onSubmit }: AddBankRecapProps) => {
       <Stack spacing={2}>
         <BankUserInfo
           legalName={legalName}
-          identityNumber={identityNumber}
           birthDate={birthDate}
-          fullAddress={fullAddress}
+          residentialArea={residentialArea}
         />
         <BankAccountInfo
           bankName={bankName}

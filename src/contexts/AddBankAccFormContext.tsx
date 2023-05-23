@@ -10,10 +10,8 @@ const INITIAL_STATE = {
     userInfo: {
       legalName: "",
       birthDate: new Date(),
-      identityNumber: "",
       city: "",
       zipCode: "",
-      residentialAddress: "",
     },
     bankInfo: {
       bankCode: "",
@@ -39,7 +37,9 @@ export const AddBankAccFormContext = createContext<{
   setForm: () => {},
 });
 
-export const AddBankAccFormContextProvider = ({ children }: PropsWithChildren) => {
+export const AddBankAccFormContextProvider = ({
+  children,
+}: PropsWithChildren) => {
   const { data: session } = useSession();
 
   const [form, setForm] = useImmer(INITIAL_STATE);

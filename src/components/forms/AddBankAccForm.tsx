@@ -44,8 +44,6 @@ export const AddBankAccForm = () => {
       {
         legalName: form.data.userInfo.legalName,
         birthDate: form.data.userInfo.birthDate,
-        identityNumber: form.data.userInfo.identityNumber,
-        residentialAddress: form.data.userInfo.residentialAddress,
         zipCode: form.data.userInfo.zipCode,
         bankCode: form.data.bankInfo.bankCode,
         branchCode: form.data.bankInfo.branchCode,

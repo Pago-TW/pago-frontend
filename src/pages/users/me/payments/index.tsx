@@ -28,6 +28,7 @@ export default function UserBankAccountsPage() {
                 key={acc.bankAccountId}
                 bankAccountId={acc.bankAccountId}
                 bankName={acc.bankName}
+                bankLogoUrl={acc.bankLogoUrl}
                 accountNumber={acc.accountNumber}
                 legalName={acc.legalName}
                 isDefault={acc.isDefault}
