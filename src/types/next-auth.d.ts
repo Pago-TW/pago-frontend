@@ -1,6 +1,8 @@
 import type { DefaultSession } from "next-auth";
 import "next-auth/jwt";
 
+type Provider = "LOCAL" | "GOOGLE";
+
 declare module "next-auth" {
   /**
    * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
@@ -10,6 +12,7 @@ declare module "next-auth" {
       id: string;
       phone: string | null;
       verified: boolean;
+      provider: Provider;
     } & DefaultSession["user"];
     accessToken: string;
   }
@@ -17,6 +20,7 @@ declare module "next-auth" {
     id: string;
     phone: string | null;
     verified: boolean;
+    provider: Provider;
     accessToken: string;
   }
 }
@@ -26,6 +30,7 @@ declare module "next-auth/jwt" {
     id: string;
     phone: string | null;
     verified: boolean;
+    provider: Provider;
     accessToken: string;
   }
 }
