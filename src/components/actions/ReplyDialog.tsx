@@ -65,7 +65,7 @@ export const ReplyDialog = <ApplyFor extends "postpone" | "cancel">({
 
   const title = `${applicant}申請${applyForText}，是否接受？`;
   const reasonText =
-    (applyFor !== "postpone"
+    (applyFor === "postpone"
       ? postponeReasonLabelMap[reason as PostponeReason]
       : cancelReasonLabelMap[reason as CancelReason]) || "";
   const alertSeverity = applyFor === "postpone" ? "warning" : "error";

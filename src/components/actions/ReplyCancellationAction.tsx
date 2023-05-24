@@ -39,7 +39,7 @@ export const ReplyCancellationAction: FC<ReplyCancellationActionProps> = ({
   return (
     <>
       <ActionButton onClick={handleOpen} disabled={isApplicant}>
-        {isApplicant ? "等待對方回覆延期申請" : "確認延期申請"}
+        {isApplicant ? "等待對方回覆取消申請" : "確認取消申請"}
       </ActionButton>
       <ReplyDialog
         open={open}
