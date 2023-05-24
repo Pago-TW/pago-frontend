@@ -29,7 +29,7 @@ export const StatusText: FC<StatusTextProps> = ({ status }) => {
   const { text, color } = statusMap[status];
 
   return (
-    <Typography variant={variant} color={color}>
+    <Typography variant={variant} color={color} sx={{ flexShrink: 0 }}>
       {text}
     </Typography>
   );
