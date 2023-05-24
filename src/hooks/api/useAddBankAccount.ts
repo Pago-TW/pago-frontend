@@ -5,8 +5,6 @@ import { zonedTimeToUtc } from "date-fns-tz";
 type AddBankAccountData = {
   legalName: string;
   birthDate: Date;
-  identityNumber: string;
-  residentialAddress: string;
   zipCode: string;
   bankCode: string;
   branchCode: string;

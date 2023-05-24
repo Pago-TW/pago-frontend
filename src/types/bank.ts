@@ -34,11 +34,11 @@ export interface BankAccount {
   userId: string;
   legalName: string;
   birthDate: string;
-  identityNumber: string;
-  residentialAddress: string;
   zipCode: string;
+  residentialDistrict: string;
   bankCode: string;
   bankName: string;
+  bankLogoUrl: string;
   branchAdministrativeDivision: string;
   branchCode: string;
   branchName: string;

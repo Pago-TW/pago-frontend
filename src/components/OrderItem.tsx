@@ -109,6 +109,7 @@ export const OrderItem = ({
               position: "relative",
               width: { xs: 74, md: 200 },
               height: { xs: 74, md: 200 },
+              flexShrink: 0,
             }}
           >
             {firstImageUrl ? (
@@ -127,7 +128,11 @@ export const OrderItem = ({
             )}
           </Box>
           {/* Upper right info area */}
-          <Stack flexGrow={1} justifyContent="space-between">
+          <Stack
+            flexGrow={1}
+            justifyContent="space-between"
+            sx={{ minWidth: 0 }}
+          >
             <Box display="flex" justifyContent="space-between">
               {/* Name */}
               <Typography

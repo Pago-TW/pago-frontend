@@ -348,7 +348,13 @@ const OrderDetailPage: NextPage = () => {
             </Box>
             {/* Name (Mobile) */}
             {!isDesktop ? (
-              <Typography variant="h3" as="h1" textAlign="center">
+              <Typography
+                variant="h3"
+                as="h1"
+                textAlign="center"
+                noWrap
+                sx={{ width: "100%" }}
+              >
                 {name}
               </Typography>
             ) : null}

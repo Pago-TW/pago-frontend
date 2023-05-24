@@ -3,8 +3,6 @@ import { BankUserInfo } from "@/components/BankUserInfo";
 import { PageTitle } from "@/components/PageTitle";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { useBankAccount } from "@/hooks/api/useBankAccount";
-import { useDistricts } from "@/hooks/api/useDistricts";
-import type { District } from "@/types/bank";
 import { Container, Stack } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -14,14 +12,6 @@ export default function UserBankAccountDetailPage() {
   const bankAccId = router.query.bankAccId as string;
 
   const { data: account } = useBankAccount(bankAccId, { enabled: !!bankAccId });
-  const { data: cities } = useDistricts();
-
-  let district: District | undefined;
-  const city = cities?.find((city) => {
-    district = city.districtList.find((d) => d.zipCode === account?.zipCode);
-    return district;
-  });
-  const fullAddress = `${city?.administrativeDivisionChineseName}${district?.districtChineseName}${account?.residentialAddress}`;
 
   return (
     <>
@@ -36,9 +26,8 @@ export default function UserBankAccountDetailPage() {
               <>
                 <BankUserInfo
                   legalName={account.legalName}
-                  identityNumber={account.identityNumber}
                   birthDate={account.birthDate}
-                  fullAddress={fullAddress}
+                  residentialDistrict={account.residentialDistrict}
                 />
                 <BankAccountInfo
                   bankName={account.bankName}

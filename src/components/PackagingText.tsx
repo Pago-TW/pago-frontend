@@ -13,7 +13,11 @@ export const PackagingText: FC<PackagingTextProps> = ({
   const variant = isDesktop ? "h3" : "h6";
 
   return (
-    <Typography variant={variant} color="pagoYellow.main">
+    <Typography
+      variant={variant}
+      color="pagoYellow.main"
+      sx={{ flexShrink: 0 }}
+    >
       {isPackagingRequired ? "需要包裝" : "不需包裝"}
     </Typography>
   );

@@ -106,13 +106,14 @@ export const ReviewForm = () => {
   return (
     <Stack spacing={2} mt={3}>
       <PaperLayout>
-        <Stack direction="row" spacing={{ xs: 2, md: 3 }}>
+        <Stack direction="row" spacing={{ xs: 2, md: 3 }} width="100%">
           <Box
             sx={(theme) => ({
               position: "relative",
               width: 75,
               height: 75,
               borderRadius: 2,
+              flexShrink: 0,
               [theme.breakpoints.up("md")]: {
                 width: 200,
                 height: 200,
@@ -128,8 +129,17 @@ export const ReviewForm = () => {
               />
             ) : null}
           </Box>
-          <Stack justifyContent="space-between" flexGrow={1} py={1}>
-            <Typography variant={mdDown ? "h5" : "h1"} weightPreset="bold">
+          <Stack
+            justifyContent="space-between"
+            flexGrow={1}
+            py={1}
+            sx={{ minWidth: 0 }}
+          >
+            <Typography
+              variant={mdDown ? "h5" : "h1"}
+              weightPreset="bold"
+              noWrap
+            >
               {name}
             </Typography>
             <Stack direction="row" justifyContent="space-between">
