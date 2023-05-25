@@ -184,6 +184,7 @@ export default function UserProfileSettingPage() {
                 <FilledTextarea
                   disabled={inputDisabled}
                   fullWidth
+                  placeholder="介紹一下自己吧！"
                   error={!!errors.aboutMe}
                   {...register("aboutMe")}
                 />

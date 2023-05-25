@@ -27,10 +27,7 @@ export const UserCard = ({
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
-  const perspectiveMsg =
-    perspective === "consumer"
-      ? `將由 ${fullName} 進行代購`
-      : `將為 ${fullName} 進行代購`;
+  const perspectiveMsg = perspective === "consumer" ? "代購者" : "委託者";
 
   let latestDeliveryDateElem;
   if (latestDeliveryDate) {
