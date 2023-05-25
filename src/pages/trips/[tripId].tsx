@@ -175,7 +175,11 @@ const TripInfo: FC<TripInfoProps> = ({
           />
         )}
         <Stack direction="row" spacing={2}>
-          <Button size="medium" sx={{ flexGrow: 1 }}>
+          <Button
+            size="medium"
+            disabled={!!totalTripOrders}
+            sx={{ flexGrow: 1 }}
+          >
             編輯旅途
           </Button>
         </Stack>

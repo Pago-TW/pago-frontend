@@ -14,6 +14,7 @@ import { TabContext } from "@mui/lab";
 import { Box, Container, Stack } from "@mui/material";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import Link from "next/link";
 import { useState } from "react";
 
 const DynamicOngoingTrips = dynamic(() =>
@@ -69,7 +70,13 @@ export default function UserDashboardPage() {
                   country={user.country}
                   aboutMe={user.aboutMe}
                 />
-                <Button size="large">編輯會員資料</Button>
+                <Button
+                  size="large"
+                  LinkComponent={Link}
+                  href="/users/me/settings/profile"
+                >
+                  編輯會員資料
+                </Button>
               </Stack>
               <Box mt={3}>
                 <TabContext value={tab}>
