@@ -437,8 +437,14 @@ export const Navbar = () => {
   }, [setChatroomListOpen]);
 
   return (
-    <Box>
-      <AppBar position="static">
+    <>
+      <AppBar
+        position="sticky"
+        sx={{
+          backgroundColor: (theme) => alpha(theme.palette.pago.main, 0.95),
+          backdropFilter: "blur(5px)",
+        }}
+      >
         <Toolbar>
           <IconButton
             size="large"
@@ -494,6 +500,6 @@ export const Navbar = () => {
         onOpen={handleRightNotificationOpen}
         onClose={handleRightNotificationClose}
       />
-    </Box>
+    </>
   );
 };
