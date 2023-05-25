@@ -97,8 +97,8 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
         }}
       >
         <Header title="通知" onBackClick={onBackClick} />
-        <List sx={{ pt: "56px" }}>
-          <Box mt={3}>
+        <List>
+          <Box>
             <TabContext value={tab}>
               <HorizontalCenterTabList onChange={handleTabChange}>
                 {PAGE_TABS.map((tab) => (

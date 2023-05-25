@@ -10,6 +10,38 @@ import type { InferGetStaticPropsType, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { getPlaiceholder } from "plaiceholder";
+import type { ReactNode } from "react";
+
+const SectionTitle = ({ children }: { children: ReactNode }) => {
+  return (
+    <Box display="flex" justifyContent="center">
+      <Typography
+        variant="h1"
+        as="span"
+        color="primary.main"
+        weightPreset="bold"
+        textAlign={{ xs: "center", md: "center" }}
+        sx={{
+          marginBottom: 8,
+          position: "relative",
+          zIndex: 0,
+          "&::after": {
+            content: '""',
+            position: "absolute",
+            left: 0,
+            bottom: 0,
+            height: "50%",
+            width: "100%",
+            background: (theme) => theme.palette.pagoYellow[500],
+            zIndex: -1,
+          },
+        }}
+      >
+        {children}
+      </Typography>
+    </Box>
+  );
+};
 
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   images,
@@ -51,26 +83,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             </Box>
           </Stack>
           <Stack justifyContent="center" height="100%" sx={{ mt: 6 }}>
-            <Box
-              sx={{
-                backgroundColor: "#ffffff",
-                width: "100%",
-                height: "94px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                variant="h1"
-                color="base.800"
-                weightPreset="bold"
-                textAlign={{ xs: "center", md: "center" }}
-                lineHeight={1.75}
-              >
-                Pago 創立理念
-              </Typography>
-            </Box>
+            <SectionTitle>Pago 創立理念</SectionTitle>
             <Container sx={{ my: 6 }}>
               <Box
                 sx={{
@@ -125,30 +138,10 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               width: "100%",
               paddingTop: "30px",
               paddingBottom: "40px",
+              zIndex: -2,
             }}
           >
-            <Typography
-              variant="h1"
-              color="primary.main"
-              weightPreset="bold"
-              textAlign={{ xs: "center", md: "center" }}
-              sx={{
-                marginBottom: 8,
-                position: "relative",
-                "::after": {
-                  content: '""',
-                  position: "absolute",
-                  left: 0,
-                  right: 0,
-                  bottom: "0",
-                  height: "50%",
-                  background: "#ffbf00",
-                  zIndex: -1,
-                },
-              }}
-            >
-              Core Values 核心價值
-            </Typography>
+            <SectionTitle>Core Value 核心價值</SectionTitle>
 
             <Container>
               <Stack spacing={4}>
@@ -220,20 +213,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           </Box>
           <Container>
             <Box sx={{ my: 6 }}>
-              <Typography
-                variant="h1"
-                color="base.800"
-                weightPreset="bold"
-                textAlign={{ xs: "center", md: "left" }}
-                sx={{
-                  marginTop: 10,
-                  display: "flex",
-                  justifyContent: "center",
-                  marginBottom: 3,
-                }}
-              >
-                Team 創辦團隊
-              </Typography>
+              <SectionTitle>Team 創辦團隊</SectionTitle>
               <Box>
                 <Typography
                   variant="h5"

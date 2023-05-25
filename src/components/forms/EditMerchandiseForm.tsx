@@ -162,6 +162,7 @@ export const EditMerchandiseForm: FC<EditMerchandiseFormProps> = ({
             variant="standard"
             fullWidth
             label="詳細購買地址"
+            InputLabelProps={{ shrink: true }}
             error={!!errors?.purchaseAddress}
             helperText={errors?.purchaseAddress?.message}
             {...register("purchaseAddress")}
