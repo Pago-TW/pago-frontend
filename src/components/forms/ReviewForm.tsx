@@ -1,12 +1,14 @@
 import type { AddOrderData } from "@/hooks/api/useAddOrder";
 import { useCharge } from "@/hooks/api/useCharge";
+import { useCountryCity } from "@/hooks/api/useCountryCity";
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { extractCountriesCities } from "@/utils/extractCountriesCities";
 import { formatDate } from "@/utils/formatDateTime";
 import { Place } from "@mui/icons-material";
 import { Box, Skeleton, Stack } from "@mui/material";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { translateBoolean } from "src/utils/translateBoolean";
 import type { z } from "zod";
@@ -56,6 +58,12 @@ export const ReviewForm = () => {
 
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
+  const { data: countryCityData = [] } = useCountryCity({ includeAny: true });
+  const { countries, cities } = useMemo(
+    () => extractCountriesCities(countryCityData),
+    [countryCityData]
+  );
+
   const formValues = getValues();
   const { data: charge } = useCharge(
     transformReviewFormValues(formValues).data
@@ -91,15 +99,19 @@ export const ReviewForm = () => {
 
   const withCurrency = (amount: number) => `${amount} ${currency}`;
 
-  // TODO: Get country and city name
-  const purchaseText = [
-    purchase.countryCode,
-    purchase.cityCode,
-    purchaseAddress,
-  ].join(" ");
-  const destinationText = [destination.countryCode, destination.cityCode].join(
+  const getCountryChineseName = (countryCode: string) =>
+    countries[countryCode]?.chineseName ?? countryCode;
+  const getCityChineseName = (cityCode: string) =>
+    cities[cityCode]?.chineseName ?? cityCode;
+
+  const purchaseCountry = getCountryChineseName(purchase.countryCode);
+  const purchaseCity = getCityChineseName(purchase.cityCode);
+  const purchaseText = [purchaseCountry, purchaseCity, purchaseAddress].join(
     " "
   );
+  const destinationCountry = getCountryChineseName(destination.countryCode);
+  const destinationCity = getCityChineseName(destination.cityCode);
+  const destinationText = [destinationCountry, destinationCity].join(" ");
 
   const detailItemSkeleton = <Skeleton variant="rectangular" width="100%" />;
 
@@ -199,11 +211,21 @@ export const ReviewForm = () => {
             valueProps={{ weightPreset: "bold" }}
           />
           {charge?.platformFee !== undefined ? (
-            <DetailItem
-              label="平台費"
-              value={withCurrency(charge?.platformFee)}
-              valueProps={{ weightPreset: "bold" }}
-            />
+            <Stack spacing={1}>
+              <DetailItem
+                label="平台費"
+                value={withCurrency(charge?.platformFee)}
+                valueProps={{ weightPreset: "bold" }}
+              />
+              <Typography
+                variant="h6"
+                as="p"
+                weightPreset="light"
+                color="base.300"
+              >
+                平台費 = 商品總價 × 4.5%
+              </Typography>
+            </Stack>
           ) : (
             detailItemSkeleton
           )}
