@@ -15,7 +15,7 @@ export default function UserBankAccountsPage() {
         <title>錢包</title>
       </Head>
       <BaseLayout>
-        <PageTitle title="付款方式" />
+        <PageTitle title="銀行帳號" />
         <Container sx={{ display: "flex", justifyContent: "center" }}>
           <Paper
             component={Stack}

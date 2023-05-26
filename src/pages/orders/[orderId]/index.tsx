@@ -11,11 +11,13 @@ import { Actions } from "@/components/actions/Actions";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { Typography } from "@/components/ui/Typography";
 import { useBids } from "@/hooks/api/useBids";
+import { useCountryCity } from "@/hooks/api/useCountryCity";
 import { useMatchingShoppers } from "@/hooks/api/useMatchingShoppers";
 import { useOrder } from "@/hooks/api/useOrder";
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Order } from "@/types/order";
+import { extractCountriesCities } from "@/utils/extractCountriesCities";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { formatDate } from "@/utils/formatDateTime";
 import { Place } from "@mui/icons-material";
@@ -43,8 +45,8 @@ const DetailList = (
   props: Pick<
     Order,
     | "currency"
-    | "destinationCountryName"
-    | "destinationCityName"
+    | "destinationCountryCode"
+    | "destinationCityCode"
     | "travelerFee"
     | "platformFee"
     | "totalAmount"
@@ -56,8 +58,8 @@ const DetailList = (
   > &
     Pick<
       Order["orderItem"],
-      | "purchaseCountryName"
-      | "purchaseCityName"
+      | "purchaseCountryCode"
+      | "purchaseCityCode"
       | "purchaseDistrict"
       | "purchaseRoad"
       | "unitPrice"
@@ -67,12 +69,12 @@ const DetailList = (
 ) => {
   const {
     currency,
-    purchaseCityName,
-    purchaseCountryName,
+    purchaseCountryCode,
+    purchaseCityCode,
     purchaseDistrict,
     purchaseRoad,
-    destinationCityName,
-    destinationCountryName,
+    destinationCountryCode,
+    destinationCityCode,
     unitPrice,
     travelerFee,
     platformFee,
@@ -90,15 +92,29 @@ const DetailList = (
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
+  const { data: options = [] } = useCountryCity({ includeAny: true });
+  const { countries, cities } = useMemo(
+    () => extractCountriesCities(options),
+    [options]
+  );
+
   const withCurrency = (value: number) => `${value} ${currency}`;
 
+  const getCountryChineseName = (countryCode: string) =>
+    countries[countryCode]?.chineseName ?? countryCode;
+  const getCityChineseName = (cityCode: string) =>
+    cities[cityCode]?.chineseName ?? cityCode;
+
+  const purchaseCountryName = getCountryChineseName(purchaseCountryCode);
+  const purchaseCityName = getCityChineseName(purchaseCityCode);
   const purchaseAddress = [
     purchaseCityName,
     purchaseCountryName,
     purchaseDistrict,
     purchaseRoad,
   ].join(" ");
-
+  const destinationCountryName = getCountryChineseName(destinationCountryCode);
+  const destinationCityName = getCityChineseName(destinationCityCode);
   const destinationAddress = [destinationCityName, destinationCountryName].join(
     " "
   );
@@ -117,11 +133,16 @@ const DetailList = (
         value={withCurrency(travelerFee)}
         valueProps={{ weightPreset: "bold" }}
       />
-      <DetailItem
-        label="平台費"
-        value={withCurrency(platformFee)}
-        valueProps={{ weightPreset: "bold" }}
-      />
+      <Stack spacing={1}>
+        <DetailItem
+          label="平台費"
+          value={withCurrency(platformFee)}
+          valueProps={{ weightPreset: "bold" }}
+        />
+        <Typography variant="h6" as="p" weightPreset="light" color="base.300">
+          平台費 = 商品總價 × 4.5%
+        </Typography>
+      </Stack>
       <DetailItem
         label="總付款金額"
         value={withCurrency(totalAmount)}
@@ -218,8 +239,8 @@ const OrderDetailPage: NextPage = () => {
   const {
     consumer,
     serialNumber,
-    destinationCountryName,
-    destinationCityName,
+    destinationCountryCode,
+    destinationCityCode,
     latestReceiveItemDate,
     note,
     orderStatus,
@@ -228,8 +249,8 @@ const OrderDetailPage: NextPage = () => {
       description,
       quantity,
       unitPrice,
-      purchaseCountryName,
-      purchaseCityName,
+      purchaseCountryCode,
+      purchaseCityCode,
       purchaseDistrict,
       purchaseRoad,
       fileUrls,
@@ -386,12 +407,12 @@ const OrderDetailPage: NextPage = () => {
         <AreaWrapper>
           <DetailList
             currency={currency}
-            purchaseCityName={purchaseCityName}
-            purchaseCountryName={purchaseCountryName}
+            purchaseCityCode={purchaseCityCode}
+            purchaseCountryCode={purchaseCountryCode}
             purchaseDistrict={purchaseDistrict}
             purchaseRoad={purchaseRoad}
-            destinationCityName={destinationCityName}
-            destinationCountryName={destinationCountryName}
+            destinationCityCode={destinationCityCode}
+            destinationCountryCode={destinationCountryCode}
             unitPrice={unitPrice}
             travelerFee={travelerFee}
             platformFee={platformFee}
