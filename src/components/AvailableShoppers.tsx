@@ -1,8 +1,9 @@
-import type { Order, OrderShopper } from "@/types/order";
 import { Avatar, AvatarGroup, Stack } from "@mui/material";
-import { Button } from "./ui/Button";
-import { Link } from "./ui/Link";
-import { Typography } from "./ui/Typography";
+
+import { Button } from "@/components/ui/Button";
+import { Link } from "@/components/ui/Link";
+import { Typography } from "@/components/ui/Typography";
+import type { Order, OrderShopper } from "@/types/order";
 
 type AvailableShoppersProps = {
   orderId: Order["orderId"];

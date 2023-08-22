@@ -1,8 +1,9 @@
+import { Stack } from "@mui/material";
+
+import { Typography } from "@/components/ui/Typography";
 import { useLocale } from "@/hooks/useLocale";
 import type { Trip } from "@/types/trip";
 import { formatDate } from "@/utils/formatDateTime";
-import { Stack } from "@mui/material";
-import { Typography } from "./ui/Typography";
 
 export type TripItemProps = Trip;
 

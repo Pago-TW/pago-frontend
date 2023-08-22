@@ -1,17 +1,19 @@
-import { SubmitButton } from "@/components/SubmitButton";
+import Head from "next/head";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Avatar, Paper, Skeleton, Stack, TextField } from "@mui/material";
+import { useSession } from "next-auth/react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { CountrySelect } from "@/components/inputs/CountrySelect";
 import { SettingLayout } from "@/components/layouts/SettingLayout";
+import { SubmitButton } from "@/components/SubmitButton";
 import FilledTextarea from "@/components/ui/FilledTextarea";
 import { useUpdateAvatar } from "@/hooks/api/useUpdateAvatar";
 import { useUpdateUser } from "@/hooks/api/useUpdateUser";
 import { useUserMe } from "@/hooks/api/useUserMe";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Avatar, Paper, Skeleton, Stack, TextField } from "@mui/material";
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 const updateUserFormSchema = z.object({
   firstName: z.string().trim().min(1, "姓氏不可為空"),

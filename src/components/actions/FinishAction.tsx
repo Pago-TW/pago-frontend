@@ -1,17 +1,21 @@
+import type { FC } from "react";
+import { useRouter } from "next/router";
+
+import type { ConfirmOptions } from "material-ui-confirm";
+
+import {
+  ActionWithConfirmation,
+  type ActionWithConfirmationProps,
+} from "@/components/ActionWithConfirmation";
+import {
+  AddReviewModal,
+  type AddReviewFormValues,
+  type AddReviewModalProps,
+} from "@/components/AddReviewModal";
 import { useAddReview } from "@/hooks/api/useAddReview";
 import { useUpdateOrder } from "@/hooks/api/useUpdateOrder";
 import { useOpen } from "@/hooks/useOpen";
 import type { Perspective } from "@/types/misc";
-import type { ConfirmOptions } from "material-ui-confirm";
-import { useRouter } from "next/router";
-import type { FC } from "react";
-import type { ActionWithConfirmationProps } from "./ActionWithConfirmation";
-import { ActionWithConfirmation } from "./ActionWithConfirmation";
-import type {
-  AddReviewFormValues,
-  AddReviewModalProps,
-} from "./AddReviewModal";
-import { AddReviewModal } from "./AddReviewModal";
 
 export type FinishActionProps = Pick<
   ActionWithConfirmationProps,

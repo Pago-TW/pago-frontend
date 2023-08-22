@@ -1,10 +1,11 @@
+import { Stack } from "@mui/material";
+
+import { DetailItem } from "@/components/DetailItem";
+import { Paper } from "@/components/ui/Paper";
+import { Typography } from "@/components/ui/Typography";
 import { useLocale } from "@/hooks/useLocale";
 import type { BankAccount } from "@/types/bank";
 import { formatDate } from "@/utils/formatDateTime";
-import { Stack } from "@mui/material";
-import { DetailItem } from "./DetailItem";
-import { Paper } from "./ui/Paper";
-import { Typography } from "./ui/Typography";
 
 export type BankUserInfoProps = Pick<
   BankAccount,

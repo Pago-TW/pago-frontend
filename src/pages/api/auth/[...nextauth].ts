@@ -1,9 +1,9 @@
-import { env } from "@/env.mjs";
-import { axios } from "@/libs/axios";
-import type { NextAuthOptions } from "next-auth";
-import NextAuth from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+
+import { env } from "@/env.mjs";
+import { axios } from "@/libs/axios";
 
 export const authOptions: NextAuthOptions = {
   session: {

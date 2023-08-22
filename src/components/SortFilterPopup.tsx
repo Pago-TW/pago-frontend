@@ -1,4 +1,3 @@
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Fade,
@@ -13,8 +12,10 @@ import {
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "./ui/Button";
-import { Radio } from "./ui/Radio";
+
+import { Button } from "@/components/ui/Button";
+import { Radio } from "@/components/ui/Radio";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export const sortFilterSchema = z.object({
   filter: z

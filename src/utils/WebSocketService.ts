@@ -1,6 +1,7 @@
-import type { Message, SendMessageRequest } from "@/types/message";
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
+
+import type { Message, SendMessageRequest } from "@/types/message";
 
 type MessageCallback = (message: Message) => void;
 
@@ -16,7 +17,10 @@ export class WebSocketService {
   };
   private chatroomId: string;
 
-  constructor(private url: string, chatroomId: string) {
+  constructor(
+    private url: string,
+    chatroomId: string
+  ) {
     this.chatroomId = chatroomId;
     this.connect();
   }

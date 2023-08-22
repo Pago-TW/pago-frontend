@@ -1,8 +1,3 @@
-import { Button } from "@/components/ui/Button";
-import { Typography } from "@/components/ui/Typography";
-import type { CancellationRecord } from "@/hooks/api/useCancellationRecord";
-import type { PostponeRecord } from "@/hooks/api/usePostponeRecord";
-import type { Perspective } from "@/types/misc";
 import {
   Alert,
   AlertTitle,
@@ -14,6 +9,12 @@ import {
   Skeleton,
   styled,
 } from "@mui/material";
+
+import { Button } from "@/components/ui/Button";
+import { Typography } from "@/components/ui/Typography";
+import type { CancellationRecord } from "@/hooks/api/useCancellationRecord";
+import type { PostponeRecord } from "@/hooks/api/usePostponeRecord";
+import type { Perspective } from "@/types/misc";
 
 const DialogButton = styled(Button)(({ theme }) => ({
   minWidth: "fit-content",

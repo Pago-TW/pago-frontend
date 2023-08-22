@@ -1,6 +1,6 @@
+import { Paper, type PaperProps } from "@mui/material";
+
 import { Link } from "@/components/ui/Link";
-import type { PaperProps } from "@mui/material";
-import { Paper } from "@mui/material";
 
 export const BankCardRoot = ({
   elevation = 3,

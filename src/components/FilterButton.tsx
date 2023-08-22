@@ -1,5 +1,6 @@
-import { ButtonBase, styled } from "@mui/material";
 import type { ComponentProps, ReactNode } from "react";
+
+import { ButtonBase, styled } from "@mui/material";
 
 const FilterButtonRoot = styled(ButtonBase)(({ theme }) => ({
   borderWidth: 1,

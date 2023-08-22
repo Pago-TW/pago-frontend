@@ -1,4 +1,3 @@
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Delete } from "@mui/icons-material";
 import {
@@ -17,11 +16,13 @@ import {
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { DatePicker } from "./inputs/DatePicker";
-import { NumberInput } from "./inputs/NumberInput";
-import { Button } from "./ui/Button";
-import { Radio } from "./ui/Radio";
-import { Typography } from "./ui/Typography";
+
+import { DatePicker } from "@/components/inputs/DatePicker";
+import { NumberInput } from "@/components/inputs/NumberInput";
+import { Button } from "@/components/ui/Button";
+import { Radio } from "@/components/ui/Radio";
+import { Typography } from "@/components/ui/Typography";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 const currentDate = new Date();
 

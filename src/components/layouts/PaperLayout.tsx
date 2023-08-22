@@ -1,7 +1,6 @@
-import type { PaperProps } from "@mui/material";
-import { Paper } from "@mui/material";
-import type { PropsWithChildren } from "react";
-import { forwardRef } from "react";
+import { forwardRef, type PropsWithChildren } from "react";
+
+import { Paper, type PaperProps } from "@mui/material";
 
 export type PaperLayoutProps = PropsWithChildren<{
   sx?: PaperProps["sx"];

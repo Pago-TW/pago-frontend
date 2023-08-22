@@ -1,7 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { axios } from "@/libs/axios";
 import type { Order } from "@/types/order";
 import type { Trip } from "@/types/trip";
-import { useQuery } from "@tanstack/react-query";
 
 const getTakeOrderTrips = async (orderId: Order["orderId"]) => {
   const res = await axios.get<Trip[]>("/trips", { params: { orderId } });

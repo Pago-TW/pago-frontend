@@ -1,6 +1,6 @@
-import type { FilledInputProps } from "@mui/material";
-import { FilledInput } from "@mui/material";
 import { forwardRef } from "react";
+
+import { FilledInput, type FilledInputProps } from "@mui/material";
 
 export type FilledTextareaProps = Omit<FilledInputProps, "multiline">;
 

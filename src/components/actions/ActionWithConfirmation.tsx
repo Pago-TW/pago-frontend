@@ -1,7 +1,9 @@
-import type { ConfirmOptions } from "material-ui-confirm";
-import { useConfirm } from "material-ui-confirm";
-import type { ActionButtonProps } from "./ActionButton";
-import { ActionButton } from "./ActionButton";
+import { useConfirm, type ConfirmOptions } from "material-ui-confirm";
+
+import {
+  ActionButton,
+  type ActionButtonProps,
+} from "@/components/ActionButton";
 
 export type ActionWithConfirmationProps = Omit<ActionButtonProps, "onClick"> & {
   onClick: () => void;

@@ -1,13 +1,14 @@
-import { useStepper } from "@/hooks/useStepper";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Step from "@mui/material/Step";
 import Typography from "@mui/material/Typography";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "./Button";
-import { StepConnector } from "./StepConnector";
-import { StepLabel } from "./StepLabel";
-import { Stepper } from "./Stepper";
+
+import { Button } from "@/components/Button";
+import { StepConnector } from "@/components/StepConnector";
+import { StepLabel } from "@/components/StepLabel";
+import { Stepper } from "@/components/Stepper";
+import { useStepper } from "@/hooks/useStepper";
 
 export default {
   title: "UI/Stepper",

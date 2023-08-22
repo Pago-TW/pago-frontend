@@ -1,8 +1,11 @@
-import { useDeleteOrder } from "@/hooks/api/useDeleteOrder";
-import { useRouter } from "next/router";
 import type { FC } from "react";
-import type { ActionWithConfirmationProps } from "./ActionWithConfirmation";
-import { ActionWithConfirmation } from "./ActionWithConfirmation";
+import { useRouter } from "next/router";
+
+import {
+  ActionWithConfirmation,
+  type ActionWithConfirmationProps,
+} from "@/components/ActionWithConfirmation";
+import { useDeleteOrder } from "@/hooks/api/useDeleteOrder";
 
 export const DeleteAction: FC<
   Pick<ActionWithConfirmationProps, "disabled">

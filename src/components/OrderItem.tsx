@@ -1,3 +1,15 @@
+import { useMemo } from "react";
+import Image from "next/image";
+
+import { ChevronRight } from "@mui/icons-material";
+import { Box, Paper, Skeleton, Stack } from "@mui/material";
+import { intlFormatDistance, parseISO } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
+
+import { PackagingText } from "@/components/PackagingText";
+import { StatusText } from "@/components/StatusText";
+import { Divider } from "@/components/ui/Divider";
+import { Typography } from "@/components/ui/Typography";
 import { useCountryCity } from "@/hooks/api/useCountryCity";
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -5,16 +17,6 @@ import { useTimezone } from "@/hooks/useTimezone";
 import type { Order } from "@/types/order";
 import { extractCountriesCities } from "@/utils/extractCountriesCities";
 import { formatDate } from "@/utils/formatDateTime";
-import { ChevronRight } from "@mui/icons-material";
-import { Box, Paper, Skeleton, Stack } from "@mui/material";
-import { intlFormatDistance, parseISO } from "date-fns";
-import { utcToZonedTime } from "date-fns-tz";
-import Image from "next/image";
-import { useMemo } from "react";
-import { PackagingText } from "./PackagingText";
-import { StatusText } from "./StatusText";
-import { Divider } from "./ui/Divider";
-import { Typography } from "./ui/Typography";
 
 export type OrderItemProps = Pick<
   Order,

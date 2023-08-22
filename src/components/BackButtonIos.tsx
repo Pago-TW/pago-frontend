@@ -1,7 +1,7 @@
-import { ArrowBackIosNew } from "@mui/icons-material";
-import type { IconButtonProps } from "@mui/material";
-import { IconButton } from "@mui/material";
 import { useRouter } from "next/router";
+
+import { ArrowBackIosNew } from "@mui/icons-material";
+import { IconButton, type IconButtonProps } from "@mui/material";
 
 export type BackButtonIosProps = Omit<IconButtonProps, "children"> & {
   onClick?: () => void;

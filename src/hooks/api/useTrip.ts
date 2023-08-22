@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { axios } from "@/libs/axios";
 import type { Trip } from "@/types/trip";
-import { useQuery } from "@tanstack/react-query";
 
 const getTrip = async (tripId: Trip["tripId"]) => {
   const res = await axios.get<Trip>(`/trips/${tripId}`);

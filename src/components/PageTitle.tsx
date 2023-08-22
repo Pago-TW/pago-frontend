@@ -1,7 +1,9 @@
-import { Box, Grid, Stack } from "@mui/material";
 import type { PropsWithChildren, ReactNode } from "react";
-import { BackButton } from "./BackButton";
-import { Typography } from "./ui/Typography";
+
+import { Box, Grid, Stack } from "@mui/material";
+
+import { BackButton } from "@/components/BackButton";
+import { Typography } from "@/components/ui/Typography";
 
 export type PageTitleProps = PropsWithChildren<{
   title: ReactNode;

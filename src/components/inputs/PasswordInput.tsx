@@ -1,5 +1,6 @@
+import { forwardRef, useState, type ChangeEvent } from "react";
+
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import type { TextFieldProps } from "@mui/material";
 import {
   Box,
   IconButton,
@@ -7,10 +8,10 @@ import {
   LinearProgress,
   Stack,
   TextField,
+  type TextFieldProps,
 } from "@mui/material";
-import type { ChangeEvent } from "react";
-import { forwardRef, useState } from "react";
-import { Typography } from "../ui/Typography";
+
+import { Typography } from "@/components/ui/Typography";
 
 const getStrengthLabel = (strength: number) => {
   switch (strength) {

@@ -1,3 +1,9 @@
+import type { FC, ReactNode } from "react";
+import dynamic from "next/dynamic";
+
+import { Box, Paper } from "@mui/material";
+import { ConfirmProvider } from "material-ui-confirm";
+
 import { defaultConfirmOptions } from "@/config/confirmOptions";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Perspective } from "@/types/misc";
@@ -8,10 +14,6 @@ import type {
   OrderStatus,
 } from "@/types/order";
 import type { User } from "@/types/user";
-import { Box, Paper } from "@mui/material";
-import { ConfirmProvider } from "material-ui-confirm";
-import dynamic from "next/dynamic";
-import type { FC, ReactNode } from "react";
 
 const DynamicApplyCancelAction = dynamic(() =>
   import("./ApplyCancelAction").then((mod) => mod.ApplyCancelAction)

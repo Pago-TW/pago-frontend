@@ -1,7 +1,9 @@
-import { useAppbarHeight } from "@/hooks/useAppbarHeight";
-import { Stack } from "@mui/material";
 import type { PropsWithChildren } from "react";
-import { BaseLayout } from "./BaseLayout";
+
+import { Stack } from "@mui/material";
+
+import { BaseLayout } from "@/components/BaseLayout";
+import { useAppbarHeight } from "@/hooks/useAppbarHeight";
 
 export type CenterLayoutProps = PropsWithChildren;
 

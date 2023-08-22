@@ -1,11 +1,13 @@
+import { useMemo } from "react";
+
+import { Skeleton, Stack } from "@mui/material";
+
+import { OrderList } from "@/components/OrderList";
+import { SectionTitle } from "@/components/SectionTitle";
+import { Typography } from "@/components/ui/Typography";
 import { useOrders } from "@/hooks/api/useOrders";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { Skeleton, Stack } from "@mui/material";
-import { useMemo } from "react";
-import { OrderList } from "./OrderList";
-import { SectionTitle } from "./SectionTitle";
-import { Typography } from "./ui/Typography";
 
 const LatestOrders = () => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -14,7 +16,7 @@ const LatestOrders = () => {
 
   const latestFiveOrders = useMemo(
     () => flattenInfinitePaginatedData(ordersData).slice(0, 5),
-    [ordersData],
+    [ordersData]
   );
 
   return (

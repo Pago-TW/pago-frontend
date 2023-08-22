@@ -1,9 +1,10 @@
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useCallback, useRef, type ChangeEvent } from "react";
+
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
-import { IconButton, InputBase, Stack, alpha, styled } from "@mui/material";
-import type { ChangeEvent } from "react";
-import { useCallback, useRef } from "react";
+import { alpha, IconButton, InputBase, Stack, styled } from "@mui/material";
+
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 const SearchBase = styled("div")(({ theme }) => ({
   position: "relative",

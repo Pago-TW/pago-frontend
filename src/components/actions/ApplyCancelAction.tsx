@@ -1,11 +1,16 @@
-import type { ApplyCancelFormValues } from "@/components/actions/ApplyCancelModal";
-import { ApplyCancelModal } from "@/components/actions/ApplyCancelModal";
+import type { FC } from "react";
+import { useRouter } from "next/router";
+
+import {
+  ApplyCancelModal,
+  type ApplyCancelFormValues,
+} from "@/components/actions/ApplyCancelModal";
+import {
+  ActionWithModalAndConfirmation,
+  type ActionWithModalAndConfirmationProps,
+} from "@/components/ActionWithModalAndConfirmation";
 import { useApplyCancelOrder } from "@/hooks/api/useApplyCancelOrder";
 import type { Perspective } from "@/types/misc";
-import { useRouter } from "next/router";
-import type { FC } from "react";
-import type { ActionWithModalAndConfirmationProps } from "./ActionWithModalAndConfirmation";
-import { ActionWithModalAndConfirmation } from "./ActionWithModalAndConfirmation";
 
 export const ApplyCancelAction: FC<
   Pick<

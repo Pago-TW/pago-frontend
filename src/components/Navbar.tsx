@@ -1,8 +1,6 @@
-import { useChatrooms } from "@/hooks/api/useChatrooms";
-import { useNotifications } from "@/hooks/api/useNotifications";
-import { useOpen } from "@/hooks/useOpen";
-import { useChatroomStore } from "@/store/ui/useChatroomStore";
-import { useNavbarStore } from "@/store/ui/useNavbarStore";
+import { useCallback, useState, type FC } from "react";
+import { useRouter } from "next/router";
+
 import { ClickAwayListener } from "@mui/base";
 import {
   ChevronLeft,
@@ -17,8 +15,8 @@ import {
   ShoppingBag,
   Wallet,
 } from "@mui/icons-material";
-import type { ListItemIconProps, ListItemProps } from "@mui/material";
 import {
+  alpha,
   AppBar,
   Avatar,
   Badge,
@@ -34,22 +32,26 @@ import {
   ListItemText,
   Popper,
   Stack,
+  styled,
   SwipeableDrawer,
   Toolbar,
-  alpha,
-  styled,
+  type ListItemIconProps,
+  type ListItemProps,
 } from "@mui/material";
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import type { FC } from "react";
-import { useCallback, useState } from "react";
-import { ChatroomList } from "./ChatroomList";
-import { NotificationtList } from "./NotificationList";
-import { Search } from "./Search";
-import { Divider } from "./ui/Divider";
-import { Link } from "./ui/Link";
-import { Paper } from "./ui/Paper";
-import { Typography } from "./ui/Typography";
+
+import { ChatroomList } from "@/components/ChatroomList";
+import { NotificationtList } from "@/components/NotificationList";
+import { Search } from "@/components/Search";
+import { Divider } from "@/components/ui/Divider";
+import { Link } from "@/components/ui/Link";
+import { Paper } from "@/components/ui/Paper";
+import { Typography } from "@/components/ui/Typography";
+import { useChatrooms } from "@/hooks/api/useChatrooms";
+import { useNotifications } from "@/hooks/api/useNotifications";
+import { useOpen } from "@/hooks/useOpen";
+import { useChatroomStore } from "@/store/ui/useChatroomStore";
+import { useNavbarStore } from "@/store/ui/useNavbarStore";
 
 const leftNavbarDrawerWidth = 270;
 

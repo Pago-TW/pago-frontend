@@ -1,15 +1,16 @@
 import { Box, Stack, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
-import { BooleanRadioGroup } from "../inputs/BooleanRadioGroup";
+
+import { BooleanRadioGroup } from "@/components/inputs/BooleanRadioGroup";
 import {
-  CountryCitySelect,
   countryCitySchema,
-} from "../inputs/CountryCitySelect";
-import { DatePicker } from "../inputs/DatePicker";
-import { NumberInput } from "../inputs/NumberInput";
-import { PaperLayout } from "../layouts/PaperLayout";
-import { Typography } from "../ui/Typography";
+  CountryCitySelect,
+} from "@/components/inputs/CountryCitySelect";
+import { DatePicker } from "@/components/inputs/DatePicker";
+import { NumberInput } from "@/components/inputs/NumberInput";
+import { PaperLayout } from "@/components/layouts/PaperLayout";
+import { Typography } from "@/components/ui/Typography";
 
 const currentDate = new Date();
 

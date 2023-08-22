@@ -1,6 +1,7 @@
 // useFileUpload.ts
-import { axios } from "@/libs/axios";
 import { useMutation } from "@tanstack/react-query";
+
+import { axios } from "@/libs/axios";
 
 export type FileUploadParams = {
   file: File;

@@ -1,7 +1,7 @@
-import { ArrowBack } from "@mui/icons-material";
-import type { IconButtonProps } from "@mui/material";
-import { IconButton } from "@mui/material";
 import { useRouter } from "next/router";
+
+import { ArrowBack } from "@mui/icons-material";
+import { IconButton, type IconButtonProps } from "@mui/material";
 
 export type BackButtonProps = Omit<IconButtonProps, "children">;
 

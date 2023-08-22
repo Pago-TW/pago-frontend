@@ -1,10 +1,12 @@
+import { useMemo, type FC } from "react";
+
+import { Grid, Stack } from "@mui/material";
+
+import { Paper } from "@/components/ui/Paper";
+import { Typography } from "@/components/ui/Typography";
 import { useCountryCity } from "@/hooks/api/useCountryCity";
 import type { User } from "@/types/user";
 import { extractCountries } from "@/utils/extractCountriesCities";
-import { Grid, Stack } from "@mui/material";
-import { useMemo, type FC } from "react";
-import { Paper } from "./ui/Paper";
-import { Typography } from "./ui/Typography";
 
 type ItemProps = {
   label: string;

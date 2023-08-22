@@ -1,3 +1,9 @@
+import { useEffect, useMemo, useState, type FC } from "react";
+
+import { TabContext, TabList } from "@mui/lab";
+import { styled, Tab } from "@mui/material";
+import { useInView } from "react-intersection-observer";
+
 import { OrderList } from "@/components/OrderList";
 import { ReviewList } from "@/components/ReviewList";
 import { ShowMoreButton } from "@/components/ShowMoreButton";
@@ -8,11 +14,6 @@ import { useTrips } from "@/hooks/api/useTrips";
 import type { ReviewType } from "@/types/review";
 import type { User } from "@/types/user";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { TabContext, TabList } from "@mui/lab";
-import { Tab, styled } from "@mui/material";
-import type { FC } from "react";
-import { useEffect, useMemo, useState } from "react";
-import { useInView } from "react-intersection-observer";
 
 export const HorizontalCenterTabList = styled(TabList)({
   "& .MuiTabs-flexContainer": {

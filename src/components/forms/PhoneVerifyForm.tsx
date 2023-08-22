@@ -1,20 +1,21 @@
-import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";
-import { useSendSns } from "@/hooks/api/useSendSns";
-import { useVerifyOtp } from "@/hooks/api/useVerifyOtp";
+import { useEffect, useRef, useState } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle } from "@mui/icons-material";
 import { Stack, styled } from "@mui/material";
 import { AxiosError } from "axios";
 import { addSeconds, parseISO } from "date-fns";
 import { useSession } from "next-auth/react";
-import { useEffect, useRef, useState } from "react";
-import type { CountdownRenderProps } from "react-countdown";
-import Countdown from "react-countdown";
+import Countdown, { type CountdownRenderProps } from "react-countdown";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { OtpInput } from "../inputs/OtpInput";
-import { PhoneInput, phoneSchema } from "../inputs/PhoneInput";
-import { Button } from "../ui/Button";
+
+import { OtpInput } from "@/components/inputs/OtpInput";
+import { PhoneInput, phoneSchema } from "@/components/inputs/PhoneInput";
+import { Button } from "@/components/ui/Button";
+import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";
+import { useSendSns } from "@/hooks/api/useSendSns";
+import { useVerifyOtp } from "@/hooks/api/useVerifyOtp";
 
 export const phoneVerifyFormSchema = z.object({
   phone: phoneSchema,

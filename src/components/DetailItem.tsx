@@ -1,8 +1,9 @@
-import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { Stack } from "@mui/material";
 import type { ReactNode } from "react";
-import type { TypographyProps } from "./ui/Typography";
-import { Typography } from "./ui/Typography";
+
+import { Stack } from "@mui/material";
+
+import { Typography, type TypographyProps } from "@/components/ui/Typography";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 type DetailItemProps = {
   spacing?: number;

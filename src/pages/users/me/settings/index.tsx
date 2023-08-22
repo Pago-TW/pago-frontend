@@ -1,5 +1,6 @@
-import { SettingLayout } from "@/components/layouts/SettingLayout";
 import Head from "next/head";
+
+import { SettingLayout } from "@/components/layouts/SettingLayout";
 
 export default function UserSettingsPage() {
   return (

@@ -1,7 +1,9 @@
+import type { FC } from "react";
+
+import { Box } from "@mui/material";
+
 import type { Perspective } from "@/types/misc";
 import type { OrderStatus } from "@/types/order";
-import { Box } from "@mui/material";
-import type { FC } from "react";
 
 const getConsumerStatusText = ({
   status,

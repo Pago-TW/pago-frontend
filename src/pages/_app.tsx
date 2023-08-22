@@ -1,9 +1,7 @@
-import { CloseSnackbarButton } from "@/components/CloseSnackbarButton";
-import { NotistackSnackbar } from "@/components/NotistackSnackbar";
-import { WebSocketProvider } from "@/contexts/WebSocketContext";
-import { env } from "@/env.mjs";
-import type { EmotionCache } from "@emotion/react";
-import { CacheProvider } from "@emotion/react";
+import type { AppProps } from "next/app";
+import Head from "next/head";
+
+import { CacheProvider, type EmotionCache } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -12,11 +10,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import type { AppProps } from "next/app";
-import Head from "next/head";
 import { SnackbarProvider } from "notistack";
-import { theme } from "../styles/theme";
-import { createEmotionCache } from "../utils/createEmotionCache";
+
+import { CloseSnackbarButton } from "@/components/CloseSnackbarButton";
+import { NotistackSnackbar } from "@/components/NotistackSnackbar";
+import { WebSocketProvider } from "@/contexts/WebSocketContext";
+import { env } from "@/env.mjs";
+import { theme } from "@/styles/theme";
+import { createEmotionCache } from "@/utils/createEmotionCache";
 
 import "@fontsource/mallanna/400.css";
 import "@fontsource/noto-sans-tc/300.css";

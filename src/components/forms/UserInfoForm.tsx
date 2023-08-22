@@ -1,14 +1,15 @@
-import { CitySelect } from "@/components/inputs/CitySelect";
-import { DatePicker } from "@/components/inputs/DatePicker";
-import { DistrictSelect } from "@/components/inputs/DistrictSelect";
-import { Typography } from "@/components/ui/Typography";
-import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, InputLabel, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "../ui/Button";
-import { Paper } from "../ui/Paper";
+
+import { CitySelect } from "@/components/inputs/CitySelect";
+import { DatePicker } from "@/components/inputs/DatePicker";
+import { DistrictSelect } from "@/components/inputs/DistrictSelect";
+import { Button } from "@/components/ui/Button";
+import { Paper } from "@/components/ui/Paper";
+import { Typography } from "@/components/ui/Typography";
+import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";
 
 export const userInfoFormSchema = z.object({
   legalName: z.string().trim().min(1, "請輸入真實姓名"),

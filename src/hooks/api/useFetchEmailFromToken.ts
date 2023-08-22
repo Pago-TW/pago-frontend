@@ -1,5 +1,6 @@
-import { axios } from "@/libs/axios";
 import { useQuery } from "@tanstack/react-query";
+
+import { axios } from "@/libs/axios";
 
 const fetchEmailFromToken = async (token: string) => {
   const res = await axios.get<string>(

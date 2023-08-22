@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import Image from "next/image";
+
 import { Add } from "@mui/icons-material";
 import {
   Box,
@@ -6,20 +9,22 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import Image from "next/image";
-import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
-import { AmountInput } from "../inputs/AmountInput";
+
+import { AmountInput } from "@/components/inputs/AmountInput";
 import {
-  CountryCitySelect,
   countryCitySchema,
-} from "../inputs/CountryCitySelect";
-import { CURRENCY_OPTIONS, CurrencyInput } from "../inputs/CurrencyInput";
-import { NumberInput } from "../inputs/NumberInput";
-import { PaperLayout } from "../layouts/PaperLayout";
-import { Typography } from "../ui/Typography";
+  CountryCitySelect,
+} from "@/components/inputs/CountryCitySelect";
+import {
+  CURRENCY_OPTIONS,
+  CurrencyInput,
+} from "@/components/inputs/CurrencyInput";
+import { NumberInput } from "@/components/inputs/NumberInput";
+import { PaperLayout } from "@/components/layouts/PaperLayout";
+import { Typography } from "@/components/ui/Typography";
 
 const IMAGE_MIME = ["image/jpeg", "image/png"];
 

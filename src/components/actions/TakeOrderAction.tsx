@@ -1,15 +1,17 @@
-import { useAddBid } from "@/hooks/api/useAddBid";
-import { useOpen } from "@/hooks/useOpen";
-import { useConfirm } from "material-ui-confirm";
-import { useSession } from "next-auth/react";
+import type { FC } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+
+import { useConfirm } from "material-ui-confirm";
+import { useSession } from "next-auth/react";
 import { useSnackbar } from "notistack";
-import type { FC } from "react";
-import { CloseSnackbarButton } from "../CloseSnackbarButton";
-import { Button } from "../ui/Button";
-import { ActionButton } from "./ActionButton";
-import type { TakeOrderFormValues } from "./TakeOrderPopup";
+
+import { ActionButton } from "@/components/ActionButton";
+import { CloseSnackbarButton } from "@/components/CloseSnackbarButton";
+import type { TakeOrderFormValues } from "@/components/TakeOrderPopup";
+import { Button } from "@/components/ui/Button";
+import { useAddBid } from "@/hooks/api/useAddBid";
+import { useOpen } from "@/hooks/useOpen";
 
 const DynamicTakeOrderPopup = dynamic(() =>
   import("./TakeOrderPopup").then((mod) => mod.TakeOrderPopup)

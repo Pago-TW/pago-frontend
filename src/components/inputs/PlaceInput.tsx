@@ -1,7 +1,7 @@
-import { Place } from "@mui/icons-material";
-import type { TextFieldProps } from "@mui/material";
-import { Box, TextField } from "@mui/material";
 import { forwardRef } from "react";
+
+import { Place } from "@mui/icons-material";
+import { Box, TextField, type TextFieldProps } from "@mui/material";
 
 export type PlaceInputProps = TextFieldProps;
 

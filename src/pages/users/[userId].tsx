@@ -1,11 +1,13 @@
+import Head from "next/head";
+import { useRouter } from "next/router";
+
+import { Box, Container, Stack } from "@mui/material";
+
+import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { PageTitle } from "@/components/PageTitle";
 import { UserInfo } from "@/components/UserInfo";
 import { UserSummary } from "@/components/UserSummary";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { useUser } from "@/hooks/api/useUser";
-import { Box, Container, Stack } from "@mui/material";
-import Head from "next/head";
-import { useRouter } from "next/router";
 
 export default function UserDashboardPage() {
   const router = useRouter();

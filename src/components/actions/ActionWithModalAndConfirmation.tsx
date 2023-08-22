@@ -1,11 +1,13 @@
-import { useOpen } from "@/hooks/useOpen";
-import { useConfirm } from "material-ui-confirm";
 import type { ComponentType } from "react";
-import { ActionButton } from "./ActionButton";
-import type { ActionWithConfirmationProps } from "./ActionWithConfirmation";
+
+import { useConfirm } from "material-ui-confirm";
+
+import { ActionButton } from "@/components/ActionButton";
+import type { ActionWithConfirmationProps } from "@/components/ActionWithConfirmation";
+import { useOpen } from "@/hooks/useOpen";
 
 export type ActionWithModalAndConfirmationProps<
-  FormData extends object = object
+  FormData extends object = object,
 > = Omit<ActionWithConfirmationProps, "onClick"> & {
   onClick: (data: FormData) => void;
   Modal: ComponentType<{

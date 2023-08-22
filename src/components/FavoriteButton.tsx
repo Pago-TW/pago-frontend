@@ -1,7 +1,7 @@
-import type { WithRequired } from "@/types/util";
 import { Favorite } from "@mui/icons-material";
-import type { IconButtonProps } from "@mui/material";
-import { IconButton } from "@mui/material";
+import { IconButton, type IconButtonProps } from "@mui/material";
+
+import type { WithRequired } from "@/types/util";
 
 export type FavoriteButtonProps = WithRequired<
   Omit<IconButtonProps, "children">,

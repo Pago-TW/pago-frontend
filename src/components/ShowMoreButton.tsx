@@ -1,8 +1,9 @@
-import type { WithRequired } from "@/types/util";
-import { ArrowDownward } from "@mui/icons-material";
 import { forwardRef } from "react";
-import type { ButtonProps } from "./ui/Button";
-import { Button } from "./ui/Button";
+
+import { ArrowDownward } from "@mui/icons-material";
+
+import { Button, type ButtonProps } from "@/components/ui/Button";
+import type { WithRequired } from "@/types/util";
 
 export type ShowMoreButtonProps = WithRequired<
   Omit<ButtonProps, "children">,

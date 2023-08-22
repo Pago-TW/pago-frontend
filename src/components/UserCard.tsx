@@ -1,12 +1,13 @@
+import { Avatar, Box, Paper, Stack } from "@mui/material";
+
+import { Button } from "@/components/ui/Button";
+import { Link } from "@/components/ui/Link";
+import { Typography } from "@/components/ui/Typography";
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Perspective } from "@/types/misc";
 import type { OrderShopper, OrderUser } from "@/types/order";
 import { formatDate } from "@/utils/formatDateTime";
-import { Avatar, Box, Paper, Stack } from "@mui/material";
-import { Button } from "./ui/Button";
-import { Link } from "./ui/Link";
-import { Typography } from "./ui/Typography";
 
 export type UserCardProps = Pick<
   OrderUser,

@@ -1,12 +1,15 @@
-import { useMediaQuery } from "@/hooks/useMediaQuery";
-import type {
-  ButtonProps as MuiButtonProps,
-  CircularProgressProps as MuiCircularProgressProps,
+import { forwardRef } from "react";
+
+import {
+  CircularProgress,
+  Button as MuiButton,
+  type ButtonProps as MuiButtonProps,
+  type CircularProgressProps as MuiCircularProgressProps,
 } from "@mui/material";
-import { CircularProgress, Button as MuiButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
-import { forwardRef } from "react";
+
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export interface ButtonProps
   extends MuiButtonProps<"button", { component?: "label" }> {

@@ -1,9 +1,10 @@
+import { useInfiniteQuery } from "@tanstack/react-query";
+
 import { axios } from "@/libs/axios";
 import type { PaginatedResponse, PaginationParams } from "@/types/api";
 import type { Bid } from "@/types/bid";
 import type { Order } from "@/types/order";
 import { getLastIndex } from "@/utils/getLastIndex";
-import { useInfiniteQuery } from "@tanstack/react-query";
 
 type Params = PaginationParams;
 

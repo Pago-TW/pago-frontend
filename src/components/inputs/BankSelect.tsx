@@ -1,13 +1,20 @@
+import {
+  Autocomplete,
+  createFilterOptions,
+  TextField,
+  type AutocompleteProps,
+  type InputLabelProps,
+  type TextFieldProps,
+} from "@mui/material";
+import {
+  useController,
+  type Control,
+  type FieldPath,
+  type FieldValues,
+} from "react-hook-form";
+
 import { useBanks } from "@/hooks/api/useBanks";
 import type { Bank } from "@/types/bank";
-import type {
-  AutocompleteProps,
-  InputLabelProps,
-  TextFieldProps,
-} from "@mui/material";
-import { Autocomplete, TextField, createFilterOptions } from "@mui/material";
-import type { Control, FieldPath, FieldValues } from "react-hook-form";
-import { useController } from "react-hook-form";
 
 export type BankSelectProps<T extends FieldValues> = {
   control: Control<T>;

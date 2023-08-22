@@ -1,12 +1,15 @@
-import type { TextFieldProps } from "@mui/material";
-import { TextField } from "@mui/material";
-import type { Control, FieldValues, Path } from "react-hook-form";
-import { useController } from "react-hook-form";
-import type {
-  NumberFormatValues,
-  NumericFormatProps,
+import { TextField, type TextFieldProps } from "@mui/material";
+import {
+  useController,
+  type Control,
+  type FieldValues,
+  type Path,
+} from "react-hook-form";
+import {
+  NumericFormat,
+  type NumberFormatValues,
+  type NumericFormatProps,
 } from "react-number-format";
-import { NumericFormat } from "react-number-format";
 
 export type NumberInputProps<T extends FieldValues> =
   NumericFormatProps<TextFieldProps> & {

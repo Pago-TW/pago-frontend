@@ -1,5 +1,4 @@
-import type { TabProps } from "@mui/material";
-import { Tab as MuiTab, styled } from "@mui/material";
+import { Tab as MuiTab, styled, type TabProps } from "@mui/material";
 
 const StyledTab = styled(MuiTab)(({ theme }) => ({
   [theme.breakpoints.up("md")]: {

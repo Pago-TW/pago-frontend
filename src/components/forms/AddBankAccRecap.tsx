@@ -1,11 +1,12 @@
+import { Box, Stack } from "@mui/material";
+
+import { BankAccountInfo } from "@/components/BankAccountInfo";
+import { BankUserInfo } from "@/components/BankUserInfo";
+import { Button } from "@/components/ui/Button";
 import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";
 import { useBankBranches } from "@/hooks/api/useBankBranches";
 import { useBanks } from "@/hooks/api/useBanks";
 import { useDistricts } from "@/hooks/api/useDistricts";
-import { Box, Stack } from "@mui/material";
-import { BankAccountInfo } from "../BankAccountInfo";
-import { BankUserInfo } from "../BankUserInfo";
-import { Button } from "../ui/Button";
 
 type AddBankRecapProps = {
   onPrev: () => void;

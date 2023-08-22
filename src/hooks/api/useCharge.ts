@@ -1,6 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { axios } from "@/libs/axios";
 import type { Bid, BidCreator } from "@/types/bid";
-import { useQuery } from "@tanstack/react-query";
+
 import type { AddOrderData } from "./useAddOrder";
 
 export interface OrderCharge {
@@ -18,7 +20,7 @@ const getCharge = async <
   DataType extends AddOrderData["data"] | Pick<Bid, "bidId">,
   ResponseType extends DataType extends AddOrderData["data"]
     ? OrderCharge
-    : BidCharge
+    : BidCharge,
 >(
   data: DataType
 ) => {
@@ -27,7 +29,7 @@ const getCharge = async <
 };
 
 export const useCharge = <
-  DataType extends AddOrderData["data"] | Pick<Bid, "bidId">
+  DataType extends AddOrderData["data"] | Pick<Bid, "bidId">,
 >(
   data: DataType,
   options?: { enabled?: boolean; refetchOnWindowFocus?: boolean }

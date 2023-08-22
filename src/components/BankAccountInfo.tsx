@@ -1,8 +1,9 @@
-import type { BankAccount } from "@/types/bank";
 import { Stack } from "@mui/material";
-import { DetailItem } from "./DetailItem";
-import { Paper } from "./ui/Paper";
-import { Typography } from "./ui/Typography";
+
+import { DetailItem } from "@/components/DetailItem";
+import { Paper } from "@/components/ui/Paper";
+import { Typography } from "@/components/ui/Typography";
+import type { BankAccount } from "@/types/bank";
 
 export type BankAccountInfoProps = Pick<
   BankAccount,

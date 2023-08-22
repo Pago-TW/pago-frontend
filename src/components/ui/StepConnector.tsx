@@ -1,5 +1,7 @@
-import type { StepConnectorProps as MuiStepConnectorProps } from "@mui/material";
-import { StepConnector as MuiStepConnector } from "@mui/material";
+import {
+  StepConnector as MuiStepConnector,
+  type StepConnectorProps as MuiStepConnectorProps,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 type StepConnectorProps = MuiStepConnectorProps;

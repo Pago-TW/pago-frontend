@@ -1,5 +1,7 @@
-import type { MuiOtpInputProps } from "mui-one-time-password-input";
-import { MuiOtpInput } from "mui-one-time-password-input";
+import {
+  MuiOtpInput,
+  type MuiOtpInputProps,
+} from "mui-one-time-password-input";
 import {
   useController,
   type FieldValues,

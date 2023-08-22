@@ -1,8 +1,8 @@
-import type { Order } from "@/types/order";
 import { Stack } from "@mui/material";
-import type { OrderItemProps } from "./OrderItem";
-import { OrderItem } from "./OrderItem";
-import { Link } from "./ui/Link";
+
+import { OrderItem, type OrderItemProps } from "@/components/OrderItem";
+import { Link } from "@/components/ui/Link";
+import type { Order } from "@/types/order";
 
 export type OrderListProps = Pick<OrderItemProps, "variant"> & {
   items: Order[];

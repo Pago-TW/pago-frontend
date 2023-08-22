@@ -1,5 +1,4 @@
-import type { TypographyProps } from "./ui/Typography";
-import { Typography } from "./ui/Typography";
+import { Typography, type TypographyProps } from "@/components/ui/Typography";
 
 const SectionTitle = (props: TypographyProps) => {
   return (

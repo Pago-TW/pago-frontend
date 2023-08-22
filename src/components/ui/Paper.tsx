@@ -1,7 +1,9 @@
-import { styled } from "@mui/material";
-import type { PaperProps as MuiPaperProps } from "@mui/material/Paper";
-import MuiPaper from "@mui/material/Paper";
 import { forwardRef } from "react";
+
+import { styled } from "@mui/material";
+import MuiPaper, {
+  type PaperProps as MuiPaperProps,
+} from "@mui/material/Paper";
 
 export type PaperProps = MuiPaperProps;
 

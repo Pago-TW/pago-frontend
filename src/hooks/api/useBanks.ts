@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { axios } from "@/libs/axios";
 import type { Bank } from "@/types/bank";
-import { useQuery } from "@tanstack/react-query";
 
 const getBanks = async () => {
   const res = await axios.get<Bank[]>("/banks");

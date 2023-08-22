@@ -1,5 +1,6 @@
-import { axios } from "@/libs/axios";
 import { useQuery } from "@tanstack/react-query";
+
+import { axios } from "@/libs/axios";
 
 type ChatroomResponse = {
   chatroomId: string;

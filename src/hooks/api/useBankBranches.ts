@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { axios } from "@/libs/axios";
 import type { Bank, BankBranch } from "@/types/bank";
-import { useQuery } from "@tanstack/react-query";
 
 type Params = {
   administrativeDivision: string;

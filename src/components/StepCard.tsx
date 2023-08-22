@@ -1,10 +1,17 @@
-import type { CardContentProps, CardProps } from "@mui/material";
-import { Card, CardContent, CardMedia, alpha } from "@mui/material";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
-import type { ImageProps } from "next/image";
-import NextImage from "next/image";
-import { Typography } from "./ui/Typography";
 import type { PropsWithChildren } from "react";
+import NextImage, { type ImageProps } from "next/image";
+
+import {
+  alpha,
+  Card,
+  CardContent,
+  CardMedia,
+  type CardContentProps,
+  type CardProps,
+} from "@mui/material";
+
+import { Typography } from "@/components/ui/Typography";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 type StepCardRootProps = CardProps;
 

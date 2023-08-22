@@ -1,8 +1,7 @@
-import { useUser } from "@/hooks/api/useUser";
-import type { Perspective } from "@/types/misc";
-import type { User } from "@/types/user";
+import { useCallback, useEffect, useState, type ChangeEvent } from "react";
+import Image from "next/image";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { ModalProps } from "@mui/material";
 import {
   Avatar,
   Box,
@@ -13,19 +12,26 @@ import {
   Modal,
   Paper,
   Stack,
+  type ModalProps,
 } from "@mui/material";
-import Image from "next/image";
-import type { ChangeEvent } from "react";
-import { useCallback, useEffect, useState } from "react";
-import type { Control, FieldValues, Path } from "react-hook-form";
-import { useController, useForm } from "react-hook-form";
+import {
+  useController,
+  useForm,
+  type Control,
+  type FieldValues,
+  type Path,
+} from "react-hook-form";
 import SimpleBar from "simplebar-react";
 import { z } from "zod";
-import { Button } from "../ui/Button";
-import { FilledTextarea } from "../ui/FilledTextarea";
-import { Rating } from "../ui/Rating";
-import { Typography } from "../ui/Typography";
-import { Video } from "../ui/Video";
+
+import { Button } from "@/components/ui/Button";
+import { FilledTextarea } from "@/components/ui/FilledTextarea";
+import { Rating } from "@/components/ui/Rating";
+import { Typography } from "@/components/ui/Typography";
+import { Video } from "@/components/ui/Video";
+import { useUser } from "@/hooks/api/useUser";
+import type { Perspective } from "@/types/misc";
+import type { User } from "@/types/user";
 
 import "simplebar-react/dist/simplebar.min.css";
 
@@ -75,17 +81,17 @@ const QUICK_REVIEW_MAP: Record<Perspective, string[]> = {
   shopper: ["優質的聯絡態度！"],
 };
 
-type FileUploadProps<T extends FieldValues> = {
+interface FileUploadProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
   error?: boolean;
   helperText?: string;
-};
+}
 
-type Preview = {
+interface Preview {
   url: string;
   type: `image/${string}` | `video/${string}`;
-};
+}
 
 const FileUpload = <T extends FieldValues>({
   control,
@@ -107,7 +113,7 @@ const FileUpload = <T extends FieldValues>({
           ({
             url: URL.createObjectURL(file),
             type: file.type,
-          } as Preview)
+          }) as Preview
       )
     );
   };

@@ -1,8 +1,8 @@
+import type { FC } from "react";
+
+import { Typography, type TypographyProps } from "@/components/ui/Typography";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { OrderStatus } from "@/types/order";
-import type { FC } from "react";
-import type { TypographyProps } from "./ui/Typography";
-import { Typography } from "./ui/Typography";
 
 const statusMap: Record<
   OrderStatus,

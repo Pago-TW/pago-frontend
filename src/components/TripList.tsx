@@ -1,8 +1,8 @@
+import { Stack, type StackProps } from "@mui/material";
+
+import { TripItem } from "@/components/TripItem";
+import { Link } from "@/components/ui/Link";
 import type { Trip } from "@/types/trip";
-import type { StackProps } from "@mui/material";
-import { Stack } from "@mui/material";
-import { TripItem } from "./TripItem";
-import { Link } from "./ui/Link";
 
 export type TripListProps = {
   items: Trip[];

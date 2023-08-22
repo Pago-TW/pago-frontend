@@ -1,19 +1,3 @@
-import { useCountryCity } from "@/hooks/api/useCountryCity";
-import type { TextFieldProps } from "@mui/material";
-import {
-  Autocomplete,
-  Box,
-  ListSubheader,
-  Stack,
-  TextField,
-  Typography,
-  alpha,
-  createFilterOptions,
-  lighten,
-} from "@mui/material";
-import { hasFlag } from "country-flag-icons";
-import Flags from "country-flag-icons/react/3x2";
-import type { HTMLAttributes, ReactElement } from "react";
 import {
   createContext,
   forwardRef,
@@ -22,12 +6,34 @@ import {
   useRef,
   useState,
   type CSSProperties,
+  type HTMLAttributes,
+  type ReactElement,
 } from "react";
-import type { Control, FieldPath, FieldValues } from "react-hook-form";
-import { Controller } from "react-hook-form";
-import type { ListChildComponentProps } from "react-window";
-import { VariableSizeList } from "react-window";
+
+import {
+  alpha,
+  Autocomplete,
+  Box,
+  createFilterOptions,
+  lighten,
+  ListSubheader,
+  Stack,
+  TextField,
+  Typography,
+  type TextFieldProps,
+} from "@mui/material";
+import { hasFlag } from "country-flag-icons";
+import Flags from "country-flag-icons/react/3x2";
+import {
+  Controller,
+  type Control,
+  type FieldPath,
+  type FieldValues,
+} from "react-hook-form";
+import { VariableSizeList, type ListChildComponentProps } from "react-window";
 import { z } from "zod";
+
+import { useCountryCity } from "@/hooks/api/useCountryCity";
 
 type FlagKeys = keyof typeof Flags;
 
@@ -106,13 +112,12 @@ const Row = ({ data, index, style }: ListChildComponentProps) => {
 
 const OuterElementContext = createContext({});
 
-const OuterElementType = forwardRef<HTMLDivElement>(function OuterElementType(
-  props,
-  ref
-) {
-  const outerProps = useContext(OuterElementContext);
-  return <div ref={ref} {...props} {...outerProps} />;
-});
+const OuterElementType = forwardRef<HTMLDivElement>(
+  function OuterElementType(props, ref) {
+    const outerProps = useContext(OuterElementContext);
+    return <div ref={ref} {...props} {...outerProps} />;
+  }
+);
 
 const useResetCache = (dep: unknown) => {
   // Ref for the VariableSizeList element

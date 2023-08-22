@@ -1,18 +1,20 @@
+import { useCallback, useEffect, useState } from "react";
+import type { NextPage } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Stack, TextField } from "@mui/material";
+import { useSnackbar } from "notistack";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { PasswordInput } from "@/components/inputs/PasswordInput";
 import { CenterLayout } from "@/components/layouts/CenterLayout";
 import { Button } from "@/components/ui/Button";
 import { Typography } from "@/components/ui/Typography";
-import { axios } from "@/libs/axios";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Stack, TextField } from "@mui/material";
-import type { NextPage } from "next";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useSnackbar } from "notistack";
-import { useCallback, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import useFetchEmailFromToken from "@/hooks/api/useFetchEmailFromToken";
-import { z } from "zod";
+import { axios } from "@/libs/axios";
 
 export const resetPasswordFormSchema = z
   .object({

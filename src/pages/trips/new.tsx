@@ -1,13 +1,14 @@
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { PageTitle } from "@/components/PageTitle";
-import { Tab } from "@/components/ui/Tab";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Container, Stack } from "@mui/material";
+import { useState, type SyntheticEvent } from "react";
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import type { SyntheticEvent } from "react";
-import { useState } from "react";
+
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { Container, Stack } from "@mui/material";
+
+import { BaseLayout } from "@/components/layouts/BaseLayout";
+import { PageTitle } from "@/components/PageTitle";
+import { Tab } from "@/components/ui/Tab";
 
 const DynamicOneWrapTripForm = dynamic(
   import("@/components/forms/OneWayTripForm")

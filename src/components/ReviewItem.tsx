@@ -1,15 +1,23 @@
+import { type FC } from "react";
+import Image from "next/image";
+
+import {
+  Avatar,
+  Box,
+  Rating,
+  Stack,
+  styled,
+  type Breakpoints,
+} from "@mui/material";
+import SimpleBar from "simplebar-react";
+
+import { Paper } from "@/components/ui/Paper";
+import { Typography } from "@/components/ui/Typography";
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useTimezone } from "@/hooks/useTimezone";
 import type { Review } from "@/types/review";
 import { formatDateTime } from "@/utils/formatDateTime";
-import type { Breakpoints } from "@mui/material";
-import { Avatar, Box, Rating, Stack, styled } from "@mui/material";
-import Image from "next/image";
-import { type FC } from "react";
-import SimpleBar from "simplebar-react";
-import { Paper } from "./ui/Paper";
-import { Typography } from "./ui/Typography";
 
 import "simplebar-react/dist/simplebar.min.css";
 
@@ -75,8 +83,8 @@ export const ReviewItem: FC<ReviewItemProps> = ({
       <Box
         width="100%"
         pl={{
-          xs: `calc(${avatarSize["xs"]}px + 1 * 8px)`,
-          md: `calc(${avatarSize["md"]}px + 2.5 * 8px)`,
+          xs: `calc(${avatarSize.xs}px + 1 * 8px)`,
+          md: `calc(${avatarSize.md}px + 2.5 * 8px)`,
         }}
       >
         <Typography color="base.500" sx={{ fontSize: 12, mt: 1 }}>

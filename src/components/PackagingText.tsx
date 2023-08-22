@@ -1,6 +1,7 @@
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { FC } from "react";
-import { Typography } from "./ui/Typography";
+
+import { Typography } from "@/components/ui/Typography";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export type PackagingTextProps = {
   isPackagingRequired: boolean;

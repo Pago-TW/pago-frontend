@@ -1,6 +1,5 @@
 import { IosShare } from "@mui/icons-material";
-import type { IconButtonProps } from "@mui/material";
-import { IconButton } from "@mui/material";
+import { IconButton, type IconButtonProps } from "@mui/material";
 
 export type ShareButtonProps = Omit<IconButtonProps, "children">;
 

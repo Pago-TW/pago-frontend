@@ -1,17 +1,19 @@
-import { HorizontalCenterTabList, StyledTab } from "@/components/UserTabs";
-import { TabPanel } from "@/components/ui/TabPanel";
-import { useMarkNotificationAsRead } from "@/hooks/api/useMarkNotificationAsRead";
-import { useNotifications } from "@/hooks/api/useNotifications";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/router";
+
 import { TabContext } from "@mui/lab";
 import { Box, Divider, List, Paper } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
-import { Header } from "./Header";
-import { NotificationListItem } from "./NotificationListItem";
-import { Typography } from "./ui/Typography";
+
+import { Header } from "@/components/Header";
+import { NotificationListItem } from "@/components/NotificationListItem";
+import { TabPanel } from "@/components/ui/TabPanel";
+import { Typography } from "@/components/ui/Typography";
+import { HorizontalCenterTabList, StyledTab } from "@/components/UserTabs";
+import { useMarkNotificationAsRead } from "@/hooks/api/useMarkNotificationAsRead";
+import { useNotifications } from "@/hooks/api/useNotifications";
+import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 
 const PAGE_TABS = [
   { label: "委託", value: "ORDER" },

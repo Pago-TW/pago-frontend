@@ -1,9 +1,9 @@
+import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query";
+
 import { axios } from "@/libs/axios";
 import type { PaginatedResponse, PaginationParams } from "@/types/api";
 import type { Chatroom } from "@/types/chatroom";
 import { getLastIndex } from "@/utils/getLastIndex";
-import type { InfiniteData } from "@tanstack/react-query";
-import { useInfiniteQuery } from "@tanstack/react-query";
 
 type Params = PaginationParams;
 

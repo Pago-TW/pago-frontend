@@ -1,15 +1,25 @@
+import { useMemo, type ReactNode } from "react";
+import type { NextPage } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
+
+import { Place } from "@mui/icons-material";
+import { Box, Paper, Stack } from "@mui/material";
+import { useSession } from "next-auth/react";
+import { translateBoolean } from "src/utils/translateBoolean";
+
+import { Actions } from "@/components/actions/Actions";
 import { AvailableShoppers } from "@/components/AvailableShoppers";
 import { BidList } from "@/components/BidList";
 import { DetailItem } from "@/components/DetailItem";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { ImageCarousel } from "@/components/ImageCarousel";
+import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { PageTitle } from "@/components/PageTitle";
 import { ShareButton } from "@/components/ShareButton";
 import { StatusBox } from "@/components/StatusBox";
-import { UserCard } from "@/components/UserCard";
-import { Actions } from "@/components/actions/Actions";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { Typography } from "@/components/ui/Typography";
+import { UserCard } from "@/components/UserCard";
 import { useBids } from "@/hooks/api/useBids";
 import { useCountryCity } from "@/hooks/api/useCountryCity";
 import { useMatchingShoppers } from "@/hooks/api/useMatchingShoppers";
@@ -20,14 +30,6 @@ import type { Order } from "@/types/order";
 import { extractCountriesCities } from "@/utils/extractCountriesCities";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { formatDate } from "@/utils/formatDateTime";
-import { Place } from "@mui/icons-material";
-import { Box, Paper, Stack } from "@mui/material";
-import type { NextPage } from "next";
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useMemo, type ReactNode } from "react";
-import { translateBoolean } from "src/utils/translateBoolean";
 
 const AreaWrapper = ({ children }: { children: ReactNode }) => {
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));

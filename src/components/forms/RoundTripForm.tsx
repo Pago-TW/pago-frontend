@@ -1,18 +1,20 @@
-import { useAddRoundTrip } from "@/hooks/api/useAddRoundTrip";
-import { useOpen } from "@/hooks/useOpen";
+import { useCallback, type FC } from "react";
+import { useRouter } from "next/router";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Stack } from "@mui/material";
 import { startOfDay, subDays } from "date-fns";
-import { useRouter } from "next/router";
-import { useCallback, type FC } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { ConfirmDialog } from "../ConfirmDialog";
-import { SubmitButton } from "../SubmitButton";
-import { CountryCitySelect } from "../inputs/CountryCitySelect";
-import { DatePicker } from "../inputs/DatePicker";
-import { PaperLayout } from "../layouts/PaperLayout";
-import { oneWayTripFormSchema } from "./OneWayTripForm";
+
+import { ConfirmDialog } from "@/components/ConfirmDialog";
+import { CountryCitySelect } from "@/components/inputs/CountryCitySelect";
+import { DatePicker } from "@/components/inputs/DatePicker";
+import { PaperLayout } from "@/components/layouts/PaperLayout";
+import { oneWayTripFormSchema } from "@/components/OneWayTripForm";
+import { SubmitButton } from "@/components/SubmitButton";
+import { useAddRoundTrip } from "@/hooks/api/useAddRoundTrip";
+import { useOpen } from "@/hooks/useOpen";
 
 const currentDate = startOfDay(new Date());
 const minDate = subDays(currentDate, 1);

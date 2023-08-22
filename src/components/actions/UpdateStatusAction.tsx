@@ -1,9 +1,12 @@
+import type { FC } from "react";
+import { useRouter } from "next/router";
+
+import {
+  ActionWithConfirmation,
+  type ActionWithConfirmationProps,
+} from "@/components/ActionWithConfirmation";
 import { useUpdateOrder } from "@/hooks/api/useUpdateOrder";
 import type { OrderStatus } from "@/types/order";
-import { useRouter } from "next/router";
-import type { FC } from "react";
-import type { ActionWithConfirmationProps } from "./ActionWithConfirmation";
-import { ActionWithConfirmation } from "./ActionWithConfirmation";
 
 export const UpdateStatusAction: FC<
   Pick<

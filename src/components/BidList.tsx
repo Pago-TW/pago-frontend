@@ -1,9 +1,9 @@
+import { Box, Stack, type SxProps } from "@mui/material";
+
+import { BidItem } from "@/components/BidItem";
+import { ShowMoreButton } from "@/components/ShowMoreButton";
+import { Typography } from "@/components/ui/Typography";
 import type { Bid } from "@/types/bid";
-import type { SxProps } from "@mui/material";
-import { Box, Stack } from "@mui/material";
-import { BidItem } from "./BidItem";
-import { ShowMoreButton } from "./ShowMoreButton";
-import { Typography } from "./ui/Typography";
 
 type BidListProps = {
   bids?: Bid[];

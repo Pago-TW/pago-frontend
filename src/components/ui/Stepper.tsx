@@ -1,7 +1,10 @@
-import type { StepperProps as MuiStepperProps } from "@mui/material";
-import { Stepper as MuiStepper } from "@mui/material";
+import {
+  Stepper as MuiStepper,
+  type StepperProps as MuiStepperProps,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { StepConnector } from "./StepConnector";
+
+import { StepConnector } from "@/components/StepConnector";
 
 type StepperProps = MuiStepperProps;
 

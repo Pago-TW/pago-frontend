@@ -1,8 +1,9 @@
+import { useQuery } from "@tanstack/react-query";
+
 import type { CancelReason } from "@/components/actions/ApplyCancelModal";
 import { axios } from "@/libs/axios";
 import type { Order } from "@/types/order";
 import type { User } from "@/types/user";
-import { useQuery } from "@tanstack/react-query";
 
 export type CancellationRecord = {
   cancellationRecordId: string;

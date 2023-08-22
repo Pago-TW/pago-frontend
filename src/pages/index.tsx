@@ -1,3 +1,12 @@
+import type { InferGetStaticPropsType, NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+
+import { Stack, styled } from "@mui/material";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import { getPlaiceholder } from "plaiceholder";
+
 import Footer from "@/components/Footer";
 import { HowItWorks } from "@/components/HowItWorks";
 import { LatestOrders } from "@/components/LatestOrders";
@@ -5,13 +14,6 @@ import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/components/ui/Link";
 import { Typography } from "@/components/ui/Typography";
-import { Stack, styled } from "@mui/material";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import type { InferGetStaticPropsType, NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import { getPlaiceholder } from "plaiceholder";
 
 const StyledButton = styled(Button)({
   minWidth: "fit-content",
@@ -113,7 +115,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
 const getImageBase64 = async (
   imagePath: string,
-  options?: { alt?: string; title?: string },
+  options?: { alt?: string; title?: string }
 ) => {
   const { base64, img } = await getPlaiceholder(imagePath);
   return {

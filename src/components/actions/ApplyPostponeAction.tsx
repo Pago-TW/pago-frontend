@@ -1,10 +1,15 @@
-import type { ApplyPostponeFormValues } from "@/components/actions/ApplyPostponeModal";
-import { ApplyPostponeModal } from "@/components/actions/ApplyPostponeModal";
-import { useApplyPostponeOrder } from "@/hooks/api/useApplyPostponeOrder";
-import { useRouter } from "next/router";
 import type { FC } from "react";
-import type { ActionWithModalAndConfirmationProps } from "./ActionWithModalAndConfirmation";
-import { ActionWithModalAndConfirmation } from "./ActionWithModalAndConfirmation";
+import { useRouter } from "next/router";
+
+import {
+  ApplyPostponeModal,
+  type ApplyPostponeFormValues,
+} from "@/components/actions/ApplyPostponeModal";
+import {
+  ActionWithModalAndConfirmation,
+  type ActionWithModalAndConfirmationProps,
+} from "@/components/ActionWithModalAndConfirmation";
+import { useApplyPostponeOrder } from "@/hooks/api/useApplyPostponeOrder";
 
 export const ApplyPostponeAction: FC<
   Pick<ActionWithModalAndConfirmationProps<ApplyPostponeFormValues>, "disabled">

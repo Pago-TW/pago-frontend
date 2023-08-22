@@ -1,7 +1,7 @@
-import type { LinkProps as MuiLinkProps } from "@mui/material";
-import { Link as MuiLink } from "@mui/material";
-import NextLink from "next/link";
 import { forwardRef } from "react";
+import NextLink from "next/link";
+
+import { Link as MuiLink, type LinkProps as MuiLinkProps } from "@mui/material";
 
 export const Link = forwardRef<HTMLAnchorElement, MuiLinkProps>(
   function ComposedLink(

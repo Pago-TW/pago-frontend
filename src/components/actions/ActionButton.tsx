@@ -1,5 +1,4 @@
-import type { ButtonProps } from "@/components/ui/Button";
-import { Button } from "@/components/ui/Button";
+import { Button, type ButtonProps } from "@/components/ui/Button";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export type ActionButtonProps = Pick<

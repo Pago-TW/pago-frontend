@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { axios } from "@/libs/axios";
 import type { User } from "@/types/user";
-import { useQuery } from "@tanstack/react-query";
 
 const getUserMe = async () => {
   const res = await axios.get<User>("/users/me");

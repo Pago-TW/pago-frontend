@@ -1,6 +1,7 @@
-import { axios } from "@/libs/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+
+import { axios } from "@/libs/axios";
 
 type VerifyOtpData = {
   phone: string;

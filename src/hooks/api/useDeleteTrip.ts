@@ -1,6 +1,7 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { axios } from "@/libs/axios";
 import type { Trip } from "@/types/trip";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type DeleteTripParams = {
   tripId: Trip["tripId"];

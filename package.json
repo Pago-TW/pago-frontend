@@ -62,6 +62,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.22.10",
+    "@ianvs/prettier-plugin-sort-imports": "^4.1.0",
     "@next/bundle-analyzer": "^13.4.13",
     "@storybook/addon-a11y": "^7.2.3",
     "@storybook/addon-actions": "^7.2.3",

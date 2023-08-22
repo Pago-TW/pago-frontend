@@ -1,16 +1,18 @@
-import { AboutUsCard } from "@/components/AboutUsCard";
-import Footer from "@/components/Footer";
-import PageTitle from "@/components/PageTitle";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { Typography } from "@/components/ui/Typography";
-import { Stack } from "@mui/material";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
+import type { ReactNode } from "react";
 import type { InferGetStaticPropsType, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+
+import { Stack } from "@mui/material";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 import { getPlaiceholder } from "plaiceholder";
-import type { ReactNode } from "react";
+
+import { AboutUsCard } from "@/components/AboutUsCard";
+import Footer from "@/components/Footer";
+import { BaseLayout } from "@/components/layouts/BaseLayout";
+import PageTitle from "@/components/PageTitle";
+import { Typography } from "@/components/ui/Typography";
 
 const SectionTitle = ({ children }: { children: ReactNode }) => {
   return (

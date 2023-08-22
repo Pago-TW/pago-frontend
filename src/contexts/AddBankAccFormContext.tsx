@@ -1,8 +1,12 @@
+import {
+  createContext,
+  useContext,
+  useEffect,
+  type PropsWithChildren,
+} from "react";
+
 import { useSession } from "next-auth/react";
-import type { PropsWithChildren } from "react";
-import { createContext, useContext, useEffect } from "react";
-import type { Updater } from "use-immer";
-import { useImmer } from "use-immer";
+import { useImmer, type Updater } from "use-immer";
 
 const INITIAL_STATE = {
   step: 0,

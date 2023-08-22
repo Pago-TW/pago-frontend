@@ -1,11 +1,12 @@
+import type { FC } from "react";
+import { useRouter } from "next/router";
+
+import { ActionButton } from "@/components/ActionButton";
+import { ReplyDialog } from "@/components/ReplyDialog";
 import { usePostponeRecord } from "@/hooks/api/usePostponeRecord";
 import { useReplyPostpone } from "@/hooks/api/useReplyPostpone";
 import { useOpen } from "@/hooks/useOpen";
 import type { Perspective } from "@/types/misc";
-import { useRouter } from "next/router";
-import type { FC } from "react";
-import { ActionButton } from "./ActionButton";
-import { ReplyDialog } from "./ReplyDialog";
 
 export type ReplyPostponeActionProps = {
   perspective: Perspective;

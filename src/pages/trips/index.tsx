@@ -1,7 +1,14 @@
+import { useMemo, type FC } from "react";
+import type { NextPage } from "next";
+import Head from "next/head";
+
+import { Add } from "@mui/icons-material";
+import { Container, Stack } from "@mui/material";
+import { useSession } from "next-auth/react";
+
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { PageTitle } from "@/components/PageTitle";
-import type { TripListProps } from "@/components/TripList";
-import { TripList } from "@/components/TripList";
+import { TripList, type TripListProps } from "@/components/TripList";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/components/ui/Link";
 import { Paper } from "@/components/ui/Paper";
@@ -9,12 +16,6 @@ import { Typography } from "@/components/ui/Typography";
 import { useTrips } from "@/hooks/api/useTrips";
 import type { TripStatus } from "@/types/trip";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { Add } from "@mui/icons-material";
-import { Container, Stack } from "@mui/material";
-import type { NextPage } from "next";
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useMemo, type FC } from "react";
 
 type CategorizedTripListProps = Omit<TripListProps, "items"> & {
   category: string;

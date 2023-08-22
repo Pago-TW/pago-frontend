@@ -1,3 +1,5 @@
+import type { ChangeEvent } from "react";
+
 import {
   FormControl,
   FormControlLabel,
@@ -6,9 +8,12 @@ import {
   RadioGroup,
   Stack,
 } from "@mui/material";
-import type { ChangeEvent } from "react";
-import type { Control, FieldValues, Path } from "react-hook-form";
-import { useController } from "react-hook-form";
+import {
+  useController,
+  type Control,
+  type FieldValues,
+  type Path,
+} from "react-hook-form";
 
 type Choice = Readonly<{
   label: string;

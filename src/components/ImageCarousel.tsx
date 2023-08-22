@@ -1,11 +1,18 @@
-import type { Theme } from "@/styles/theme";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import type { SxProps } from "@mui/material";
-import { Box, Chip, IconButton, alpha, styled } from "@mui/material";
-import useEmblaCarousel from "embla-carousel-react";
+import { useCallback, useEffect, useState, type FC } from "react";
 import Image from "next/image";
-import type { FC } from "react";
-import { useCallback, useEffect, useState } from "react";
+
+import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import {
+  alpha,
+  Box,
+  Chip,
+  IconButton,
+  styled,
+  type SxProps,
+} from "@mui/material";
+import useEmblaCarousel from "embla-carousel-react";
+
+import type { Theme } from "@/styles/theme";
 
 export type ImageCarouselProps = {
   images: string[];

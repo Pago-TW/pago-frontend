@@ -1,10 +1,12 @@
+import Head from "next/head";
+
+import { Container, Paper, Stack } from "@mui/material";
+
 import { AddBankCard } from "@/components/AddBankCard";
 import { BankCard } from "@/components/BankCard";
-import { PageTitle } from "@/components/PageTitle";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
+import { PageTitle } from "@/components/PageTitle";
 import { useBankAccounts } from "@/hooks/api/useBankAccounts";
-import { Container, Paper, Stack } from "@mui/material";
-import Head from "next/head";
 
 export default function UserBankAccountsPage() {
   const { data: accounts } = useBankAccounts();

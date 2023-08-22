@@ -1,15 +1,22 @@
+import { useMemo } from "react";
+
+import {
+  Autocomplete,
+  createFilterOptions,
+  TextField,
+  type AutocompleteProps,
+  type InputLabelProps,
+  type TextFieldProps,
+} from "@mui/material";
+import {
+  useController,
+  type FieldValues,
+  type UseControllerProps,
+} from "react-hook-form";
+
 import { useCountryCity } from "@/hooks/api/useCountryCity";
 import type { CountryOption } from "@/types/misc";
 import { extractCountries } from "@/utils/extractCountriesCities";
-import type {
-  AutocompleteProps,
-  InputLabelProps,
-  TextFieldProps,
-} from "@mui/material";
-import { Autocomplete, TextField, createFilterOptions } from "@mui/material";
-import { useMemo } from "react";
-import type { FieldValues, UseControllerProps } from "react-hook-form";
-import { useController } from "react-hook-form";
 
 export type CountrySelectProps<T extends FieldValues> = UseControllerProps<T> &
   Pick<

@@ -1,6 +1,8 @@
 import Box from "@mui/material/Box";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Typography } from "./Typography";
+
+import { Typography } from "@/components/Typography";
+
 export default {
   title: "UI/Typography",
   component: Typography,

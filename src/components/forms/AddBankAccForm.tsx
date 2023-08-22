@@ -1,14 +1,16 @@
-import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";
-import { useAddBankAccount } from "@/hooks/api/useAddBankAccount";
+import { useRouter } from "next/router";
+
 import { TabContext } from "@mui/lab";
 import { Step } from "@mui/material";
-import { useRouter } from "next/router";
-import { StepLabel } from "../ui/StepLabel";
-import { Stepper } from "../ui/Stepper";
-import { TabPanel } from "../ui/TabPanel";
-import { AddBankAccRecap } from "./AddBankAccRecap";
-import { BankInfoForm } from "./BankInfoForm";
-import { UserInfoForm } from "./UserInfoForm";
+
+import { AddBankAccRecap } from "@/components/AddBankAccRecap";
+import { BankInfoForm } from "@/components/BankInfoForm";
+import { StepLabel } from "@/components/ui/StepLabel";
+import { Stepper } from "@/components/ui/Stepper";
+import { TabPanel } from "@/components/ui/TabPanel";
+import { UserInfoForm } from "@/components/UserInfoForm";
+import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";
+import { useAddBankAccount } from "@/hooks/api/useAddBankAccount";
 
 const TABS = [
   { label: "使用者資訊", value: "USER_INFO" },

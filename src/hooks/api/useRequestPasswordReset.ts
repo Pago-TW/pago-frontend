@@ -1,5 +1,6 @@
-import { axios } from "@/libs/axios";
 import { useMutation } from "@tanstack/react-query";
+
+import { axios } from "@/libs/axios";
 
 type RequestPasswordResetData = {
   email: string;

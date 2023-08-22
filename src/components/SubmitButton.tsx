@@ -1,8 +1,9 @@
+import type { FC, ReactNode } from "react";
+
 import { Check } from "@mui/icons-material";
 import { alpha } from "@mui/material";
-import type { FC, ReactNode } from "react";
-import type { ButtonProps } from "./ui/Button";
-import { Button } from "./ui/Button";
+
+import { Button, type ButtonProps } from "@/components/ui/Button";
 
 type SubmitButtonProps = ButtonProps & {
   successIcon?: ReactNode;

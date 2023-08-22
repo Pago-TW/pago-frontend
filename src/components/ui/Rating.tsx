@@ -1,9 +1,15 @@
-import type { RatingProps as MuiRatingProps } from "@mui/material";
-import { Rating as MuiRating } from "@mui/material";
-import type { SyntheticEvent } from "react";
-import { useCallback } from "react";
-import type { Control, FieldValues, Path } from "react-hook-form";
-import { useController } from "react-hook-form";
+import { useCallback, type SyntheticEvent } from "react";
+
+import {
+  Rating as MuiRating,
+  type RatingProps as MuiRatingProps,
+} from "@mui/material";
+import {
+  useController,
+  type Control,
+  type FieldValues,
+  type Path,
+} from "react-hook-form";
 
 export type RatingProps<T extends FieldValues> = MuiRatingProps & {
   control: Control<T>;

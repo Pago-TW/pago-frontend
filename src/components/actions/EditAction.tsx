@@ -1,7 +1,10 @@
-import { useRouter } from "next/router";
 import type { FC } from "react";
-import type { ActionWithConfirmationProps } from "./ActionWithConfirmation";
-import { ActionWithConfirmation } from "./ActionWithConfirmation";
+import { useRouter } from "next/router";
+
+import {
+  ActionWithConfirmation,
+  type ActionWithConfirmationProps,
+} from "@/components/ActionWithConfirmation";
 
 export const EditAction: FC<Pick<ActionWithConfirmationProps, "disabled">> = ({
   disabled,

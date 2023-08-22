@@ -1,9 +1,10 @@
-import type { TextFieldProps } from "@mui/material";
-import { TextField } from "@mui/material";
-import type { FieldValues, UseControllerProps } from "react-hook-form";
-import { useController } from "react-hook-form";
-import type { PatternFormatProps } from "react-number-format";
-import { PatternFormat } from "react-number-format";
+import { TextField, type TextFieldProps } from "@mui/material";
+import {
+  useController,
+  type FieldValues,
+  type UseControllerProps,
+} from "react-hook-form";
+import { PatternFormat, type PatternFormatProps } from "react-number-format";
 import { z } from "zod";
 
 export const phoneSchema = z

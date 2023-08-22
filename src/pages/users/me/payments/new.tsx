@@ -1,9 +1,11 @@
-import { PageTitle } from "@/components/PageTitle";
+import Head from "next/head";
+
+import { Container } from "@mui/material";
+
 import { AddBankAccForm } from "@/components/forms/AddBankAccForm";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
+import { PageTitle } from "@/components/PageTitle";
 import { AddBankAccFormContextProvider } from "@/contexts/AddBankAccFormContext";
-import { Container } from "@mui/material";
-import Head from "next/head";
 
 export default function UserAddBankAccountPage() {
   return (

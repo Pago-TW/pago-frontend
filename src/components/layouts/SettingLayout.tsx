@@ -1,16 +1,18 @@
+import type { PropsWithChildren } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
 import {
+  alpha,
   Box,
   Grid,
   List,
   ListItemButton,
   ListItemText,
-  alpha,
 } from "@mui/material";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import type { PropsWithChildren } from "react";
-import { PageTitle } from "../PageTitle";
-import { BaseLayout } from "./BaseLayout";
+
+import { BaseLayout } from "@/components/BaseLayout";
+import { PageTitle } from "@/components/PageTitle";
 
 const settingRoutes = [
   { name: "編輯個人資料", href: "/users/me/settings/profile" },

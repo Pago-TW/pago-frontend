@@ -1,13 +1,20 @@
-import type { Bank, BankBranch } from "@/types/bank";
-import type {
-  AutocompleteProps,
-  InputLabelProps,
-  TextFieldProps,
+import {
+  Autocomplete,
+  createFilterOptions,
+  TextField,
+  type AutocompleteProps,
+  type InputLabelProps,
+  type TextFieldProps,
 } from "@mui/material";
-import { Autocomplete, TextField, createFilterOptions } from "@mui/material";
-import type { Control, FieldPath, FieldValues } from "react-hook-form";
-import { useController } from "react-hook-form";
-import { useBankBranches } from "../../hooks/api/useBankBranches";
+import {
+  useController,
+  type Control,
+  type FieldPath,
+  type FieldValues,
+} from "react-hook-form";
+
+import { useBankBranches } from "@/hooks/api/useBankBranches";
+import type { Bank, BankBranch } from "@/types/bank";
 
 export type BankBranchSelectProps<T extends FieldValues> = {
   control: Control<T>;

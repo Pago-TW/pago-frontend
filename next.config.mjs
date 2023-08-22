@@ -1,5 +1,6 @@
 import bundleAnalyzer from "@next/bundle-analyzer";
 import { withPlaiceholder } from "@plaiceholder/next";
+
 import "./src/env.mjs";
 
 const withBundleAnalyzer = bundleAnalyzer({

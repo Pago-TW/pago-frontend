@@ -1,7 +1,5 @@
-import { useCharge } from "@/hooks/api/useCharge";
-import { useChooseBid } from "@/hooks/api/useChooseBid";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
-import type { Bid } from "@/types/bid";
+import { useEffect, useRef, useState, type FC } from "react";
+
 import {
   Avatar,
   Box,
@@ -11,9 +9,13 @@ import {
   DialogTitle,
   Stack,
 } from "@mui/material";
-import { useEffect, useRef, useState, type FC } from "react";
-import { Button } from "./ui/Button";
-import { Typography } from "./ui/Typography";
+
+import { Button } from "@/components/ui/Button";
+import { Typography } from "@/components/ui/Typography";
+import { useCharge } from "@/hooks/api/useCharge";
+import { useChooseBid } from "@/hooks/api/useChooseBid";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import type { Bid } from "@/types/bid";
 
 type AcceptBidDialogProps = {
   bidId: Bid["bidId"];

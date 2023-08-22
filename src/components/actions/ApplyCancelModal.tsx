@@ -1,5 +1,6 @@
+import { useCallback, useState } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { ModalProps } from "@mui/material";
 import {
   Collapse,
   Fade,
@@ -8,14 +9,15 @@ import {
   Modal,
   Paper,
   Stack,
+  type ModalProps,
 } from "@mui/material";
-import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { RadioGroupInput } from "../inputs/RadioGroupInput";
-import { Button } from "../ui/Button";
-import { FilledTextarea } from "../ui/FilledTextarea";
-import { Typography } from "../ui/Typography";
+
+import { RadioGroupInput } from "@/components/inputs/RadioGroupInput";
+import { Button } from "@/components/ui/Button";
+import { FilledTextarea } from "@/components/ui/FilledTextarea";
+import { Typography } from "@/components/ui/Typography";
 
 export const cancelReasons = [
   "OUT_OF_STOCK",

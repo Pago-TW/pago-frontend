@@ -1,13 +1,15 @@
+import dynamic from "next/dynamic";
+
+import { Star } from "@mui/icons-material";
+import { Avatar, Box, Paper, Stack } from "@mui/material";
+import { intlFormatDistance, parseISO } from "date-fns";
+
+import { Button } from "@/components/ui/Button";
+import { Typography } from "@/components/ui/Typography";
 import { useLocale } from "@/hooks/useLocale";
 import { useOpen } from "@/hooks/useOpen";
 import type { Bid } from "@/types/bid";
 import { formatDateTime } from "@/utils/formatDateTime";
-import { Star } from "@mui/icons-material";
-import { Avatar, Box, Paper, Stack } from "@mui/material";
-import { intlFormatDistance, parseISO } from "date-fns";
-import dynamic from "next/dynamic";
-import { Button } from "./ui/Button";
-import { Typography } from "./ui/Typography";
 
 const DynamicAcceptBidDialog = dynamic(() =>
   import("./AcceptBidDialog").then((mod) => mod.AcceptBidDialog)

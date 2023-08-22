@@ -1,5 +1,5 @@
-import { Typography } from "@/components/ui/Typography";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import type { ImageProps } from "next/image";
+
 import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -8,25 +8,18 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import IconButton from "@mui/material/IconButton";
-import { useTheme } from "@mui/material/styles";
-import type { ImageProps } from "next/image";
-import step1Label from "../../public/images/how-it-works/labels/step1.svg";
-import step2Label from "../../public/images/how-it-works/labels/step2.svg";
-import step3Label from "../../public/images/how-it-works/labels/step3.svg";
-import step4Label from "../../public/images/how-it-works/labels/step4.svg";
 
-const stepSvgList = [step1Label, step2Label, step3Label, step4Label];
+import { Typography } from "@/components/ui/Typography";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
-type AboutUsCardProps = {
+interface AboutUsCardProps {
   name: string;
   job: string;
   ImageProps: Pick<ImageProps, "src" | "alt" | "blurDataURL">;
-};
+}
 
 export const AboutUsCard = ({ name, job, ImageProps }: AboutUsCardProps) => {
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
-
-  const theme = useTheme();
 
   return (
     <Card

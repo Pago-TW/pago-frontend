@@ -1,17 +1,22 @@
-import { Box, InputLabel, Stack, TextField } from "@mui/material";
-import Image from "next/image";
 import type { FC } from "react";
+import Image from "next/image";
+
+import { Box, InputLabel, Stack, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
-import { AmountInput } from "../inputs/AmountInput";
+
+import { AmountInput } from "@/components/inputs/AmountInput";
 import {
-  CountryCitySelect,
   countryCitySchema,
-} from "../inputs/CountryCitySelect";
-import { CURRENCY_OPTIONS, CurrencyInput } from "../inputs/CurrencyInput";
-import { NumberInput } from "../inputs/NumberInput";
-import { PaperLayout } from "../layouts/PaperLayout";
-import { Typography } from "../ui/Typography";
+  CountryCitySelect,
+} from "@/components/inputs/CountryCitySelect";
+import {
+  CURRENCY_OPTIONS,
+  CurrencyInput,
+} from "@/components/inputs/CurrencyInput";
+import { NumberInput } from "@/components/inputs/NumberInput";
+import { PaperLayout } from "@/components/layouts/PaperLayout";
+import { Typography } from "@/components/ui/Typography";
 
 export const editMerchandiseFormSchema = z.object({
   name: z.string().min(1, { message: "請輸入商品名稱" }),

@@ -1,8 +1,9 @@
-import { axios } from "@/libs/axios";
-import type { User } from "@/types/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { serialize } from "object-to-formdata";
+
+import { axios } from "@/libs/axios";
+import type { User } from "@/types/user";
 
 type UpdateAvatarData = {
   file: File;

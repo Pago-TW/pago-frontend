@@ -1,6 +1,7 @@
-import { Typography } from "@/components/ui/Typography";
 import { Add } from "@mui/icons-material";
-import { BankCardRoot } from "./BankCardRoot";
+
+import { BankCardRoot } from "@/components/BankCardRoot";
+import { Typography } from "@/components/ui/Typography";
 
 export const AddBankCard = () => {
   return (

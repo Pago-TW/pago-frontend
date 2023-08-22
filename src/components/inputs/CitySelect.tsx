@@ -1,12 +1,17 @@
-import { useCities } from "@/hooks/api/useCities";
-import type {
-  AutocompleteProps,
-  InputLabelProps,
-  TextFieldProps,
+import {
+  Autocomplete,
+  TextField,
+  type AutocompleteProps,
+  type InputLabelProps,
+  type TextFieldProps,
 } from "@mui/material";
-import { Autocomplete, TextField } from "@mui/material";
-import type { FieldValues, UseControllerProps } from "react-hook-form";
-import { useController } from "react-hook-form";
+import {
+  useController,
+  type FieldValues,
+  type UseControllerProps,
+} from "react-hook-form";
+
+import { useCities } from "@/hooks/api/useCities";
 
 export type CitySelectProps<T extends FieldValues> = UseControllerProps<T> & {
   fullWidth?: AutocompleteProps<string, false, false, false>["fullWidth"];

@@ -1,7 +1,9 @@
-import { Box, Grid } from "@mui/material";
 import type { FC, ReactNode } from "react";
-import { BackButtonIos } from "./BackButtonIos";
-import { Typography } from "./ui/Typography";
+
+import { Box, Grid } from "@mui/material";
+
+import { BackButtonIos } from "@/components/BackButtonIos";
+import { Typography } from "@/components/ui/Typography";
 
 interface HeaderProps {
   title: ReactNode;

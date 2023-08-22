@@ -1,11 +1,13 @@
-import { BankAccountInfo } from "@/components/BankAccountInfo";
-import { BankUserInfo } from "@/components/BankUserInfo";
-import { PageTitle } from "@/components/PageTitle";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { useBankAccount } from "@/hooks/api/useBankAccount";
-import { Container, Stack } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
+
+import { Container, Stack } from "@mui/material";
+
+import { BankAccountInfo } from "@/components/BankAccountInfo";
+import { BankUserInfo } from "@/components/BankUserInfo";
+import { BaseLayout } from "@/components/layouts/BaseLayout";
+import { PageTitle } from "@/components/PageTitle";
+import { useBankAccount } from "@/hooks/api/useBankAccount";
 
 export default function UserBankAccountDetailPage() {
   const router = useRouter();

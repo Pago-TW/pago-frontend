@@ -1,13 +1,20 @@
-import type { FormControlProps, SelectProps } from "@mui/material";
-import { FormControl, FormHelperText, InputLabel, Select } from "@mui/material";
 import type { PropsWithChildren, ReactNode } from "react";
-import type {
-  Control,
-  FieldValues,
-  Path,
-  UseControllerReturn,
+
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  Select,
+  type FormControlProps,
+  type SelectProps,
+} from "@mui/material";
+import {
+  useController,
+  type Control,
+  type FieldValues,
+  type Path,
+  type UseControllerReturn,
 } from "react-hook-form";
-import { useController } from "react-hook-form";
 
 export type SelectInputProps<T extends FieldValues> = PropsWithChildren<{
   control: Control<T>;

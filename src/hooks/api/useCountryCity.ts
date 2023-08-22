@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+
 import type { CountryCityOption } from "@/components/inputs/CountryCitySelect";
 import { axios } from "@/libs/axios";
-import { useQuery } from "@tanstack/react-query";
 
 type Params = {
   includeAny?: boolean;

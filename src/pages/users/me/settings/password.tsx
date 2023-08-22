@@ -1,14 +1,16 @@
-import { SubmitButton } from "@/components/SubmitButton";
-import { PasswordInput } from "@/components/inputs/PasswordInput";
-import { SettingLayout } from "@/components/layouts/SettingLayout";
-import { Typography } from "@/components/ui/Typography";
-import { useChangePassword } from "@/hooks/api/useChangePassword";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Paper, Stack, alpha } from "@mui/material";
-import { useSession } from "next-auth/react";
 import Head from "next/head";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { alpha, Box, Paper, Stack } from "@mui/material";
+import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { PasswordInput } from "@/components/inputs/PasswordInput";
+import { SettingLayout } from "@/components/layouts/SettingLayout";
+import { SubmitButton } from "@/components/SubmitButton";
+import { Typography } from "@/components/ui/Typography";
+import { useChangePassword } from "@/hooks/api/useChangePassword";
 
 const changePasswordFormSchema = z
   .object({

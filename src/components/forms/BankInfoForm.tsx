@@ -1,17 +1,18 @@
-import { BankBranchSelect } from "@/components/inputs/BankBranchSelect";
-import { BankSelect } from "@/components/inputs/BankSelect";
-import { CitySelect } from "@/components/inputs/CitySelect";
-import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Stack, TextField } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { NumberInput } from "../inputs/NumberInput";
-import { Button } from "../ui/Button";
-import { Paper } from "../ui/Paper";
-import { PhoneVerifyForm } from "./PhoneVerifyForm";
+
+import { BankBranchSelect } from "@/components/inputs/BankBranchSelect";
+import { BankSelect } from "@/components/inputs/BankSelect";
+import { CitySelect } from "@/components/inputs/CitySelect";
+import { NumberInput } from "@/components/inputs/NumberInput";
+import { PhoneVerifyForm } from "@/components/PhoneVerifyForm";
+import { Button } from "@/components/ui/Button";
+import { Paper } from "@/components/ui/Paper";
+import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";
 
 export const bankInfoFormSchema = z.object({
   bankCode: z.string().trim().min(1, "請選擇銀行"),

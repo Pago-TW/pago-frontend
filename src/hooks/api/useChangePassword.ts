@@ -1,10 +1,11 @@
-import { axios } from "@/libs/axios";
 import { useMutation } from "@tanstack/react-query";
 
-type ChangePasswordData = {
+import { axios } from "@/libs/axios";
+
+interface ChangePasswordData {
   oldPassword: string;
   newPassword: string;
-};
+}
 
 const changePassword = async (data: ChangePasswordData) => {
   const res = await axios.patch<{ message: string }>(

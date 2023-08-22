@@ -1,6 +1,7 @@
-import { env } from "@/env.mjs";
 import Axios from "axios";
 import { getSession } from "next-auth/react";
+
+import { env } from "@/env.mjs";
 
 export const axios = Axios.create({
   baseURL: env.NEXT_PUBLIC_API_URL,

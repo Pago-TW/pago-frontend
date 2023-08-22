@@ -1,12 +1,13 @@
-import type { DialogProps } from "@mui/material";
+import type { FC, ReactNode } from "react";
+
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  type DialogProps,
 } from "@mui/material";
-import type { FC, ReactNode } from "react";
 
 export type ConfirmDialogProps = Pick<
   DialogProps,

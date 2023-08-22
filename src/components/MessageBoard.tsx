@@ -1,6 +1,8 @@
-import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Message from "./Message";
+
+import { Box } from "@mui/material";
+
+import Message from "@/components/Message";
 
 type MessageProps = {
   senderName: string;

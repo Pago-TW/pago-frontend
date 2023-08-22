@@ -1,8 +1,10 @@
-import type { BankAccount } from "@/types/bank";
-import { Box } from "@mui/material";
 import Image from "next/image";
-import { BankCardRoot } from "./BankCardRoot";
-import { Typography } from "./ui/Typography";
+
+import { Box } from "@mui/material";
+
+import { BankCardRoot } from "@/components/BankCardRoot";
+import { Typography } from "@/components/ui/Typography";
+import type { BankAccount } from "@/types/bank";
 
 type BankCardProps = Pick<
   BankAccount,

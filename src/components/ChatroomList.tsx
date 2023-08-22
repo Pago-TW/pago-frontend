@@ -1,13 +1,15 @@
+import { useEffect, useMemo } from "react";
+
+import { Divider, List, Paper, SwipeableDrawer } from "@mui/material";
+import { useSession } from "next-auth/react";
+
+import { Chatroom } from "@/components/Chatroom";
+import { ChatroomListItem } from "@/components/ChatroomListItem";
+import { Header } from "@/components/Header";
+import { Typography } from "@/components/ui/Typography";
 import { useChatrooms } from "@/hooks/api/useChatrooms";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { Divider, List, Paper, SwipeableDrawer } from "@mui/material";
-import { useSession } from "next-auth/react";
-import { useEffect, useMemo } from "react";
-import { Chatroom } from "./Chatroom";
-import { ChatroomListItem } from "./ChatroomListItem";
-import { Header } from "./Header";
-import { Typography } from "./ui/Typography";
 
 const hideScrollbar = {
   "&::-webkit-scrollbar": {

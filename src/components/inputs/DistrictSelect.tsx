@@ -1,13 +1,19 @@
+import {
+  Autocomplete,
+  createFilterOptions,
+  TextField,
+  type AutocompleteProps,
+  type InputLabelProps,
+  type TextFieldProps,
+} from "@mui/material";
+import {
+  useController,
+  type FieldValues,
+  type UseControllerProps,
+} from "react-hook-form";
+
 import { useDistricts } from "@/hooks/api/useDistricts";
 import type { District } from "@/types/bank";
-import type {
-  AutocompleteProps,
-  InputLabelProps,
-  TextFieldProps,
-} from "@mui/material";
-import { Autocomplete, TextField, createFilterOptions } from "@mui/material";
-import type { FieldValues, UseControllerProps } from "react-hook-form";
-import { useController } from "react-hook-form";
 
 export type DistrictSelectProps<T extends FieldValues> = UseControllerProps<T> &
   Pick<

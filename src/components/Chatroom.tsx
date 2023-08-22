@@ -1,3 +1,9 @@
+import { useEffect, useState, type ChangeEvent } from "react";
+
+import { Box } from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
+import { useSession } from "next-auth/react";
+
 import Header from "@/components/Header";
 import InputSection from "@/components/InputSection";
 import MessageBoard from "@/components/MessageBoard";
@@ -10,11 +16,6 @@ import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import type { Message, SendMessageRequest } from "@/types/message";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
 import { formatTime } from "@/utils/formatDateTime";
-import { Box } from "@mui/material";
-import Skeleton from "@mui/material/Skeleton";
-import { useSession } from "next-auth/react";
-import type { ChangeEvent } from "react";
-import { useEffect, useState } from "react";
 
 type MessageState = Omit<Message, "senderId" | "chatroomId"> & {
   isSender: boolean;

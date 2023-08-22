@@ -1,3 +1,5 @@
+import React from "react";
+
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import ListItem from "@mui/material/ListItem";
@@ -5,8 +7,8 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import { useSession } from "next-auth/react";
-import React from "react";
-import UnreadMessageBadge from "./UnreadMessageBadge";
+
+import UnreadMessageBadge from "@/components/UnreadMessageBadge";
 
 interface ChatRoomListItemProps {
   senderId: string;
