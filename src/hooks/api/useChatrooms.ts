@@ -7,10 +7,10 @@ import { getLastIndex } from "@/utils/getLastIndex";
 
 type Params = PaginationParams;
 
-type Options = {
+interface Options {
   params?: Params;
   pageParam?: number;
-};
+}
 
 const getChatrooms = async (options: Options = {}, chatWith?: string) => {
   const { params, pageParam = 0 } = options;

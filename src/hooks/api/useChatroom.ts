@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { axios } from "@/libs/axios";
 
-type ChatroomResponse = {
+interface ChatroomResponse {
   chatroomId: string;
   currentLoginUserId: string;
   totalUnreadMessage: number;
@@ -14,7 +14,7 @@ type ChatroomResponse = {
     fullName: string;
     avatarUrl: string | null;
   };
-};
+}
 
 const getChatroom = async (chatWith: string) => {
   const res = await axios.get<ChatroomResponse>(`/chatrooms`, {

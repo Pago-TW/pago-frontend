@@ -1,15 +1,15 @@
 import { create } from "zustand";
 
-type State = {
+interface State {
   open: boolean;
   chatWith: string;
-};
+}
 
-type Action = {
+interface Action {
   setOpen: (open: boolean) => void;
   setChatWith: (chatWith: string) => void;
   clearChatWith: () => void;
-};
+}
 
 const initialState: State = {
   open: false,

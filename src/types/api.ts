@@ -11,9 +11,9 @@ export type PaginationParams<
 }> &
   Partial<T>;
 
-export type PaginatedResponse<T extends object = object> = {
+export interface PaginatedResponse<T extends object = object> {
   total: number;
   startIndex: number;
   size: number;
   data: T;
-};
+}

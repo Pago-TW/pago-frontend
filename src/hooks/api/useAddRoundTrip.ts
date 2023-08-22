@@ -4,14 +4,14 @@ import { zonedTimeToUtc } from "date-fns-tz";
 import { axios } from "@/libs/axios";
 import type { Trip } from "@/types/trip";
 
-type AddRoundTripData = {
+interface AddRoundTripData {
   fromCountry: string;
   fromCity: string;
   toCountry: string;
   toCity: string;
   arrivalDate: Date;
   returnDate: Date;
-};
+}
 
 const addRoundTrip = async (data: AddRoundTripData) => {
   const outboundData = {

@@ -24,10 +24,10 @@ export const bankInfoFormSchema = z.object({
 
 export type BankInfoFormValues = z.infer<typeof bankInfoFormSchema>;
 
-type BankInfoFormProps = {
+interface BankInfoFormProps {
   onPrev: () => void;
   onNext: () => void;
-};
+}
 
 export const BankInfoForm = ({ onPrev, onNext }: BankInfoFormProps) => {
   const { data: session } = useSession();

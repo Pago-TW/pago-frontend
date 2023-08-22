@@ -5,7 +5,7 @@ import { serialize } from "object-to-formdata";
 import { axios } from "@/libs/axios";
 import type { Order } from "@/types/order";
 
-export type AddOrderData = {
+export interface AddOrderData {
   file: File[];
   data: {
     orderItem: {
@@ -26,7 +26,7 @@ export type AddOrderData = {
     note?: string;
     latestReceiveItemDate: Date;
   };
-};
+}
 
 const addOrder = async (data: AddOrderData) => {
   const { file, data: orderData } = data;

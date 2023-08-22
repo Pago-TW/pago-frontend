@@ -14,11 +14,11 @@ import useEmblaCarousel from "embla-carousel-react";
 
 import type { Theme } from "@/styles/theme";
 
-export type ImageCarouselProps = {
+export interface ImageCarouselProps {
   images: string[];
   showButtons?: boolean;
   showProgress?: boolean;
-};
+}
 
 const ControlButtonWrapper = styled(IconButton)(({ theme }) => ({
   position: "absolute",

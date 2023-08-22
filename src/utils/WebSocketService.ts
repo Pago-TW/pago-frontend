@@ -27,7 +27,7 @@ export class WebSocketService {
 
   public connect() {
     this.socket = new SockJS(this.url);
-    this.stompClient = Stomp.over(() => this.socket as WebSocket);
+    this.stompClient = Stomp.over(() => this.socket!);
 
     this.stompClient.connect(
       {},
@@ -67,7 +67,7 @@ export class WebSocketService {
   private emit(event: string) {
     const listeners = this.eventListeners[event];
     if (listeners) {
-      listeners.forEach((listener) => listener!());
+      listeners.forEach((listener) => listener());
     }
   }
 

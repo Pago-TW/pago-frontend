@@ -22,7 +22,7 @@ const DialogButton = styled(Button)(({ theme }) => ({
   fontWeight: 700,
 }));
 
-export type ReplyDialogProps<ApplyFor extends "postpone" | "cancel"> = {
+export interface ReplyDialogProps<ApplyFor extends "postpone" | "cancel"> {
   open: boolean;
   onClose: () => void;
   perspective: Perspective;
@@ -36,7 +36,7 @@ export type ReplyDialogProps<ApplyFor extends "postpone" | "cancel"> = {
   isLoading: boolean;
   onConfirm: () => void;
   onCancel?: () => void;
-};
+}
 
 export const ReplyDialog = <ApplyFor extends "postpone" | "cancel">({
   open,

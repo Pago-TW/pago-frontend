@@ -163,10 +163,10 @@ const UserButton = () => {
   );
 };
 
-type NavbarButtonsProps = {
+interface NavbarButtonsProps {
   onMessageClick?: () => void;
   onNotificationClick?: () => void;
-};
+}
 
 const NavbarButtons = ({
   onMessageClick: onMailClick,
@@ -281,11 +281,11 @@ const DrawerToolbar = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-type DrawerListItem = {
+interface DrawerListItem {
   href: string;
   text: string;
   icon: React.ReactNode;
-};
+}
 
 const drawerListItems: DrawerListItem[] = [
   { href: "/orders", text: "我的委託", icon: <Receipt /> },
@@ -309,11 +309,11 @@ const drawerIconSx: ListItemIconProps["sx"] = {
   color: "inherit",
 };
 
-type SideDrawerProps = {
+interface SideDrawerProps {
   open: boolean;
   onOpen: () => void;
   onClose: () => void;
-};
+}
 
 const LeftNavbarDrawer: FC<SideDrawerProps> = ({ open, onOpen, onClose }) => {
   return (

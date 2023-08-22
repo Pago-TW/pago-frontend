@@ -8,10 +8,10 @@ import { useBankBranches } from "@/hooks/api/useBankBranches";
 import { useBanks } from "@/hooks/api/useBanks";
 import { useDistricts } from "@/hooks/api/useDistricts";
 
-type AddBankRecapProps = {
+interface AddBankRecapProps {
   onPrev: () => void;
   onSubmit: () => void;
-};
+}
 
 export const AddBankAccRecap = ({ onPrev, onSubmit }: AddBankRecapProps) => {
   const { form } = useAddBankAccFormContext();

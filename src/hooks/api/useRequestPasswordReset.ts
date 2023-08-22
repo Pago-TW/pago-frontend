@@ -2,17 +2,17 @@ import { useMutation } from "@tanstack/react-query";
 
 import { axios } from "@/libs/axios";
 
-type RequestPasswordResetData = {
+interface RequestPasswordResetData {
   email: string;
-};
+}
 
-type RequestPasswordResetResponse = {
+interface RequestPasswordResetResponse {
   passwordResetTokenId: string;
   userId: string;
   token: string;
   expiryDate: string;
   createDate: string;
-};
+}
 
 const requestPasswordReset = async (
   data: RequestPasswordResetData

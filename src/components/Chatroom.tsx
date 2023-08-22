@@ -21,9 +21,9 @@ type MessageState = Omit<Message, "senderId" | "chatroomId"> & {
   isSender: boolean;
 };
 
-type ChatroomProps = {
+interface ChatroomProps {
   chatWith: string;
-};
+}
 
 const transformMessage = ({
   message,

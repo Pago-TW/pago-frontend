@@ -72,13 +72,13 @@ const StyledInput = styled("input")(({ theme }) => ({
   width: "100%",
 }));
 
-type TakeOrderPopupProps = {
+interface TakeOrderPopupProps {
   orderId: Order["orderId"];
   open: boolean;
   onOpen: () => void;
   onClose: () => void;
   onSubmit: (data: TakeOrderFormValues) => void;
-};
+}
 
 export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
   const { orderId, open, onOpen, onClose, onSubmit } = props;

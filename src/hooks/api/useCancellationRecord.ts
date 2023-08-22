@@ -5,7 +5,7 @@ import { axios } from "@/libs/axios";
 import type { Order } from "@/types/order";
 import type { User } from "@/types/user";
 
-export type CancellationRecord = {
+export interface CancellationRecord {
   cancellationRecordId: string;
   orderId: Order["orderId"];
   userId: User["userId"];
@@ -14,7 +14,7 @@ export type CancellationRecord = {
   createDate: string;
   updateDate: string;
   isCancelled: boolean;
-};
+}
 
 const getCancellationRecord = async (orderId: Order["orderId"]) => {
   const res = await axios<CancellationRecord>(

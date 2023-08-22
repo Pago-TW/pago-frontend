@@ -5,11 +5,11 @@ import { Link } from "@/components/ui/Link";
 import { Typography } from "@/components/ui/Typography";
 import type { Order, OrderShopper } from "@/types/order";
 
-type AvailableShoppersProps = {
+interface AvailableShoppersProps {
   orderId: Order["orderId"];
   shoppers?: OrderShopper[];
   total?: number;
-};
+}
 
 export const AvailableShoppers = (props: AvailableShoppersProps) => {
   const { orderId, shoppers, total } = props;

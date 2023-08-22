@@ -43,12 +43,12 @@ export const DEFAULT_VALUES: SortFilterValues = {
   },
 };
 
-export type SortFilterPopupProps = {
+export interface SortFilterPopupProps {
   open: boolean;
   onOpen: () => void;
   onClose: () => void;
   onSubmit: (data: SortFilterValues) => void;
-};
+}
 
 export const SortFilterPopup = ({
   open,

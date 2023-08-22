@@ -3,9 +3,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axios } from "@/libs/axios";
 import type { Notification } from "@/types/notification";
 
-type MarkNotificationAsReadParams = {
+interface MarkNotificationAsReadParams {
   notificationId: Notification["notificationId"];
-};
+}
 
 const markNotificationAsRead = async (params: MarkNotificationAsReadParams) => {
   const { notificationId } = params;

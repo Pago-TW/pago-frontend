@@ -16,7 +16,7 @@ import {
 import { useBankBranches } from "@/hooks/api/useBankBranches";
 import type { Bank, BankBranch } from "@/types/bank";
 
-export type BankBranchSelectProps<T extends FieldValues> = {
+export interface BankBranchSelectProps<T extends FieldValues> {
   control: Control<T>;
   name: FieldPath<T>;
   fullWidth?: AutocompleteProps<string, false, false, false>["fullWidth"];
@@ -26,7 +26,7 @@ export type BankBranchSelectProps<T extends FieldValues> = {
   disabled?: boolean;
   bankCity: string;
   bankCode: Bank["bankCode"];
-};
+}
 
 const filterOptions = createFilterOptions<BankBranch>({
   stringify: (option) => `${option.bankCode} ${option.branchName}`,

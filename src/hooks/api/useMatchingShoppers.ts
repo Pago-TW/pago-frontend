@@ -7,10 +7,10 @@ import { getLastIndex } from "@/utils/getLastIndex";
 
 type Params = PaginationParams;
 
-type Options = {
+interface Options {
   params?: Params;
   pageParam?: number;
-};
+}
 
 type MatchingShoppersResponse = PaginatedResponse<OrderShopper[]> & {
   order: Order;

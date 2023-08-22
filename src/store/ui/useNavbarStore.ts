@@ -1,15 +1,15 @@
 import { create } from "zustand";
 
-type State = {
+interface State {
   searchExpand: boolean;
   searchQuery: string;
-};
+}
 
-type Action = {
+interface Action {
   setSearchExpand: (show: boolean) => void;
   setSearchQuery: (query: string) => void;
   clearSearchQuery: () => void;
-};
+}
 
 const initialState: State = {
   searchExpand: false,

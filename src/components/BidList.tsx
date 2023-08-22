@@ -5,13 +5,13 @@ import { ShowMoreButton } from "@/components/ShowMoreButton";
 import { Typography } from "@/components/ui/Typography";
 import type { Bid } from "@/types/bid";
 
-type BidListProps = {
+interface BidListProps {
   bids?: Bid[];
   hasMore?: boolean;
   onShowMore: () => void;
   isOwner: boolean;
   sx?: SxProps;
-};
+}
 
 export const BidList = (props: BidListProps) => {
   const { bids, hasMore, onShowMore, isOwner, sx } = props;

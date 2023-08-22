@@ -17,11 +17,11 @@ import { useChooseBid } from "@/hooks/api/useChooseBid";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Bid } from "@/types/bid";
 
-type AcceptBidDialogProps = {
+interface AcceptBidDialogProps {
   bidId: Bid["bidId"];
   open: boolean;
   onClose: () => void;
-};
+}
 
 export const AcceptBidDialog: FC<AcceptBidDialogProps> = ({
   bidId,

@@ -8,10 +8,10 @@ import { useReplyPostpone } from "@/hooks/api/useReplyPostpone";
 import { useOpen } from "@/hooks/useOpen";
 import type { Perspective } from "@/types/misc";
 
-export type ReplyPostponeActionProps = {
+export interface ReplyPostponeActionProps {
   perspective: Perspective;
   isApplicant: boolean;
-};
+}
 
 export const ReplyPostponeAction: FC<ReplyPostponeActionProps> = ({
   perspective,

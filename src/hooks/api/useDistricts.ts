@@ -3,13 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import { axios } from "@/libs/axios";
 import type { AdministrativeDivision } from "@/types/bank";
 
-type Params = {
+interface Params {
   administrativeDivision?: string;
-};
+}
 
-type Options = {
+interface Options {
   params?: Params;
-};
+}
 
 const getDistricts = async (options: Options = {}) => {
   const { params } = options;

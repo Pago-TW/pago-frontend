@@ -8,10 +8,10 @@ import { useReplyCancellation } from "@/hooks/api/useReplyCancellation";
 import { useOpen } from "@/hooks/useOpen";
 import type { Perspective } from "@/types/misc";
 
-export type ReplyCancellationActionProps = {
+export interface ReplyCancellationActionProps {
   perspective: Perspective;
   isApplicant: boolean;
-};
+}
 
 export const ReplyCancellationAction: FC<ReplyCancellationActionProps> = ({
   perspective,

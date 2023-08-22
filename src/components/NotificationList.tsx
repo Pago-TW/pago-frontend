@@ -29,9 +29,9 @@ const hideScrollbar = {
   scrollbarWidth: "none",
 };
 
-type ChatroomListProps = {
+interface ChatroomListProps {
   onBackClick?: () => void;
-};
+}
 
 export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
   const router = useRouter();

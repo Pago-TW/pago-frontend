@@ -11,10 +11,10 @@ export type UpdateOrderData = AtLeastOneRequired<
   AddOrderData["data"] & { orderStatus: OrderStatus }
 >;
 
-type UpdateOrderParams = {
+interface UpdateOrderParams {
   orderId: Order["orderId"];
   data: UpdateOrderData;
-};
+}
 
 const updateOrder = async (params: UpdateOrderParams) => {
   const { orderId, data } = params;

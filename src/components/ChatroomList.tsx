@@ -18,9 +18,9 @@ const hideScrollbar = {
   scrollbarWidth: "none",
 };
 
-type ChatroomListProps = {
+interface ChatroomListProps {
   onBackClick?: () => void;
-};
+}
 
 export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
   const { status } = useSession();

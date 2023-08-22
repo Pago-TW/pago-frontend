@@ -11,16 +11,16 @@ import useFileUpload from "@/hooks/api/useFileUpload";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import { WebSocketService } from "@/utils/WebSocketService";
 
-type WebSocketProviderProps = {
+interface WebSocketProviderProps {
   websocketUrl: string;
   children: React.ReactNode;
-};
+}
 
-type WebSocketContextType = {
+interface WebSocketContextType {
   webSocketService: WebSocketService | null;
   isConnected: boolean;
   sendFileMessage: (files: FileList) => Promise<void>;
-};
+}
 
 const WebSocketContext = createContext<WebSocketContextType>({
   webSocketService: null,

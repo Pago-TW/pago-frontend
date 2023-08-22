@@ -14,7 +14,7 @@ import { formatDateTime } from "@/utils/formatDateTime";
 const DynamicAcceptBidDialog = dynamic(() =>
   import("./AcceptBidDialog").then((mod) => mod.AcceptBidDialog)
 );
-type BidItemProps = {
+interface BidItemProps {
   id: Bid["bidId"];
   amount: Bid["bidAmount"];
   currency: Bid["currency"];
@@ -25,7 +25,7 @@ type BidItemProps = {
   createdAt: Bid["createDate"];
   estDeliveryDate: Bid["latestDeliveryDate"];
   isOwner: boolean;
-};
+}
 
 export const BidItem = (props: BidItemProps) => {
   const {

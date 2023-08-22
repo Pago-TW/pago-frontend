@@ -20,12 +20,12 @@ type Choice = Readonly<{
   value: string;
 }>;
 
-export type RadioGroupInputProps<T extends FieldValues> = {
+export interface RadioGroupInputProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
   choices: Choice[];
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-};
+}
 
 export const RadioGroupInput = <T extends FieldValues>({
   control,

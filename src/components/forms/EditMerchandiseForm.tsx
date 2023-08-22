@@ -56,9 +56,9 @@ export type EditMerchandiseFormValues = z.infer<
   typeof editMerchandiseFormSchema
 >;
 
-type EditMerchandiseFormProps = {
+interface EditMerchandiseFormProps {
   imageUrls?: string[];
-};
+}
 
 export const EditMerchandiseForm: FC<EditMerchandiseFormProps> = ({
   imageUrls = [],

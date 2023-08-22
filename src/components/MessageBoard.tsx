@@ -4,18 +4,18 @@ import { Box } from "@mui/material";
 
 import Message from "@/components/Message";
 
-type MessageProps = {
+interface MessageProps {
   senderName: string;
   content: string;
   sendDate: string;
   isSender: boolean;
   messageType: "TEXT" | "FILE";
-};
+}
 
-type MessageBoardProps = {
+interface MessageBoardProps {
   messages: MessageProps[];
   scrollToBottom: () => void;
-};
+}
 
 const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
   const [isLoaded, setIsLoaded] = useState(false);

@@ -10,7 +10,7 @@ export const Link = forwardRef<HTMLAnchorElement, MuiLinkProps>(
   ) {
     const isExternal =
       typeof href === "string" &&
-      (href.indexOf("http") === 0 || href.indexOf("mailto:") === 0);
+      (href.startsWith("http") || href.startsWith("mailto:"));
 
     const relValue = isExternal
       ? ["noopener", "noreferrer", rel].filter(Boolean).join(" ")

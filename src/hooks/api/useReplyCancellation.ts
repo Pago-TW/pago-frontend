@@ -10,10 +10,10 @@ export type ReplyCancellationData = AtLeastOneRequired<{
   isCancelled: boolean;
 }>;
 
-type ReplyCancellationParams = {
+interface ReplyCancellationParams {
   orderId: Order["orderId"];
   data: ReplyCancellationData;
-};
+}
 
 const replyCancellation = async (params: ReplyCancellationParams) => {
   const { orderId, data } = params;

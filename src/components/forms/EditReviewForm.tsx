@@ -50,9 +50,9 @@ export const transformEditReviewFormValues = (
   };
 };
 
-type EditMerchandiseFormProps = {
+interface EditMerchandiseFormProps {
   imageUrls?: string[];
-};
+}
 
 export const EditReviewForm: FC<EditMerchandiseFormProps> = ({
   imageUrls = [],

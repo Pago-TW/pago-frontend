@@ -16,14 +16,14 @@ import {
 import { useBanks } from "@/hooks/api/useBanks";
 import type { Bank } from "@/types/bank";
 
-export type BankSelectProps<T extends FieldValues> = {
+export interface BankSelectProps<T extends FieldValues> {
   control: Control<T>;
   name: FieldPath<T>;
   fullWidth?: AutocompleteProps<string, false, false, false>["fullWidth"];
   label?: TextFieldProps["label"];
   placeholder?: TextFieldProps["placeholder"];
   shrink?: InputLabelProps["shrink"];
-};
+}
 
 const filterOptions = createFilterOptions<Bank>({
   stringify: (option) => `${option.bankCode} ${option.name}`,

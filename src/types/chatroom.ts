@@ -1,4 +1,4 @@
-export type Chatroom = {
+export interface Chatroom {
   chatroomId: string;
   currentLoginUserId: string;
   totalUnreadMessage: number;
@@ -7,10 +7,10 @@ export type Chatroom = {
   latestMessageContent: string;
   latestMessageType: string;
   otherUser: OtherUser;
-};
+}
 
-export type OtherUser = {
+export interface OtherUser {
   userId: string;
   fullName: string;
   avatarUrl: string | null;
-};
+}

@@ -25,9 +25,9 @@ export const StyledTab = styled(Tab)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(18),
 }));
 
-type TabContentProps = {
+interface TabContentProps {
   userId: User["userId"];
-};
+}
 
 export const RequestedCommissions: FC<TabContentProps> = ({ userId }) => {
   const { ref, inView } = useInView();

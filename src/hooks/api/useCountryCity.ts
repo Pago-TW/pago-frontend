@@ -3,9 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import type { CountryCityOption } from "@/components/inputs/CountryCitySelect";
 import { axios } from "@/libs/axios";
 
-type Params = {
+interface Params {
   includeAny?: boolean;
-};
+}
 
 const getCountryCity = async (params?: Params) => {
   const res = await axios.get<CountryCityOption[]>("/countries-and-cities", {

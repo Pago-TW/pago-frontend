@@ -3,13 +3,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axios } from "@/libs/axios";
 import type { Order, OrderStatus } from "@/types/order";
 
-type ApplyPostponeOrderParams = {
+interface ApplyPostponeOrderParams {
   orderId: Order["orderId"];
 
   data: { postponeReason: string; note?: string };
-};
+}
 
-type ApplyPostponeResponse = {
+interface ApplyPostponeResponse {
   postponeRecordId: string;
   orderId: string;
   userId: string;
@@ -19,7 +19,7 @@ type ApplyPostponeResponse = {
   updateDate: string;
   originalOrderStatus: OrderStatus;
   isPostponed: boolean;
-};
+}
 
 const applyPostponeOrder = async (params: ApplyPostponeOrderParams) => {
   const { orderId, data } = params;

@@ -5,14 +5,14 @@ import { axios } from "@/libs/axios";
 import type { Order } from "@/types/order";
 import type { Review } from "@/types/review";
 
-export type AddReviewData = {
+export interface AddReviewData {
   orderId: Order["orderId"];
   file: File[];
   data: {
     rating: number;
     content?: string;
   };
-};
+}
 
 const addReview = async (data: AddReviewData) => {
   const { orderId, ...postData } = data;

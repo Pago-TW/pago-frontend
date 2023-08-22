@@ -5,9 +5,9 @@ import { Stack } from "@mui/material";
 import { ReviewItem } from "@/components/ReviewItem";
 import type { Review } from "@/types/review";
 
-export type ReviewListProps = {
+export interface ReviewListProps {
   items: Review[];
-};
+}
 
 export const ReviewList: FC<ReviewListProps> = ({ items }) => {
   return (

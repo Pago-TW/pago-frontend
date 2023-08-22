@@ -4,13 +4,13 @@ import { zonedTimeToUtc } from "date-fns-tz";
 import { axios } from "@/libs/axios";
 import type { Trip } from "@/types/trip";
 
-type AddOneWayTripData = {
+interface AddOneWayTripData {
   fromCountry: string;
   fromCity: string;
   toCountry: string;
   toCity: string;
   arrivalDate: Date;
-};
+}
 
 const addOneWayTrip = async (data: AddOneWayTripData) => {
   const res = await axios.post<Trip>("/trips", {

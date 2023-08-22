@@ -4,10 +4,10 @@ import { TripItem } from "@/components/TripItem";
 import { Link } from "@/components/ui/Link";
 import type { Trip } from "@/types/trip";
 
-export type TripListProps = {
+export interface TripListProps {
   items: Trip[];
   spacing?: StackProps["spacing"];
-};
+}
 
 export const TripList = ({ spacing = 3, items }: TripListProps) => {
   return (

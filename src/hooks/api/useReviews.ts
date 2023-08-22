@@ -10,10 +10,10 @@ type Params = PaginationParams<{
   type: ReviewType;
 }>;
 
-type Options = {
+interface Options {
   params?: Params;
   pageParam?: number;
-};
+}
 
 const getReviews = async (userId: User["userId"], options: Options = {}) => {
   const { params, pageParam } = options;

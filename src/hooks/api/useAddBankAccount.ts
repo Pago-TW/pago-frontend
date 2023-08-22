@@ -3,7 +3,7 @@ import { zonedTimeToUtc } from "date-fns-tz";
 
 import { axios } from "@/libs/axios";
 
-type AddBankAccountData = {
+interface AddBankAccountData {
   legalName: string;
   birthDate: Date;
   zipCode: string;
@@ -11,7 +11,7 @@ type AddBankAccountData = {
   branchCode: string;
   accountHolderName: string;
   accountNumber: string;
-};
+}
 
 const addBankAccount = async (data: AddBankAccountData) => {
   const postData = {

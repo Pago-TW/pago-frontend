@@ -1,7 +1,7 @@
 import { intlFormat, parseISO } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 
-type IntlFormatOptions = {
+interface IntlFormatOptions {
   localeMatcher?: "lookup" | "best fit";
   weekday?: "narrow" | "short" | "long";
   era?: "narrow" | "short" | "long";
@@ -15,11 +15,11 @@ type IntlFormatOptions = {
   formatMatcher?: "basic" | "best fit";
   hour12?: boolean;
   timeZone?: string;
-};
+}
 
-type IntlLocaleOptions = {
+interface IntlLocaleOptions {
   locale?: string | string[];
-};
+}
 
 type FormatDateTimeParams = Omit<IntlFormatOptions, "timeZone"> &
   IntlLocaleOptions & {

@@ -440,7 +440,7 @@ const OrderDetailPage: NextPage = () => {
           isApplicant={isApplicant}
           hasCancellationRecord={hasCancellationRecord}
           hasPostponeRecord={hasPostponeRecord}
-          shopperId={shopper?.userId as string}
+          shopperId={shopper?.userId!}
           consumerId={consumer.userId}
         />
       </Stack>

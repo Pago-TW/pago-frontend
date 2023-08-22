@@ -5,7 +5,7 @@ import { axios } from "@/libs/axios";
 import type { Order, OrderStatus } from "@/types/order";
 import type { User } from "@/types/user";
 
-export type PostponeRecord = {
+export interface PostponeRecord {
   postponeRecordId: string;
   orderId: Order["orderId"];
   userId: User["userId"];
@@ -15,7 +15,7 @@ export type PostponeRecord = {
   updateDate: string;
   originalOrderStatus: OrderStatus;
   isPostponed: boolean;
-};
+}
 
 const getPostponeRecord = async (orderId: Order["orderId"]) => {
   const res = await axios<PostponeRecord>(`/orders/${orderId}/postpone-record`);

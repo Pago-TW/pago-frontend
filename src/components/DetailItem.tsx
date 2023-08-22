@@ -5,14 +5,14 @@ import { Stack } from "@mui/material";
 import { Typography, type TypographyProps } from "@/components/ui/Typography";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
-type DetailItemProps = {
+interface DetailItemProps {
   spacing?: number;
   multiLine?: boolean;
   label: ReactNode;
   value: ReactNode;
   labelProps?: TypographyProps;
   valueProps?: TypographyProps;
-};
+}
 
 export const DetailItem = (props: DetailItemProps) => {
   const {

@@ -8,12 +8,12 @@ import { useCountryCity } from "@/hooks/api/useCountryCity";
 import type { User } from "@/types/user";
 import { extractCountries } from "@/utils/extractCountriesCities";
 
-type ItemProps = {
+interface ItemProps {
   label: string;
   value: string;
   valueBlock?: boolean;
   isDesktop?: boolean;
-};
+}
 
 const Item: FC<ItemProps> = ({ label, value, valueBlock, isDesktop }) => {
   return (
@@ -56,7 +56,7 @@ export const UserInfo: FC<UserInfoProps> = ({
     [countryCityOptions]
   );
   const countryName =
-    countries[countryCode as string]?.chineseName ?? (countryCode as string);
+    countries[countryCode!]?.chineseName ?? (countryCode!);
 
   return (
     <Paper

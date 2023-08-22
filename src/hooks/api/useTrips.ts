@@ -15,10 +15,10 @@ type Params = PaginationParams<{
   latestReceiveItemDate: Date;
 }>;
 
-type Options = {
+interface Options {
   params?: Params;
   pageParam?: number;
-};
+}
 
 const getTrips = async (options: Options = {}) => {
   const { params, pageParam = 0 } = options;

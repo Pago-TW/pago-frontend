@@ -3,13 +3,13 @@ import { useMutation } from "@tanstack/react-query";
 
 import { axios } from "@/libs/axios";
 
-export type FileUploadParams = {
+export interface FileUploadParams {
   file: File;
   params: {
     objectId: string;
     objectType: string;
   };
-};
+}
 
 const uploadFile = async ({ file, params }: FileUploadParams) => {
   const formData = new FormData();

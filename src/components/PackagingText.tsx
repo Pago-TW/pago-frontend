@@ -3,9 +3,9 @@ import type { FC } from "react";
 import { Typography } from "@/components/ui/Typography";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
-export type PackagingTextProps = {
+export interface PackagingTextProps {
   isPackagingRequired: boolean;
-};
+}
 
 export const PackagingText: FC<PackagingTextProps> = ({
   isPackagingRequired,

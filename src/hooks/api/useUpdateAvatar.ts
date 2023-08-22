@@ -5,9 +5,9 @@ import { serialize } from "object-to-formdata";
 import { axios } from "@/libs/axios";
 import type { User } from "@/types/user";
 
-type UpdateAvatarData = {
+interface UpdateAvatarData {
   file: File;
-};
+}
 
 const updateAvatar = async (data: UpdateAvatarData) => {
   const postData = serialize(data, { noFilesWithArrayNotation: true });

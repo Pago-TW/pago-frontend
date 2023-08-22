@@ -7,10 +7,10 @@ import { getLastIndex } from "@/utils/getLastIndex";
 
 type Params = PaginationParams;
 
-type Options = {
+interface Options {
   params?: Params;
   pageParam?: number;
-};
+}
 
 const getNotifications = async (options: Options = {}) => {
   const { params, pageParam = 0 } = options;

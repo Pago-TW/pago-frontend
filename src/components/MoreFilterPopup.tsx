@@ -54,12 +54,12 @@ export const DEFAULT_VALUES: MoreFilterValues = {
   latestReceiveDate: null,
 };
 
-export type MoreFilterPopup = {
+export interface MoreFilterPopup {
   open: boolean;
   onOpen: () => void;
   onClose: () => void;
   onSubmit: (data: MoreFilterValues) => void;
-};
+}
 
 export const MoreFilterPopup = ({
   open,

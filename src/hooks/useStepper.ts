@@ -6,10 +6,10 @@ type BaseStep =
     }
   | string;
 
-export type UseStepperProps<T extends BaseStep> = {
+export interface UseStepperProps<T extends BaseStep> {
   steps: Readonly<T[]>;
   initialStep?: number;
-};
+}
 
 export const useStepper = <T extends BaseStep>({
   steps,

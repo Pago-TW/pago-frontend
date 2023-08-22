@@ -1,4 +1,4 @@
-export type Notification = {
+export interface Notification {
   notificationId: string;
   content: string;
   createDate: string;
@@ -8,4 +8,4 @@ export type Notification = {
   redirectUrl: string;
   actionType: string;
   isRead: boolean;
-};
+}

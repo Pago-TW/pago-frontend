@@ -23,9 +23,9 @@ export const userInfoFormSchema = z.object({
 
 export type UserInfoFormValues = z.infer<typeof userInfoFormSchema>;
 
-type UserInfoFormProps = {
+interface UserInfoFormProps {
   onNext: () => void;
-};
+}
 
 export const UserInfoForm = ({ onNext }: UserInfoFormProps) => {
   const { form, setForm } = useAddBankAccFormContext();

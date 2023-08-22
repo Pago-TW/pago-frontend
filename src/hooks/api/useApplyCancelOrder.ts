@@ -3,15 +3,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axios } from "@/libs/axios";
 import type { Order } from "@/types/order";
 
-type ApplyCancelOrderParams = {
+interface ApplyCancelOrderParams {
   orderId: Order["orderId"];
   data: {
     cancelReason: string;
     note?: string;
   };
-};
+}
 
-type ApplyCancelResponse = {
+interface ApplyCancelResponse {
   cancellationRecordId: string;
   orderId: string;
   userId: string;
@@ -20,7 +20,7 @@ type ApplyCancelResponse = {
   createDate: string;
   updateDate: string;
   isCancelled: boolean;
-};
+}
 
 const applyCancelOrder = async (params: ApplyCancelOrderParams) => {
   const { orderId, data } = params;

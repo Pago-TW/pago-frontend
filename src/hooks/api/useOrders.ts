@@ -26,10 +26,10 @@ export type Params = PaginationParams<
   Order
 >;
 
-type Options = {
+interface Options {
   params?: Params;
   pageParam?: number;
-};
+}
 
 const getOrders = async (options: Options = {}) => {
   const { params, pageParam = 0 } = options;

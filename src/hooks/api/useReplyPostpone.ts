@@ -8,10 +8,10 @@ import type { PostponeRecord } from "./usePostponeRecord";
 
 export type ReplyPostponeData = AtLeastOneRequired<{ isPostponed: boolean }>;
 
-type ReplyPostponeParams = {
+interface ReplyPostponeParams {
   orderId: Order["orderId"];
   data: ReplyPostponeData;
-};
+}
 
 const replyPostpone = async (params: ReplyPostponeParams) => {
   const { orderId, data } = params;

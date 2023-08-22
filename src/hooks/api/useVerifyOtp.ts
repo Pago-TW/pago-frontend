@@ -3,10 +3,10 @@ import { useSession } from "next-auth/react";
 
 import { axios } from "@/libs/axios";
 
-type VerifyOtpData = {
+interface VerifyOtpData {
   phone: string;
   otpCode: string;
-};
+}
 
 const verifyOtp = async (data: VerifyOtpData) => {
   const res = await axios.post<boolean>("/otp/validate", data);

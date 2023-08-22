@@ -4,7 +4,7 @@ import type {
   CountryOption,
 } from "@/types/misc";
 
-type ExtractedCountries = { [key: string]: CountryOption };
+type ExtractedCountries = Record<string, CountryOption>;
 
 export const extractCountries = (countryCityOptions: CountryCityOption[]) => {
   return countryCityOptions.reduce((obj, opt) => {
@@ -13,7 +13,7 @@ export const extractCountries = (countryCityOptions: CountryCityOption[]) => {
   }, {} as ExtractedCountries);
 };
 
-type ExtractedCities = { [key: string]: CityOption };
+type ExtractedCities = Record<string, CityOption>;
 
 export const extractCities = (countryCityOptions: CountryCityOption[]) => {
   return countryCityOptions.reduce((obj, opt) => {
@@ -22,18 +22,18 @@ export const extractCities = (countryCityOptions: CountryCityOption[]) => {
   }, {} as ExtractedCities);
 };
 
-type ExtractedCountriesCities = {
+interface ExtractedCountriesCities {
   countries: ExtractedCountries;
   cities: ExtractedCities;
-};
+}
 
 export const extractCountriesCities = (
   countryCityOptions: CountryCityOption[]
 ) => {
   return countryCityOptions.reduce(
     (obj, opt) => {
-      obj["countries"][opt.country.countryCode] = opt.country;
-      obj["cities"][opt.city.cityCode] = opt.city;
+      obj.countries[opt.country.countryCode] = opt.country;
+      obj.cities[opt.city.cityCode] = opt.city;
       return obj;
     },
     { countries: {}, cities: {} } as ExtractedCountriesCities

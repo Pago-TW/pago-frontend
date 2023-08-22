@@ -178,7 +178,7 @@ const ListboxComponent = forwardRef<
           ref={listRef}
           outerElementType={OuterElementType}
           innerElementType="div"
-          itemSize={(index) => getChildSize(itemData[index] as ReactElement)}
+          itemSize={(index) => getChildSize(itemData[index]!)}
           overscanCount={5}
           itemCount={itemCount}
         >
@@ -189,19 +189,19 @@ const ListboxComponent = forwardRef<
   );
 });
 
-export type CountryCityOption = {
+export interface CountryCityOption {
   country: { countryCode: string; englishName: string; chineseName: string };
   city: { cityCode: string; englishName: string; chineseName: string };
-};
+}
 
-export type CountryInputProps<T extends FieldValues> = {
+export interface CountryInputProps<T extends FieldValues> {
   control: Control<T>;
   name: FieldPath<T>;
   label?: TextFieldProps["label"];
   placeholder?: TextFieldProps["placeholder"];
   fullWidth?: boolean;
   includeAny?: boolean;
-};
+}
 
 const filterOptions = createFilterOptions<CountryCityOption>({
   stringify: ({ country, city }) =>

@@ -15,7 +15,7 @@ import {
   type Path,
 } from "react-hook-form";
 
-export type BooleanRadioGroupProps<T extends FieldValues> = {
+export interface BooleanRadioGroupProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
   label: ReactNode;
@@ -23,7 +23,7 @@ export type BooleanRadioGroupProps<T extends FieldValues> = {
   falseLabel?: ReactNode;
   error?: boolean;
   helperText?: ReactNode;
-};
+}
 
 export const BooleanRadioGroup = <T extends FieldValues>({
   control,

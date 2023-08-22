@@ -6,7 +6,7 @@ import type { Bid } from "@/types/bid";
 import type { Order } from "@/types/order";
 import type { Trip } from "@/types/trip";
 
-type AddBidParams = {
+interface AddBidParams {
   orderId: Trip["tripId"];
   data: {
     tripId: Trip["tripId"];
@@ -14,9 +14,9 @@ type AddBidParams = {
     currency: string;
     latestDeliveryDate: Date;
   };
-};
+}
 
-type AddBidResponse = {
+interface AddBidResponse {
   bidId: Bid["bidId"];
   orderId: Order["orderId"];
   tripId: Trip["tripId"];
@@ -26,7 +26,7 @@ type AddBidResponse = {
   updateDate: string;
   latestDeliveryDate: string;
   bidStatus: Bid["bidStatus"];
-};
+}
 
 const addBid = async (params: AddBidParams) => {
   const { orderId, data } = params;

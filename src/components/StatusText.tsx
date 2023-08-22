@@ -18,9 +18,9 @@ const statusMap: Record<
   TO_BE_POSTPONED: { text: "待延期", color: "error.light" },
 };
 
-export type StatusTextProps = {
+export interface StatusTextProps {
   status: OrderStatus;
-};
+}
 
 export const StatusText: FC<StatusTextProps> = ({ status }) => {
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));

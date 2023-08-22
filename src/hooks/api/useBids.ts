@@ -8,10 +8,10 @@ import { getLastIndex } from "@/utils/getLastIndex";
 
 type Params = PaginationParams;
 
-type Options = {
+interface Options {
   params?: Params;
   pageParam?: number;
-};
+}
 
 const getBids = async (orderId: Order["orderId"], options: Options = {}) => {
   const { params, pageParam = 0 } = options;

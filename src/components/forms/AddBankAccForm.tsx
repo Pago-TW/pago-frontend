@@ -56,7 +56,7 @@ export const AddBankAccForm = () => {
     );
   };
 
-  const tab = TABS[form.step]?.value as TabValue;
+  const tab = TABS[form.step]?.value!;
 
   return (
     <div style={{ width: "100%" }}>
