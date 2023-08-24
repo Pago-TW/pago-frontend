@@ -8,9 +8,9 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { getPlaiceholder } from "plaiceholder";
 
-import { AboutUsCard } from "@/components/AboutUsCard";
 import Footer from "@/components/Footer";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
+import { OurTeam } from "@/components/OurTeam";
 import PageTitle from "@/components/PageTitle";
 import { Typography } from "@/components/ui/Typography";
 
@@ -213,89 +213,10 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               </Stack>
             </Container>
           </Box>
-          <Container>
-            <Box sx={{ my: 6 }}>
-              <SectionTitle>Team 創辦團隊</SectionTitle>
-              <Box>
-                <Typography
-                  variant="h5"
-                  as="p"
-                  color="base.800"
-                  lineHeight={1.75}
-                  textAlign={{ xs: "left", md: "left" }}
-                >
-                  我們是一群來自輔仁大學資管系的學子， 於 2022
-                  年聚集而成的團隊。
-                </Typography>
-                <Typography
-                  variant="h5"
-                  as="p"
-                  color="base.800"
-                  textAlign={{ xs: "left", md: "left" }}
-                  lineHeight={1.75}
-                  sx={{ mt: 3 }}
-                >
-                  我們憑藉著專業知識與創新思維，專注於解決社會問題並創造有價值的技術產品。
-                </Typography>
-                <Typography
-                  variant="h5"
-                  as="p"
-                  color="base.800"
-                  textAlign={{ xs: "left", md: "left" }}
-                  lineHeight={1.75}
-                  sx={{ mt: 3 }}
-                >
-                  我們的理念不只是創造出一個共享經濟、快速媒合、價格透明的，更是透過實際行動，以科技助益社會，
-                  期望能共創一個高度透明、充分利用共享經濟並為每位用戶帶來價值的代購市場，讓每位用戶都能從中受益。
-                </Typography>
-              </Box>
-            </Box>
-            <Stack
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              spacing={3}
-            >
-              <AboutUsCard
-                name="邱奕勳"
-                job="PM、後端開發"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.aboutUs.team[0]!}
-              />
-              <AboutUsCard
-                name="陳俊廷"
-                job="設計、行銷"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.aboutUs.team[1]!}
-              />
-              <AboutUsCard
-                name="范詠淇"
-                job="設計、行銷"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.aboutUs.team[2]!}
-              />
-              <AboutUsCard
-                name="曾瑞章"
-                job="前端開發"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.aboutUs.team[3]!}
-              />
-              <AboutUsCard
-                name="戴宇辰"
-                job="後端開發"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.aboutUs.team[4]!}
-              />
-            </Stack>
-          </Container>
-          <Box
-            sx={{
-              marginBottom: 3,
-            }}
-          ></Box>
 
-          {/* </Container> */}
-          <Footer />
+          <OurTeam />
+
+          <Footer mt={6} />
         </BaseLayout>
       </Box>
     </>

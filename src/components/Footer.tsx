@@ -4,12 +4,12 @@ import React from "react";
 import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
 import GoogleIcon from "@mui/icons-material/Google";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, type BoxProps } from "@mui/material";
 
 import { Link } from "@/components/ui/Link";
 import { Typography } from "@/components/ui/Typography";
 
-const Footer: React.FC = () => {
+export const Footer = ({ sx, ...props }: BoxProps) => {
   return (
     <Box
       sx={{
@@ -21,7 +21,9 @@ const Footer: React.FC = () => {
         justifyContent: "center",
         padding: 2,
         backgroundColor: (theme) => theme.palette.background.paper,
+        ...sx,
       }}
+      {...props}
     >
       <Box
         sx={{
