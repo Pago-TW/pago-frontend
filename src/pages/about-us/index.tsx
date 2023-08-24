@@ -1,12 +1,11 @@
 import type { ReactNode } from "react";
-import type { InferGetStaticPropsType, NextPage } from "next";
+import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 
 import { Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import { getPlaiceholder } from "plaiceholder";
 
 import Footer from "@/components/Footer";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
@@ -45,9 +44,7 @@ const SectionTitle = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
-  images,
-}) => {
+const AboutUsPage: NextPage = () => {
   return (
     <>
       <Head>
@@ -70,10 +67,9 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             alignItems="center"
           >
             <Box position="relative" width="100%" height="40vh">
-              {/* eslint-disable-next-line jsx-a11y/alt-text */}
               <Image
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                {...images.aboutUs.cover[0]!}
+                src="/images/about-us/cover.svg"
+                alt=""
                 fill
                 sizes="100vw"
                 priority={true}
@@ -223,74 +219,4 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   );
 };
 
-const getImageBase64 = async (
-  imagePath: string,
-  options?: { alt?: string; title?: string }
-) => {
-  const { base64, img } = await getPlaiceholder(imagePath);
-  return {
-    src: img.src,
-    type: img.type,
-    blurDataURL: base64,
-    alt: options?.alt ?? "",
-  };
-};
-
-const getImagesBase64 = async (
-  imagePaths: string[],
-  options?: { alt?: string; title?: string }
-) => await Promise.all(imagePaths.map((path) => getImageBase64(path, options)));
-
-export const getStaticProps = async () => {
-  const introductionImage = await getImageBase64("/images/introduction.svg", {
-    alt: "Page introduction image",
-  });
-  const howItWorksImages = {
-    consumer: await getImagesBase64(
-      [
-        "/images/how-it-works/consumer/step1.jpg",
-        "/images/how-it-works/consumer/step2.jpg",
-        "/images/how-it-works/consumer/step3.jpg",
-        "/images/how-it-works/consumer/step4.jpg",
-      ],
-      { alt: "How it works image for consumer" }
-    ),
-    shopper: await getImagesBase64(
-      [
-        "/images/how-it-works/shopper/step1.jpg",
-        "/images/how-it-works/shopper/step2.jpg",
-        "/images/how-it-works/shopper/step3.jpg",
-        "/images/how-it-works/shopper/step4.jpg",
-      ],
-      { alt: "How it works image for shopper" }
-    ),
-  };
-
-  const aboutUsImages = {
-    cover: await getImagesBase64(["/images/about-us/about-us-cover.svg"], {
-      alt: "about us",
-    }),
-    team: await getImagesBase64(
-      [
-        "/images/about-us/team/shiun.svg",
-        "/images/about-us/team/jack.svg",
-        "/images/about-us/team/ariel.svg",
-        "/images/about-us/team/enderwolf.svg",
-        "/images/about-us/team/ycday.svg",
-      ],
-      { alt: "How it works image for shopper" }
-    ),
-  };
-
-  return {
-    props: {
-      images: {
-        introduction: introductionImage,
-        howItWorks: howItWorksImages,
-        aboutUs: aboutUsImages,
-      },
-    },
-  };
-};
-
-export default Home;
+export default AboutUsPage;
