@@ -8,8 +8,8 @@ import Container from "@mui/material/Container";
 import { getPlaiceholder } from "plaiceholder";
 
 import Footer from "@/components/Footer";
-import { HowItWorks } from "@/components/HowItWorks";
-import { LatestOrders } from "@/components/LatestOrders";
+import { HowItWorks } from "@/components/home/HowItWorks";
+import { LatestOrders } from "@/components/home/LatestOrders";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/components/ui/Link";

@@ -7,9 +7,9 @@ import { Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 
+import { OurTeam } from "@/components/about-us/OurTeam";
 import Footer from "@/components/Footer";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { OurTeam } from "@/components/OurTeam";
 import PageTitle from "@/components/PageTitle";
 import { Typography } from "@/components/ui/Typography";
 
