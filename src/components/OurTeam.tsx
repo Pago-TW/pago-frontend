@@ -30,7 +30,7 @@ const MEMBERS: Member[] = [
       alt: "",
     },
     links: {
-      github: "https://github.com",
+      github: "https://github.com/sh1un",
       instagram: "https://instagram.com",
       linkedin: "https://linkedin.com",
     },
@@ -43,7 +43,7 @@ const MEMBERS: Member[] = [
       alt: "",
     },
     links: {
-      github: "https://github.com",
+      github: "https://github.com/Nightmare0709",
       instagram: "https://instagram.com",
       linkedin: "https://linkedin.com",
     },
@@ -56,7 +56,7 @@ const MEMBERS: Member[] = [
       alt: "",
     },
     links: {
-      github: "https://github.com",
+      github: "https://github.com/Ariel1206",
       instagram: "https://instagram.com",
       linkedin: "https://linkedin.com",
     },
@@ -69,7 +69,7 @@ const MEMBERS: Member[] = [
       alt: "",
     },
     links: {
-      github: "https://github.com",
+      github: "https://github.com/EnderWolf50",
       instagram: "https://instagram.com",
       linkedin: "https://linkedin.com",
     },
@@ -82,7 +82,7 @@ const MEMBERS: Member[] = [
       alt: "",
     },
     links: {
-      github: "https://github.com",
+      github: "https://github.com/ycday",
       instagram: "https://instagram.com",
       linkedin: "https://linkedin.com",
     },
