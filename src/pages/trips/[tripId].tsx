@@ -25,7 +25,7 @@ import { ShowMoreButton } from "@/components/ShowMoreButton";
 import { Button } from "@/components/ui/Button";
 import { Tab } from "@/components/ui/Tab";
 import { Typography } from "@/components/ui/Typography";
-import { defaultConfirmOptions } from "@/config/confirmOptions";
+import { defaultConfirmOptions } from "@/configs/confirmOptions";
 import { useDeleteTrip } from "@/hooks/api/useDeleteTrip";
 import { useMatchingOrders } from "@/hooks/api/useMatchingOrders";
 import { useOrders } from "@/hooks/api/useOrders";
