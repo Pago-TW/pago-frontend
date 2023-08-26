@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import {
   ActionWithConfirmation,
   type ActionWithConfirmationProps,
-} from "@/components/ActionWithConfirmation";
+} from "@/components/actions/ActionWithConfirmation";
 
 export const EditAction: FC<Pick<ActionWithConfirmationProps, "disabled">> = ({
   disabled,

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import {
   ActionWithConfirmation,
   type ActionWithConfirmationProps,
-} from "@/components/ActionWithConfirmation";
+} from "@/components/actions/ActionWithConfirmation";
 import { useDeleteOrder } from "@/hooks/api/useDeleteOrder";
 
 export const DeleteAction: FC<

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Radio } from "@/components/Radio";
+import { Radio } from "@/components/ui/Radio";
 
 export default {
   title: "UI/Radio",

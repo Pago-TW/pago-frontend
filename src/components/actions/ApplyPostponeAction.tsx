@@ -2,13 +2,13 @@ import type { FC } from "react";
 import { useRouter } from "next/router";
 
 import {
+  ActionWithModalAndConfirmation,
+  type ActionWithModalAndConfirmationProps,
+} from "@/components/actions/ActionWithModalAndConfirmation";
+import {
   ApplyPostponeModal,
   type ApplyPostponeFormValues,
 } from "@/components/actions/ApplyPostponeModal";
-import {
-  ActionWithModalAndConfirmation,
-  type ActionWithModalAndConfirmationProps,
-} from "@/components/ActionWithModalAndConfirmation";
 import { useApplyPostponeOrder } from "@/hooks/api/useApplyPostponeOrder";
 
 export const ApplyPostponeAction: FC<

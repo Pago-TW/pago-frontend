@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import {
   ActionWithConfirmation,
   type ActionWithConfirmationProps,
-} from "@/components/ActionWithConfirmation";
+} from "@/components/actions/ActionWithConfirmation";
 import { useUpdateOrder } from "@/hooks/api/useUpdateOrder";
 import type { OrderStatus } from "@/types/order";
 

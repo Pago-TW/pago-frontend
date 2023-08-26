@@ -8,10 +8,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { ConfirmDialog } from "@/components/ConfirmDialog";
+import { oneWayTripFormSchema } from "@/components/forms/OneWayTripForm";
 import { CountryCitySelect } from "@/components/inputs/CountryCitySelect";
 import { DatePicker } from "@/components/inputs/DatePicker";
 import { PaperLayout } from "@/components/layouts/PaperLayout";
-import { oneWayTripFormSchema } from "@/components/OneWayTripForm";
 import { SubmitButton } from "@/components/SubmitButton";
 import { useAddRoundTrip } from "@/hooks/api/useAddRoundTrip";
 import { useOpen } from "@/hooks/useOpen";

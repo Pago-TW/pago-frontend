@@ -3,12 +3,12 @@ import { useRouter } from "next/router";
 import { TabContext } from "@mui/lab";
 import { Step } from "@mui/material";
 
-import { AddBankAccRecap } from "@/components/AddBankAccRecap";
-import { BankInfoForm } from "@/components/BankInfoForm";
+import { AddBankAccRecap } from "@/components/forms/AddBankAccRecap";
+import { BankInfoForm } from "@/components/forms/BankInfoForm";
+import { UserInfoForm } from "@/components/forms/UserInfoForm";
 import { StepLabel } from "@/components/ui/StepLabel";
 import { Stepper } from "@/components/ui/Stepper";
 import { TabPanel } from "@/components/ui/TabPanel";
-import { UserInfoForm } from "@/components/UserInfoForm";
 import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";
 import { useAddBankAccount } from "@/hooks/api/useAddBankAccount";
 

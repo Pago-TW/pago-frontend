@@ -4,10 +4,10 @@ import Step from "@mui/material/Step";
 import Typography from "@mui/material/Typography";
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Button } from "@/components/Button";
-import { StepConnector } from "@/components/StepConnector";
-import { StepLabel } from "@/components/StepLabel";
-import { Stepper } from "@/components/Stepper";
+import { Button } from "@/components/ui/Button";
+import { StepConnector } from "@/components/ui/StepConnector";
+import { StepLabel } from "@/components/ui/StepLabel";
+import { Stepper } from "@/components/ui/Stepper";
 import { useStepper } from "@/hooks/useStepper";
 
 export default {

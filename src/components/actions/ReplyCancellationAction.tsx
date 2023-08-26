@@ -1,8 +1,8 @@
 import type { FC } from "react";
 import { useRouter } from "next/router";
 
-import { ActionButton } from "@/components/ActionButton";
-import { ReplyDialog } from "@/components/ReplyDialog";
+import { ActionButton } from "@/components/actions/ActionButton";
+import { ReplyDialog } from "@/components/actions/ReplyDialog";
 import { useCancellationRecord } from "@/hooks/api/useCancellationRecord";
 import { useReplyCancellation } from "@/hooks/api/useReplyCancellation";
 import { useOpen } from "@/hooks/useOpen";

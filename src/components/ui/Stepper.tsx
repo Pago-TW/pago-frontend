@@ -4,7 +4,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-import { StepConnector } from "@/components/StepConnector";
+import { StepConnector } from "@/components/ui/StepConnector";
 
 type StepperProps = MuiStepperProps;
 

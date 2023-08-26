@@ -2,13 +2,13 @@ import type { FC } from "react";
 import { useRouter } from "next/router";
 
 import {
+  ActionWithModalAndConfirmation,
+  type ActionWithModalAndConfirmationProps,
+} from "@/components/actions/ActionWithModalAndConfirmation";
+import {
   ApplyCancelModal,
   type ApplyCancelFormValues,
 } from "@/components/actions/ApplyCancelModal";
-import {
-  ActionWithModalAndConfirmation,
-  type ActionWithModalAndConfirmationProps,
-} from "@/components/ActionWithModalAndConfirmation";
 import { useApplyCancelOrder } from "@/hooks/api/useApplyCancelOrder";
 import type { Perspective } from "@/types/misc";
 

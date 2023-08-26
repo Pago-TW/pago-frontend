@@ -5,11 +5,11 @@ import { useSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { PhoneVerifyForm } from "@/components/forms/PhoneVerifyForm";
 import { BankBranchSelect } from "@/components/inputs/BankBranchSelect";
 import { BankSelect } from "@/components/inputs/BankSelect";
 import { CitySelect } from "@/components/inputs/CitySelect";
 import { NumberInput } from "@/components/inputs/NumberInput";
-import { PhoneVerifyForm } from "@/components/PhoneVerifyForm";
 import { Button } from "@/components/ui/Button";
 import { Paper } from "@/components/ui/Paper";
 import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";

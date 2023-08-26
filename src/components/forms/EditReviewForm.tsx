@@ -7,9 +7,9 @@ import { useFormContext } from "react-hook-form";
 import type { z } from "zod";
 
 import { DetailItem } from "@/components/DetailItem";
+import { merchandiseFormSchema } from "@/components/forms/MerchandiseForm";
+import { needsFormSchema } from "@/components/forms/NeedsForm";
 import { PaperLayout } from "@/components/layouts/PaperLayout";
-import { merchandiseFormSchema } from "@/components/MerchandiseForm";
-import { needsFormSchema } from "@/components/NeedsForm";
 import { Typography } from "@/components/ui/Typography";
 import type { AddOrderData } from "@/hooks/api/useAddOrder";
 import { useCharge } from "@/hooks/api/useCharge";

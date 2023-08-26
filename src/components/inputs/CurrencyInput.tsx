@@ -1,7 +1,10 @@
 import { MenuItem } from "@mui/material";
 import type { FieldValues } from "react-hook-form";
 
-import { SelectInput, type SelectInputProps } from "@/components/SelectInput";
+import {
+  SelectInput,
+  type SelectInputProps,
+} from "@/components/inputs/SelectInput";
 
 export const CURRENCY_OPTIONS = [
   "TWD",

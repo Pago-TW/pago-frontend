@@ -3,7 +3,7 @@ import { useConfirm, type ConfirmOptions } from "material-ui-confirm";
 import {
   ActionButton,
   type ActionButtonProps,
-} from "@/components/ActionButton";
+} from "@/components/actions/ActionButton";
 
 export type ActionWithConfirmationProps = Omit<ActionButtonProps, "onClick"> & {
   onClick: () => void;

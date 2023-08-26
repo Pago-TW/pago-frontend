@@ -2,8 +2,8 @@ import type { ComponentType } from "react";
 
 import { useConfirm } from "material-ui-confirm";
 
-import { ActionButton } from "@/components/ActionButton";
-import type { ActionWithConfirmationProps } from "@/components/ActionWithConfirmation";
+import { ActionButton } from "@/components/actions/ActionButton";
+import type { ActionWithConfirmationProps } from "@/components/actions/ActionWithConfirmation";
 import { useOpen } from "@/hooks/useOpen";
 
 export type ActionWithModalAndConfirmationProps<

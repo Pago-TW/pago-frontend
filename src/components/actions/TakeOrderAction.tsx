@@ -6,9 +6,9 @@ import { useConfirm } from "material-ui-confirm";
 import { useSession } from "next-auth/react";
 import { useSnackbar } from "notistack";
 
-import { ActionButton } from "@/components/ActionButton";
+import { ActionButton } from "@/components/actions/ActionButton";
+import type { TakeOrderFormValues } from "@/components/actions/TakeOrderPopup";
 import { CloseSnackbarButton } from "@/components/CloseSnackbarButton";
-import type { TakeOrderFormValues } from "@/components/TakeOrderPopup";
 import { Button } from "@/components/ui/Button";
 import { useAddBid } from "@/hooks/api/useAddBid";
 import { useOpen } from "@/hooks/useOpen";

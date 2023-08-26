@@ -6,12 +6,12 @@ import type { ConfirmOptions } from "material-ui-confirm";
 import {
   ActionWithConfirmation,
   type ActionWithConfirmationProps,
-} from "@/components/ActionWithConfirmation";
+} from "@/components/actions/ActionWithConfirmation";
 import {
   AddReviewModal,
   type AddReviewFormValues,
   type AddReviewModalProps,
-} from "@/components/AddReviewModal";
+} from "@/components/actions/AddReviewModal";
 import { useAddReview } from "@/hooks/api/useAddReview";
 import { useUpdateOrder } from "@/hooks/api/useUpdateOrder";
 import { useOpen } from "@/hooks/useOpen";
