@@ -11,7 +11,7 @@ import {
   ListItemText,
 } from "@mui/material";
 
-import { BaseLayout } from "@/components/BaseLayout";
+import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { PageTitle } from "@/components/PageTitle";
 
 const settingRoutes = [

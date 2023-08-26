@@ -2,7 +2,7 @@ import type { PropsWithChildren } from "react";
 
 import { Stack } from "@mui/material";
 
-import { BaseLayout } from "@/components/BaseLayout";
+import { BaseLayout } from "@/components/layouts/BaseLayout";
 import { useAppbarHeight } from "@/hooks/useAppbarHeight";
 
 export type CenterLayoutProps = PropsWithChildren;
