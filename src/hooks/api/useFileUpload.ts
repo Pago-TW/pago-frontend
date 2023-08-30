@@ -23,7 +23,7 @@ const uploadFile = async ({ file, params }: FileUploadParams) => {
       throw new Error("檔案上傳失敗");
     }
 
-    return response.data[0];
+    return response.data[0]!;
   } catch (error) {
     console.error("檔案上傳出錯:", error);
     throw error;
