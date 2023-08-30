@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import dynamic from "next/dynamic";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle } from "@mui/icons-material";
@@ -10,12 +11,16 @@ import Countdown, { type CountdownRenderProps } from "react-countdown";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { OtpInput } from "@/components/inputs/OtpInput";
 import { PhoneInput, phoneSchema } from "@/components/inputs/PhoneInput";
 import { Button } from "@/components/ui/Button";
 import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";
 import { useSendSns } from "@/hooks/api/useSendSns";
 import { useVerifyOtp } from "@/hooks/api/useVerifyOtp";
+
+const OtpInput = dynamic(
+  () => import("@/components/inputs/OtpInput").then((mod) => mod.OtpInput),
+  { ssr: false }
+);
 
 export const phoneVerifyFormSchema = z.object({
   phone: phoneSchema,
@@ -185,6 +190,7 @@ export const PhoneVerifyForm = () => {
             style={{ padding: 0, margin: 0, border: 0 }}
           >
             <OtpInput
+              // @ts-expect-error Type 'Control<{ phone: string; otpCode: string; countdownDate: Date; }, any>' is not assignable to type 'Control<FieldValues>'.
               control={control}
               name="otpCode"
               InputProps={{
