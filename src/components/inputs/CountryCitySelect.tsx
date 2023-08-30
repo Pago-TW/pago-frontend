@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import {
   createContext,
   forwardRef,
@@ -141,7 +143,7 @@ const ListboxComponent = forwardRef<
   const itemData: ReactElement[] = [];
   (children as ReactElement[]).forEach(
     (child: ReactElement & { children?: ReactElement[] }) => {
-      itemData.push(child, ...(child.children || []));
+      itemData.push(child, ...(child.children ?? []));
     }
   );
   const itemCount = itemData.length;

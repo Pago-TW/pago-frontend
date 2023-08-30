@@ -48,9 +48,9 @@ export const DistrictSelect = <T extends FieldValues>({
     { administrativeDivision: city },
     { enabled: !disabled }
   );
-  const districts = options[0]?.districtList || [];
+  const districts = options[0]?.districtList ?? [];
   const value =
-    districts.find((district) => district.zipCode === field.value) || null;
+    districts.find((district) => district.zipCode === field.value) ?? null;
 
   return (
     <Autocomplete

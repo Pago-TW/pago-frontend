@@ -44,7 +44,7 @@ export const useChatroomMessages = (chatroomId: string, params?: Params) => {
     },
     enabled: chatroomId !== "",
     refetchOnWindowFocus: false,
-    onSuccess: () => qc.invalidateQueries(["chatrooms"]),
+    onSuccess: () => void qc.invalidateQueries(["chatrooms"]),
   });
 };
 

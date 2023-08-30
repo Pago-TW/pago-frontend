@@ -76,7 +76,7 @@ export default function OrderShoppersPage() {
   );
 
   useEffect(() => {
-    if (inView && hasNextPage) fetchNextPage();
+    if (inView && hasNextPage) void fetchNextPage();
   }, [inView, hasNextPage, fetchNextPage]);
 
   if (!order) return null;

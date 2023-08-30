@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import Document, { Head, Html, Main, NextScript } from "next/document";
 
 import createEmotionServer from "@emotion/server/create-instance";
@@ -90,10 +92,7 @@ export default class MyDocument extends Document {
           <meta name="theme-color" content="#ffffff" />
 
           <meta name="emotion-insertion-point" content="" />
-          {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (this.props as any).emotionStyleTags
-          }
+          {(this.props as any).emotionStyleTags}
         </Head>
         <body>
           <Main />

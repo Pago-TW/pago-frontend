@@ -102,7 +102,7 @@ const NewOrderPage: NextPage = () => {
 
   const handleFormSubmit = (data: ReviewFormValues) => {
     addOrder(transformReviewFormValues(data), {
-      onSuccess: (data) => router.replace(`/orders/${data.orderId}`),
+      onSuccess: (data) => void router.replace(`/orders/${data.orderId}`),
     });
   };
 

@@ -98,7 +98,7 @@ export const MerchandiseForm = () => {
       setValue("images", acceptedFiles);
       setPreviews(acceptedFiles.map((file) => URL.createObjectURL(file)));
 
-      trigger("images");
+      void trigger("images");
     },
   });
 

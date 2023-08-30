@@ -25,9 +25,8 @@ interface WebSocketContextType {
 const WebSocketContext = createContext<WebSocketContextType>({
   webSocketService: null,
   isConnected: false,
-  sendFileMessage: async () => {
-    return;
-  },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  sendFileMessage: async () => {},
 });
 
 export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
@@ -92,16 +91,16 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
         const fileUrl = await uploadFile({
           file,
           params: {
-            objectId: chatroomId || "",
+            objectId: chatroomId ?? "",
             objectType: "CHATROOM",
           },
         });
 
         webSocketService.sendMessage({
-          chatroomId: chatroomId || "",
+          chatroomId: chatroomId ?? "",
           content: fileUrl,
           messageType: "FILE",
-          senderId: chatroomData?.currentLoginUserId || "",
+          senderId: chatroomData?.currentLoginUserId ?? "",
         });
       } catch (error) {
         console.error("檔案上傳出錯:", error);

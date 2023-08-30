@@ -81,7 +81,7 @@ export const MoreFilterPopup = ({
   });
 
   const handleClose = () => {
-    handleSubmit((data) => {
+    void handleSubmit((data) => {
       onSubmit(data);
       onClose();
     })();

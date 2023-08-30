@@ -23,8 +23,8 @@ export const useUpdateAvatar = () => {
   return useMutation({
     mutationFn: updateAvatar,
     onSettled: () => {
-      qc.invalidateQueries(["users", "me"]);
-      update();
+      void qc.invalidateQueries(["users", "me"]);
+      void update();
     },
   });
 };

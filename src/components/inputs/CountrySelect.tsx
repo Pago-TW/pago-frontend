@@ -61,7 +61,7 @@ export const CountrySelect = <T extends FieldValues>({
       blurOnSelect
       clearOnBlur
       onChange={(_event, value) => field.onChange(value?.countryCode)}
-      value={selected || null}
+      value={selected ?? null}
       loading={isFetching}
       loadingText="Loading..."
       noOptionsText="There's no country matched your search :("

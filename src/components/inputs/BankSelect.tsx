@@ -45,7 +45,7 @@ export const BankSelect = <T extends FieldValues>({
   const { data: options = [], isFetching } = useBanks();
 
   const value =
-    options.find((option) => option.bankCode === field.value) || null;
+    options.find((option) => option.bankCode === field.value) ?? null;
 
   return (
     <Autocomplete

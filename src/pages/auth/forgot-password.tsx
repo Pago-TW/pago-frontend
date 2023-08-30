@@ -29,7 +29,7 @@ const ForgotPasswordPage: NextPage = () => {
   const handleSubmit = async () => {
     setIsButtonDisabled(true);
     setCountdown(90);
-    const interval = setInterval(() => {
+    setInterval(() => {
       setCountdown((prevCountdown) => prevCountdown - 1);
     }, 1000);
     try {

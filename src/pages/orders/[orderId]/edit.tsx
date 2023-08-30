@@ -135,7 +135,7 @@ const EditOrderPage: NextPage = () => {
   const handleFormSubmit = (data: EditReviewFormValues) => {
     updateOrder(
       { orderId, data: transformEditReviewFormValues(data) },
-      { onSuccess: (data) => router.replace(`/orders/${data.orderId}`) }
+      { onSuccess: (data) => void router.replace(`/orders/${data.orderId}`) }
     );
   };
 

@@ -65,7 +65,7 @@ const ResetPasswordPage: NextPage = () => {
       try {
         await axios.post(`/auth/reset-password/${token}`, data);
         enqueueSnackbar("密碼重設成功", { variant: "success" });
-        router.push("/auth/signin");
+        void router.push("/auth/signin");
       } catch (e) {
         enqueueSnackbar("密碼重設失敗", { variant: "error" });
         setIsButtonDisabled(false);
@@ -75,7 +75,7 @@ const ResetPasswordPage: NextPage = () => {
   );
 
   const handlePasswordCheck = () => {
-    if (dirtyFields.confirmPassword) trigger("confirmPassword");
+    if (dirtyFields.confirmPassword) void trigger("confirmPassword");
   };
 
   useEffect(() => {
@@ -104,7 +104,7 @@ const ResetPasswordPage: NextPage = () => {
               variant="outlined"
               error={!!errors.email}
               helperText={errors.email?.message}
-              value={email || ""}
+              value={email ?? ""}
               disabled
             />
             <PasswordInput

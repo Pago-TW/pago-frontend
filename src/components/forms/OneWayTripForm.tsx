@@ -72,7 +72,7 @@ export const OneWayTripForm: FC = () => {
           toCity: data.to.cityCode,
           arrivalDate: data.arrivalDate,
         },
-        { onSuccess: (data) => router.push(`/trips/${data.tripId}`) }
+        { onSuccess: (data) => void router.push(`/trips/${data.tripId}`) }
       );
     },
     [addOneWayTrip, router]
@@ -85,7 +85,7 @@ export const OneWayTripForm: FC = () => {
 
   const handleDialogConfirm = useCallback(() => {
     handleDialogClose();
-    handleSubmit(handleFormSubmit)();
+    void handleSubmit(handleFormSubmit)();
   }, [handleDialogClose, handleSubmit, handleFormSubmit]);
 
   return (

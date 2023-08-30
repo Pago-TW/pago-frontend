@@ -5,10 +5,10 @@ export const useAppbarHeight = () => {
 
   useEffect(() => {
     const appBar = document.querySelector("header.MuiAppBar-root");
-    setAppbarHeight(appBar?.clientHeight || 0);
+    setAppbarHeight(appBar?.clientHeight ?? 0);
 
     function handleResize() {
-      setAppbarHeight(appBar?.clientHeight || 0);
+      setAppbarHeight(appBar?.clientHeight ?? 0);
     }
 
     window.addEventListener("resize", handleResize);

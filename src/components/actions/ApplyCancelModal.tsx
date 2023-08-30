@@ -126,7 +126,7 @@ export const ApplyCancelModal = ({
                       placeholder="其他原因"
                       {...register("detail")}
                     />
-                    {!!errors.detail ? (
+                    {errors.detail ? (
                       <FormHelperText sx={{ m: 0 }}>
                         {errors.detail?.message}
                       </FormHelperText>

@@ -76,7 +76,7 @@ export const ReplyDialog = <ApplyFor extends "postpone" | "cancel">({
             {isLoading ? <Skeleton /> : `原因: ${reason}`}
           </Typography>
           <Typography variant="h6" as="p" color="base.500" mt={2}>
-            {isLoading ? <Skeleton /> : `說明: ${note || "(無)"}`}
+            {isLoading ? <Skeleton /> : `說明: ${note ?? "(無)"}`}
           </Typography>
         </Box>
         <Alert variant="filled" severity={alertSeverity} sx={{ mt: 2 }}>

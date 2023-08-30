@@ -123,7 +123,7 @@ export const UserSummary: FC<UserSummaryProps> = ({
 
   const handleSendMessageClick = () => {
     if (status !== "authenticated") {
-      signIn();
+      void signIn();
       return;
     }
     setChatWith(userId);

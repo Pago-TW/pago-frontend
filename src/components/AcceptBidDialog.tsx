@@ -40,7 +40,7 @@ export const AcceptBidDialog: FC<AcceptBidDialogProps> = ({
 
   const { mutate: chooseBid } = useChooseBid();
 
-  const handleConfirm = async () => {
+  const handleConfirm = () => {
     chooseBid(bidId, {
       onSuccess: (data) => setFormHtml(data),
     });

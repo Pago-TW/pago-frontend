@@ -7,7 +7,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
-import { useSession } from "next-auth/react";
 
 import UnreadMessageBadge from "@/components/UnreadMessageBadge";
 
@@ -22,18 +21,13 @@ interface NotificationListItemProps {
 }
 
 export const NotificationListItem: React.FC<NotificationListItemProps> = ({
-  notificationId: notificationId,
   content: content,
   createDate: sendDate,
   imageUrl: imageUrl,
   isRead: isRead,
-  notificationType: notificationType,
   onClick,
 }) => {
   const isReadNotification = isRead;
-
-  const { data: session } = useSession();
-  const currentLoginUserId = session?.user?.id;
 
   const displayContent = content;
 

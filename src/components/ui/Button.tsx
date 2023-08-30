@@ -143,7 +143,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={_disabled}
         loading={loading}
         disableRipple={disableRipple}
-        endIcon={endIcon || (loading && !isMobile && loadingIcon)}
+        endIcon={endIcon ?? (loading && !isMobile && loadingIcon)}
         ref={ref}
         {...rest}
       >

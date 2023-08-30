@@ -52,11 +52,14 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
         onSuccess: () => {
           // Invalidate both orders and trips query since the notification doesn't  contain the explicit target type
           const targetId = redirectUrl.split("/").pop();
-          qc.invalidateQueries(["orders", targetId]);
-          qc.invalidateQueries(["trips", targetId]);
 
-          router.push(redirectUrl);
-          if (onBackClick) onBackClick();
+          void Promise.all([
+            qc.invalidateQueries(["orders", targetId]),
+            qc.invalidateQueries(["trips", targetId]),
+          ]).then(() => {
+            void router.push(redirectUrl);
+            if (onBackClick) onBackClick();
+          });
         },
       }
     );
@@ -85,7 +88,7 @@ export const NotificationtList = ({ onBackClick }: ChatroomListProps) => {
   }, [notificationData]);
 
   useEffect(() => {
-    refetch();
+    void refetch();
   }, [refetch, tab]);
 
   return (

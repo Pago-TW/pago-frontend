@@ -33,7 +33,7 @@ export const ShowMoreButton = forwardRef<
       variant={variant}
       size={size}
       loading={loading}
-      disabled={disabled || !hasMore}
+      disabled={disabled ?? !hasMore}
       startIcon={startIcon ?? <ArrowDownward />}
       {...rest}
     >

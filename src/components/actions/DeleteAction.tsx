@@ -17,7 +17,7 @@ export const DeleteAction: FC<
 
   const handleConfirm = () => {
     deleteOrder({ orderId });
-    router.replace("/orders");
+    void router.replace("/orders");
   };
 
   return (

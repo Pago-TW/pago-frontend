@@ -41,7 +41,8 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
   );
 
   useEffect(() => {
-    if (chatroomListOpen) refetch();
+    if (chatroomListOpen)
+      refetch().catch((e) => console.error("Refetch failed with error: ", e));
   }, [chatroomListOpen, refetch]);
 
   const handleChatroomOpen = (chatWith: string) => {
@@ -68,7 +69,7 @@ export const ChatroomList = ({ onBackClick }: ChatroomListProps) => {
                   senderId={chatRoom.latestMessageSenderId}
                   senderName={chatRoom.otherUser.fullName}
                   latestMessageContent={chatRoom.latestMessageContent}
-                  avatarUrl={chatRoom.otherUser.avatarUrl || ""}
+                  avatarUrl={chatRoom.otherUser.avatarUrl ?? ""}
                   latestMessageSendDate={chatRoom.latestMessageSendDate}
                   totalUnreadMessages={chatRoom.totalUnreadMessage}
                   latestMessageType={

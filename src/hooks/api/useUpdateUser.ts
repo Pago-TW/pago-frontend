@@ -23,8 +23,8 @@ export const useUpdateUser = () => {
   return useMutation({
     mutationFn: updateUser,
     onSettled: () => {
-      qc.invalidateQueries(["users", "me"]);
-      update();
+      void qc.invalidateQueries(["users", "me"]);
+      void update();
     },
   });
 };

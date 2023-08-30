@@ -30,11 +30,14 @@ type FormatDateTimeParams = Omit<IntlFormatOptions, "timeZone"> &
 export const parseDate = ({
   date,
   timezone,
-}: Pick<FormatDateTimeParams, "date" | "timezone">) =>
-  (timezone && utcToZonedTime(date, timezone)) ||
-  (date instanceof Date && date) ||
-  parseISO(date);
-
+}: Pick<FormatDateTimeParams, "date" | "timezone">) => {
+  if (timezone) {
+    return utcToZonedTime(date, timezone);
+  } else if (date instanceof Date) {
+    return date;
+  }
+  return parseISO(date);
+};
 export const formatDateTime = ({
   date,
   timezone,

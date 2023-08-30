@@ -440,6 +440,8 @@ const OrderDetailPage: NextPage = () => {
           isApplicant={isApplicant}
           hasCancellationRecord={hasCancellationRecord}
           hasPostponeRecord={hasPostponeRecord}
+          // TODO: improve this or something idk
+          // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
           shopperId={shopper?.userId!}
           consumerId={consumer.userId}
         />

@@ -54,7 +54,7 @@ export const BankBranchSelect = <T extends FieldValues>({
   );
 
   const value =
-    options.find((option) => option.branchCode === field.value) || null;
+    options.find((option) => option.branchCode === field.value)?? null;
 
   return (
     <Autocomplete

@@ -80,7 +80,7 @@ const UserButton = () => {
           onClick={handleToggleUserMenu}
         >
           <Avatar
-            src={session?.user?.image || undefined}
+            src={session?.user?.image ?? undefined}
             sx={{ width: 24, height: 24 }}
           />
         </IconButton>
@@ -114,7 +114,7 @@ const UserButton = () => {
                   <Stack spacing={2}>
                     <Box display="flex" alignItems="center" gap={2}>
                       <Avatar
-                        src={session?.user?.image || undefined}
+                        src={session?.user?.image ?? undefined}
                         sx={{ width: 40, height: 40 }}
                       />
                       <Typography variant="h5" fontWeight="bold" as="p">

@@ -65,7 +65,7 @@ export const SortFilterPopup = ({
   });
 
   const handleClose = () => {
-    handleSubmit((data) => {
+    void handleSubmit((data) => {
       onSubmit(data);
       onClose();
     })();

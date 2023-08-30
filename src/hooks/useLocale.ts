@@ -9,6 +9,7 @@ declare global {
 const getLocale = () => {
   let locale =
     (typeof navigator !== "undefined" &&
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       (navigator.language || navigator.userLanguage)) ||
     "en-US";
 

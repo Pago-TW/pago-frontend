@@ -45,7 +45,7 @@ export const RequestedCommissions: FC<TabContentProps> = ({ userId }) => {
   );
 
   useEffect(() => {
-    if (inView && hasNextPage) fetchNextPage();
+    if (inView && hasNextPage) void fetchNextPage();
   }, [inView, hasNextPage, fetchNextPage]);
 
   const handleShowMore = () => fetchNextPage();
@@ -81,7 +81,7 @@ export const OngoingTrips: FC<TabContentProps> = ({ userId }) => {
   );
 
   useEffect(() => {
-    if (inView && hasNextPage) fetchNextPage();
+    if (inView && hasNextPage) void fetchNextPage();
   }, [inView, hasNextPage, fetchNextPage]);
 
   const handleShowMore = () => fetchNextPage();
@@ -126,7 +126,7 @@ export const PersonalReviews: FC<TabContentProps> = ({ userId }) => {
   );
 
   useEffect(() => {
-    if (inView && hasNextPage) fetchNextPage();
+    if (inView && hasNextPage) void fetchNextPage();
   }, [inView, hasNextPage, fetchNextPage]);
 
   const handleTabChange = (_event: React.SyntheticEvent, newTab: ReviewType) =>

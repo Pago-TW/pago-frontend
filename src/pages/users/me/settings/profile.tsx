@@ -170,7 +170,7 @@ export default function UserProfileSettingPage() {
                 <TextField
                   label="手機"
                   InputLabelProps={{ shrink: true }}
-                  disabled={session?.user?.verified || inputDisabled}
+                  disabled={session?.user?.verified ?? inputDisabled}
                   fullWidth
                   error={!!errors.phone}
                   helperText={errors.phone?.message}

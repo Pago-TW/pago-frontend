@@ -1,4 +1,3 @@
-// useFileUpload.ts
 import { useMutation } from "@tanstack/react-query";
 
 import { axios } from "@/libs/axios";
@@ -18,7 +17,7 @@ const uploadFile = async ({ file, params }: FileUploadParams) => {
   formData.append("objectType", params.objectType);
 
   try {
-    const response = await axios.post("/files", formData);
+    const response = await axios.post<unknown[]>("/files", formData);
 
     if (!response || response.status !== 200) {
       throw new Error("檔案上傳失敗");

@@ -18,8 +18,6 @@ const TABS = [
   { label: "確認資訊", value: "CONFIRM_INFO" },
 ] as const;
 
-type TabValue = (typeof TABS)[number]["value"];
-
 export const AddBankAccForm = () => {
   const router = useRouter();
   const redirectUrl =
@@ -52,11 +50,11 @@ export const AddBankAccForm = () => {
         accountHolderName: form.data.bankInfo.accountHolderName,
         accountNumber: form.data.bankInfo.accountNumber,
       },
-      { onSuccess: () => router.replace(redirectUrl) }
+      { onSuccess: () => void router.replace(redirectUrl) }
     );
   };
 
-  const tab = TABS[form.step]?.value!;
+  const tab = TABS[form.step]?.value ?? "USER_INFO";
 
   return (
     <div style={{ width: "100%" }}>

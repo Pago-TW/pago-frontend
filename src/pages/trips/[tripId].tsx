@@ -91,7 +91,10 @@ const MoreOptionsButton: FC<{ deletable?: boolean }> = ({ deletable }) => {
       await confirm({
         title: "確定刪除此旅途？",
       });
-      deleteTrip({ tripId }, { onSuccess: () => router.replace("/trips") });
+      deleteTrip(
+        { tripId },
+        { onSuccess: () => void router.replace("/trips") }
+      );
     } catch (err) {
       console.error(err);
     }
@@ -254,7 +257,7 @@ const TripDetailPage: NextPage = () => {
                   <TabList
                     variant="scrollable"
                     allowScrollButtonsMobile
-                    onChange={(_e, v) => setCurrentTab(v)}
+                    onChange={(_e, v: Tab["value"]) => setCurrentTab(v)}
                   >
                     {TABS.map((tab) => (
                       <Tab key={tab.value} {...tab} />

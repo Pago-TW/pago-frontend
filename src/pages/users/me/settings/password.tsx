@@ -60,7 +60,7 @@ export default function UserPasswordSettingPage() {
   } = useChangePassword();
 
   const handlePasswordCheck = () => {
-    if (dirtyFields.confirmNewPassword) trigger("confirmNewPassword");
+    if (dirtyFields.confirmNewPassword) void trigger("confirmNewPassword");
   };
 
   const handleFormSubmit = (data: ChangePasswordFormValues) => {

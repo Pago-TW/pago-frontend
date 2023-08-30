@@ -64,7 +64,7 @@ export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
 
   const chatroomId = chatroomData?.chatroomId;
   const { data: messagesData, isLoading: isMessagesLoading } =
-    useChatroomMessages(chatroomId || "");
+    useChatroomMessages(chatroomId ?? "");
 
   const { webSocketService, sendFileMessage } = useWebSocket();
 
@@ -100,7 +100,7 @@ export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
     const files = event.target.files;
 
     if (files) {
-      await sendFileMessage(files);
+      if (sendFileMessage) await sendFileMessage(files);
       scrollToBottom();
     }
   };
@@ -164,7 +164,7 @@ export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
         >
           <Header
             title={
-              chatroomData?.otherUser?.fullName || (
+              chatroomData?.otherUser?.fullName ?? (
                 <Skeleton
                   width={120}
                   height={38}
@@ -224,7 +224,7 @@ export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
         }}
       >
         <Header
-          title={chatroomData?.otherUser?.fullName || ""}
+          title={chatroomData?.otherUser?.fullName ?? ""}
           onBackClick={handleBackClick}
         />
       </Box>

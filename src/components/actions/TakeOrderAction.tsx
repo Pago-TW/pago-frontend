@@ -30,7 +30,7 @@ export const TakeOrderAction: FC = () => {
 
   const { mutate: addBid } = useAddBid();
 
-  const handleActionClick = async () => {
+  const handleActionClick = () => {
     if (session?.user?.verified) {
       handleOpen();
       return;
@@ -44,7 +44,7 @@ export const TakeOrderAction: FC = () => {
           <Button
             variant="text"
             onClick={() => {
-              router.push({
+              void router.push({
                 pathname: "/users/me/payments/new",
                 query: { redirectUrl: router.asPath },
               });

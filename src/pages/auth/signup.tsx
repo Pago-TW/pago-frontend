@@ -80,7 +80,7 @@ const SignUpPage: NextPage = () => {
       try {
         await axios.post("/auth/register", data);
 
-        router.replace(callbackUrl);
+        void router.replace(callbackUrl);
       } catch (e) {
         enqueueSnackbar("註冊失敗", {
           variant: "error",
@@ -91,7 +91,7 @@ const SignUpPage: NextPage = () => {
   );
 
   const handlePasswordCheck = () => {
-    if (dirtyFields.confirmPassword) trigger("confirmPassword");
+    if (dirtyFields.confirmPassword) void trigger("confirmPassword");
   };
 
   return (

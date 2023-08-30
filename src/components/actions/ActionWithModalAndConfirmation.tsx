@@ -25,7 +25,7 @@ export const ActionWithModalAndConfirmation = <FormData extends object>(
   const { open, handleOpen, handleClose } = useOpen();
   const confirm = useConfirm();
 
-  const handleClick = async () => handleOpen();
+  const handleClick = () => handleOpen();
 
   const handleSubmit = async (data: FormData) => {
     try {

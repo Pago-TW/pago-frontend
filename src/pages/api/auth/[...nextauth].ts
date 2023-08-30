@@ -1,9 +1,24 @@
-import NextAuth, { type NextAuthOptions } from "next-auth";
+import NextAuth, {
+  type NextAuthOptions,
+  type User as NextAuthUser,
+} from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
 import { env } from "@/env.mjs";
 import { axios } from "@/libs/axios";
+import type { User } from "@/types/user";
+
+interface AuthResponse {
+  token: {
+    tokenType: string;
+    accessToken: string;
+  };
+  user: Pick<User, "userId" | "fullName" | "avatarUrl" | "email" | "phone"> & {
+    isPhoneVerified: boolean;
+    provider: "LOCAL" | "GOOGLE";
+  };
+}
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -21,7 +36,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
-        const res = await axios.post("/auth/login", credentials);
+        const res = await axios.post<AuthResponse>("/auth/login", credentials);
 
         const { token, user } = res.data;
 
@@ -35,7 +50,7 @@ export const authOptions: NextAuthOptions = {
             phone: user.phone,
             verified: user.isPhoneVerified,
             provider: user.provider,
-          };
+          } as NextAuthUser;
         }
         return null;
       },
@@ -45,7 +60,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     signIn: async ({ user, account }) => {
       if (account?.provider === "google") {
-        const res = await axios.post("/oauth2/google-login", {
+        const res = await axios.post<AuthResponse>("/oauth2/google-login", {
           idToken: account.id_token,
         });
 
@@ -68,7 +83,7 @@ export const authOptions: NextAuthOptions = {
     },
     jwt: async ({ token, user, trigger }) => {
       if (trigger === "update") {
-        const res = await axios.get("/users/me", {
+        const res = await axios.get<AuthResponse["user"]>("/users/me", {
           headers: {
             Authorization: `Bearer ${token.accessToken}`,
           },
@@ -94,7 +109,7 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
-    session: async ({ session, token }) => {
+    session: ({ session, token }) => {
       session.accessToken = token.accessToken;
       if (session.user) {
         session.user.id = token.id;

@@ -45,7 +45,7 @@ const OrdersPage: NextPage = () => {
 
   useEffect(() => {
     if (inView && hasNextPage) {
-      fetchNextPage();
+      void fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
@@ -82,7 +82,7 @@ const OrdersPage: NextPage = () => {
               <TabList
                 variant="scrollable"
                 allowScrollButtonsMobile
-                onChange={(_e, v) => setCurrentTab(v)}
+                onChange={(_e, v: Tab["value"]) => setCurrentTab(v)}
               >
                 {TABS.map((tab) => (
                   <Tab

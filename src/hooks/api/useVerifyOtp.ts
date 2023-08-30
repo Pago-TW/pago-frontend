@@ -20,8 +20,8 @@ export const useVerifyOtp = () => {
   return useMutation({
     mutationFn: verifyOtp,
     onSettled: () => {
-      qc.invalidateQueries(["users", "me"]);
-      update();
+      void qc.invalidateQueries(["users", "me"]);
+      void update();
     },
   });
 };

@@ -29,14 +29,14 @@ export const AddBankAccRecap = ({ onPrev, onSubmit }: AddBankRecapProps) => {
     bankCode,
   });
 
-  const districts = districtOptions[0]?.districtList || [];
+  const districts = districtOptions[0]?.districtList ?? [];
   const district =
-    districts.find((d) => d.zipCode === zipCode)?.districtChineseName || "";
+    districts.find((d) => d.zipCode === zipCode)?.districtChineseName ?? "";
   const residentialDistrict = `${city}${district}`;
 
-  const bankName = banks.find((b) => b.bankCode === bankCode)?.name || "";
+  const bankName = banks.find((b) => b.bankCode === bankCode)?.name ?? "";
   const branchName =
-    branches.find((b) => b.branchCode === branchCode)?.branchName || "";
+    branches.find((b) => b.branchCode === branchCode)?.branchName ?? "";
 
   return (
     <Box width="100%">

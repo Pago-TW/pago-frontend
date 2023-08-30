@@ -80,7 +80,7 @@ const SignInPage: NextPage = () => {
           variant: "error",
         });
       } else {
-        router.push(callbackUrl);
+        void router.push(callbackUrl);
       }
     },
     [callbackUrl, enqueueSnackbar, router]

@@ -24,7 +24,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({
     <Button
       type={onClick ? "button" : "submit"}
       endIcon={success ? successIcon ?? <Check /> : null}
-      disabled={disabled || success}
+      disabled={disabled ?? success}
       fullWidth={fullWidth}
       onClick={onClick}
       sx={{

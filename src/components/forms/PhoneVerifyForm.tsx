@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle } from "@mui/icons-material";
@@ -75,7 +75,7 @@ export const PhoneVerifyForm = () => {
             control={control}
             name="phone"
             rules={{
-              onChange: (e) =>
+              onChange: (e: ChangeEvent<HTMLInputElement>) =>
                 setForm((draft) => {
                   draft.data.verifyPhone.phone = e.target.value;
                 }),
@@ -140,7 +140,11 @@ export const PhoneVerifyForm = () => {
         onError: (error) => {
           if (error instanceof AxiosError) {
             if (error.response?.status === 429) {
-              const { createDate, secondsRemaining } = error.response.data;
+              const {
+                createDate,
+                secondsRemaining,
+              }: { createDate: string; secondsRemaining: number } =
+                error.response.data;
               if (createDate) {
                 const calculatedDate = calcCountdownDate(
                   createDate,

@@ -73,7 +73,7 @@ export const RoundTripForm: FC = () => {
           arrivalDate: data.arrivalDate,
           returnDate: data.returnDate,
         },
-        { onSuccess: () => router.replace("/trips") }
+        { onSuccess: () => void router.replace("/trips") }
       );
     },
     [addRoundTrip, router]
@@ -86,7 +86,7 @@ export const RoundTripForm: FC = () => {
 
   const handleDialogConfirm = useCallback(() => {
     handleDialogClose();
-    handleSubmit(handleFormSubmit)();
+    void handleSubmit(handleFormSubmit)();
   }, [handleDialogClose, handleSubmit, handleFormSubmit]);
 
   return (
