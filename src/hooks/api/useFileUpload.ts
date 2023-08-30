@@ -17,7 +17,7 @@ const uploadFile = async ({ file, params }: FileUploadParams) => {
   formData.append("objectType", params.objectType);
 
   try {
-    const response = await axios.post<unknown[]>("/files", formData);
+    const response = await axios.post<string[]>("/files", formData);
 
     if (!response || response.status !== 200) {
       throw new Error("檔案上傳失敗");
