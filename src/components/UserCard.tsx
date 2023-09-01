@@ -3,11 +3,10 @@ import { Avatar, Box, Paper, Stack } from "@mui/material";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/components/ui/Link";
 import { Typography } from "@/components/ui/Typography";
-import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Perspective } from "@/types/misc";
 import type { OrderShopper, OrderUser } from "@/types/order";
-import { formatDate } from "@/utils/formatDateTime";
+import { formatDate } from "@/utils/date";
 
 export type UserCardProps = Pick<
   OrderUser,
@@ -24,18 +23,13 @@ export const UserCard = ({
   latestDeliveryDate,
   perspective,
 }: UserCardProps) => {
-  const locale = useLocale();
-
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
   const perspectiveMsg = perspective === "consumer" ? "代購者" : "委託者";
 
   let latestDeliveryDateElem;
   if (latestDeliveryDate) {
-    const formattedLatestDeliveryDate = formatDate({
-      date: latestDeliveryDate,
-      locale,
-    });
+    const formattedLatestDeliveryDate = formatDate(latestDeliveryDate);
     const latestDeliveryDateMsg =
       perspective === "consumer"
         ? `預計將於 ${formattedLatestDeliveryDate} 前購買並面交商品`

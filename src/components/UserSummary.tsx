@@ -6,13 +6,11 @@ import { signIn, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/Button";
 import { Paper } from "@/components/ui/Paper";
 import { Typography } from "@/components/ui/Typography";
-import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useTimezone } from "@/hooks/useTimezone";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import type { ReviewSummary } from "@/types/review";
 import type { User } from "@/types/user";
-import { formatDate } from "@/utils/formatDateTime";
+import { formatDate } from "@/utils/date";
 
 const StyledRating = styled(Rating)(({ theme }) => ({
   "& .MuiRating-iconEmpty": {
@@ -114,9 +112,6 @@ export const UserSummary: FC<UserSummaryProps> = ({
 }) => {
   const { data: session, status } = useSession();
 
-  const locale = useLocale();
-  const timezone = useTimezone();
-
   const setChatWith = useChatroomStore((state) => state.setChatWith);
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
@@ -129,11 +124,7 @@ export const UserSummary: FC<UserSummaryProps> = ({
     setChatWith(userId);
   };
 
-  const formattedCreateDate = formatDate({
-    date: createDate,
-    timezone,
-    locale,
-  });
+  const formattedCreateDate = formatDate(createDate);
 
   return (
     <Paper

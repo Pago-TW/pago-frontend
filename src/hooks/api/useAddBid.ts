@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { zonedTimeToUtc } from "date-fns-tz";
 
 import { axios } from "@/libs/axios";
 import type { Bid } from "@/types/bid";
@@ -31,13 +30,9 @@ interface AddBidResponse {
 const addBid = async (params: AddBidParams) => {
   const { orderId, data } = params;
 
-  const postData = {
-    ...data,
-    latestDeliveryDate: zonedTimeToUtc(data.latestDeliveryDate, "UTC"),
-  };
   const res = await axios.post<AddBidResponse>(
     `/orders/${orderId}/bids`,
-    postData
+    data
   );
 
   return res.data;

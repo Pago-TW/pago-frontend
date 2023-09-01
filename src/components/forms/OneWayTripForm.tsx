@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Stack } from "@mui/material";
-import { startOfDay, subDays } from "date-fns";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -17,9 +16,8 @@ import { PaperLayout } from "@/components/layouts/PaperLayout";
 import { SubmitButton } from "@/components/SubmitButton";
 import { useAddOneWayTrip } from "@/hooks/api/useAddOneWayTrip";
 import { useOpen } from "@/hooks/useOpen";
-
-const currentDate = startOfDay(new Date());
-const minDate = subDays(currentDate, 1);
+import { zDayjs } from "@/types/zod";
+import { now, utcNow } from "@/utils/date";
 
 export const oneWayTripFormSchema = z.object({
   from: countryCitySchema.refine(
@@ -29,7 +27,7 @@ export const oneWayTripFormSchema = z.object({
   to: countryCitySchema.refine((value) => Object.values(value).every(Boolean), {
     message: "請選擇目的地",
   }),
-  arrivalDate: z.date().min(minDate, { message: "不合理的抵達時間" }),
+  arrivalDate: zDayjs.refine((date) => date >= now().startOf("day")),
 });
 
 export type OneWayTripFormValues = z.infer<typeof oneWayTripFormSchema>;
@@ -37,7 +35,7 @@ export type OneWayTripFormValues = z.infer<typeof oneWayTripFormSchema>;
 export const DEFAULT_VALUES: Partial<OneWayTripFormValues> = {
   from: { countryCode: "", cityCode: "" },
   to: { countryCode: "", cityCode: "" },
-  arrivalDate: currentDate,
+  arrivalDate: utcNow().startOf("day"),
 };
 
 export const OneWayTripForm: FC = () => {
@@ -70,7 +68,7 @@ export const OneWayTripForm: FC = () => {
           fromCity: data.from.cityCode,
           toCountry: data.to.countryCode,
           toCity: data.to.cityCode,
-          arrivalDate: data.arrivalDate,
+          arrivalDate: data.arrivalDate.toDate(),
         },
         { onSuccess: (data) => void router.push(`/trips/${data.tripId}`) }
       );
@@ -102,7 +100,7 @@ export const OneWayTripForm: FC = () => {
             control={control}
             name="arrivalDate"
             label="抵達時間"
-            minDate={minDate}
+            disablePast
             slotProps={{
               textField: {
                 error: !!errors.arrivalDate,

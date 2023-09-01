@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { zonedTimeToUtc } from "date-fns-tz";
 
 import { axios } from "@/libs/axios";
 import type { Trip } from "@/types/trip";
@@ -19,7 +18,7 @@ const addRoundTrip = async (data: AddRoundTripData) => {
     fromCity: data.fromCity,
     toCountry: data.toCountry,
     toCity: data.toCity,
-    arrivalDate: zonedTimeToUtc(data.arrivalDate, "UTC"),
+    arrivalDate: data.arrivalDate,
   };
   const outboundRes = await axios.post<Trip>("/trips", outboundData);
 
@@ -28,7 +27,7 @@ const addRoundTrip = async (data: AddRoundTripData) => {
     fromCity: data.toCity,
     toCountry: data.fromCountry,
     toCity: data.fromCity,
-    arrivalDate: zonedTimeToUtc(data.returnDate, "UTC"),
+    arrivalDate: data.returnDate,
   };
   const inboundRes = await axios.post<Trip>("/trips", inboundData);
 

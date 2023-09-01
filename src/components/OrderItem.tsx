@@ -3,20 +3,16 @@ import Image from "next/image";
 
 import { ChevronRight } from "@mui/icons-material";
 import { Box, Paper, Skeleton, Stack } from "@mui/material";
-import { intlFormatDistance, parseISO } from "date-fns";
-import { utcToZonedTime } from "date-fns-tz";
 
 import { PackagingText } from "@/components/PackagingText";
 import { StatusText } from "@/components/StatusText";
 import { Divider } from "@/components/ui/Divider";
 import { Typography } from "@/components/ui/Typography";
 import { useCountryCity } from "@/hooks/api/useCountryCity";
-import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useTimezone } from "@/hooks/useTimezone";
 import type { Order } from "@/types/order";
 import { extractCountriesCities } from "@/utils/api";
-import { formatDate } from "@/utils/formatDateTime";
+import { formatDate, fromNow } from "@/utils/date";
 
 export type OrderItemProps = Pick<
   Order,
@@ -68,9 +64,6 @@ export const OrderItem = ({
   purchaseCityName,
   variant = "default",
 }: OrderItemProps) => {
-  const locale = useLocale();
-  const timezone = useTimezone();
-
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   const { data: countriesAndCities = [] } = useCountryCity({
@@ -81,10 +74,7 @@ export const OrderItem = ({
     [countriesAndCities]
   );
 
-  const formattedLatestReceiveItemDate = formatDate({
-    date: latestReceiveItemDate,
-    locale,
-  });
+  const formattedLatestReceiveItemDate = formatDate(latestReceiveItemDate);
   const firstImageUrl = fileUrls?.[0];
 
   const getCountryChineseName = (countryCode: string, fallback?: string) =>
@@ -195,11 +185,7 @@ export const OrderItem = ({
             </Typography>
           </Stack>
           <Typography variant={mdDown ? "h6" : "h5"} color="base.main">
-            {intlFormatDistance(
-              utcToZonedTime(parseISO(createDate), timezone),
-              new Date(),
-              { locale }
-            )}
+            {fromNow(createDate)}
           </Typography>
         </Box>
         <Box display="flex" justifyContent="space-between" alignItems="center">

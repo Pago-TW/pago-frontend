@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { zonedTimeToUtc } from "date-fns-tz";
 
 import { axios } from "@/libs/axios";
 import type { BankAccount } from "@/types/bank";
@@ -15,11 +14,7 @@ interface AddBankAccountData {
 }
 
 const addBankAccount = async (data: AddBankAccountData) => {
-  const postData = {
-    ...data,
-    birthDate: zonedTimeToUtc(data.birthDate, "UTC"),
-  };
-  const res = await axios.post<BankAccount>("/bank-accounts", postData);
+  const res = await axios.post<BankAccount>("/bank-accounts", data);
 
   return res.data;
 };

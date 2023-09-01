@@ -13,11 +13,9 @@ import SimpleBar from "simplebar-react";
 
 import { Paper } from "@/components/ui/Paper";
 import { Typography } from "@/components/ui/Typography";
-import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useTimezone } from "@/hooks/useTimezone";
 import type { Review } from "@/types/review";
-import { formatDateTime } from "@/utils/formatDateTime";
+import { formatDateTime } from "@/utils/date";
 
 import "simplebar-react/dist/simplebar.min.css";
 
@@ -47,16 +45,9 @@ export const ReviewItem: FC<ReviewItemProps> = ({
   content,
   fileUrls,
 }) => {
-  const locale = useLocale();
-  const timezone = useTimezone();
-
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
-  const formattedCreateDate = formatDateTime({
-    date: createDate,
-    timezone,
-    locale,
-  });
+  const formattedCreateDate = formatDateTime(createDate);
 
   return (
     <Paper sx={{ px: { xs: 2, md: 4 }, py: { xs: 1, md: 2 } }}>

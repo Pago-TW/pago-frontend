@@ -30,13 +30,12 @@ import { useDeleteTrip } from "@/hooks/api/useDeleteTrip";
 import { useMatchingOrders } from "@/hooks/api/useMatchingOrders";
 import { useOrders } from "@/hooks/api/useOrders";
 import { useTrip } from "@/hooks/api/useTrip";
-import { useLocale } from "@/hooks/useLocale";
 import type { Trip } from "@/types/trip";
 import {
   flattenInfinitePaginatedData,
   getInfinitePaginatedDataTotal,
 } from "@/utils/api";
-import { formatDate } from "@/utils/formatDateTime";
+import { formatDate } from "@/utils/date";
 
 const TABS = [
   { label: "全部", value: "ALL" },
@@ -149,12 +148,7 @@ const TripInfo: FC<TripInfoProps> = ({
   totalTripOrders,
   totalMatchedOrders,
 }) => {
-  const locale = useLocale();
-
-  const formattedArrivalDate = formatDate({
-    date: arrivalDate,
-    locale,
-  });
+  const formattedArrivalDate = formatDate(arrivalDate);
 
   return (
     <PaperLayout>

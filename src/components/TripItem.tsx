@@ -1,9 +1,8 @@
 import { Stack } from "@mui/material";
 
 import { Typography } from "@/components/ui/Typography";
-import { useLocale } from "@/hooks/useLocale";
 import type { Trip } from "@/types/trip";
-import { formatDate } from "@/utils/formatDateTime";
+import { formatDate } from "@/utils/date";
 
 export type TripItemProps = Trip;
 
@@ -12,12 +11,7 @@ export const TripItem = ({
   toCountry,
   arrivalDate,
 }: TripItemProps) => {
-  const locale = useLocale();
-
-  const formattedArrivalDate = formatDate({
-    date: arrivalDate,
-    locale,
-  });
+  const formattedArrivalDate = formatDate(arrivalDate);
 
   return (
     <Stack

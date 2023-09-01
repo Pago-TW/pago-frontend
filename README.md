@@ -49,4 +49,5 @@ Repository for the frontend of the Pago project.
 - [ ] Use setQueryData to update the query cache after the form is submitted successfully
 - [x] FIX GIT
 - [ ] Separate schemas into files
-- [ ] Consider migrate from date-fns to dayjs
+- [x] Consider migrate from date-fns to dayjs
+  - [x] Replace `minDate` & `maxDate` props to `disablePast` & `disableFuture` (when possible)

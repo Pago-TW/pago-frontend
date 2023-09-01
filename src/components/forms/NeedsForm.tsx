@@ -11,8 +11,8 @@ import { DatePicker } from "@/components/inputs/DatePicker";
 import { NumberInput } from "@/components/inputs/NumberInput";
 import { PaperLayout } from "@/components/layouts/PaperLayout";
 import { Typography } from "@/components/ui/Typography";
-
-const currentDate = new Date();
+import { zDayjs } from "@/types/zod";
+import { now } from "@/utils/date";
 
 export const needsFormSchema = z.object({
   packing: z.boolean({
@@ -28,12 +28,7 @@ export const needsFormSchema = z.object({
     { message: "請選擇送達國家、縣市" }
   ),
   fee: z.number().min(1, { message: "代購費不可小於1" }),
-  deadline: z
-    .date({
-      invalid_type_error: "無效的日期",
-      required_error: "請選擇日期",
-    })
-    .min(currentDate, { message: "日期不可早於今天" }),
+  deadline: zDayjs.refine((date) => date >= now().startOf("day")),
   note: z.string().optional(),
 });
 
@@ -97,7 +92,7 @@ export const NeedsForm = () => {
           control={control}
           name="deadline"
           label="最晚收到商品日期"
-          minDate={currentDate}
+          disablePast
           slotProps={{
             textField: {
               error: !!errors?.deadline,

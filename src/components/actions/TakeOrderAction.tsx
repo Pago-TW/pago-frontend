@@ -71,7 +71,7 @@ export const TakeOrderAction: FC = () => {
           tripId: data.tripId,
           bidAmount: data.amount,
           currency: data.currency,
-          latestDeliveryDate: data.date,
+          latestDeliveryDate: data.date.toDate(),
         },
       });
     } catch {}

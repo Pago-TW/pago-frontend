@@ -3,9 +3,8 @@ import { useRouter } from "next/router";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Stack } from "@mui/material";
-import { startOfDay, subDays } from "date-fns";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import type { z } from "zod";
 
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { oneWayTripFormSchema } from "@/components/forms/OneWayTripForm";
@@ -15,13 +14,12 @@ import { PaperLayout } from "@/components/layouts/PaperLayout";
 import { SubmitButton } from "@/components/SubmitButton";
 import { useAddRoundTrip } from "@/hooks/api/useAddRoundTrip";
 import { useOpen } from "@/hooks/useOpen";
-
-const currentDate = startOfDay(new Date());
-const minDate = subDays(currentDate, 1);
+import { zDayjs } from "@/types/zod";
+import { utcNow } from "@/utils/date";
 
 export const roundTripFormSchema = oneWayTripFormSchema
   .extend({
-    returnDate: z.date(),
+    returnDate: zDayjs,
   })
   .refine((data) => data.returnDate >= data.arrivalDate, {
     message: "返回時間不可早於出發時間",
@@ -33,8 +31,8 @@ export type RoundTripFormValues = z.infer<typeof roundTripFormSchema>;
 export const DEFAULT_VALUES: Partial<RoundTripFormValues> = {
   from: { countryCode: "", cityCode: "" },
   to: { countryCode: "", cityCode: "" },
-  arrivalDate: currentDate,
-  returnDate: currentDate,
+  arrivalDate: utcNow().startOf("day"),
+  returnDate: utcNow().startOf("day"),
 };
 
 export const RoundTripForm: FC = () => {
@@ -70,8 +68,8 @@ export const RoundTripForm: FC = () => {
           fromCity: data.from.cityCode,
           toCountry: data.to.countryCode,
           toCity: data.to.cityCode,
-          arrivalDate: data.arrivalDate,
-          returnDate: data.returnDate,
+          arrivalDate: data.arrivalDate.toDate(),
+          returnDate: data.returnDate.toDate(),
         },
         { onSuccess: () => void router.replace("/trips") }
       );
@@ -104,7 +102,7 @@ export const RoundTripForm: FC = () => {
               control={control}
               name="arrivalDate"
               label="抵達時間"
-              minDate={minDate}
+              disablePast
               onChange={(date) => {
                 if (date) {
                   const returnDate = getValues("returnDate");

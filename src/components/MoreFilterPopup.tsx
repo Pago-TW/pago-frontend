@@ -23,8 +23,7 @@ import { Button } from "@/components/ui/Button";
 import { Radio } from "@/components/ui/Radio";
 import { Typography } from "@/components/ui/Typography";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-
-const currentDate = new Date();
+import { zDayjs } from "@/types/zod";
 
 export const moreFilterSchema = z
   .object({
@@ -36,7 +35,7 @@ export const moreFilterSchema = z
       .enum(["true", "false"])
       .or(z.boolean())
       .transform((v) => (typeof v === "string" ? v === "true" : v)),
-    latestReceiveDate: z.date().nullable(),
+    latestReceiveDate: zDayjs.nullable(),
   })
   .refine(({ fee: { min, max } }) => (!!min && !!max ? min <= max : true), {
     message: "最低金額不可大於最高金額",
@@ -147,7 +146,7 @@ export const MoreFilterPopup = ({
             control={control}
             name="latestReceiveDate"
             sx={{ flexGrow: 1 }}
-            minDate={currentDate}
+            disablePast
             format="P 之後"
           />
           <IconButton onClick={() => setValue("latestReceiveDate", null)}>
