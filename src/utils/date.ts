@@ -3,7 +3,7 @@ import dayjs, { type ConfigType } from "@/libs/dayjs";
 import "dayjs/locale/zh-tw";
 
 const DATE_FORMAT = "YYYY-MM-DD" as const;
-const TIME_FORMAT = "HH:mm:ss" as const;
+const TIME_FORMAT = "HH:mm" as const;
 const DATE_TIME_FORMAT = `${DATE_FORMAT} ${TIME_FORMAT}` as const;
 
 dayjs.locale("zh-tw");
