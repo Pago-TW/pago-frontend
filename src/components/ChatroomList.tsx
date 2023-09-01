@@ -9,7 +9,7 @@ import { Header } from "@/components/Header";
 import { Typography } from "@/components/ui/Typography";
 import { useChatrooms } from "@/hooks/api/useChatrooms";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { flattenInfinitePaginatedData } from "@/utils/api";
 
 const hideScrollbar = {
   "&::-webkit-scrollbar": {

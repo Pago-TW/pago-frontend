@@ -30,7 +30,7 @@ import { useOrders, type Params } from "@/hooks/api/useOrders";
 import { useOpen } from "@/hooks/useOpen";
 import type { Order } from "@/types/order";
 import type { KeysToSnakeCase } from "@/types/util";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { flattenInfinitePaginatedData } from "@/utils/api";
 
 const quickFilterSchema = z.object({
   from: countryCitySchema,

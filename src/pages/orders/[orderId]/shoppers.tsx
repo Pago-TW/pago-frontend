@@ -16,7 +16,7 @@ import { Typography } from "@/components/ui/Typography";
 import { useMatchingShoppers } from "@/hooks/api/useMatchingShoppers";
 import { useOrder } from "@/hooks/api/useOrder";
 import type { OrderShopper } from "@/types/order";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { flattenInfinitePaginatedData } from "@/utils/api";
 
 type ShopperChooserProps = Pick<
   OrderShopper,

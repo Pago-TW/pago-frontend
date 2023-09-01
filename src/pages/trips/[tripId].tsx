@@ -32,9 +32,11 @@ import { useOrders } from "@/hooks/api/useOrders";
 import { useTrip } from "@/hooks/api/useTrip";
 import { useLocale } from "@/hooks/useLocale";
 import type { Trip } from "@/types/trip";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import {
+  flattenInfinitePaginatedData,
+  getInfinitePaginatedDataTotal,
+} from "@/utils/api";
 import { formatDate } from "@/utils/formatDateTime";
-import { getInfinitePaginatedDataTotal } from "@/utils/getInfinitePaginatedDataTotal";
 
 const TABS = [
   { label: "全部", value: "ALL" },

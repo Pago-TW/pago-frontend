@@ -4,7 +4,7 @@ import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { axios } from "@/libs/axios";
 import type { PaginatedResponse, PaginationParams } from "@/types/api";
 import type { Message } from "@/types/message";
-import { getLastIndex } from "@/utils/getLastIndex";
+import { getLastIndex } from "@/utils/api";
 
 type Params = PaginationParams;
 

@@ -4,7 +4,7 @@ import { axios } from "@/libs/axios";
 import type { PaginatedResponse, PaginationParams } from "@/types/api";
 import type { Review, ReviewType } from "@/types/review";
 import type { User } from "@/types/user";
-import { getLastIndex } from "@/utils/getLastIndex";
+import { getLastIndex } from "@/utils/api";
 
 type Params = PaginationParams<{
   type: ReviewType;

@@ -16,7 +16,7 @@ import {
 
 import { useCountryCity } from "@/hooks/api/useCountryCity";
 import type { CountryOption } from "@/types/misc";
-import { extractCountries } from "@/utils/extractCountriesCities";
+import { extractCountries } from "@/utils/api";
 
 export type CountrySelectProps<T extends FieldValues> = UseControllerProps<T> &
   Pick<

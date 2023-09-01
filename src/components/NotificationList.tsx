@@ -13,7 +13,7 @@ import { Typography } from "@/components/ui/Typography";
 import { HorizontalCenterTabList, StyledTab } from "@/components/UserTabs";
 import { useMarkNotificationAsRead } from "@/hooks/api/useMarkNotificationAsRead";
 import { useNotifications } from "@/hooks/api/useNotifications";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { flattenInfinitePaginatedData } from "@/utils/api";
 
 const PAGE_TABS = [
   { label: "委託", value: "ORDER" },

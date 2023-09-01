@@ -4,7 +4,6 @@ import Image from "next/image";
 import { Place } from "@mui/icons-material";
 import { Box, Skeleton, Stack } from "@mui/material";
 import { useFormContext } from "react-hook-form";
-import { translateBoolean } from "src/utils/translateBoolean";
 import type { z } from "zod";
 
 import { DetailItem } from "@/components/DetailItem";
@@ -17,8 +16,9 @@ import { useCharge } from "@/hooks/api/useCharge";
 import { useCountryCity } from "@/hooks/api/useCountryCity";
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { extractCountriesCities } from "@/utils/extractCountriesCities";
+import { extractCountriesCities } from "@/utils/api";
 import { formatDate } from "@/utils/formatDateTime";
+import { translateBoolean } from "@/utils/misc";
 
 export const reviewFormSchema = merchandiseFormSchema.merge(needsFormSchema);
 

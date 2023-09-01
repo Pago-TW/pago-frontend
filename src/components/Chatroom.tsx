@@ -14,7 +14,7 @@ import { useLocale } from "@/hooks/useLocale";
 import { useTimezone } from "@/hooks/useTimezone";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import type { Message, SendMessageRequest } from "@/types/message";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { flattenInfinitePaginatedData } from "@/utils/api";
 import { formatTime } from "@/utils/formatDateTime";
 
 type MessageState = Omit<Message, "senderId" | "chatroomId"> & {

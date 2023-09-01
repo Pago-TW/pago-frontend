@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import { Place } from "@mui/icons-material";
 import { Box, Paper, Stack } from "@mui/material";
 import { useSession } from "next-auth/react";
-import { translateBoolean } from "src/utils/translateBoolean";
 
 import { Actions } from "@/components/actions/Actions";
 import { AvailableShoppers } from "@/components/AvailableShoppers";
@@ -27,9 +26,12 @@ import { useOrder } from "@/hooks/api/useOrder";
 import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Order } from "@/types/order";
-import { extractCountriesCities } from "@/utils/extractCountriesCities";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import {
+  extractCountriesCities,
+  flattenInfinitePaginatedData,
+} from "@/utils/api";
 import { formatDate } from "@/utils/formatDateTime";
+import { translateBoolean } from "@/utils/misc";
 
 const AreaWrapper = ({ children }: { children: ReactNode }) => {
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));

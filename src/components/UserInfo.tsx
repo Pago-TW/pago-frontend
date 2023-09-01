@@ -6,7 +6,7 @@ import { Paper } from "@/components/ui/Paper";
 import { Typography } from "@/components/ui/Typography";
 import { useCountryCity } from "@/hooks/api/useCountryCity";
 import type { User } from "@/types/user";
-import { extractCountries } from "@/utils/extractCountriesCities";
+import { extractCountries } from "@/utils/api";
 
 interface ItemProps {
   label: string;
@@ -55,8 +55,7 @@ export const UserInfo: FC<UserInfoProps> = ({
     () => extractCountries(countryCityOptions),
     [countryCityOptions]
   );
-  const countryName =
-    countries[countryCode!]?.chineseName ?? (countryCode!);
+  const countryName = countries[countryCode!]?.chineseName ?? countryCode!;
 
   return (
     <Paper
