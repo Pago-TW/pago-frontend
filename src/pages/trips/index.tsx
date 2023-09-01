@@ -6,14 +6,14 @@ import { Add } from "@mui/icons-material";
 import { Container, Stack } from "@mui/material";
 import { useSession } from "next-auth/react";
 
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { PageTitle } from "@/components/PageTitle";
-import { TripList, type TripListProps } from "@/components/TripList";
-import { Button } from "@/components/ui/Button";
-import { Link } from "@/components/ui/Link";
-import { Paper } from "@/components/ui/Paper";
-import { Typography } from "@/components/ui/Typography";
-import { useTrips } from "@/hooks/api/useTrips";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { PageTitle } from "@/components/page-title";
+import { TripList, type TripListProps } from "@/components/trip-list";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
+import { Paper } from "@/components/ui/paper";
+import { Typography } from "@/components/ui/typography";
+import { useTrips } from "@/hooks/api/use-trips";
 import type { TripStatus } from "@/types/trip";
 import { flattenInfinitePaginatedData } from "@/utils/api";
 

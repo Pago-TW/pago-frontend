@@ -9,11 +9,11 @@ import { useSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { PasswordInput } from "@/components/inputs/PasswordInput";
-import { CenterLayout } from "@/components/layouts/CenterLayout";
-import { Button } from "@/components/ui/Button";
-import { Typography } from "@/components/ui/Typography";
-import useFetchEmailFromToken from "@/hooks/api/useFetchEmailFromToken";
+import { PasswordInput } from "@/components/inputs/password-input";
+import { CenterLayout } from "@/components/layouts/center-layout";
+import { Button } from "@/components/ui/button";
+import { Typography } from "@/components/ui/typography";
+import useFetchEmailFromToken from "@/hooks/api/use-fetch-email-from-token";
 import { axios } from "@/libs/axios";
 
 export const resetPasswordFormSchema = z

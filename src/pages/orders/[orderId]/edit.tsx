@@ -10,22 +10,22 @@ import { FormProvider, useForm } from "react-hook-form";
 import {
   EditMerchandiseForm,
   editMerchandiseFormSchema,
-} from "@/components/forms/EditMerchandiseForm";
+} from "@/components/forms/edit-merchandise-form";
 import EditReviewForm, {
   editReviewFormSchema,
   transformEditReviewFormValues,
   type EditReviewFormValues,
-} from "@/components/forms/EditReviewForm";
-import { NeedsForm, needsFormSchema } from "@/components/forms/NeedsForm";
-import type { Currency } from "@/components/inputs/CurrencyInput";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { PageTitle } from "@/components/PageTitle";
-import { SubmitButton } from "@/components/SubmitButton";
-import { Button } from "@/components/ui/Button";
-import { StepLabel } from "@/components/ui/StepLabel";
-import { Stepper } from "@/components/ui/Stepper";
-import { useOrder } from "@/hooks/api/useOrder";
-import { useUpdateOrder } from "@/hooks/api/useUpdateOrder";
+} from "@/components/forms/edit-review-form";
+import { NeedsForm, needsFormSchema } from "@/components/forms/needs-form";
+import type { Currency } from "@/components/inputs/currency-input";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { PageTitle } from "@/components/page-title";
+import { SubmitButton } from "@/components/submit-button";
+import { Button } from "@/components/ui/button";
+import { StepLabel } from "@/components/ui/step-label";
+import { Stepper } from "@/components/ui/stepper";
+import { useOrder } from "@/hooks/api/use-order";
+import { useUpdateOrder } from "@/hooks/api/use-update-order";
 import type { Order } from "@/types/order";
 import { now, parse } from "@/utils/date";
 

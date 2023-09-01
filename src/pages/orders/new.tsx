@@ -10,22 +10,22 @@ import { FormProvider, useForm } from "react-hook-form";
 import {
   MerchandiseForm,
   merchandiseFormSchema,
-} from "@/components/forms/MerchandiseForm";
-import { NeedsForm, needsFormSchema } from "@/components/forms/NeedsForm";
+} from "@/components/forms/merchandise-form";
+import { NeedsForm, needsFormSchema } from "@/components/forms/needs-form";
 import {
   ReviewForm,
   reviewFormSchema,
   transformReviewFormValues,
   type ReviewFormValues,
-} from "@/components/forms/ReviewForm";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { PageTitle } from "@/components/PageTitle";
-import { SubmitButton } from "@/components/SubmitButton";
-import { Button } from "@/components/ui/Button";
-import { StepLabel } from "@/components/ui/StepLabel";
-import { Stepper } from "@/components/ui/Stepper";
-import { useAddOrder } from "@/hooks/api/useAddOrder";
-import { useStepper } from "@/hooks/useStepper";
+} from "@/components/forms/review-form";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { PageTitle } from "@/components/page-title";
+import { SubmitButton } from "@/components/submit-button";
+import { Button } from "@/components/ui/button";
+import { StepLabel } from "@/components/ui/step-label";
+import { Stepper } from "@/components/ui/stepper";
+import { useAddOrder } from "@/hooks/api/use-add-order";
+import { useStepper } from "@/hooks/use-stepper";
 import { utcNow } from "@/utils/date";
 
 const STEPS = [

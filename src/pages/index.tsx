@@ -2,18 +2,16 @@ import type { InferGetStaticPropsType, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 
-import { Stack, styled } from "@mui/material";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
+import { Box, Container, Stack, styled } from "@mui/material";
 import { getPlaiceholder } from "plaiceholder";
 
-import Footer from "@/components/Footer";
-import { HowItWorks } from "@/components/home/HowItWorks";
-import { LatestOrders } from "@/components/home/LatestOrders";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { Button } from "@/components/ui/Button";
-import { Link } from "@/components/ui/Link";
-import { Typography } from "@/components/ui/Typography";
+import Footer from "@/components/footer";
+import { HowItWorks } from "@/components/home/how-it-works";
+import { LatestOrders } from "@/components/home/latest-orders";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
+import { Typography } from "@/components/ui/typography";
 
 const StyledButton = styled(Button)({
   minWidth: "fit-content",

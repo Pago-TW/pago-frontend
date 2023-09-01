@@ -16,20 +16,20 @@ import {
 import { ConfirmProvider, useConfirm } from "material-ui-confirm";
 import { useSession } from "next-auth/react";
 
-import { DetailItem } from "@/components/DetailItem";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { PaperLayout } from "@/components/layouts/PaperLayout";
-import { OrderList } from "@/components/OrderList";
-import { PageTitle } from "@/components/PageTitle";
-import { ShowMoreButton } from "@/components/ShowMoreButton";
-import { Button } from "@/components/ui/Button";
-import { Tab } from "@/components/ui/Tab";
-import { Typography } from "@/components/ui/Typography";
-import { defaultConfirmOptions } from "@/configs/confirmOptions";
-import { useDeleteTrip } from "@/hooks/api/useDeleteTrip";
-import { useMatchingOrders } from "@/hooks/api/useMatchingOrders";
-import { useOrders } from "@/hooks/api/useOrders";
-import { useTrip } from "@/hooks/api/useTrip";
+import { DetailItem } from "@/components/detail-item";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { PaperLayout } from "@/components/layouts/paper-layout";
+import { OrderList } from "@/components/order-list";
+import { PageTitle } from "@/components/page-title";
+import { ShowMoreButton } from "@/components/show-more-button";
+import { Button } from "@/components/ui/button";
+import { Tab } from "@/components/ui/tab";
+import { Typography } from "@/components/ui/typography";
+import { defaultConfirmOptions } from "@/configs/confirm-options";
+import { useDeleteTrip } from "@/hooks/api/use-delete-trip";
+import { useMatchingOrders } from "@/hooks/api/use-matching-orders";
+import { useOrders } from "@/hooks/api/use-orders";
+import { useTrip } from "@/hooks/api/use-trip";
 import type { Trip } from "@/types/trip";
 import {
   flattenInfinitePaginatedData,

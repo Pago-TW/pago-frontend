@@ -6,11 +6,11 @@ import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { PasswordInput } from "@/components/inputs/PasswordInput";
-import { SettingLayout } from "@/components/layouts/SettingLayout";
-import { SubmitButton } from "@/components/SubmitButton";
-import { Typography } from "@/components/ui/Typography";
-import { useChangePassword } from "@/hooks/api/useChangePassword";
+import { PasswordInput } from "@/components/inputs/password-input";
+import { SettingLayout } from "@/components/layouts/setting-layout";
+import { SubmitButton } from "@/components/submit-button";
+import { Typography } from "@/components/ui/typography";
+import { useChangePassword } from "@/hooks/api/use-change-password";
 
 const changePasswordFormSchema = z
   .object({

@@ -11,12 +11,12 @@ import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { z } from "zod";
 
-import { PasswordInput } from "@/components/inputs/PasswordInput";
-import { CenterLayout } from "@/components/layouts/CenterLayout";
-import { Button } from "@/components/ui/Button";
-import { Divider } from "@/components/ui/Divider";
-import { Link } from "@/components/ui/Link";
-import { Typography } from "@/components/ui/Typography";
+import { PasswordInput } from "@/components/inputs/password-input";
+import { CenterLayout } from "@/components/layouts/center-layout";
+import { Button } from "@/components/ui/button";
+import { Divider } from "@/components/ui/divider";
+import { Link } from "@/components/ui/link";
+import { Typography } from "@/components/ui/typography";
 
 export const signInFormSchema = z.object({
   email: z

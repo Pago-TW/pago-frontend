@@ -9,12 +9,12 @@ import { useSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { PasswordInput } from "@/components/inputs/PasswordInput";
-import { PhoneInput } from "@/components/inputs/PhoneInput";
-import { CenterLayout } from "@/components/layouts/CenterLayout";
-import { Button } from "@/components/ui/Button";
-import { Link } from "@/components/ui/Link";
-import { Typography } from "@/components/ui/Typography";
+import { PasswordInput } from "@/components/inputs/password-input";
+import { PhoneInput } from "@/components/inputs/phone-input";
+import { CenterLayout } from "@/components/layouts/center-layout";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
+import { Typography } from "@/components/ui/typography";
 import { axios } from "@/libs/axios";
 
 export const signUpFormSchema = z

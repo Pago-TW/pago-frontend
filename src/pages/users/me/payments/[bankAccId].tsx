@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 
 import { Container, Stack } from "@mui/material";
 
-import { BankAccountInfo } from "@/components/BankAccountInfo";
-import { BankUserInfo } from "@/components/BankUserInfo";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { PageTitle } from "@/components/PageTitle";
-import { useBankAccount } from "@/hooks/api/useBankAccount";
+import { BankAccountInfo } from "@/components/bank-account-info";
+import { BankUserInfo } from "@/components/bank-user-info";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { PageTitle } from "@/components/page-title";
+import { useBankAccount } from "@/hooks/api/use-bank-account";
 
 export default function UserBankAccountDetailPage() {
   const router = useRouter();

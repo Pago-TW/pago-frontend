@@ -8,13 +8,13 @@ import { Box, Container } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useInView } from "react-intersection-observer";
 
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { OrderList } from "@/components/OrderList";
-import { PageTitle } from "@/components/PageTitle";
-import { Button } from "@/components/ui/Button";
-import { Link } from "@/components/ui/Link";
-import { Tab } from "@/components/ui/Tab";
-import { useOrders } from "@/hooks/api/useOrders";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { OrderList } from "@/components/order-list";
+import { PageTitle } from "@/components/page-title";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
+import { Tab } from "@/components/ui/tab";
+import { useOrders } from "@/hooks/api/use-orders";
 import { flattenInfinitePaginatedData } from "@/utils/api";
 
 const TABS = [

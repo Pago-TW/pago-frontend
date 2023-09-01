@@ -12,9 +12,9 @@ import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { SnackbarProvider } from "notistack";
 
-import { CloseSnackbarButton } from "@/components/CloseSnackbarButton";
-import { NotistackSnackbar } from "@/components/NotistackSnackbar";
-import { WebSocketProvider } from "@/contexts/WebSocketContext";
+import { CloseSnackbarButton } from "@/components/close-snackbar-button";
+import { NotistackSnackbar } from "@/components/notistack-snackbar";
+import { WebSocketProvider } from "@/contexts/web-socket-context";
 import { env } from "@/env.mjs";
 import { theme } from "@/styles/theme";
 import { createEmotionCache } from "@/utils/mui";

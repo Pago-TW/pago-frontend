@@ -2,11 +2,11 @@ import Head from "next/head";
 
 import { Container, Paper, Stack } from "@mui/material";
 
-import { AddBankCard } from "@/components/AddBankCard";
-import { BankCard } from "@/components/BankCard";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { PageTitle } from "@/components/PageTitle";
-import { useBankAccounts } from "@/hooks/api/useBankAccounts";
+import { AddBankCard } from "@/components/add-bank-card";
+import { BankCard } from "@/components/bank-card";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { PageTitle } from "@/components/page-title";
+import { useBankAccounts } from "@/hooks/api/use-bank-accounts";
 
 export default function UserBankAccountsPage() {
   const { data: accounts } = useBankAccounts();

@@ -6,15 +6,15 @@ import Head from "next/head";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Container, Stack } from "@mui/material";
 
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { PageTitle } from "@/components/PageTitle";
-import { Tab } from "@/components/ui/Tab";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { PageTitle } from "@/components/page-title";
+import { Tab } from "@/components/ui/tab";
 
 const DynamicOneWrapTripForm = dynamic(
-  import("@/components/forms/OneWayTripForm")
+  import("@/components/forms/one-way-trip-form")
 );
 const DynamicRoundTripForm = dynamic(
-  import("@/components/forms/RoundTripForm")
+  import("@/components/forms/round-trip-form")
 );
 
 const TABS = [

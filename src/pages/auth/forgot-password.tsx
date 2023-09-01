@@ -4,11 +4,11 @@ import Head from "next/head";
 
 import { Stack, TextField } from "@mui/material";
 
-import { CenterLayout } from "@/components/layouts/CenterLayout";
-import { Button } from "@/components/ui/Button";
-import { Link } from "@/components/ui/Link";
-import { Typography } from "@/components/ui/Typography";
-import { useRequestPasswordReset } from "@/hooks/api/useRequestPasswordReset";
+import { CenterLayout } from "@/components/layouts/center-layout";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
+import { Typography } from "@/components/ui/typography";
+import { useRequestPasswordReset } from "@/hooks/api/use-request-password-reset";
 
 const ForgotPasswordPage: NextPage = () => {
   const [email, setEmail] = useState("");
