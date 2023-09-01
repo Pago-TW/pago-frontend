@@ -26,6 +26,7 @@ import { StepLabel } from "@/components/ui/StepLabel";
 import { Stepper } from "@/components/ui/Stepper";
 import { useAddOrder } from "@/hooks/api/useAddOrder";
 import { useStepper } from "@/hooks/useStepper";
+import { utcNow } from "@/utils/date";
 
 const STEPS = [
   {
@@ -65,7 +66,7 @@ const DEFAULT_VALUES: Partial<ReviewFormValues> = {
     countryCode: "",
     cityCode: "",
   },
-  deadline: new Date(),
+  deadline: utcNow(),
   note: "",
 };
 

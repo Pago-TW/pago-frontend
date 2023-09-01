@@ -10,10 +10,11 @@ import { Button } from "@/components/ui/Button";
 import { Paper } from "@/components/ui/Paper";
 import { Typography } from "@/components/ui/Typography";
 import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";
+import { zDayjs } from "@/types/zod";
 
 export const userInfoFormSchema = z.object({
   legalName: z.string().trim().min(1, "請輸入真實姓名"),
-  birthDate: z.date(),
+  birthDate: zDayjs,
   city: z.string().trim(),
   zipCode: z
     .string({ required_error: "請選擇鄉鎮市區" })

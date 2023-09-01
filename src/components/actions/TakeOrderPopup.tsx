@@ -22,7 +22,8 @@ import { useOrder } from "@/hooks/api/useOrder";
 import { useTakeOrderTrips } from "@/hooks/api/useTakeOrderTrips";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Order } from "@/types/order";
-import { formatDate, parse } from "@/utils/date";
+import { zDayjs } from "@/types/zod";
+import { formatDate, parse, utcNow } from "@/utils/date";
 
 export const takeOrderFormSchema = z.object({
   amount: z
@@ -30,7 +31,7 @@ export const takeOrderFormSchema = z.object({
     .min(1, { message: "金額不可小於1" }),
   currency: z.string().min(1, { message: "請選擇貨幣單位" }),
   tripId: z.string().min(1, { message: "請選擇旅途" }),
-  date: z.date(),
+  date: zDayjs,
 });
 
 export type TakeOrderFormValues = z.infer<typeof takeOrderFormSchema>;
@@ -39,7 +40,7 @@ const DEFAULT_VALUES: Partial<TakeOrderFormValues> = {
   amount: 0,
   currency: "TWD",
   tripId: "",
-  date: new Date(),
+  date: utcNow(),
 };
 
 const StyledButton = styled(Button)({

@@ -43,7 +43,7 @@ export const AddBankAccForm = () => {
     addBankAccount(
       {
         legalName: form.data.userInfo.legalName,
-        birthDate: form.data.userInfo.birthDate,
+        birthDate: form.data.userInfo.birthDate.toDate(),
         zipCode: form.data.userInfo.zipCode,
         bankCode: form.data.bankInfo.bankCode,
         branchCode: form.data.bankInfo.branchCode,

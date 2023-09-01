@@ -8,12 +8,14 @@ import {
 import { useSession } from "next-auth/react";
 import { useImmer, type Updater } from "use-immer";
 
+import { utcNow } from "@/utils/date";
+
 const INITIAL_STATE = {
   step: 0,
   data: {
     userInfo: {
       legalName: "",
-      birthDate: new Date(),
+      birthDate: utcNow(),
       city: "",
       zipCode: "",
     },
