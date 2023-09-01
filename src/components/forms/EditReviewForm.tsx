@@ -14,10 +14,9 @@ import { Typography } from "@/components/ui/Typography";
 import type { AddOrderData } from "@/hooks/api/useAddOrder";
 import { useCharge } from "@/hooks/api/useCharge";
 import { useCountryCity } from "@/hooks/api/useCountryCity";
-import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { extractCountriesCities } from "@/utils/extractCountriesCities";
-import { formatDate } from "@/utils/formatDateTime";
+import { formatDate } from "@/utils/date";
 import { translateBoolean } from "@/utils/translateBoolean";
 
 export const editReviewFormSchema = merchandiseFormSchema
@@ -46,7 +45,7 @@ export const transformEditReviewFormValues = (
     travelerFee: data.fee,
     currency: data.price.currency,
     note: data.note,
-    latestReceiveItemDate: data.deadline,
+    latestReceiveItemDate: data.deadline.toDate(),
   };
 };
 
@@ -57,8 +56,6 @@ interface EditMerchandiseFormProps {
 export const EditReviewForm: FC<EditMerchandiseFormProps> = ({
   imageUrls = [],
 }) => {
-  const locale = useLocale();
-
   const { getValues } = useFormContext<EditReviewFormValues>();
 
   const mdDown = useMediaQuery((theme) => theme.breakpoints.down("md"));
@@ -172,7 +169,7 @@ export const EditReviewForm: FC<EditMerchandiseFormProps> = ({
           />
           <DetailItem
             label="最晚收到商品時間"
-            value={formatDate({ date: deadline, locale })}
+            value={formatDate(deadline)}
             multiLine
           />
           <DetailItem label="備註" value={note} multiLine />

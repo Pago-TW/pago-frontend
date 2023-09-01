@@ -15,10 +15,9 @@ import { Typography } from "@/components/ui/Typography";
 import type { AddOrderData } from "@/hooks/api/useAddOrder";
 import { useCharge } from "@/hooks/api/useCharge";
 import { useCountryCity } from "@/hooks/api/useCountryCity";
-import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { extractCountriesCities } from "@/utils/extractCountriesCities";
-import { formatDate } from "@/utils/formatDateTime";
+import { formatDate } from "@/utils/date";
 
 export const reviewFormSchema = merchandiseFormSchema.merge(needsFormSchema);
 
@@ -46,15 +45,13 @@ export const transformReviewFormValues = (
       travelerFee: data.fee,
       currency: data.price.currency,
       note: data.note,
-      latestReceiveItemDate: data.deadline,
+      latestReceiveItemDate: data.deadline.toDate(),
     },
   };
 };
 
 export const ReviewForm = () => {
   const [preview, setPreview] = useState<string>("");
-
-  const locale = useLocale();
 
   const { getValues } = useFormContext<ReviewFormValues>();
 
@@ -194,7 +191,7 @@ export const ReviewForm = () => {
           />
           <DetailItem
             label="最晚收到商品時間"
-            value={formatDate({ date: deadline, locale })}
+            value={formatDate(deadline)}
             multiLine
           />
           <DetailItem label="備註" value={note} multiLine />

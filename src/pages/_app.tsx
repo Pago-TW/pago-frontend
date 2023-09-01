@@ -5,7 +5,7 @@ import { CacheProvider, type EmotionCache } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { Session } from "next-auth";
@@ -47,7 +47,10 @@ const PagoApp = ({
         <QueryClientProvider client={queryClient}>
           <WebSocketProvider websocketUrl={`${env.NEXT_PUBLIC_API_URL}/ws`}>
             <ThemeProvider theme={theme}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                adapterLocale="zh-tw"
+              >
                 <SnackbarProvider
                   Components={{
                     default: NotistackSnackbar,

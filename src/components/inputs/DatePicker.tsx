@@ -2,6 +2,7 @@ import {
   DatePicker as MuiDatePicker,
   type DatePickerProps as MuiDatePickerProps,
 } from "@mui/x-date-pickers";
+import type { Dayjs } from "dayjs";
 import {
   useController,
   type Control,
@@ -10,7 +11,7 @@ import {
 } from "react-hook-form";
 
 export type DatePickerProps<T extends FieldValues> =
-  MuiDatePickerProps<Date> & {
+  MuiDatePickerProps<Dayjs> & {
     control: Control<T>;
     name: Path<T>;
   };
@@ -18,6 +19,7 @@ export type DatePickerProps<T extends FieldValues> =
 export const DatePicker = <T extends FieldValues>({
   control,
   name,
+  onChange,
   ...datePickerProps
 }: DatePickerProps<T>) => {
   const {
@@ -25,12 +27,12 @@ export const DatePicker = <T extends FieldValues>({
   } = useController({ control, name });
 
   return (
-    <MuiDatePicker
-      {...datePickerProps}
+    <MuiDatePicker<Dayjs>
       onChange={(date, ctx) => {
-        datePickerProps.onChange?.(date, ctx);
+        onChange?.(date, ctx);
         fieldOnChange(date);
       }}
+      {...datePickerProps}
       {...field}
     />
   );

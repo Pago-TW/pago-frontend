@@ -110,7 +110,7 @@ export default function MarketplacePage() {
     setParams((draft) => {
       draft.minTravelerFee = typeof minFee === "string" ? undefined : minFee;
       draft.maxTravelerFee = typeof maxFee === "string" ? undefined : maxFee;
-      draft.latestReceiveItemDate = latestReceiveDate ?? undefined;
+      draft.latestReceiveItemDate = latestReceiveDate?.toDate();
       draft.isPackagingRequired = data.packaging;
     });
   };

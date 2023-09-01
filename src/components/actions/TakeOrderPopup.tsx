@@ -9,7 +9,6 @@ import {
   styled,
   SwipeableDrawer,
 } from "@mui/material";
-import { parseISO } from "date-fns";
 import { Controller, useForm } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
 import { z } from "zod";
@@ -21,10 +20,9 @@ import { Button } from "@/components/ui/Button";
 import { Typography } from "@/components/ui/Typography";
 import { useOrder } from "@/hooks/api/useOrder";
 import { useTakeOrderTrips } from "@/hooks/api/useTakeOrderTrips";
-import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Order } from "@/types/order";
-import { formatDate } from "@/utils/formatDateTime";
+import { formatDate, parse } from "@/utils/date";
 
 export const takeOrderFormSchema = z.object({
   amount: z
@@ -83,8 +81,6 @@ interface TakeOrderPopupProps {
 export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
   const { orderId, open, onOpen, onClose, onSubmit } = props;
 
-  const locale = useLocale();
-
   const isTablet = useMediaQuery((theme) => theme.breakpoints.up("sm"));
 
   const { control, handleSubmit, watch } = useForm<TakeOrderFormValues>({
@@ -100,10 +96,10 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
     (opt) => opt.tripId === watch("tripId")
   );
   const minDate = selectedTrip?.arrivalDate
-    ? parseISO(selectedTrip?.arrivalDate)
+    ? parse(selectedTrip?.arrivalDate)
     : undefined;
   const maxDate = order?.latestReceiveItemDate
-    ? parseISO(order?.latestReceiveItemDate)
+    ? parse(order?.latestReceiveItemDate)
     : undefined;
 
   const hasTripOptions = tripOptions.length !== 0;
@@ -154,7 +150,7 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
           {tripOptions.map((opt) => (
             <MenuItem key={opt.tripId} value={opt.tripId}>
               {opt.fromCountryChineseName} → {opt.toCountryChineseName} (
-              {formatDate({ date: opt.arrivalDate, locale })})
+              {formatDate(opt.arrivalDate)})
             </MenuItem>
           ))}
         </SelectInput>

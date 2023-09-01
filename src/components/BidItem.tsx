@@ -2,14 +2,12 @@ import dynamic from "next/dynamic";
 
 import { Star } from "@mui/icons-material";
 import { Avatar, Box, Paper, Stack } from "@mui/material";
-import { intlFormatDistance, parseISO } from "date-fns";
 
 import { Button } from "@/components/ui/Button";
 import { Typography } from "@/components/ui/Typography";
-import { useLocale } from "@/hooks/useLocale";
 import { useOpen } from "@/hooks/useOpen";
 import type { Bid } from "@/types/bid";
-import { formatDateTime } from "@/utils/formatDateTime";
+import { formatDateTime, fromNow } from "@/utils/date";
 
 const DynamicAcceptBidDialog = dynamic(() =>
   import("./AcceptBidDialog").then((mod) => mod.AcceptBidDialog)
@@ -41,23 +39,14 @@ export const BidItem = (props: BidItemProps) => {
     isOwner,
   } = props;
 
-  const locale = useLocale();
-
   const { open, handleOpen, handleClose } = useOpen();
 
   const handleAcceptClick = () => {
     handleOpen();
   };
 
-  const formattedDistance = intlFormatDistance(
-    parseISO(createdAt),
-    new Date(),
-    { locale }
-  );
-  const formattedEstDeliveryDate = formatDateTime({
-    date: estDeliveryDate,
-    locale,
-  });
+  const formattedDistance = fromNow(createdAt);
+  const formattedEstDeliveryDate = formatDateTime(estDeliveryDate);
 
   return (
     <>

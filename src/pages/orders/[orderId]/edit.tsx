@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { alpha, Box, Stack, Step, styled } from "@mui/material";
-import { parseISO } from "date-fns";
 import { FormProvider, useForm } from "react-hook-form";
 
 import {
@@ -28,6 +27,7 @@ import { Stepper } from "@/components/ui/Stepper";
 import { useOrder } from "@/hooks/api/useOrder";
 import { useUpdateOrder } from "@/hooks/api/useUpdateOrder";
 import type { Order } from "@/types/order";
+import { now, parse } from "@/utils/date";
 
 const StyledButton = styled(Button)(({ theme, color }) => ({
   minWidth: 0,
@@ -64,7 +64,7 @@ const transformApiData = (order: Order): EditReviewFormValues => {
       countryCode: order.destinationCountryCode,
       cityCode: order.destinationCityCode,
     },
-    deadline: parseISO(order.latestReceiveItemDate),
+    deadline: parse(order.latestReceiveItemDate),
     note: order.note,
   };
 };
@@ -89,7 +89,7 @@ const DEFAULT_VALUES: Partial<EditReviewFormValues> = {
     countryCode: "",
     cityCode: "",
   },
-  deadline: new Date(),
+  deadline: now(),
   note: "",
 };
 

@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { zonedTimeToUtc } from "date-fns-tz";
 
 import { axios } from "@/libs/axios";
 import type { Order, OrderStatus } from "@/types/order";
@@ -19,16 +18,7 @@ interface UpdateOrderParams {
 const updateOrder = async (params: UpdateOrderParams) => {
   const { orderId, data } = params;
 
-  const patchData = data.latestReceiveItemDate
-    ? {
-        ...data,
-        latestReceiveItemDate: zonedTimeToUtc(
-          data.latestReceiveItemDate,
-          "UTC"
-        ),
-      }
-    : data;
-  const res = await axios.patch<Order>(`/orders/${orderId}`, patchData);
+  const res = await axios.patch<Order>(`/orders/${orderId}`, data);
 
   return res.data;
 };

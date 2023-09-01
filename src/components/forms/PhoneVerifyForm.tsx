@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle } from "@mui/icons-material";
 import { Stack, styled } from "@mui/material";
 import { AxiosError } from "axios";
-import { addSeconds, parseISO } from "date-fns";
 import { useSession } from "next-auth/react";
 import Countdown, { type CountdownRenderProps } from "react-countdown";
 import { useForm } from "react-hook-form";
@@ -16,6 +15,7 @@ import { Button } from "@/components/ui/Button";
 import { useAddBankAccFormContext } from "@/contexts/AddBankAccFormContext";
 import { useSendSns } from "@/hooks/api/useSendSns";
 import { useVerifyOtp } from "@/hooks/api/useVerifyOtp";
+import { parse } from "@/utils/date";
 
 const OtpInput = dynamic(
   () => import("@/components/inputs/OtpInput").then((mod) => mod.OtpInput),
@@ -33,9 +33,9 @@ const VerifiedIcon = styled(CheckCircle)(({ theme }) => ({
   color: theme.palette.pagoGreen.main,
 }));
 
-const calcCountdownDate = (createDate: string, deltaInSeconds = 180) => {
-  const date = parseISO(createDate);
-  return addSeconds(date, deltaInSeconds);
+const calcCountdownDate = (createDate: string, deltaInSeconds = 180): Date => {
+  const date = parse(createDate);
+  return date.add(deltaInSeconds, "seconds").toDate();
 };
 
 export const PhoneVerifyForm = () => {

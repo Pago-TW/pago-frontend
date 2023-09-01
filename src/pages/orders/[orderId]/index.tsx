@@ -24,12 +24,11 @@ import { useBids } from "@/hooks/api/useBids";
 import { useCountryCity } from "@/hooks/api/useCountryCity";
 import { useMatchingShoppers } from "@/hooks/api/useMatchingShoppers";
 import { useOrder } from "@/hooks/api/useOrder";
-import { useLocale } from "@/hooks/useLocale";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Order } from "@/types/order";
+import { formatDate } from "@/utils/date";
 import { extractCountriesCities } from "@/utils/extractCountriesCities";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { formatDate } from "@/utils/formatDateTime";
 
 const AreaWrapper = ({ children }: { children: ReactNode }) => {
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
@@ -89,8 +88,6 @@ const DetailList = (
     note,
     serialNumber,
   } = props;
-
-  const locale = useLocale();
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
@@ -182,7 +179,7 @@ const DetailList = (
       />
       <DetailItem
         label="最晚收到商品時間"
-        value={formatDate({ date: latestReceiveItemDate, locale })}
+        value={formatDate(latestReceiveItemDate)}
         multiLine={multiline}
       />
       <DetailItem label="備註" value={note} multiLine={multiline} />

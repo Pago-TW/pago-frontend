@@ -10,12 +10,10 @@ import MessageBoard from "@/components/MessageBoard";
 import { useWebSocket } from "@/contexts/WebSocketContext";
 import { useChatroom } from "@/hooks/api/useChatroom";
 import useChatroomMessages from "@/hooks/api/useChatroomMessages";
-import { useLocale } from "@/hooks/useLocale";
-import { useTimezone } from "@/hooks/useTimezone";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import type { Message, SendMessageRequest } from "@/types/message";
 import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { formatTime } from "@/utils/formatDateTime";
+import { formatTime } from "@/utils/date";
 
 type MessageState = Omit<Message, "senderId" | "chatroomId"> & {
   isSender: boolean;
@@ -28,13 +26,9 @@ interface ChatroomProps {
 const transformMessage = ({
   message,
   userId,
-  locale,
-  timezone,
 }: {
   message: Message;
   userId?: string;
-  locale: string;
-  timezone: string;
 }) => {
   const { senderName, content, sendDate, senderId, messageType } = message;
 
@@ -44,16 +38,13 @@ const transformMessage = ({
     content,
     isSender,
     messageType,
-    sendDate: formatTime({ date: sendDate, timezone, locale }),
+    sendDate: formatTime(sendDate),
   } satisfies MessageState;
 };
 
 export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
   const { data: session } = useSession();
   const userId = session?.user?.id;
-
-  const locale = useLocale();
-  const timezone = useTimezone();
 
   const [localMessages, setLocalMessages] = useState<MessageState[]>([]);
 
@@ -73,13 +64,13 @@ export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
       const handleMessage = (message: Message) => {
         setLocalMessages((prevMessages) => [
           ...prevMessages,
-          transformMessage({ message, userId, timezone, locale }),
+          transformMessage({ message, userId }),
         ]);
       };
       webSocketService.onMessage(handleMessage);
       return () => webSocketService.offMessage(handleMessage);
     }
-  }, [locale, timezone, userId, webSocketService]);
+  }, [userId, webSocketService]);
 
   useEffect(() => {
     if (!chatWith) setLocalMessages([]);
@@ -107,7 +98,7 @@ export const Chatroom: React.FC<ChatroomProps> = ({ chatWith }) => {
 
   const messages = [
     ...flattenInfinitePaginatedData(messagesData).map((message) =>
-      transformMessage({ message, userId, timezone, locale })
+      transformMessage({ message, userId })
     ),
     ...localMessages,
   ];
