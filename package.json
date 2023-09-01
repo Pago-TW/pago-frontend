@@ -30,8 +30,6 @@
     "@tanstack/react-query-devtools": "^4.32.6",
     "axios": "^1.4.0",
     "country-flag-icons": "^1.5.7",
-    "date-fns": "^2.30.0",
-    "date-fns-tz": "^2.0.0",
     "dayjs": "^1.11.9",
     "embla-carousel-react": "8.0.0-rc11",
     "immer": "^10.0.2",
