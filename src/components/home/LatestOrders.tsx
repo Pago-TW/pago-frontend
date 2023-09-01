@@ -7,7 +7,7 @@ import { SectionTitle } from "@/components/SectionTitle";
 import { Typography } from "@/components/ui/Typography";
 import { useOrders } from "@/hooks/api/useOrders";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { flattenInfinitePaginatedData } from "@/utils/api";
 
 const LatestOrders = () => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));

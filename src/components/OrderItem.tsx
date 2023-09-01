@@ -11,7 +11,7 @@ import { Typography } from "@/components/ui/Typography";
 import { useCountryCity } from "@/hooks/api/useCountryCity";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { Order } from "@/types/order";
-import { extractCountriesCities } from "@/utils/extractCountriesCities";
+import { extractCountriesCities } from "@/utils/api";
 import { formatDate, fromNow } from "@/utils/date";
 
 export type OrderItemProps = Pick<

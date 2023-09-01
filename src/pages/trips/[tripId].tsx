@@ -31,9 +31,11 @@ import { useMatchingOrders } from "@/hooks/api/useMatchingOrders";
 import { useOrders } from "@/hooks/api/useOrders";
 import { useTrip } from "@/hooks/api/useTrip";
 import type { Trip } from "@/types/trip";
+import {
+  flattenInfinitePaginatedData,
+  getInfinitePaginatedDataTotal,
+} from "@/utils/api";
 import { formatDate } from "@/utils/date";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { getInfinitePaginatedDataTotal } from "@/utils/getInfinitePaginatedDataTotal";
 
 const TABS = [
   { label: "全部", value: "ALL" },

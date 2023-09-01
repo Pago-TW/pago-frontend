@@ -15,9 +15,9 @@ import type { AddOrderData } from "@/hooks/api/useAddOrder";
 import { useCharge } from "@/hooks/api/useCharge";
 import { useCountryCity } from "@/hooks/api/useCountryCity";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { extractCountriesCities } from "@/utils/extractCountriesCities";
+import { extractCountriesCities } from "@/utils/api";
 import { formatDate } from "@/utils/date";
-import { translateBoolean } from "@/utils/translateBoolean";
+import { translateBoolean } from "@/utils/misc";
 
 export const editReviewFormSchema = merchandiseFormSchema
   .merge(needsFormSchema)

@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/Button";
 import { Link } from "@/components/ui/Link";
 import { Tab } from "@/components/ui/Tab";
 import { useOrders } from "@/hooks/api/useOrders";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { flattenInfinitePaginatedData } from "@/utils/api";
 
 const TABS = [
   { label: "全部", value: "ALL" },

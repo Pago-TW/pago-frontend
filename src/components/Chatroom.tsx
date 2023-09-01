@@ -12,7 +12,7 @@ import { useChatroom } from "@/hooks/api/useChatroom";
 import useChatroomMessages from "@/hooks/api/useChatroomMessages";
 import { useChatroomStore } from "@/store/ui/useChatroomStore";
 import type { Message, SendMessageRequest } from "@/types/message";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { flattenInfinitePaginatedData } from "@/utils/api";
 import { formatTime } from "@/utils/date";
 
 type MessageState = Omit<Message, "senderId" | "chatroomId"> & {

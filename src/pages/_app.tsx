@@ -17,7 +17,7 @@ import { NotistackSnackbar } from "@/components/NotistackSnackbar";
 import { WebSocketProvider } from "@/contexts/WebSocketContext";
 import { env } from "@/env.mjs";
 import { theme } from "@/styles/theme";
-import { createEmotionCache } from "@/utils/createEmotionCache";
+import { createEmotionCache } from "@/utils/mui";
 
 import "@fontsource/mallanna/400.css";
 import "@fontsource/noto-sans-tc/300.css";

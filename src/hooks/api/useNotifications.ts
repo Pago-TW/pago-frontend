@@ -3,7 +3,7 @@ import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query";
 import { axios } from "@/libs/axios";
 import type { PaginatedResponse, PaginationParams } from "@/types/api";
 import type { Notification } from "@/types/notification";
-import { getLastIndex } from "@/utils/getLastIndex";
+import { getLastIndex } from "@/utils/api";
 
 type Params = PaginationParams;
 

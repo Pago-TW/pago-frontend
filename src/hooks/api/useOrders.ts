@@ -5,7 +5,7 @@ import type { PaginatedResponse, PaginationParams } from "@/types/api";
 import type { Order, OrderStatus } from "@/types/order";
 import type { Trip } from "@/types/trip";
 import type { User } from "@/types/user";
-import { getLastIndex } from "@/utils/getLastIndex";
+import { getLastIndex } from "@/utils/api";
 
 export type Params = PaginationParams<
   {

@@ -15,7 +15,7 @@ import { Paper } from "@/components/ui/Paper";
 import { Typography } from "@/components/ui/Typography";
 import { useTrips } from "@/hooks/api/useTrips";
 import type { TripStatus } from "@/types/trip";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { flattenInfinitePaginatedData } from "@/utils/api";
 
 type CategorizedTripListProps = Omit<TripListProps, "items"> & {
   category: string;

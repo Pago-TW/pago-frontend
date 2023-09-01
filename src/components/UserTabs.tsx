@@ -13,7 +13,7 @@ import { useReviews } from "@/hooks/api/useReviews";
 import { useTrips } from "@/hooks/api/useTrips";
 import type { ReviewType } from "@/types/review";
 import type { User } from "@/types/user";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { flattenInfinitePaginatedData } from "@/utils/api";
 
 export const HorizontalCenterTabList = styled(TabList)({
   "& .MuiTabs-flexContainer": {
