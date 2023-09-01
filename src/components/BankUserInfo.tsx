@@ -3,6 +3,7 @@ import { Stack } from "@mui/material";
 import { DetailItem } from "@/components/DetailItem";
 import { Paper } from "@/components/ui/Paper";
 import { Typography } from "@/components/ui/Typography";
+import type { ConfigType } from "@/libs/dayjs";
 import type { BankAccount } from "@/types/bank";
 import { formatDate } from "@/utils/date";
 
@@ -10,12 +11,11 @@ export type BankUserInfoProps = Pick<
   BankAccount,
   "legalName" | "residentialDistrict"
 > & {
-  birthDate: BankAccount["birthDate"] | Date;
+  birthDate: BankAccount["birthDate"] | ConfigType;
 };
 
 export const BankUserInfo = ({
   legalName,
-
   birthDate,
   residentialDistrict,
 }: BankUserInfoProps) => {
