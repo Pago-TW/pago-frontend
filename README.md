@@ -50,3 +50,4 @@ Repository for the frontend of the Pago project.
 - [ ] Separate schemas into files
 - [x] Consider migrate from date-fns to dayjs
   - [x] Replace `minDate` & `maxDate` props to `disablePast` & `disableFuture` (when possible)
+- [ ] Tweak the `queryKeys`
