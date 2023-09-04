@@ -51,3 +51,4 @@ Repository for the frontend of the Pago project.
 - [x] Consider migrate from date-fns to dayjs
   - [x] Replace `minDate` & `maxDate` props to `disablePast` & `disableFuture` (when possible)
 - [ ] Tweak the `queryKeys`
+- [ ] Refactor `CountryCitySelect` using `<country>-<city>` as value (maybe)
