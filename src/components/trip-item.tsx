@@ -33,7 +33,7 @@ export const TripItem = ({
     const toCountryName = countries[toCountry]?.chineseName ?? toCountry;
     const toCityName = cities[toCity]?.chineseName ?? toCity;
 
-    return `${fromCityName}, ${fromCountryName} → ${toCityName}, ${toCountryName}`;
+    return `${fromCountryName} ${fromCityName} → ${toCountryName} ${toCityName}`;
   }, [countriesAndCitiesData, fromCity, fromCountry, toCity, toCountry]);
 
   return (
