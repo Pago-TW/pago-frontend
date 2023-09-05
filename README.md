@@ -55,3 +55,4 @@ Repository for the frontend of the Pago project.
 - [ ] Migrate from `countryCitySchema` to `zPlace`
 - [ ] Add zod schema in all files under `types/` folder
 - [ ] Move all form schemas into `schemas/` folder
+- [ ] Use `useFormContext` and `Controller` more (maybe)
