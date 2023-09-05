@@ -40,8 +40,8 @@ import { useCountryCity } from "@/hooks/api/use-country-city";
 type FlagKeys = keyof typeof Flags;
 
 export const countryCitySchema = z.object({
-  countryCode: z.string(),
-  cityCode: z.string(),
+  countryCode: z.string().min(2),
+  cityCode: z.string().min(3),
 });
 
 const Row = ({ data, index, style }: ListChildComponentProps) => {
