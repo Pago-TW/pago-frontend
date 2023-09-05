@@ -22,3 +22,13 @@ declare module "@mui/material/styles/createPalette" {
     pagoRed?: SimplePaletteColorOptions & ColorPartial;
   }
 }
+
+declare module "@mui/material/Button" {
+  interface ButtonPropsColorOverrides {
+    base: true;
+    pago: true;
+    pagoGreen: true;
+    pagoYellow: true;
+    pagoRed: true;
+  }
+}
