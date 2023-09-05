@@ -2,6 +2,9 @@ import { z } from "zod";
 
 import dayjs, { type Dayjs } from "@/libs/dayjs";
 
-const zDayjs = z.custom<Dayjs>((data) => dayjs.isDayjs(data));
+export const zDayjs = z.custom<Dayjs>((data) => dayjs.isDayjs(data));
 
-export { zDayjs };
+export const zPlace = z.object({
+  countryCode: z.string().min(2),
+  cityCode: z.string().min(3),
+});
