@@ -1,5 +1,8 @@
-export type WithRequired<T, K extends keyof T> = Omit<T, K> &
-  Required<Pick<T, K>>;
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type Prettify<T> = { [K in keyof T]: T[K] } & {};
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type WithRequired<T, K extends keyof T> = T & { [_ in K]: {} };
 
 export type AtLeastOneRequired<T, Keys extends keyof T = keyof T> = Pick<
   T,
