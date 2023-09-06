@@ -9,7 +9,7 @@ interface TripCollectionListProps {
 
 export const TripCollectionList = ({ data }: TripCollectionListProps) => {
   return (
-    <Stack gap={2}>
+    <Stack gap={{ xs: 2, md: 4 }}>
       {data.map((collection) => (
         <TripCollectionItem key={collection.tripCollectionId} {...collection} />
       ))}

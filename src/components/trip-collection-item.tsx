@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 
 import { TripCollectionStatus } from "@/components/trip-collection-status";
 import { TripList } from "@/components/trip-list";
@@ -12,15 +12,17 @@ export const TripCollectionItem = ({
   trips,
 }: TripCollection) => {
   return (
-    <Paper sx={{ p: 2 }}>
-      <Stack spacing={3}>
+    <Paper sx={{ p: { xs: 2, md: 4 } }}>
+      <Stack spacing={{ xs: 3, md: 4 }}>
         <Stack direction="row" justifyContent="space-between">
           <Typography as="span" variant="h4" noWrap>
             {tripCollectionName}
           </Typography>
           <TripCollectionStatus status={tripCollectionStatus} />
         </Stack>
-        <TripList items={trips} />
+        <Box sx={{ px: { xs: 0, md: 10 } }}>
+          <TripList spacing={{ xs: 3, md: 4 }} items={trips} />
+        </Box>
       </Stack>
     </Paper>
   );
