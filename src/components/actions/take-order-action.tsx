@@ -74,6 +74,7 @@ export const TakeOrderAction: FC = () => {
           bidAmount: data.amount,
           currency: data.currency,
           latestDeliveryDate: data.date.toDate(),
+          bidComment: data.comment,
         },
       });
     } catch {}

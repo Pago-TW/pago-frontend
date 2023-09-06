@@ -17,6 +17,7 @@ import { CurrencyInput } from "@/components/inputs/currency-input";
 import { DatePicker } from "@/components/inputs/date-picker";
 import { SelectInput } from "@/components/inputs/select-input";
 import { Button } from "@/components/ui/button";
+import { FilledTextarea } from "@/components/ui/filled-textarea";
 import { Typography } from "@/components/ui/typography";
 import { useOrder } from "@/hooks/api/use-order";
 import { useTakeOrderTrips } from "@/hooks/api/use-take-order-trips";
@@ -32,6 +33,7 @@ export const takeOrderFormSchema = z.object({
   currency: z.string().min(1, { message: "請選擇貨幣單位" }),
   tripId: z.string().min(1, { message: "請選擇旅途" }),
   date: zDayjs,
+  comment: z.string().optional(),
 });
 
 export type TakeOrderFormValues = z.infer<typeof takeOrderFormSchema>;
@@ -41,6 +43,7 @@ const DEFAULT_VALUES: Partial<TakeOrderFormValues> = {
   currency: "TWD",
   tripId: "",
   date: utcNow(),
+  comment: "",
 };
 
 const StyledButton = styled(Button)({
@@ -84,11 +87,12 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
 
   const isTablet = useMediaQuery((theme) => theme.breakpoints.up("sm"));
 
-  const { control, handleSubmit, watch } = useForm<TakeOrderFormValues>({
-    mode: "onBlur",
-    defaultValues: DEFAULT_VALUES,
-    resolver: zodResolver(takeOrderFormSchema),
-  });
+  const { register, control, handleSubmit, watch } =
+    useForm<TakeOrderFormValues>({
+      mode: "onBlur",
+      defaultValues: DEFAULT_VALUES,
+      resolver: zodResolver(takeOrderFormSchema),
+    });
 
   const { data: order } = useOrder(orderId);
   const { data: tripOptions = [] } = useTakeOrderTrips(orderId);
@@ -171,6 +175,11 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
           slotProps={{ popper: { placement: "bottom" } }}
         />
       </Stack>
+      <FilledTextarea
+        placeholder="留下對委託者的留言或備註..."
+        disabled={!hasTripOptions || !selectedTrip}
+        {...register("comment")}
+      />
       <Box
         display="flex"
         justifyContent="space-around"

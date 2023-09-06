@@ -12,6 +12,7 @@ interface AddBidParams {
     bidAmount: number;
     currency: string;
     latestDeliveryDate: Date;
+    bidComment?: string;
   };
 }
 
