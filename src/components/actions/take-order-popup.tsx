@@ -115,13 +115,14 @@ export const TakeOrderPopup = (props: TakeOrderPopupProps) => {
           <Controller
             control={control}
             name="amount"
-            render={({ field: { onChange, ...field } }) => (
+            render={({ field: { onChange, ref, ...field } }) => (
               <NumericFormat
                 disabled={!hasTripOptions}
                 allowNegative={false}
                 customInput={StyledInput}
                 decimalScale={0}
                 onValueChange={(values) => onChange(values.floatValue ?? 0)}
+                getInputRef={ref}
                 {...field}
               />
             )}
