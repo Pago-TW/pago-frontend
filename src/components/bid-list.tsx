@@ -26,21 +26,7 @@ export const BidList = (props: BidListProps) => {
         </Typography>
         {hasBids ? (
           bids.map((bid) => {
-            return (
-              <BidItem
-                key={bid.bidId}
-                id={bid.bidId}
-                currency={bid.currency}
-                amount={bid.bidAmount}
-                bidderName={bid.creator.fullName}
-                bidderAvatar={bid.creator.avatarUrl}
-                avgRating={bid.creator.review.averageRating}
-                reviewCount={bid.creator.review.totalReview}
-                createdAt={bid.createDate}
-                estDeliveryDate={bid.latestDeliveryDate}
-                isOwner={isOwner}
-              />
-            );
+            return <BidItem key={bid.bidId} {...bid} isOwner={isOwner} />;
           })
         ) : (
           <Typography
