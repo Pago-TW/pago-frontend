@@ -107,7 +107,7 @@ export const TripItem = ({
       }}
     >
       <Grid item xs md={6}>
-        <Stack spacing={1}>
+        <Stack spacing={{ xs: 1, md: 2 }}>
           <Typography
             as="h3"
             variant={isDesktop ? "h3" : "h4"}
