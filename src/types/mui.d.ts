@@ -32,3 +32,23 @@ declare module "@mui/material/Button" {
     pagoRed: true;
   }
 }
+
+declare module "@mui/material/ToggleButton" {
+  interface ToggleButtonPropsColorOverrides {
+    base: true;
+    pago: true;
+    pagoGreen: true;
+    pagoYellow: true;
+    pagoRed: true;
+  }
+}
+
+declare module "@mui/material/ToggleButtonGroup" {
+  interface ToggleButtonGroupPropsColorOverrides {
+    base: true;
+    pago: true;
+    pagoGreen: true;
+    pagoYellow: true;
+    pagoRed: true;
+  }
+}
