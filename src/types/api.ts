@@ -1,15 +1,17 @@
-import type { KeysToSnakeCase } from "./util";
+import type { KeysToSnakeCase } from "@/types/util";
+
+export type Sort = "ASC" | "DESC";
 
 export type PaginationParams<
-  T extends object = object,
-  D extends object = object,
+  TExtraParams extends object = object,
+  TReturnData extends object = object,
 > = Partial<{
   startIndex: number;
   size: number;
-  orderBy: KeysToSnakeCase<D>;
-  sort: "ASC" | "DESC";
+  orderBy: keyof KeysToSnakeCase<TReturnData>;
+  sort: Sort;
 }> &
-  Partial<T>;
+  Partial<TExtraParams>;
 
 export interface PaginatedResponse<T extends object = object> {
   total: number;
