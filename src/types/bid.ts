@@ -27,4 +27,5 @@ export type BidStatus = "NOT_CHOSEN" | "IS_CHOSEN";
 
 export interface BidCreator extends ReviewCreator {
   review: ReviewSummary;
+  isTraveling: boolean;
 }
