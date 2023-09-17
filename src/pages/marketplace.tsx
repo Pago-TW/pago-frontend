@@ -96,9 +96,7 @@ export default function MarketplacePage() {
 
   const handleSortFilterSubmit = ({ filter }: SortFilterValues) => {
     setParams((draft) => {
-      draft.orderBy = snakeCase(
-        filter.orderBy
-      ) as unknown as KeysToSnakeCase<Order>;
+      draft.orderBy = snakeCase(filter.orderBy) as keyof KeysToSnakeCase<Order>;
       draft.sort = filter.sort;
     });
   };
