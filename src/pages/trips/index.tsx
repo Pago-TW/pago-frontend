@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 
 import { Add } from "@mui/icons-material";
 import { Container, Stack, ToggleButtonGroup } from "@mui/material";
+import { useInView } from "react-intersection-observer";
 
 import { BaseLayout } from "@/components/layouts/base-layout";
 import { PageTitle } from "@/components/page-title";
@@ -18,7 +19,14 @@ import { flattenInfinitePaginatedData } from "@/utils/api";
 const TripsPage: NextPage = () => {
   const [sort, setSort] = useState<Sort>("DESC");
 
-  const { data: tripCollectionsData } = useTripCollections({
+  const { ref, inView } = useInView();
+
+  const {
+    data: tripCollectionsData,
+    isFetching,
+    hasNextPage,
+    fetchNextPage,
+  } = useTripCollections({
     orderBy: "create_date",
     sort: sort,
   });
@@ -35,6 +43,12 @@ const TripsPage: NextPage = () => {
 
     return [...ongoingTripCollections, ...otherTripCollections];
   }, [tripCollectionsData]);
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      void fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
   const handleSortChange = (
     _event: React.MouseEvent<HTMLElement>,
@@ -71,6 +85,16 @@ const TripsPage: NextPage = () => {
               </ToggleButton>
             </ToggleButtonGroup>
             <TripCollectionList data={tripCollections} />
+            {!isFetching && hasNextPage ? (
+              <span
+                ref={ref}
+                style={{
+                  visibility: "hidden",
+                  display: "inline-block",
+                  height: 1,
+                }}
+              ></span>
+            ) : null}
           </Stack>
         </Container>
       </BaseLayout>
