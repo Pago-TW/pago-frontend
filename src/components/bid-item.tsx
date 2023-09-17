@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 
-import { Star } from "@mui/icons-material";
-import { Avatar, Box, Paper, Stack } from "@mui/material";
+import { Flight, Star } from "@mui/icons-material";
+import { Avatar, Badge, Box, Paper, Stack } from "@mui/material";
 
 import { Button } from "@/components/ui/button";
 import { FilledTextarea } from "@/components/ui/filled-textarea";
@@ -27,6 +27,7 @@ export const BidItem = ({
     fullName,
     avatarUrl,
     review: { averageRating, totalReview },
+    isTraveling,
   },
   createDate,
   latestDeliveryDate,
@@ -47,7 +48,31 @@ export const BidItem = ({
     <>
       <Paper elevation={3} component={Stack} spacing={2} sx={{ p: 2 }}>
         <Box display="flex" alignItems="center">
-          <Avatar src={avatarUrl} />
+          <Badge
+            overlap="circular"
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            invisible={!isTraveling}
+            badgeContent={
+              <Flight
+                sx={{
+                  width: 12,
+                  height: 12,
+                  backgroundColor: "pagoGreen.800",
+                  color: "white",
+                  borderRadius: "50%",
+                  boxShadow: (theme) =>
+                    `0 0 0 2px ${theme.palette.background.paper}`,
+                }}
+              />
+            }
+            sx={{
+              "& .MuiBadge-badge": {
+                pointerEvents: "none",
+              },
+            }}
+          >
+            <Avatar src={avatarUrl} />
+          </Badge>
           <Box display="flex" flexDirection="column" flexGrow={1} ml={2}>
             <Typography variant="h5" noWrap>
               {fullName}
