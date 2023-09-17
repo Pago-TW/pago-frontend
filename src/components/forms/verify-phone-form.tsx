@@ -38,7 +38,7 @@ const calcCountdownDate = (createDate: string, deltaInSeconds = 180): Date => {
   return date.add(deltaInSeconds, "seconds").toDate();
 };
 
-export const PhoneVerifyForm = () => {
+export const VerifyPhoneForm = () => {
   const { data: session } = useSession();
   const isVerified = session?.user?.verified;
 
