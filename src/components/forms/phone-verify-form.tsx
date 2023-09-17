@@ -14,7 +14,7 @@ import { PhoneInput, phoneSchema } from "@/components/inputs/phone-input";
 import { Button } from "@/components/ui/button";
 import { useAddBankAccFormContext } from "@/contexts/add-bank-acc-form-context";
 import { useSendSns } from "@/hooks/api/use-send-sns";
-import { useVerifyOtp } from "@/hooks/api/use-verify-otp";
+import { useVerifyPhone } from "@/hooks/api/use-verify-phone";
 import { parse } from "@/utils/date";
 
 const OtpInput = dynamic(
@@ -56,7 +56,7 @@ export const PhoneVerifyForm = () => {
   });
 
   const { mutate: sendSns, isLoading: isSending } = useSendSns();
-  const { mutate: verifyOtp, isLoading: isVerifying } = useVerifyOtp();
+  const { mutate: verifyPhone, isLoading: isVerifying } = useVerifyPhone();
 
   useEffect(() => {
     countdownRef.current?.start();
@@ -173,7 +173,7 @@ export const PhoneVerifyForm = () => {
 
   const handleVerifyOtp = () => {
     const data = getValues();
-    verifyOtp(data);
+    verifyPhone(data);
   };
 
   return (
