@@ -5,7 +5,7 @@ import { useSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { PhoneVerifyForm } from "@/components/forms/phone-verify-form";
+import { VerifyPhoneForm } from "@/components/forms/verify-phone-form";
 import { BankBranchSelect } from "@/components/inputs/bank-branch-select";
 import { BankSelect } from "@/components/inputs/bank-select";
 import { CitySelect } from "@/components/inputs/city-select";
@@ -118,7 +118,7 @@ export const BankInfoForm = ({ onPrev, onNext }: BankInfoFormProps) => {
             valueAsString
             allowLeadingZeros
           />
-          <PhoneVerifyForm />
+          <VerifyPhoneForm />
         </Stack>
       </Paper>
       <Stack direction="row" spacing={2} mt={3}>

@@ -3,22 +3,22 @@ import { useSession } from "next-auth/react";
 
 import { axios } from "@/libs/axios";
 
-interface VerifyOtpData {
+interface VerifyPhoneData {
   phone: string;
   otpCode: string;
 }
 
-const verifyOtp = async (data: VerifyOtpData) => {
-  const res = await axios.post<boolean>("/otp/validate", data);
+const verifyPhone = async (data: VerifyPhoneData) => {
+  const res = await axios.post<boolean>("/phone/validate", data);
   return res.data;
 };
 
-export const useVerifyOtp = () => {
+export const useVerifyPhone = () => {
   const { update } = useSession();
 
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: verifyOtp,
+    mutationFn: verifyPhone,
     onSettled: () => {
       void qc.invalidateQueries(["users", "me"]);
       void update();
