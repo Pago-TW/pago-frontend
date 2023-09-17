@@ -34,7 +34,7 @@ const TripsPage: NextPage = () => {
           </Button>
         </PageTitle>
         <Container>
-          <Stack spacing={2}>
+          <Stack spacing={3}>
             <TripCollectionList data={tripCollections} />
           </Stack>
         </Container>
