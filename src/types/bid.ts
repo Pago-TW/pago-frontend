@@ -20,7 +20,7 @@ export interface Bid {
   updateDate: string;
   latestDeliveryDate: string;
   bidStatus: BidStatus;
-  bidComment: string;
+  bidComment: string | null;
 }
 
 export type BidStatus = "NOT_CHOSEN" | "IS_CHOSEN";
