@@ -110,16 +110,18 @@ export const BidItem = ({
               {formattedBidAmount}
             </Typography>
           </Stack>
-          <FilledTextarea
-            minRows={1}
-            value={bidComment}
-            readOnly
-            sx={{
-              color: "base.500",
-              "&:hover": { cursor: "default", bgcolor: "base.50" },
-              "& .MuiFilledInput-input:hover": { cursor: "default" },
-            }}
-          />
+          {bidComment ? (
+            <FilledTextarea
+              minRows={1}
+              value={bidComment}
+              readOnly
+              sx={{
+                color: "base.500",
+                "&:hover": { cursor: "default", bgcolor: "base.50" },
+                "& .MuiFilledInput-input:hover": { cursor: "default" },
+              }}
+            />
+          ) : null}
         </Stack>
         {isOwner && (
           <>
