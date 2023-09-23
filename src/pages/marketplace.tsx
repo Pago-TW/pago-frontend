@@ -1,33 +1,36 @@
-import { FilterButton } from "@/components/FilterButton";
-import type { MoreFilterValues } from "@/components/MoreFilterPopup";
-import { MoreFilterPopup } from "@/components/MoreFilterPopup";
-import { OrderList } from "@/components/OrderList";
-import { PageTitle } from "@/components/PageTitle";
-import {
-  SortFilterPopup,
-  type SortFilterValues,
-} from "@/components/SortFilterPopup";
-import {
-  CountryCitySelect,
-  countryCitySchema,
-} from "@/components/inputs/CountryCitySelect";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { Typography } from "@/components/ui/Typography";
-import type { Params } from "@/hooks/api/useOrders";
-import { useOrders } from "@/hooks/api/useOrders";
-import { useOpen } from "@/hooks/useOpen";
-import type { Order } from "@/types/order";
-import type { KeysToSnakeCase } from "@/types/util";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { useEffect, useMemo } from "react";
+import Head from "next/head";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ExpandMore } from "@mui/icons-material";
 import { Box, Container, Stack } from "@mui/material";
 import { snakeCase } from "lodash";
-import Head from "next/head";
-import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useImmer } from "use-immer";
 import { z } from "zod";
+
+import { FilterButton } from "@/components/filter-button";
+import {
+  countryCitySchema,
+  CountryCitySelect,
+} from "@/components/inputs/country-city-select";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import {
+  MoreFilterPopup,
+  type MoreFilterValues,
+} from "@/components/more-filter-popup";
+import { OrderList } from "@/components/order-list";
+import { PageTitle } from "@/components/page-title";
+import {
+  SortFilterPopup,
+  type SortFilterValues,
+} from "@/components/sort-filter-popup";
+import { Typography } from "@/components/ui/typography";
+import { useOrders, type Params } from "@/hooks/api/use-orders";
+import { useOpen } from "@/hooks/use-open";
+import type { Order } from "@/types/order";
+import type { KeysToSnakeCase } from "@/types/util";
+import { flattenInfinitePaginatedData } from "@/utils/api";
 
 const quickFilterSchema = z.object({
   from: countryCitySchema,
@@ -93,9 +96,7 @@ export default function MarketplacePage() {
 
   const handleSortFilterSubmit = ({ filter }: SortFilterValues) => {
     setParams((draft) => {
-      draft.orderBy = snakeCase(
-        filter.orderBy
-      ) as unknown as KeysToSnakeCase<Order>;
+      draft.orderBy = snakeCase(filter.orderBy) as keyof KeysToSnakeCase<Order>;
       draft.sort = filter.sort;
     });
   };
@@ -107,7 +108,7 @@ export default function MarketplacePage() {
     setParams((draft) => {
       draft.minTravelerFee = typeof minFee === "string" ? undefined : minFee;
       draft.maxTravelerFee = typeof maxFee === "string" ? undefined : maxFee;
-      draft.latestReceiveItemDate = latestReceiveDate || undefined;
+      draft.latestReceiveItemDate = latestReceiveDate?.toDate();
       draft.isPackagingRequired = data.packaging;
     });
   };

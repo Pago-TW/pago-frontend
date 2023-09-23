@@ -1,57 +1,62 @@
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { PageTitle } from "@/components/PageTitle";
-import type { TripListProps } from "@/components/TripList";
-import { TripList } from "@/components/TripList";
-import { Button } from "@/components/ui/Button";
-import { Link } from "@/components/ui/Link";
-import { Paper } from "@/components/ui/Paper";
-import { Typography } from "@/components/ui/Typography";
-import { useTrips } from "@/hooks/api/useTrips";
-import type { TripStatus } from "@/types/trip";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { Add } from "@mui/icons-material";
-import { Container, Stack } from "@mui/material";
+import { useEffect, useMemo, useState } from "react";
 import type { NextPage } from "next";
-import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { useMemo, type FC } from "react";
 
-type CategorizedTripListProps = Omit<TripListProps, "items"> & {
-  category: string;
-  status: TripStatus;
-};
+import { Add } from "@mui/icons-material";
+import { Container, Stack, ToggleButtonGroup } from "@mui/material";
+import { useInView } from "react-intersection-observer";
 
-const CategorizedTripList: FC<CategorizedTripListProps> = ({
-  category,
-  status,
-  ...tripListProps
-}) => {
-  const { data: session } = useSession();
-
-  const userId = session?.user?.id;
-  const { data: tripsData } = useTrips(
-    { userId, status },
-    { enabled: !!userId }
-  );
-
-  const trips = useMemo(
-    () => flattenInfinitePaginatedData(tripsData),
-    [tripsData]
-  );
-
-  return (
-    <Paper sx={{ p: 2 }}>
-      <Stack spacing={3}>
-        <Typography variant="h5">{category}</Typography>
-        {trips.length !== 0 ? (
-          <TripList items={trips} {...tripListProps} />
-        ) : null}
-      </Stack>
-    </Paper>
-  );
-};
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { PageTitle } from "@/components/page-title";
+import { TripCollectionList } from "@/components/trip-collection-list";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
+import { ToggleButton } from "@/components/ui/toggle-button";
+import { useTripCollections } from "@/hooks/api/use-trip-collection";
+import type { Sort } from "@/types/api";
+import { flattenInfinitePaginatedData } from "@/utils/api";
 
 const TripsPage: NextPage = () => {
+  const [sort, setSort] = useState<Sort>("DESC");
+
+  const { ref, inView } = useInView();
+
+  const {
+    data: tripCollectionsData,
+    isFetching,
+    hasNextPage,
+    fetchNextPage,
+  } = useTripCollections({
+    orderBy: "create_date",
+    sort: sort,
+  });
+
+  const tripCollections = useMemo(() => {
+    const flattenedData = flattenInfinitePaginatedData(tripCollectionsData);
+
+    const ongoingTripCollections = flattenedData.filter(
+      (tripCollection) => tripCollection.tripCollectionStatus === "ONGOING"
+    );
+    const otherTripCollections = flattenedData.filter(
+      (tripCollection) => tripCollection.tripCollectionStatus !== "ONGOING"
+    );
+
+    return [...ongoingTripCollections, ...otherTripCollections];
+  }, [tripCollectionsData]);
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      void fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
+
+  const handleSortChange = (
+    _event: React.MouseEvent<HTMLElement>,
+    newSort: Sort
+  ) => {
+    setSort(newSort);
+  };
+
   return (
     <>
       <Head>
@@ -65,10 +70,31 @@ const TripsPage: NextPage = () => {
           </Button>
         </PageTitle>
         <Container>
-          <Stack spacing={2}>
-            <CategorizedTripList category="即將出發" status="UPCOMING" />
-            <CategorizedTripList category="正在途中" status="ONGOING" />
-            <CategorizedTripList category="歷史旅途" status="PAST" />
+          <Stack spacing={3}>
+            <ToggleButtonGroup
+              value={sort}
+              onChange={handleSortChange}
+              color="pago"
+              exclusive
+            >
+              <ToggleButton size="small" value="DESC">
+                最新
+              </ToggleButton>
+              <ToggleButton size="small" value="ASC">
+                最舊
+              </ToggleButton>
+            </ToggleButtonGroup>
+            <TripCollectionList data={tripCollections} />
+            {!isFetching && hasNextPage ? (
+              <span
+                ref={ref}
+                style={{
+                  visibility: "hidden",
+                  display: "inline-block",
+                  height: 1,
+                }}
+              ></span>
+            ) : null}
           </Stack>
         </Container>
       </BaseLayout>

@@ -1,16 +1,15 @@
-import { AboutUsCard } from "@/components/AboutUsCard";
-import Footer from "@/components/Footer";
-import PageTitle from "@/components/PageTitle";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { Typography } from "@/components/ui/Typography";
-import { Stack } from "@mui/material";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import type { InferGetStaticPropsType, NextPage } from "next";
+import type { ReactNode } from "react";
+import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { getPlaiceholder } from "plaiceholder";
-import type { ReactNode } from "react";
+
+import { Box, Container, Stack } from "@mui/material";
+
+import { OurTeam } from "@/components/about-us/our-team";
+import Footer from "@/components/footer";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import PageTitle from "@/components/page-title";
+import { Typography } from "@/components/ui/typography";
 
 const SectionTitle = ({ children }: { children: ReactNode }) => {
   return (
@@ -43,9 +42,7 @@ const SectionTitle = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
-  images,
-}) => {
+const AboutUsPage: NextPage = () => {
   return (
     <>
       <Head>
@@ -68,10 +65,9 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             alignItems="center"
           >
             <Box position="relative" width="100%" height="40vh">
-              {/* eslint-disable-next-line jsx-a11y/alt-text */}
               <Image
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                {...images.aboutUs.cover[0]!}
+                src="/images/about-us/cover.svg"
+                alt=""
                 fill
                 sizes="100vw"
                 priority={true}
@@ -211,163 +207,14 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               </Stack>
             </Container>
           </Box>
-          <Container>
-            <Box sx={{ my: 6 }}>
-              <SectionTitle>Team 創辦團隊</SectionTitle>
-              <Box>
-                <Typography
-                  variant="h5"
-                  as="p"
-                  color="base.800"
-                  lineHeight={1.75}
-                  textAlign={{ xs: "left", md: "left" }}
-                >
-                  我們是一群來自輔仁大學資管系的學子， 於 2022
-                  年聚集而成的團隊。
-                </Typography>
-                <Typography
-                  variant="h5"
-                  as="p"
-                  color="base.800"
-                  textAlign={{ xs: "left", md: "left" }}
-                  lineHeight={1.75}
-                  sx={{ mt: 3 }}
-                >
-                  我們憑藉著專業知識與創新思維，專注於解決社會問題並創造有價值的技術產品。
-                </Typography>
-                <Typography
-                  variant="h5"
-                  as="p"
-                  color="base.800"
-                  textAlign={{ xs: "left", md: "left" }}
-                  lineHeight={1.75}
-                  sx={{ mt: 3 }}
-                >
-                  我們的理念不只是創造出一個共享經濟、快速媒合、價格透明的，更是透過實際行動，以科技助益社會，
-                  期望能共創一個高度透明、充分利用共享經濟並為每位用戶帶來價值的代購市場，讓每位用戶都能從中受益。
-                </Typography>
-              </Box>
-            </Box>
-            <Stack
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              spacing={3}
-            >
-              <AboutUsCard
-                name="邱奕勳"
-                job="PM、後端開發"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.aboutUs.team[0]!}
-              />
-              <AboutUsCard
-                name="陳俊廷"
-                job="設計、行銷"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.aboutUs.team[1]!}
-              />
-              <AboutUsCard
-                name="范詠淇"
-                job="設計、行銷"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.aboutUs.team[2]!}
-              />
-              <AboutUsCard
-                name="曾瑞章"
-                job="前端開發"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.aboutUs.team[3]!}
-              />
-              <AboutUsCard
-                name="戴宇辰"
-                job="後端開發"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                ImageProps={images.aboutUs.team[4]!}
-              />
-            </Stack>
-          </Container>
-          <Box
-            sx={{
-              marginBottom: 3,
-            }}
-          ></Box>
 
-          {/* </Container> */}
-          <Footer />
+          <OurTeam />
+
+          <Footer mt={6} />
         </BaseLayout>
       </Box>
     </>
   );
 };
 
-const getImageBase64 = async (
-  imagePath: string,
-  options?: { alt?: string; title?: string }
-) => {
-  const { base64, img } = await getPlaiceholder(imagePath);
-  return {
-    src: img.src,
-    type: img.type,
-    blurDataURL: base64,
-    alt: options?.alt ?? "",
-  };
-};
-
-const getImagesBase64 = async (
-  imagePaths: string[],
-  options?: { alt?: string; title?: string }
-) => await Promise.all(imagePaths.map((path) => getImageBase64(path, options)));
-
-export const getStaticProps = async () => {
-  const introductionImage = await getImageBase64("/images/introduction.svg", {
-    alt: "Page introduction image",
-  });
-  const howItWorksImages = {
-    consumer: await getImagesBase64(
-      [
-        "/images/how-it-works/consumer/step1.jpg",
-        "/images/how-it-works/consumer/step2.jpg",
-        "/images/how-it-works/consumer/step3.jpg",
-        "/images/how-it-works/consumer/step4.jpg",
-      ],
-      { alt: "How it works image for consumer" }
-    ),
-    shopper: await getImagesBase64(
-      [
-        "/images/how-it-works/shopper/step1.jpg",
-        "/images/how-it-works/shopper/step2.jpg",
-        "/images/how-it-works/shopper/step3.jpg",
-        "/images/how-it-works/shopper/step4.jpg",
-      ],
-      { alt: "How it works image for shopper" }
-    ),
-  };
-
-  const aboutUsImages = {
-    cover: await getImagesBase64(["/images/about-us/about-us-cover.svg"], {
-      alt: "about us",
-    }),
-    team: await getImagesBase64(
-      [
-        "/images/about-us/team/shiun.svg",
-        "/images/about-us/team/jack.svg",
-        "/images/about-us/team/ariel.svg",
-        "/images/about-us/team/enderwolf.svg",
-        "/images/about-us/team/ycday.svg",
-      ],
-      { alt: "How it works image for shopper" }
-    ),
-  };
-
-  return {
-    props: {
-      images: {
-        introduction: introductionImage,
-        howItWorks: howItWorksImages,
-        aboutUs: aboutUsImages,
-      },
-    },
-  };
-};
-
-export default Home;
+export default AboutUsPage;

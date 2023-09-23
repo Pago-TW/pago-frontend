@@ -1,29 +1,32 @@
-import { PageTitle } from "@/components/PageTitle";
-import { SubmitButton } from "@/components/SubmitButton";
+import type { MouseEvent } from "react";
+import type { NextPage } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Box, Stack, Step } from "@mui/material";
+import { FormProvider, useForm } from "react-hook-form";
+
 import {
   MerchandiseForm,
   merchandiseFormSchema,
-} from "@/components/forms/MerchandiseForm";
-import { NeedsForm, needsFormSchema } from "@/components/forms/NeedsForm";
-import type { ReviewFormValues } from "@/components/forms/ReviewForm";
+} from "@/components/forms/merchandise-form";
+import { NeedsForm, needsFormSchema } from "@/components/forms/needs-form";
 import {
   ReviewForm,
   reviewFormSchema,
   transformReviewFormValues,
-} from "@/components/forms/ReviewForm";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { Button } from "@/components/ui/Button";
-import { StepLabel } from "@/components/ui/StepLabel";
-import { Stepper } from "@/components/ui/Stepper";
-import { useAddOrder } from "@/hooks/api/useAddOrder";
-import { useStepper } from "@/hooks/useStepper";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Stack, Step } from "@mui/material";
-import type { NextPage } from "next";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import type { MouseEvent } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+  type ReviewFormValues,
+} from "@/components/forms/review-form";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { PageTitle } from "@/components/page-title";
+import { SubmitButton } from "@/components/submit-button";
+import { Button } from "@/components/ui/button";
+import { StepLabel } from "@/components/ui/step-label";
+import { Stepper } from "@/components/ui/stepper";
+import { useAddOrder } from "@/hooks/api/use-add-order";
+import { useStepper } from "@/hooks/use-stepper";
+import { utcNow } from "@/utils/date";
 
 const STEPS = [
   {
@@ -63,7 +66,7 @@ const DEFAULT_VALUES: Partial<ReviewFormValues> = {
     countryCode: "",
     cityCode: "",
   },
-  deadline: new Date(),
+  deadline: utcNow(),
   note: "",
 };
 
@@ -100,7 +103,7 @@ const NewOrderPage: NextPage = () => {
 
   const handleFormSubmit = (data: ReviewFormValues) => {
     addOrder(transformReviewFormValues(data), {
-      onSuccess: (data) => router.replace(`/orders/${data.orderId}`),
+      onSuccess: (data) => void router.replace(`/orders/${data.orderId}`),
     });
   };
 

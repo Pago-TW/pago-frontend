@@ -1,19 +1,21 @@
-import { PasswordInput } from "@/components/inputs/PasswordInput";
-import { PhoneInput } from "@/components/inputs/PhoneInput";
-import { CenterLayout } from "@/components/layouts/CenterLayout";
-import { Button } from "@/components/ui/Button";
-import { Link } from "@/components/ui/Link";
-import { Typography } from "@/components/ui/Typography";
-import { axios } from "@/libs/axios";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Stack, TextField } from "@mui/material";
+import { useCallback } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Stack, TextField } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { PasswordInput } from "@/components/inputs/password-input";
+import { PhoneInput } from "@/components/inputs/phone-input";
+import { CenterLayout } from "@/components/layouts/center-layout";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
+import { Typography } from "@/components/ui/typography";
+import { axios } from "@/libs/axios";
 
 export const signUpFormSchema = z
   .object({
@@ -78,7 +80,7 @@ const SignUpPage: NextPage = () => {
       try {
         await axios.post("/auth/register", data);
 
-        router.replace(callbackUrl);
+        void router.replace(callbackUrl);
       } catch (e) {
         enqueueSnackbar("註冊失敗", {
           variant: "error",
@@ -89,7 +91,7 @@ const SignUpPage: NextPage = () => {
   );
 
   const handlePasswordCheck = () => {
-    if (dirtyFields.confirmPassword) trigger("confirmPassword");
+    if (dirtyFields.confirmPassword) void trigger("confirmPassword");
   };
 
   return (

@@ -1,22 +1,8 @@
-import { DetailItem } from "@/components/DetailItem";
-import { OrderList } from "@/components/OrderList";
-import { PageTitle } from "@/components/PageTitle";
-import { ShowMoreButton } from "@/components/ShowMoreButton";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { PaperLayout } from "@/components/layouts/PaperLayout";
-import { Button } from "@/components/ui/Button";
-import { Tab } from "@/components/ui/Tab";
-import { Typography } from "@/components/ui/Typography";
-import { defaultConfirmOptions } from "@/config/confirmOptions";
-import { useDeleteTrip } from "@/hooks/api/useDeleteTrip";
-import { useMatchingOrders } from "@/hooks/api/useMatchingOrders";
-import { useOrders } from "@/hooks/api/useOrders";
-import { useTrip } from "@/hooks/api/useTrip";
-import { useLocale } from "@/hooks/useLocale";
-import type { Trip } from "@/types/trip";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { formatDate } from "@/utils/formatDateTime";
-import { getInfinitePaginatedDataTotal } from "@/utils/getInfinitePaginatedDataTotal";
+import { useMemo, useState, type FC, type MouseEvent } from "react";
+import type { NextPage } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
+
 import { Delete, IosShare, MoreHoriz } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import {
@@ -28,12 +14,28 @@ import {
   Stack,
 } from "@mui/material";
 import { ConfirmProvider, useConfirm } from "material-ui-confirm";
-import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import type { FC, MouseEvent } from "react";
-import { useMemo, useState } from "react";
+
+import { DetailItem } from "@/components/detail-item";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { PaperLayout } from "@/components/layouts/paper-layout";
+import { OrderList } from "@/components/order-list";
+import { PageTitle } from "@/components/page-title";
+import { ShowMoreButton } from "@/components/show-more-button";
+import { Button } from "@/components/ui/button";
+import { Tab } from "@/components/ui/tab";
+import { Typography } from "@/components/ui/typography";
+import { defaultConfirmOptions } from "@/configs/confirm-options";
+import { useDeleteTrip } from "@/hooks/api/use-delete-trip";
+import { useMatchingOrders } from "@/hooks/api/use-matching-orders";
+import { useOrders } from "@/hooks/api/use-orders";
+import { useTrip } from "@/hooks/api/use-trip";
+import type { Trip } from "@/types/trip";
+import {
+  flattenInfinitePaginatedData,
+  getInfinitePaginatedDataTotal,
+} from "@/utils/api";
+import { formatDate } from "@/utils/date";
 
 const TABS = [
   { label: "全部", value: "ALL" },
@@ -90,7 +92,10 @@ const MoreOptionsButton: FC<{ deletable?: boolean }> = ({ deletable }) => {
       await confirm({
         title: "確定刪除此旅途？",
       });
-      deleteTrip({ tripId }, { onSuccess: () => router.replace("/trips") });
+      deleteTrip(
+        { tripId },
+        { onSuccess: () => void router.replace("/trips") }
+      );
     } catch (err) {
       console.error(err);
     }
@@ -143,12 +148,7 @@ const TripInfo: FC<TripInfoProps> = ({
   totalTripOrders,
   totalMatchedOrders,
 }) => {
-  const locale = useLocale();
-
-  const formattedArrivalDate = formatDate({
-    date: arrivalDate,
-    locale,
-  });
+  const formattedArrivalDate = formatDate(arrivalDate);
 
   return (
     <PaperLayout>
@@ -253,7 +253,7 @@ const TripDetailPage: NextPage = () => {
                   <TabList
                     variant="scrollable"
                     allowScrollButtonsMobile
-                    onChange={(_e, v) => setCurrentTab(v)}
+                    onChange={(_e, v: Tab["value"]) => setCurrentTab(v)}
                   >
                     {TABS.map((tab) => (
                       <Tab key={tab.value} {...tab} />

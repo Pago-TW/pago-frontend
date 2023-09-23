@@ -1,20 +1,22 @@
-import { PasswordInput } from "@/components/inputs/PasswordInput";
-import { CenterLayout } from "@/components/layouts/CenterLayout";
-import { Button } from "@/components/ui/Button";
-import { Divider } from "@/components/ui/Divider";
-import { Link } from "@/components/ui/Link";
-import { Typography } from "@/components/ui/Typography";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Stack, TextField } from "@mui/material";
+import { useCallback } from "react";
 import type { NextPage } from "next";
-import { signIn } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Box, Stack, TextField } from "@mui/material";
+import { signIn } from "next-auth/react";
 import { useSnackbar } from "notistack";
-import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { z } from "zod";
+
+import { PasswordInput } from "@/components/inputs/password-input";
+import { CenterLayout } from "@/components/layouts/center-layout";
+import { Button } from "@/components/ui/button";
+import { Divider } from "@/components/ui/divider";
+import { Link } from "@/components/ui/link";
+import { Typography } from "@/components/ui/typography";
 
 export const signInFormSchema = z.object({
   email: z
@@ -78,7 +80,7 @@ const SignInPage: NextPage = () => {
           variant: "error",
         });
       } else {
-        router.push(callbackUrl);
+        void router.push(callbackUrl);
       }
     },
     [callbackUrl, enqueueSnackbar, router]

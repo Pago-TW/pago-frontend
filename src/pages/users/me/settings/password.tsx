@@ -1,14 +1,16 @@
-import { SubmitButton } from "@/components/SubmitButton";
-import { PasswordInput } from "@/components/inputs/PasswordInput";
-import { SettingLayout } from "@/components/layouts/SettingLayout";
-import { Typography } from "@/components/ui/Typography";
-import { useChangePassword } from "@/hooks/api/useChangePassword";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Paper, Stack, alpha } from "@mui/material";
-import { useSession } from "next-auth/react";
 import Head from "next/head";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { alpha, Box, Paper, Stack } from "@mui/material";
+import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { PasswordInput } from "@/components/inputs/password-input";
+import { SettingLayout } from "@/components/layouts/setting-layout";
+import { SubmitButton } from "@/components/submit-button";
+import { Typography } from "@/components/ui/typography";
+import { useChangePassword } from "@/hooks/api/use-change-password";
 
 const changePasswordFormSchema = z
   .object({
@@ -58,7 +60,7 @@ export default function UserPasswordSettingPage() {
   } = useChangePassword();
 
   const handlePasswordCheck = () => {
-    if (dirtyFields.confirmNewPassword) trigger("confirmNewPassword");
+    if (dirtyFields.confirmNewPassword) void trigger("confirmNewPassword");
   };
 
   const handleFormSubmit = (data: ChangePasswordFormValues) => {

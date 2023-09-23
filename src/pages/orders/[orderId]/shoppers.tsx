@@ -1,21 +1,22 @@
-import { OrderItem } from "@/components/OrderItem";
-import { PageTitle } from "@/components/PageTitle";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { Button } from "@/components/ui/Button";
-import { Paper } from "@/components/ui/Paper";
-import { Typography } from "@/components/ui/Typography";
-import { useMatchingShoppers } from "@/hooks/api/useMatchingShoppers";
-import { useOrder } from "@/hooks/api/useOrder";
-import type { OrderShopper } from "@/types/order";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { useEffect, useMemo, type FC } from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+
 import { ArrowDownward } from "@mui/icons-material";
 import { Avatar, Box, Container, Link, Stack } from "@mui/material";
 import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import type { FC } from "react";
-import { useEffect, useMemo } from "react";
 import { useInView } from "react-intersection-observer";
+
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { OrderItem } from "@/components/order-item";
+import { PageTitle } from "@/components/page-title";
+import { Button } from "@/components/ui/button";
+import { Paper } from "@/components/ui/paper";
+import { Typography } from "@/components/ui/typography";
+import { useMatchingShoppers } from "@/hooks/api/use-matching-shoppers";
+import { useOrder } from "@/hooks/api/use-order";
+import type { OrderShopper } from "@/types/order";
+import { flattenInfinitePaginatedData } from "@/utils/api";
 
 type ShopperChooserProps = Pick<
   OrderShopper,
@@ -75,7 +76,7 @@ export default function OrderShoppersPage() {
   );
 
   useEffect(() => {
-    if (inView && hasNextPage) fetchNextPage();
+    if (inView && hasNextPage) void fetchNextPage();
   }, [inView, hasNextPage, fetchNextPage]);
 
   if (!order) return null;

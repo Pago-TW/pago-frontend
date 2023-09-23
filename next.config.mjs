@@ -1,5 +1,7 @@
 import bundleAnalyzer from "@next/bundle-analyzer";
 import { withPlaiceholder } from "@plaiceholder/next";
+import million from "million/compiler";
+
 import "./src/env.mjs";
 
 const withBundleAnalyzer = bundleAnalyzer({
@@ -7,7 +9,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 /** @type {import("next").NextConfig} */
-const config = withBundleAnalyzer(
+const nextConfig = withBundleAnalyzer(
   withPlaiceholder({
     reactStrictMode: true,
     swcMinify: true,
@@ -37,4 +39,8 @@ const config = withBundleAnalyzer(
   })
 );
 
-export default config;
+const millionConfig = {
+  auto: true,
+};
+
+export default million.next(nextConfig, millionConfig);

@@ -1,4 +1,5 @@
 import type { DefaultSession } from "next-auth";
+
 import "next-auth/jwt";
 
 type Provider = "LOCAL" | "GOOGLE";
@@ -10,7 +11,7 @@ declare module "next-auth" {
   interface Session {
     user?: {
       id: string;
-      phone: string | null;
+      phone?: string | null;
       verified: boolean;
       provider: Provider;
     } & DefaultSession["user"];
@@ -18,7 +19,7 @@ declare module "next-auth" {
   }
   interface User {
     id: string;
-    phone: string | null;
+    phone?: string | null;
     verified: boolean;
     provider: Provider;
     accessToken: string;
@@ -28,7 +29,7 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT {
     id: string;
-    phone: string | null;
+    phone?: string | null;
     verified: boolean;
     provider: Provider;
     accessToken: string;

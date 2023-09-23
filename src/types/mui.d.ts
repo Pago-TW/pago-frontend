@@ -22,3 +22,33 @@ declare module "@mui/material/styles/createPalette" {
     pagoRed?: SimplePaletteColorOptions & ColorPartial;
   }
 }
+
+declare module "@mui/material/Button" {
+  interface ButtonPropsColorOverrides {
+    base: true;
+    pago: true;
+    pagoGreen: true;
+    pagoYellow: true;
+    pagoRed: true;
+  }
+}
+
+declare module "@mui/material/ToggleButton" {
+  interface ToggleButtonPropsColorOverrides {
+    base: true;
+    pago: true;
+    pagoGreen: true;
+    pagoYellow: true;
+    pagoRed: true;
+  }
+}
+
+declare module "@mui/material/ToggleButtonGroup" {
+  interface ToggleButtonGroupPropsColorOverrides {
+    base: true;
+    pago: true;
+    pagoGreen: true;
+    pagoYellow: true;
+    pagoRed: true;
+  }
+}

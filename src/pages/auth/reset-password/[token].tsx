@@ -1,18 +1,20 @@
-import { PasswordInput } from "@/components/inputs/PasswordInput";
-import { CenterLayout } from "@/components/layouts/CenterLayout";
-import { Button } from "@/components/ui/Button";
-import { Typography } from "@/components/ui/Typography";
-import { axios } from "@/libs/axios";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Stack, TextField } from "@mui/material";
+import { useCallback, useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Stack, TextField } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import useFetchEmailFromToken from "@/hooks/api/useFetchEmailFromToken";
 import { z } from "zod";
+
+import { PasswordInput } from "@/components/inputs/password-input";
+import { CenterLayout } from "@/components/layouts/center-layout";
+import { Button } from "@/components/ui/button";
+import { Typography } from "@/components/ui/typography";
+import useFetchEmailFromToken from "@/hooks/api/use-fetch-email-from-token";
+import { axios } from "@/libs/axios";
 
 export const resetPasswordFormSchema = z
   .object({
@@ -63,7 +65,7 @@ const ResetPasswordPage: NextPage = () => {
       try {
         await axios.post(`/auth/reset-password/${token}`, data);
         enqueueSnackbar("密碼重設成功", { variant: "success" });
-        router.push("/auth/signin");
+        void router.push("/auth/signin");
       } catch (e) {
         enqueueSnackbar("密碼重設失敗", { variant: "error" });
         setIsButtonDisabled(false);
@@ -73,7 +75,7 @@ const ResetPasswordPage: NextPage = () => {
   );
 
   const handlePasswordCheck = () => {
-    if (dirtyFields.confirmPassword) trigger("confirmPassword");
+    if (dirtyFields.confirmPassword) void trigger("confirmPassword");
   };
 
   useEffect(() => {
@@ -102,7 +104,7 @@ const ResetPasswordPage: NextPage = () => {
               variant="outlined"
               error={!!errors.email}
               helperText={errors.email?.message}
-              value={email || ""}
+              value={email ?? ""}
               disabled
             />
             <PasswordInput

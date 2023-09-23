@@ -1,31 +1,33 @@
-import { PageTitle } from "@/components/PageTitle";
-import { SubmitButton } from "@/components/SubmitButton";
-import {
-  EditMerchandiseForm,
-  editMerchandiseFormSchema,
-} from "@/components/forms/EditMerchandiseForm";
-import type { EditReviewFormValues } from "@/components/forms/EditReviewForm";
-import EditReviewForm, {
-  editReviewFormSchema,
-  transformEditReviewFormValues,
-} from "@/components/forms/EditReviewForm";
-import { NeedsForm, needsFormSchema } from "@/components/forms/NeedsForm";
-import type { Currency } from "@/components/inputs/CurrencyInput";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { Button } from "@/components/ui/Button";
-import { StepLabel } from "@/components/ui/StepLabel";
-import { Stepper } from "@/components/ui/Stepper";
-import { useOrder } from "@/hooks/api/useOrder";
-import { useUpdateOrder } from "@/hooks/api/useUpdateOrder";
-import type { Order } from "@/types/order";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Stack, Step, alpha, styled } from "@mui/material";
-import { parseISO } from "date-fns";
+import { useState, type MouseEvent } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState, type MouseEvent } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { alpha, Box, Stack, Step, styled } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
+
+import {
+  EditMerchandiseForm,
+  editMerchandiseFormSchema,
+} from "@/components/forms/edit-merchandise-form";
+import EditReviewForm, {
+  editReviewFormSchema,
+  transformEditReviewFormValues,
+  type EditReviewFormValues,
+} from "@/components/forms/edit-review-form";
+import { NeedsForm, needsFormSchema } from "@/components/forms/needs-form";
+import type { Currency } from "@/components/inputs/currency-input";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { PageTitle } from "@/components/page-title";
+import { SubmitButton } from "@/components/submit-button";
+import { Button } from "@/components/ui/button";
+import { StepLabel } from "@/components/ui/step-label";
+import { Stepper } from "@/components/ui/stepper";
+import { useOrder } from "@/hooks/api/use-order";
+import { useUpdateOrder } from "@/hooks/api/use-update-order";
+import type { Order } from "@/types/order";
+import { now, parse } from "@/utils/date";
 
 const StyledButton = styled(Button)(({ theme, color }) => ({
   minWidth: 0,
@@ -62,7 +64,7 @@ const transformApiData = (order: Order): EditReviewFormValues => {
       countryCode: order.destinationCountryCode,
       cityCode: order.destinationCityCode,
     },
-    deadline: parseISO(order.latestReceiveItemDate),
+    deadline: parse(order.latestReceiveItemDate),
     note: order.note,
   };
 };
@@ -87,7 +89,7 @@ const DEFAULT_VALUES: Partial<EditReviewFormValues> = {
     countryCode: "",
     cityCode: "",
   },
-  deadline: new Date(),
+  deadline: now(),
   note: "",
 };
 
@@ -133,7 +135,7 @@ const EditOrderPage: NextPage = () => {
   const handleFormSubmit = (data: EditReviewFormValues) => {
     updateOrder(
       { orderId, data: transformEditReviewFormValues(data) },
-      { onSuccess: (data) => router.replace(`/orders/${data.orderId}`) }
+      { onSuccess: (data) => void router.replace(`/orders/${data.orderId}`) }
     );
   };
 

@@ -1,17 +1,19 @@
-import { SubmitButton } from "@/components/SubmitButton";
-import { CountrySelect } from "@/components/inputs/CountrySelect";
-import { SettingLayout } from "@/components/layouts/SettingLayout";
-import FilledTextarea from "@/components/ui/FilledTextarea";
-import { useUpdateAvatar } from "@/hooks/api/useUpdateAvatar";
-import { useUpdateUser } from "@/hooks/api/useUpdateUser";
-import { useUserMe } from "@/hooks/api/useUserMe";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import Head from "next/head";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Avatar, Paper, Skeleton, Stack, TextField } from "@mui/material";
 import { useSession } from "next-auth/react";
-import Head from "next/head";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { CountrySelect } from "@/components/inputs/country-select";
+import { SettingLayout } from "@/components/layouts/setting-layout";
+import { SubmitButton } from "@/components/submit-button";
+import FilledTextarea from "@/components/ui/filled-textarea";
+import { useUpdateAvatar } from "@/hooks/api/use-update-avatar";
+import { useUpdateUser } from "@/hooks/api/use-update-user";
+import { useUserMe } from "@/hooks/api/use-user-me";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 const updateUserFormSchema = z.object({
   firstName: z.string().trim().min(1, "姓氏不可為空"),
@@ -168,7 +170,7 @@ export default function UserProfileSettingPage() {
                 <TextField
                   label="手機"
                   InputLabelProps={{ shrink: true }}
-                  disabled={session?.user?.verified || inputDisabled}
+                  disabled={session?.user?.verified ?? inputDisabled}
                   fullWidth
                   error={!!errors.phone}
                   helperText={errors.phone?.message}

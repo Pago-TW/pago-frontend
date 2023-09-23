@@ -1,27 +1,29 @@
-import { PageTitle } from "@/components/PageTitle";
-import { UserInfo } from "@/components/UserInfo";
-import { UserSummary } from "@/components/UserSummary";
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import Link from "next/link";
+
+import { TabContext } from "@mui/lab";
+import { Box, Container, Stack } from "@mui/material";
+
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { PageTitle } from "@/components/page-title";
+import { Button } from "@/components/ui/button";
+import { TabPanel } from "@/components/ui/tab-panel";
+import { UserInfo } from "@/components/user-info";
+import { UserSummary } from "@/components/user-summary";
 import {
   HorizontalCenterTabList,
   RequestedCommissions,
   StyledTab,
-} from "@/components/UserTabs";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { Button } from "@/components/ui/Button";
-import { TabPanel } from "@/components/ui/TabPanel";
-import { useUserMe } from "@/hooks/api/useUserMe";
-import { TabContext } from "@mui/lab";
-import { Box, Container, Stack } from "@mui/material";
-import dynamic from "next/dynamic";
-import Head from "next/head";
-import Link from "next/link";
-import { useState } from "react";
+} from "@/components/user-tabs";
+import { useUserMe } from "@/hooks/api/use-user-me";
 
 const DynamicOngoingTrips = dynamic(() =>
-  import("@/components/UserTabs").then((mod) => mod.OngoingTrips)
+  import("@/components/user-tabs").then((mod) => mod.OngoingTrips)
 );
 const DynamicPersonalReviews = dynamic(() =>
-  import("@/components/UserTabs").then((mod) => mod.PersonalReviews)
+  import("@/components/user-tabs").then((mod) => mod.PersonalReviews)
 );
 
 const PAGE_TABS = [

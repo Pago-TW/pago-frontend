@@ -1,33 +1,36 @@
-import { AvailableShoppers } from "@/components/AvailableShoppers";
-import { BidList } from "@/components/BidList";
-import { DetailItem } from "@/components/DetailItem";
-import { FavoriteButton } from "@/components/FavoriteButton";
-import { ImageCarousel } from "@/components/ImageCarousel";
-import { PageTitle } from "@/components/PageTitle";
-import { ShareButton } from "@/components/ShareButton";
-import { StatusBox } from "@/components/StatusBox";
-import { UserCard } from "@/components/UserCard";
-import { Actions } from "@/components/actions/Actions";
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { Typography } from "@/components/ui/Typography";
-import { useBids } from "@/hooks/api/useBids";
-import { useCountryCity } from "@/hooks/api/useCountryCity";
-import { useMatchingShoppers } from "@/hooks/api/useMatchingShoppers";
-import { useOrder } from "@/hooks/api/useOrder";
-import { useLocale } from "@/hooks/useLocale";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
-import type { Order } from "@/types/order";
-import { extractCountriesCities } from "@/utils/extractCountriesCities";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
-import { formatDate } from "@/utils/formatDateTime";
-import { Place } from "@mui/icons-material";
-import { Box, Paper, Stack } from "@mui/material";
+import { useMemo, type ReactNode } from "react";
 import type { NextPage } from "next";
-import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useMemo, type ReactNode } from "react";
-import { translateBoolean } from "src/utils/translateBoolean";
+
+import { Place } from "@mui/icons-material";
+import { Box, Paper, Stack } from "@mui/material";
+import { useSession } from "next-auth/react";
+
+import { Actions } from "@/components/actions/actions";
+import { AvailableShoppers } from "@/components/available-shoppers";
+import { BidList } from "@/components/bid-list";
+import { DetailItem } from "@/components/detail-item";
+import { FavoriteButton } from "@/components/favorite-button";
+import { ImageCarousel } from "@/components/image-carousel";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { PageTitle } from "@/components/page-title";
+import { ShareButton } from "@/components/share-button";
+import { StatusBox } from "@/components/status-box";
+import { Typography } from "@/components/ui/typography";
+import { UserCard } from "@/components/user-card";
+import { useBids } from "@/hooks/api/use-bids";
+import { useCountryCity } from "@/hooks/api/use-country-city";
+import { useMatchingShoppers } from "@/hooks/api/use-matching-shoppers";
+import { useOrder } from "@/hooks/api/use-order";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import type { Order } from "@/types/order";
+import {
+  extractCountriesCities,
+  flattenInfinitePaginatedData,
+} from "@/utils/api";
+import { formatDate } from "@/utils/date";
+import { translateBoolean } from "@/utils/misc";
 
 const AreaWrapper = ({ children }: { children: ReactNode }) => {
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
@@ -87,8 +90,6 @@ const DetailList = (
     note,
     serialNumber,
   } = props;
-
-  const locale = useLocale();
 
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
@@ -180,7 +181,7 @@ const DetailList = (
       />
       <DetailItem
         label="最晚收到商品時間"
-        value={formatDate({ date: latestReceiveItemDate, locale })}
+        value={formatDate(latestReceiveItemDate)}
         multiLine={multiline}
       />
       <DetailItem label="備註" value={note} multiLine={multiline} />
@@ -438,7 +439,9 @@ const OrderDetailPage: NextPage = () => {
           isApplicant={isApplicant}
           hasCancellationRecord={hasCancellationRecord}
           hasPostponeRecord={hasPostponeRecord}
-          shopperId={shopper?.userId as string}
+          // TODO: improve this or something idk
+          // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+          shopperId={shopper?.userId!}
           consumerId={consumer.userId}
         />
       </Stack>

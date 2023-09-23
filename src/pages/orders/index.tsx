@@ -1,19 +1,21 @@
-import { BaseLayout } from "@/components/layouts/BaseLayout";
-import { OrderList } from "@/components/OrderList";
-import { PageTitle } from "@/components/PageTitle";
-import { Button } from "@/components/ui/Button";
-import { Link } from "@/components/ui/Link";
-import { Tab } from "@/components/ui/Tab";
-import { useOrders } from "@/hooks/api/useOrders";
-import { flattenInfinitePaginatedData } from "@/utils/flattenInfinitePaginatedData";
+import { useEffect, useMemo, useState } from "react";
+import type { NextPage } from "next";
+import Head from "next/head";
+
 import { Add } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Container } from "@mui/material";
-import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
+
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { OrderList } from "@/components/order-list";
+import { PageTitle } from "@/components/page-title";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
+import { Tab } from "@/components/ui/tab";
+import { useOrders } from "@/hooks/api/use-orders";
+import { flattenInfinitePaginatedData } from "@/utils/api";
 
 const TABS = [
   { label: "全部", value: "ALL" },
@@ -43,7 +45,7 @@ const OrdersPage: NextPage = () => {
 
   useEffect(() => {
     if (inView && hasNextPage) {
-      fetchNextPage();
+      void fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
@@ -80,7 +82,7 @@ const OrdersPage: NextPage = () => {
               <TabList
                 variant="scrollable"
                 allowScrollButtonsMobile
-                onChange={(_e, v) => setCurrentTab(v)}
+                onChange={(_e, v: Tab["value"]) => setCurrentTab(v)}
               >
                 {TABS.map((tab) => (
                   <Tab

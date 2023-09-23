@@ -21,6 +21,15 @@ export interface Trip {
   dashboard: Dashboard;
 }
 
+export interface TripCollection {
+  tripCollectionId: string;
+  tripCollectionName: string;
+  tripCollectionStatus: TripStatus;
+  createDate: string;
+  updateDate: string;
+  trips: Trip[];
+}
+
 export type TripStatus = "ONGOING" | "UPCOMING" | "PAST";
 
 export interface Dashboard {
