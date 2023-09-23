@@ -9,9 +9,11 @@ interface SetDefaultBankAccountData extends Pick<BankAccount, "bankAccountId"> {
 
 const setDefaultBankAccount = async ({
   bankAccountId,
+  otpCode,
 }: SetDefaultBankAccountData) => {
   const res = await axios.patch<string>(
-    `/bank-accounts/${bankAccountId}/default`
+    `/bank-accounts/${bankAccountId}/default`,
+    { otpCode }
   );
 
   return res.data;
