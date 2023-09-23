@@ -25,7 +25,7 @@ export const BankCard = ({
   isDefault,
 }: BankCardProps) => {
   return (
-    <BankCardRoot elevation={3} href={`/users/me/payments/${bankAccountId}`}>
+    <BankCardRoot elevation={3} href={`/users/me/bank-accounts/${bankAccountId}`}>
       <Box display="flex" alignItems="center" gap={2}>
         <Box
           fontSize={10}
