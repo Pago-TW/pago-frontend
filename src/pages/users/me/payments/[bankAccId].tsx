@@ -227,8 +227,11 @@ export default function UserBankAccountDetailPage() {
             />
             <ConfirmProvider defaultOptions={defaultConfirmOptions}>
               <DeleteButton bankAccountId={bankAccId} />
+              <SetDefaultButton
+                bankAccountId={bankAccId}
+                isDefault={isDefault}
+              />
             </ConfirmProvider>
-            <SetDefaultButton bankAccountId={bankAccId} isDefault={isDefault} />
           </Stack>
         </Container>
       </BaseLayout>
