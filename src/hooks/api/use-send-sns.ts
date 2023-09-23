@@ -8,7 +8,7 @@ interface SendSnsData {
 }
 
 const sendSns = async (data: SendSnsData) => {
-  const res = await axios.post<Otp>("/otp/send-sns", data);
+  const res = await axios.post<Otp>("/otp", data);
   return res.data;
 };
 
