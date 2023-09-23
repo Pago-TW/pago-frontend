@@ -41,7 +41,7 @@ const DeleteButton = ({
     });
     deleteBankAccount(
       { bankAccountId },
-      { onSuccess: () => void router.replace("/users/me/bank-accounts") }
+      { onSuccess: () => void router.replace("/users/me/payments") }
     );
   };
 
@@ -161,7 +161,7 @@ const SetDefaultButton = ({
   const handleSubmit = (data: OtpFormValues) => {
     setDefault(
       { otpCode: data.otp, bankAccountId },
-      { onSuccess: () => void router.replace("/users/me/bank-accounts") }
+      { onSuccess: () => void router.replace("/users/me/payments") }
     );
   };
 
