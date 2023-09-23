@@ -5,6 +5,7 @@ import { Container, Stack } from "@mui/material";
 import { BaseLayout } from "@/components/layouts/base-layout";
 import { PageTitle } from "@/components/page-title";
 import { BalanceSection } from "@/components/wallet/balance-section";
+import { BankAccountSection } from "@/components/wallet/bank-account-section";
 
 export default function WalletPage() {
   return (
@@ -17,6 +18,7 @@ export default function WalletPage() {
         <Container maxWidth="xs">
           <Stack spacing={2}>
             <BalanceSection />
+            <BankAccountSection />
           </Stack>
         </Container>
       </BaseLayout>

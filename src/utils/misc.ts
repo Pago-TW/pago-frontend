@@ -14,3 +14,6 @@ export const formatCurrency = ({
     ...options,
   }).format(value);
 };
+
+export const formatBankAccount = (text: string) =>
+  text.match(/[^\s]{4}/g)?.join(" ");
