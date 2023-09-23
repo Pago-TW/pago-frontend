@@ -17,7 +17,7 @@ export const AddBankCard = () => {
         borderStyle: "dashed",
         borderColor: "base.300",
       }}
-      href="/users/me/payments/new"
+      href="/users/me/bank-accounts/new"
     >
       <Typography
         variant="h5"
