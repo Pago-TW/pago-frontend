@@ -17,3 +17,8 @@ export const formatCurrency = ({
 
 export const formatBankAccount = (text: string) =>
   text.match(/[^\s]{4}/g)?.join(" ");
+
+export const formatNumber = (value: number) =>
+  Intl.NumberFormat(undefined, {
+    maximumFractionDigits: 0,
+  }).format(value);
