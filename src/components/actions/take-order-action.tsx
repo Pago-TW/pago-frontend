@@ -47,7 +47,7 @@ export const TakeOrderAction: FC = () => {
             variant="text"
             onClick={() => {
               void router.push({
-                pathname: "/users/me/payments/new",
+                pathname: "/users/me/bank-accounts/new",
                 query: { redirectUrl: router.asPath },
               });
               closeSnackbar(key);
