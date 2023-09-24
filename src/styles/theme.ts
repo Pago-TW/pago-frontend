@@ -1,5 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 
+import { inter, notoSansTC } from "@/styles/fonts";
+
 export const theme = createTheme({
   components: {
     MuiCssBaseline: {
@@ -124,16 +126,7 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: [
-      '"-apple-system"',
-      '"BlinkMacSystemFont"',
-      '"Helvetica Neue"',
-      '"Helvetica"',
-      '"Segoe UI"',
-      '"Mallanna"',
-      '"Noto Sans TC"',
-      '"sans-serif"',
-    ].join(","),
+    fontFamily: [inter.style.fontFamily, notoSansTC.style.fontFamily].join(","),
     button: {
       textTransform: "none",
     },

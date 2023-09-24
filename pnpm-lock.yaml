@@ -17,12 +17,6 @@ dependencies:
   '@emotion/styled':
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.20)(react@18.2.0)
-  '@fontsource/mallanna':
-    specifier: ^5.0.8
-    version: 5.0.8
-  '@fontsource/noto-sans-tc':
-    specifier: ^5.0.7
-    version: 5.0.7
   '@hookform/resolvers':
     specifier: ^3.2.0
     version: 3.2.0(react-hook-form@7.45.4)
@@ -81,8 +75,8 @@ dependencies:
     specifier: 2.6.0-beta.12
     version: 2.6.0-beta.12
   mui-one-time-password-input:
-    specifier: ^2.0.0
-    version: 2.0.0(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/material@5.14.4)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^1.2.5
+    version: 1.2.5(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/material@5.14.4)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)
   next:
     specifier: ^13.4.13
     version: 13.4.13(@babel/core@7.22.10)(react-dom@18.2.0)(react@18.2.0)
@@ -2143,14 +2137,6 @@ packages:
   /@floating-ui/utils@0.1.1:
     resolution: {integrity: sha512-m0G6wlnhm/AX0H12IOWtK8gASEMffnX08RtKkCgTdHb9JpHKGloI7icFfLg9ZmQeavcvR0PKmzxClyuFPSjKWw==}
     dev: true
-
-  /@fontsource/mallanna@5.0.8:
-    resolution: {integrity: sha512-OLklm4za4kfdStT3LLA9brpjsWcTNqj+NxaZNJpFaF5wMBu23LVmiRCop0M1tSGgAGtTn/buEB987EuLMRrzuw==}
-    dev: false
-
-  /@fontsource/noto-sans-tc@5.0.7:
-    resolution: {integrity: sha512-Kireuo1IctzbeIyrDXKj+bz971mzubVFlKB2N/mxeiNxW1CNxRgMy8V+y2iWzvC3DvNHIEGSdziKHfAzO7fVBA==}
-    dev: false
 
   /@hookform/resolvers@3.2.0(react-hook-form@7.45.4):
     resolution: {integrity: sha512-skXQHhLxq0Sz2xDwCyv5dygBCtXJe1GmWwxDzfdtl0X6agD6qcyTG8HrZWkjJoy8AkiLARqYvSYJ8z7+Nwmi7w==}
@@ -9972,8 +9958,8 @@ packages:
   /ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  /mui-one-time-password-input@2.0.0(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/material@5.14.4)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-5yWSJpmq2z86xqssrFOJ20aTqpsPkQEH6y9u1c4knJ68811zjmSVf7p32OhKfD+BKCiC+33vDzbIvg5IHkLzLA==}
+  /mui-one-time-password-input@1.2.5(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/material@5.14.4)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-D1KkHiwO1r1qFtNN9wWAkwb9pALEUPDuqrbfABZ0sbd7Tzzr28xQ3ljtDvH6nsoswX9XbZyf/sKCYGlnFkSeEw==}
     peerDependencies:
       '@emotion/react': ^11.5.0
       '@emotion/styled': ^11.3.0
