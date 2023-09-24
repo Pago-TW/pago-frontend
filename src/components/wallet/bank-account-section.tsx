@@ -4,6 +4,7 @@ import { Skeleton, Stack } from "@mui/material";
 import { Typography } from "@/components/ui/typography";
 import { SectionWrapper } from "@/components/wallet/section-wrapper";
 import { useBankAccounts } from "@/hooks/api/use-bank-accounts";
+import { robotoMono } from "@/styles/fonts";
 import { formatBankAccount } from "@/utils/misc";
 
 export const BankAccountSection = () => {
@@ -19,7 +20,12 @@ export const BankAccountSection = () => {
         <Typography as="span" variant="h5">
           收款帳號
         </Typography>
-        <Typography as="span" variant="h5" color="base.500">
+        <Typography
+          as="span"
+          variant="h5"
+          color="base.500"
+          fontFamily={robotoMono.style.fontFamily}
+        >
           {!isLoading && !isError ? (
             !defaultAccount ? (
               "無預設帳號"

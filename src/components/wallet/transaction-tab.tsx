@@ -7,10 +7,12 @@ import {
   AccordionSummary,
   Grid,
   Stack,
+  type StackProps,
 } from "@mui/material";
 
-import { Typography } from "@/components/ui/typography";
+import { Typography, type TypographyProps } from "@/components/ui/typography";
 import { useTransactions } from "@/hooks/api/use-transactions";
+import { robotoMono } from "@/styles/fonts";
 import type { Transaction } from "@/types/transaction";
 import { format } from "@/utils/date";
 import { formatBankAccount } from "@/utils/misc";
@@ -105,23 +107,12 @@ const TransactionDetails = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const TransactionDetailsItem = ({
-  label,
-  value,
-}: {
-  label: string;
-  value: string | number;
-}) => {
-  return (
-    <Stack direction="row" justifyContent="space-between">
-      <Typography as="span" color="base.500" fontSize={12}>
-        {label}
-      </Typography>
-      <Typography as="span" color="base.500" fontSize={12}>
-        {value}
-      </Typography>
-    </Stack>
-  );
+const TransactionDetail = (props: StackProps) => {
+  return <Stack direction="row" justifyContent="space-between" {...props} />;
+};
+
+const TransactionDetailText = (props: TypographyProps) => {
+  return <Typography as="span" color="base.500" fontSize={12} {...props} />;
 };
 
 const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
@@ -154,7 +145,11 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
             accountNumber && formatBankAccount(accountNumber);
           const items = [
             { label: "餘額", value: balance },
-            { label: "銀行帳號", value: formattedAccountNumber },
+            {
+              label: "銀行帳號",
+              value: formattedAccountNumber,
+              valueProps: { fontFamily: robotoMono.style.fontFamily },
+            },
             { label: "銀行名稱", value: bankName },
             { label: "訂單編號", value: orderSerialNumber },
             { label: "訂單品名", value: orderName },
@@ -162,14 +157,23 @@ const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
           ].filter(({ value }) => value) as {
             label: string;
             value: string | number;
+            labelProps?: TypographyProps;
+            valueProps?: TypographyProps;
           }[];
 
           return (
             <TransactionItem key={transactionId}>
               <TransactionSummary {...summaryProps} />
               <TransactionDetails>
-                {items.map((item) => (
-                  <TransactionDetailsItem key={item.label} {...item} />
+                {items.map(({ label, value, labelProps, valueProps }) => (
+                  <TransactionDetail key={label}>
+                    <TransactionDetailText {...labelProps}>
+                      {label}
+                    </TransactionDetailText>
+                    <TransactionDetailText {...valueProps}>
+                      {value}
+                    </TransactionDetailText>
+                  </TransactionDetail>
                 ))}
               </TransactionDetails>
             </TransactionItem>
