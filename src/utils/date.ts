@@ -16,12 +16,13 @@ const parse = (date: ConfigType) => dayjs(date);
 
 const parseAsDate = (date: ConfigType) => parse(date).toDate();
 
-const formatDate = (date: ConfigType) => parse(date).format(DATE_FORMAT);
+const format = (date: ConfigType, fmt: string) => parse(date).format(fmt);
 
-const formatTime = (date: ConfigType) => parse(date).format(TIME_FORMAT);
+const formatDate = (date: ConfigType) => format(date, DATE_FORMAT);
 
-const formatDateTime = (date: ConfigType) =>
-  parse(date).format(DATE_TIME_FORMAT);
+const formatTime = (date: ConfigType) => format(date, TIME_FORMAT);
+
+const formatDateTime = (date: ConfigType) => format(date, DATE_TIME_FORMAT);
 
 const fromNow = (base: ConfigType) => dayjs(base).fromNow();
 
@@ -30,6 +31,7 @@ export {
   utcNow,
   parse,
   parseAsDate,
+  format,
   formatDate,
   formatTime,
   formatDateTime,
