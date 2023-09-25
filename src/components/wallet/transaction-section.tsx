@@ -14,7 +14,7 @@ export const TransactionSection = () => {
   const [tab, setTab] = useState<string | undefined>(undefined);
   const [year, setYear] = useState<string | undefined>(undefined);
 
-  const { data: queries } = useTransactionQueries();
+  const { data: queries, isLoading, isError } = useTransactionQueries();
 
   useEffect(() => {
     // The year is set after query data is received,
@@ -29,6 +29,9 @@ export const TransactionSection = () => {
   const handleTabChange = (tab: string) => {
     setTab(tab);
   };
+
+  const isQueriesEmpty =
+    !isLoading && !isError && Object.keys(queries).length === 0;
 
   return (
     <SectionWrapper sx={{ pb: 0, px: 0 }}>
@@ -54,12 +57,25 @@ export const TransactionSection = () => {
             搜尋
           </Button>
         </Stack>
-        <TransactionMonthTabs
-          queries={queries}
-          year={year}
-          tab={tab}
-          onTabChange={handleTabChange}
-        />
+        {!isQueriesEmpty ? (
+          <TransactionMonthTabs
+            queries={queries}
+            year={year}
+            tab={tab}
+            onTabChange={handleTabChange}
+          />
+        ) : (
+          <Typography
+            as="p"
+            variant="h6"
+            color="base.500"
+            textAlign="center"
+            py={2}
+            fontStyle="italic"
+          >
+            目前沒有交易紀錄
+          </Typography>
+        )}
       </Stack>
     </SectionWrapper>
   );
