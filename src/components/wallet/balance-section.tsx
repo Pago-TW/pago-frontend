@@ -9,7 +9,7 @@ import { useOpen } from "@/hooks/use-open";
 import { formatNumber } from "@/utils/misc";
 
 export const BalanceSection = () => {
-  const { data: balance } = useBalance();
+  const { data: balance, isLoading, isError } = useBalance();
 
   const { open, handleOpen, handleClose } = useOpen();
 
@@ -26,7 +26,11 @@ export const BalanceSection = () => {
           </Typography>
           <Stack direction="row" spacing={2} alignItems="center">
             <Typography as="span" variant="h3" weightPreset="bold">
-              {balance ? formatNumber(balance) : <Skeleton width={100} />}
+              {!isLoading && !isError ? (
+                formatNumber(balance)
+              ) : (
+                <Skeleton width={100} />
+              )}
             </Typography>
             <Button size="small" sx={{ minWidth: 0 }} onClick={handleOpen}>
               提領
