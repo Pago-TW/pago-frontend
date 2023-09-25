@@ -217,12 +217,7 @@ const NavbarButtons = ({
             <Forum />
           </Badge>
         </IconButton>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-          onClick={onNotificationClick}
-        >
+        <IconButton size="large" color="inherit" onClick={onNotificationClick}>
           <Badge
             color="error"
             variant="dot"
