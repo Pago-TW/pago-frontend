@@ -13,9 +13,9 @@ import { z } from "zod";
 import { PhoneInput, phoneSchema } from "@/components/inputs/phone-input";
 import { Button } from "@/components/ui/button";
 import { useAddBankAccFormContext } from "@/contexts/add-bank-acc-form-context";
-import { useSendSns } from "@/hooks/api/use-send-sns";
+import { useRequestPhoneVerificationOtp } from "@/hooks/api/use-request-phone-verification-otp";
 import { useVerifyPhone } from "@/hooks/api/use-verify-phone";
-import { parse } from "@/utils/date";
+import { calcCountdownDate } from "@/utils/misc";
 
 const OtpInput = dynamic(
   () => import("@/components/inputs/otp-input").then((mod) => mod.OtpInput),
@@ -32,11 +32,6 @@ export type PhoneVerifyFormValues = z.infer<typeof phoneVerifyFormSchema>;
 const VerifiedIcon = styled(CheckCircle)(({ theme }) => ({
   color: theme.palette.pagoGreen.main,
 }));
-
-const calcCountdownDate = (createDate: string, deltaInSeconds = 180): Date => {
-  const date = parse(createDate);
-  return date.add(deltaInSeconds, "seconds").toDate();
-};
 
 export const VerifyPhoneForm = () => {
   const { data: session } = useSession();
@@ -55,7 +50,8 @@ export const VerifyPhoneForm = () => {
     resolver: zodResolver(phoneVerifyFormSchema),
   });
 
-  const { mutate: sendSns, isLoading: isSending } = useSendSns();
+  const { mutate: requestPhoneVerificationOtp, isLoading: isRequesting } =
+    useRequestPhoneVerificationOtp();
   const { mutate: verifyPhone, isLoading: isVerifying } = useVerifyPhone();
 
   useEffect(() => {
@@ -92,7 +88,7 @@ export const VerifyPhoneForm = () => {
             <Button
               variant="outlined"
               size="small"
-              loading={isSending}
+              loading={isRequesting}
               disabled={isVerified}
               onClick={handleSendVerificationCode}
             >
@@ -132,7 +128,7 @@ export const VerifyPhoneForm = () => {
 
     if (!isPhoneValid) return;
 
-    sendSns(
+    requestPhoneVerificationOtp(
       { phone },
       {
         onSuccess: (data) => {

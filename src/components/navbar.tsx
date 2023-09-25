@@ -217,12 +217,7 @@ const NavbarButtons = ({
             <Forum />
           </Badge>
         </IconButton>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-          onClick={onNotificationClick}
-        >
+        <IconButton size="large" color="inherit" onClick={onNotificationClick}>
           <Badge
             color="error"
             variant="dot"
@@ -292,7 +287,7 @@ const drawerListItems: DrawerListItem[] = [
   { href: "/trips", text: "旅途管理", icon: <Place /> },
   { href: "/marketplace", text: "商品瀏覽", icon: <ShoppingBag /> },
   { href: "/about-us", text: "關於我們", icon: <Groups /> },
-  { href: "/users/me/bank-accounts", text: "我的錢包", icon: <Wallet /> },
+  { href: "/users/me/wallet", text: "我的錢包", icon: <Wallet /> },
   { href: "/users/me/settings", text: "設定", icon: <Settings /> },
 ];
 

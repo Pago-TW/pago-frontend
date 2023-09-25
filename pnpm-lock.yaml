@@ -17,12 +17,6 @@ dependencies:
   '@emotion/styled':
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.20)(react@18.2.0)
-  '@fontsource/mallanna':
-    specifier: ^5.0.8
-    version: 5.0.8
-  '@fontsource/noto-sans-tc':
-    specifier: ^5.0.7
-    version: 5.0.7
   '@hookform/resolvers':
     specifier: ^3.2.0
     version: 3.2.0(react-hook-form@7.45.4)
@@ -2143,14 +2137,6 @@ packages:
   /@floating-ui/utils@0.1.1:
     resolution: {integrity: sha512-m0G6wlnhm/AX0H12IOWtK8gASEMffnX08RtKkCgTdHb9JpHKGloI7icFfLg9ZmQeavcvR0PKmzxClyuFPSjKWw==}
     dev: true
-
-  /@fontsource/mallanna@5.0.8:
-    resolution: {integrity: sha512-OLklm4za4kfdStT3LLA9brpjsWcTNqj+NxaZNJpFaF5wMBu23LVmiRCop0M1tSGgAGtTn/buEB987EuLMRrzuw==}
-    dev: false
-
-  /@fontsource/noto-sans-tc@5.0.7:
-    resolution: {integrity: sha512-Kireuo1IctzbeIyrDXKj+bz971mzubVFlKB2N/mxeiNxW1CNxRgMy8V+y2iWzvC3DvNHIEGSdziKHfAzO7fVBA==}
-    dev: false
 
   /@hookform/resolvers@3.2.0(react-hook-form@7.45.4):
     resolution: {integrity: sha512-skXQHhLxq0Sz2xDwCyv5dygBCtXJe1GmWwxDzfdtl0X6agD6qcyTG8HrZWkjJoy8AkiLARqYvSYJ8z7+Nwmi7w==}

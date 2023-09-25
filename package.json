@@ -20,8 +20,6 @@
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.11.0",
-    "@fontsource/mallanna": "^5.0.8",
-    "@fontsource/noto-sans-tc": "^5.0.7",
     "@hookform/resolvers": "^3.2.0",
     "@mui/base": "5.0.0-beta.11",
     "@mui/icons-material": "^5.14.3",
