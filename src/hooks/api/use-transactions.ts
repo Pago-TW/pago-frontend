@@ -29,7 +29,7 @@ const getTransactions = async ({ params }: Options) => {
 
 export const useTransactions = (params?: Params) => {
   return useQuery({
-    queryKey: ["transactions", params],
+    queryKey: ["wallet", "transactions", params],
     queryFn: () => getTransactions({ params }),
   });
 };

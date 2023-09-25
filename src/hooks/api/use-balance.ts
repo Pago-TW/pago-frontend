@@ -9,7 +9,7 @@ const getBalance = async () => {
 
 export const useBalance = () => {
   return useQuery({
-    queryKey: ["wallet"],
+    queryKey: ["wallet", "balance"],
     queryFn: getBalance,
   });
 };

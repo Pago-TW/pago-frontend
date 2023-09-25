@@ -17,7 +17,7 @@ const getTransactionQueries = async () => {
 
 export const useTransactionQueries = () => {
   return useQuery({
-    queryKey: ["transactions", "queries"],
+    queryKey: ["wallet", "transactions", "queries"],
     queryFn: getTransactionQueries,
   });
 };
