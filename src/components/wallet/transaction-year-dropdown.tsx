@@ -31,7 +31,7 @@ export const TransactionYearDropdown = ({
 
   if (!queries || !year) return null;
 
-  const availableYears = Object.keys(queries);
+  const availableYears = Object.keys(queries).reverse();
 
   return (
     <>

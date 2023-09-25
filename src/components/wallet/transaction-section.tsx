@@ -19,7 +19,7 @@ export const TransactionSection = () => {
   useEffect(() => {
     // The year is set after query data is received,
     // as there is no default value initially and cannot be determined without query data
-    if (queries && !year) setYear(Object.keys(queries)[0]);
+    if (queries && !year) setYear(Object.keys(queries).reverse()[0]);
   }, [queries, year]);
 
   const handleYearChange = (year: string) => {
