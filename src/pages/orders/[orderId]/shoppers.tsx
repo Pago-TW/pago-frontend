@@ -3,13 +3,14 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 import { ArrowDownward } from "@mui/icons-material";
-import { Avatar, Box, Container, Link, Stack } from "@mui/material";
+import { Box, Container, Link, Stack } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useInView } from "react-intersection-observer";
 
 import { BaseLayout } from "@/components/layouts/base-layout";
 import { OrderItem } from "@/components/order-item";
 import { PageTitle } from "@/components/page-title";
+import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Paper } from "@/components/ui/paper";
 import { Typography } from "@/components/ui/typography";
@@ -17,6 +18,7 @@ import { useMatchingShoppers } from "@/hooks/api/use-matching-shoppers";
 import { useOrder } from "@/hooks/api/use-order";
 import type { OrderShopper } from "@/types/order";
 import { flattenInfinitePaginatedData } from "@/utils/api";
+import { getUserProfileUrl } from "@/utils/user";
 
 type ShopperChooserProps = Pick<
   OrderShopper,
@@ -31,7 +33,7 @@ const ShopperChooser: FC<ShopperChooserProps> = ({
   return (
     <Paper sx={{ px: 1.5, py: 1 }}>
       <Stack direction="row" spacing={2} alignItems="center">
-        <Avatar src={avatarUrl} />
+        <Avatar src={avatarUrl} href={getUserProfileUrl(userId)} />
         <Typography variant="h5" flexGrow={1} noWrap>
           {fullName}
         </Typography>

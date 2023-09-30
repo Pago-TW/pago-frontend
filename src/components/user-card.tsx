@@ -1,5 +1,6 @@
-import { Avatar, Box, Paper, Stack } from "@mui/material";
+import { Box, Paper, Stack } from "@mui/material";
 
+import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/components/ui/link";
 import { Typography } from "@/components/ui/typography";
@@ -7,6 +8,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import type { Perspective } from "@/types/misc";
 import type { OrderShopper, OrderUser } from "@/types/order";
 import { formatDate } from "@/utils/date";
+import { getUserProfileUrl } from "@/utils/user";
 
 export type UserCardProps = Pick<
   OrderUser,
@@ -55,7 +57,7 @@ export const UserCard = ({
         {perspectiveMsg}
       </Typography>
       <Box width="100%" display="flex" alignItems="center" gap={2}>
-        <Avatar src={avatarUrl} />
+        <Avatar src={avatarUrl} href={getUserProfileUrl(userId)} />
         <Typography variant="h5" as="p" noWrap flexGrow={1}>
           {fullName}
         </Typography>

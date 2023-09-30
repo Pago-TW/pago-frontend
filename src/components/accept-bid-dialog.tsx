@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, type FC } from "react";
 
 import {
-  Avatar,
   Box,
   Dialog,
   DialogActions,
@@ -10,12 +9,14 @@ import {
   Stack,
 } from "@mui/material";
 
+import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import { useCharge } from "@/hooks/api/use-charge";
 import { useChooseBid } from "@/hooks/api/use-choose-bid";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import type { Bid } from "@/types/bid";
+import { getUserProfileUrl } from "@/utils/user";
 
 interface AcceptBidDialogProps {
   bidId: Bid["bidId"];
@@ -58,7 +59,10 @@ export const AcceptBidDialog: FC<AcceptBidDialogProps> = ({
       </DialogTitle>
       <DialogContent>
         <Box display="flex" alignItems="center" gap={2}>
-          <Avatar src={charge?.bidder.avatarUrl} />
+          <Avatar
+            src={charge?.bidder.avatarUrl}
+            href={charge && getUserProfileUrl(charge?.bidder.userId)}
+          />
           <Typography variant={isTablet ? "h4" : "h5"} as="p">
             {charge?.bidder.fullName}
           </Typography>
