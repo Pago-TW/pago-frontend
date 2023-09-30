@@ -2,9 +2,9 @@ import { Box, Paper, Stack } from "@mui/material";
 
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/components/ui/link";
 import { Typography } from "@/components/ui/typography";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useChatroomStore } from "@/store/ui/use-chatroom-store";
 import type { Perspective } from "@/types/misc";
 import type { OrderShopper, OrderUser } from "@/types/order";
 import { formatDate } from "@/utils/date";
@@ -25,6 +25,9 @@ export const UserCard = ({
   latestDeliveryDate,
   perspective,
 }: UserCardProps) => {
+  const setOpen = useChatroomStore((state) => state.setOpen);
+  const setChatWith = useChatroomStore((state) => state.setChatWith);
+
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
   const perspectiveMsg = perspective === "consumer" ? "代購者" : "委託者";
@@ -42,6 +45,11 @@ export const UserCard = ({
       </Typography>
     );
   }
+
+  const handleSendMessageClick = () => {
+    setOpen(true);
+    setChatWith(userId);
+  };
 
   return (
     <Paper
@@ -64,10 +72,9 @@ export const UserCard = ({
         <Button
           variant="outlined"
           size="small"
-          LinkComponent={Link}
-          href={`/users/${userId}`}
+          onClick={handleSendMessageClick}
         >
-          查看{perspective === "consumer" ? "代購者" : "委託者"}詳情
+          傳送訊息
         </Button>
       </Box>
       {latestDeliveryDateElem}

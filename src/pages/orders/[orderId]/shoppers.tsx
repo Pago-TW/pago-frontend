@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 import { ArrowDownward } from "@mui/icons-material";
-import { Box, Container, Link, Stack } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useInView } from "react-intersection-observer";
 
@@ -16,6 +16,7 @@ import { Paper } from "@/components/ui/paper";
 import { Typography } from "@/components/ui/typography";
 import { useMatchingShoppers } from "@/hooks/api/use-matching-shoppers";
 import { useOrder } from "@/hooks/api/use-order";
+import { useChatroomStore } from "@/store/ui/use-chatroom-store";
 import type { OrderShopper } from "@/types/order";
 import { flattenInfinitePaginatedData } from "@/utils/api";
 import { getUserProfileUrl } from "@/utils/user";
@@ -30,6 +31,14 @@ const ShopperChooser: FC<ShopperChooserProps> = ({
   fullName,
   avatarUrl,
 }) => {
+  const setOpen = useChatroomStore((state) => state.setOpen);
+  const setChatWith = useChatroomStore((state) => state.setChatWith);
+
+  const handleSendMessageClick = () => {
+    setOpen(true);
+    setChatWith(userId);
+  };
+
   return (
     <Paper sx={{ px: 1.5, py: 1 }}>
       <Stack direction="row" spacing={2} alignItems="center">
@@ -40,10 +49,9 @@ const ShopperChooser: FC<ShopperChooserProps> = ({
         <Button
           variant="outlined"
           size="small"
-          LinkComponent={Link}
-          href={`/users/${userId}`}
+          onClick={handleSendMessageClick}
         >
-          查看代購者詳情
+          傳送訊息
         </Button>
       </Stack>
     </Paper>
