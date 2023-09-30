@@ -1,6 +1,7 @@
 import { ChevronRight } from "@mui/icons-material";
 import { Skeleton, Stack } from "@mui/material";
 
+import { Link } from "@/components/ui/link";
 import { Typography } from "@/components/ui/typography";
 import { SectionWrapper } from "@/components/wallet/section-wrapper";
 import { useBankAccounts } from "@/hooks/api/use-bank-accounts";
@@ -36,7 +37,13 @@ export const BankAccountSection = () => {
             <Skeleton width={200} />
           )}
         </Typography>
-        <ChevronRight />
+        <Link
+          href="/users/me/bank-accounts"
+          display="inline-flex"
+          alignItems="center"
+        >
+          <ChevronRight />
+        </Link>
       </Stack>
     </SectionWrapper>
   );
