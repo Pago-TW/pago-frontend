@@ -6,6 +6,7 @@ import { Badge, Box, Paper, Stack } from "@mui/material";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { FilledTextarea } from "@/components/ui/filled-textarea";
+import { Link } from "@/components/ui/link";
 import { Typography } from "@/components/ui/typography";
 import { useOpen } from "@/hooks/use-open";
 import type { Bid } from "@/types/bid";
@@ -47,6 +48,8 @@ export const BidItem = ({
   const formattedDistance = fromNow(createDate);
   const formattedLatestDeliveryDate = formatDate(latestDeliveryDate);
 
+  const userProfileUrl = getUserProfileUrl(userId);
+
   return (
     <>
       <Paper elevation={3} component={Stack} spacing={2} sx={{ p: 2 }}>
@@ -74,11 +77,11 @@ export const BidItem = ({
               },
             }}
           >
-            <Avatar src={avatarUrl} href={getUserProfileUrl(userId)} />
+            <Avatar src={avatarUrl} href={userProfileUrl} />
           </Badge>
           <Box display="flex" flexDirection="column" flexGrow={1} ml={2}>
             <Typography variant="h5" noWrap>
-              {fullName}
+              <Link href={userProfileUrl}>{fullName}</Link>
             </Typography>
             <Box
               color="pago.main"
