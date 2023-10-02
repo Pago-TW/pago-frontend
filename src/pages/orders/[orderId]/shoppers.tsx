@@ -12,6 +12,7 @@ import { OrderItem } from "@/components/order-item";
 import { PageTitle } from "@/components/page-title";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
 import { Paper } from "@/components/ui/paper";
 import { Typography } from "@/components/ui/typography";
 import { useMatchingShoppers } from "@/hooks/api/use-matching-shoppers";
@@ -39,12 +40,14 @@ const ShopperChooser: FC<ShopperChooserProps> = ({
     setChatWith(userId);
   };
 
+  const userProfileUrl = getUserProfileUrl(userId);
+
   return (
     <Paper sx={{ px: 1.5, py: 1 }}>
       <Stack direction="row" spacing={2} alignItems="center">
-        <Avatar src={avatarUrl} href={getUserProfileUrl(userId)} />
+        <Avatar src={avatarUrl} href={userProfileUrl} />
         <Typography variant="h5" flexGrow={1} noWrap>
-          {fullName}
+          <Link href={userProfileUrl}>{fullName}</Link>
         </Typography>
         <Button
           variant="outlined"

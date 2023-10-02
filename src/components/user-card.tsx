@@ -2,6 +2,7 @@ import { Box, Paper, Stack } from "@mui/material";
 
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
 import { Typography } from "@/components/ui/typography";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useChatroomStore } from "@/store/ui/use-chatroom-store";
@@ -51,6 +52,8 @@ export const UserCard = ({
     setChatWith(userId);
   };
 
+  const userProfileUrl = getUserProfileUrl(userId);
+
   return (
     <Paper
       elevation={3}
@@ -65,9 +68,9 @@ export const UserCard = ({
         {perspectiveMsg}
       </Typography>
       <Box width="100%" display="flex" alignItems="center" gap={2}>
-        <Avatar src={avatarUrl} href={getUserProfileUrl(userId)} />
+        <Avatar src={avatarUrl} href={userProfileUrl} />
         <Typography variant="h5" as="p" noWrap flexGrow={1}>
-          {fullName}
+          <Link href={userProfileUrl}>{fullName}</Link>
         </Typography>
         <Button
           variant="outlined"
