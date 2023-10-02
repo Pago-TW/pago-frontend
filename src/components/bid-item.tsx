@@ -133,6 +133,9 @@ export const BidItem = ({
             </Button>
             <DynamicAcceptBidDialog
               bidId={bidId}
+              userId={userId}
+              fullName={fullName}
+              avatarUrl={avatarUrl}
               open={open}
               onClose={handleClose}
             />
