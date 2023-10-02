@@ -18,7 +18,6 @@ import {
 import {
   alpha,
   AppBar,
-  Avatar,
   Badge,
   Box,
   Button,
@@ -43,6 +42,7 @@ import { signOut, useSession } from "next-auth/react";
 import { ChatroomList } from "@/components/chatroom-list";
 import { NotificationtList } from "@/components/notification-list";
 import { Search } from "@/components/search";
+import { Avatar } from "@/components/ui/avatar";
 import { Divider } from "@/components/ui/divider";
 import { Link } from "@/components/ui/link";
 import { Paper } from "@/components/ui/paper";
@@ -116,6 +116,7 @@ const UserButton = () => {
                       <Avatar
                         src={session?.user?.image ?? undefined}
                         sx={{ width: 40, height: 40 }}
+                        href="/users/me"
                       />
                       <Typography variant="h5" fontWeight="bold" as="p">
                         {session?.user?.name}

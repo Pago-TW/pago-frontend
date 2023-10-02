@@ -1,15 +1,18 @@
 import dynamic from "next/dynamic";
 
 import { Flight, Star } from "@mui/icons-material";
-import { Avatar, Badge, Box, Paper, Stack } from "@mui/material";
+import { Badge, Box, Paper, Stack } from "@mui/material";
 
+import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { FilledTextarea } from "@/components/ui/filled-textarea";
+import { Link } from "@/components/ui/link";
 import { Typography } from "@/components/ui/typography";
 import { useOpen } from "@/hooks/use-open";
 import type { Bid } from "@/types/bid";
 import { formatDate, fromNow } from "@/utils/date";
 import { formatCurrency } from "@/utils/misc";
+import { getUserProfileUrl } from "@/utils/user";
 
 const DynamicAcceptBidDialog = dynamic(() =>
   import("@/components/accept-bid-dialog").then((mod) => mod.AcceptBidDialog)
@@ -24,6 +27,7 @@ export const BidItem = ({
   bidAmount,
   currency,
   creator: {
+    userId,
     fullName,
     avatarUrl,
     review: { averageRating, totalReview },
@@ -43,6 +47,8 @@ export const BidItem = ({
   const formattedBidAmount = formatCurrency({ currency, value: bidAmount });
   const formattedDistance = fromNow(createDate);
   const formattedLatestDeliveryDate = formatDate(latestDeliveryDate);
+
+  const userProfileUrl = getUserProfileUrl(userId);
 
   return (
     <>
@@ -71,11 +77,11 @@ export const BidItem = ({
               },
             }}
           >
-            <Avatar src={avatarUrl} />
+            <Avatar src={avatarUrl} href={userProfileUrl} />
           </Badge>
           <Box display="flex" flexDirection="column" flexGrow={1} ml={2}>
             <Typography variant="h5" noWrap>
-              {fullName}
+              <Link href={userProfileUrl}>{fullName}</Link>
             </Typography>
             <Box
               color="pago.main"
@@ -130,6 +136,9 @@ export const BidItem = ({
             </Button>
             <DynamicAcceptBidDialog
               bidId={bidId}
+              userId={userId}
+              fullName={fullName}
+              avatarUrl={avatarUrl}
               open={open}
               onClose={handleClose}
             />

@@ -1,7 +1,6 @@
 import React from "react";
 
 import {
-  Avatar,
   Badge,
   Box,
   ListItem,
@@ -10,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 
+import { Avatar } from "@/components/ui/avatar";
 import UnreadMessageBadge from "@/components/unread-message-badge";
 
 interface NotificationListItemProps {

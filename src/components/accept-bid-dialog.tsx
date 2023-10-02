@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, type FC } from "react";
 
 import {
-  Avatar,
   Box,
   Dialog,
   DialogActions,
@@ -10,21 +9,30 @@ import {
   Stack,
 } from "@mui/material";
 
+import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
 import { Typography } from "@/components/ui/typography";
 import { useCharge } from "@/hooks/api/use-charge";
 import { useChooseBid } from "@/hooks/api/use-choose-bid";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import type { Bid } from "@/types/bid";
+import { getUserProfileUrl } from "@/utils/user";
 
 interface AcceptBidDialogProps {
   bidId: Bid["bidId"];
+  userId: Bid["creator"]["userId"];
+  fullName: Bid["creator"]["fullName"];
+  avatarUrl: Bid["creator"]["avatarUrl"];
   open: boolean;
   onClose: () => void;
 }
 
 export const AcceptBidDialog: FC<AcceptBidDialogProps> = ({
   bidId,
+  userId,
+  fullName,
+  avatarUrl,
   open,
   onClose,
 }) => {
@@ -51,6 +59,8 @@ export const AcceptBidDialog: FC<AcceptBidDialogProps> = ({
       formContainerRef.current?.querySelector("form")?.submit();
   }, [formHtml]);
 
+  const userProfileUrl = getUserProfileUrl(userId);
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
       <DialogTitle fontSize={{ xs: 18, sm: 20 }}>
@@ -58,9 +68,9 @@ export const AcceptBidDialog: FC<AcceptBidDialogProps> = ({
       </DialogTitle>
       <DialogContent>
         <Box display="flex" alignItems="center" gap={2}>
-          <Avatar src={charge?.bidder.avatarUrl} />
+          <Avatar src={avatarUrl} href={userProfileUrl} />
           <Typography variant={isTablet ? "h4" : "h5"} as="p">
-            {charge?.bidder.fullName}
+            <Link href={userProfileUrl}>{fullName}</Link>
           </Typography>
         </Box>
         <Stack spacing={1} mt={2} color="base.500">

@@ -1,7 +1,7 @@
 import Head from "next/head";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Avatar, Paper, Skeleton, Stack, TextField } from "@mui/material";
+import { Paper, Skeleton, Stack, TextField } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -9,6 +9,7 @@ import { z } from "zod";
 import { CountrySelect } from "@/components/inputs/country-select";
 import { SettingLayout } from "@/components/layouts/setting-layout";
 import { SubmitButton } from "@/components/submit-button";
+import { Avatar } from "@/components/ui/avatar";
 import FilledTextarea from "@/components/ui/filled-textarea";
 import { useUpdateAvatar } from "@/hooks/api/use-update-avatar";
 import { useUpdateUser } from "@/hooks/api/use-update-user";

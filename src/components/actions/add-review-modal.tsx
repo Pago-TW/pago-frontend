@@ -3,7 +3,6 @@ import Image from "next/image";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  Avatar,
   Box,
   Collapse,
   Fade,
@@ -24,6 +23,7 @@ import {
 import SimpleBar from "simplebar-react";
 import { z } from "zod";
 
+import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { FilledTextarea } from "@/components/ui/filled-textarea";
 import { Rating } from "@/components/ui/rating";
@@ -34,6 +34,8 @@ import type { Perspective } from "@/types/misc";
 import type { User } from "@/types/user";
 
 import "simplebar-react/dist/simplebar.min.css";
+
+import { getUserProfileUrl } from "@/utils/user";
 
 export const addReviewFormSchema = z.object({
   rating: z.number().int().min(1).max(5),
@@ -262,7 +264,7 @@ export const AddReviewModal = ({
                 為此{targetText}評價
               </Typography>
               <Stack direction="row" spacing={2} alignItems="center">
-                <Avatar src={targetAvatar} />
+                <Avatar src={targetAvatar} href={getUserProfileUrl(targetId)} />
                 <Typography variant="h5">{targetName}</Typography>
               </Stack>
               <Rating name="rating" control={control} size="large" />

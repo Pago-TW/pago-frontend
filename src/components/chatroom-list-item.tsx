@@ -1,7 +1,6 @@
 import React from "react";
 
 import {
-  Avatar,
   Box,
   ListItem,
   ListItemAvatar,
@@ -10,6 +9,7 @@ import {
 } from "@mui/material";
 import { useSession } from "next-auth/react";
 
+import { Avatar } from "@/components/ui/avatar";
 import UnreadMessageBadge from "@/components/unread-message-badge";
 
 interface ChatRoomListItemProps {

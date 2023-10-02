@@ -1,5 +1,6 @@
-import { Avatar, AvatarGroup, Stack } from "@mui/material";
+import { AvatarGroup, Stack } from "@mui/material";
 
+import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/components/ui/link";
 import { Typography } from "@/components/ui/typography";
@@ -30,13 +31,7 @@ export const AvailableShoppers = (props: AvailableShoppersProps) => {
         <>
           <AvatarGroup total={total}>
             {shoppers.slice(0, 4).map(({ userId, avatarUrl, fullName }) => (
-              <Avatar
-                key={userId}
-                src={avatarUrl}
-                alt={fullName}
-                component={Link}
-                href={href}
-              />
+              <Avatar key={userId} src={avatarUrl} alt={fullName} href={href} />
             ))}
           </AvatarGroup>
           <Typography variant="h6" color="base.main">

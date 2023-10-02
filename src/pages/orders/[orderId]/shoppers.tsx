@@ -3,20 +3,24 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 import { ArrowDownward } from "@mui/icons-material";
-import { Avatar, Box, Container, Link, Stack } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useInView } from "react-intersection-observer";
 
 import { BaseLayout } from "@/components/layouts/base-layout";
 import { OrderItem } from "@/components/order-item";
 import { PageTitle } from "@/components/page-title";
+import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
 import { Paper } from "@/components/ui/paper";
 import { Typography } from "@/components/ui/typography";
 import { useMatchingShoppers } from "@/hooks/api/use-matching-shoppers";
 import { useOrder } from "@/hooks/api/use-order";
+import { useChatroomStore } from "@/store/ui/use-chatroom-store";
 import type { OrderShopper } from "@/types/order";
 import { flattenInfinitePaginatedData } from "@/utils/api";
+import { getUserProfileUrl } from "@/utils/user";
 
 type ShopperChooserProps = Pick<
   OrderShopper,
@@ -28,20 +32,29 @@ const ShopperChooser: FC<ShopperChooserProps> = ({
   fullName,
   avatarUrl,
 }) => {
+  const setOpen = useChatroomStore((state) => state.setOpen);
+  const setChatWith = useChatroomStore((state) => state.setChatWith);
+
+  const handleSendMessageClick = () => {
+    setOpen(true);
+    setChatWith(userId);
+  };
+
+  const userProfileUrl = getUserProfileUrl(userId);
+
   return (
     <Paper sx={{ px: 1.5, py: 1 }}>
       <Stack direction="row" spacing={2} alignItems="center">
-        <Avatar src={avatarUrl} />
+        <Avatar src={avatarUrl} href={userProfileUrl} />
         <Typography variant="h5" flexGrow={1} noWrap>
-          {fullName}
+          <Link href={userProfileUrl}>{fullName}</Link>
         </Typography>
         <Button
           variant="outlined"
           size="small"
-          LinkComponent={Link}
-          href={`/users/${userId}`}
+          onClick={handleSendMessageClick}
         >
-          查看代購者詳情
+          傳送訊息
         </Button>
       </Stack>
     </Paper>
