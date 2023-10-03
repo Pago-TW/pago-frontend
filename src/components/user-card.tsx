@@ -1,12 +1,15 @@
-import { Avatar, Box, Paper, Stack } from "@mui/material";
+import { Box, Paper, Stack } from "@mui/material";
 
+import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/components/ui/link";
 import { Typography } from "@/components/ui/typography";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useChatroomStore } from "@/store/ui/use-chatroom-store";
 import type { Perspective } from "@/types/misc";
 import type { OrderShopper, OrderUser } from "@/types/order";
 import { formatDate } from "@/utils/date";
+import { getUserProfileUrl } from "@/utils/user";
 
 export type UserCardProps = Pick<
   OrderUser,
@@ -23,6 +26,9 @@ export const UserCard = ({
   latestDeliveryDate,
   perspective,
 }: UserCardProps) => {
+  const setOpen = useChatroomStore((state) => state.setOpen);
+  const setChatWith = useChatroomStore((state) => state.setChatWith);
+
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
   const perspectiveMsg = perspective === "consumer" ? "代購者" : "委託者";
@@ -41,6 +47,13 @@ export const UserCard = ({
     );
   }
 
+  const handleSendMessageClick = () => {
+    setOpen(true);
+    setChatWith(userId);
+  };
+
+  const userProfileUrl = getUserProfileUrl(userId);
+
   return (
     <Paper
       elevation={3}
@@ -55,17 +68,16 @@ export const UserCard = ({
         {perspectiveMsg}
       </Typography>
       <Box width="100%" display="flex" alignItems="center" gap={2}>
-        <Avatar src={avatarUrl} />
+        <Avatar src={avatarUrl} href={userProfileUrl} />
         <Typography variant="h5" as="p" noWrap flexGrow={1}>
-          {fullName}
+          <Link href={userProfileUrl}>{fullName}</Link>
         </Typography>
         <Button
           variant="outlined"
           size="small"
-          LinkComponent={Link}
-          href={`/users/${userId}`}
+          onClick={handleSendMessageClick}
         >
-          查看{perspective === "consumer" ? "代購者" : "委託者"}詳情
+          傳送訊息
         </Button>
       </Box>
       {latestDeliveryDateElem}

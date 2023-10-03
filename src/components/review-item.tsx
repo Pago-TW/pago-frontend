@@ -1,16 +1,10 @@
 import { type FC } from "react";
 import Image from "next/image";
 
-import {
-  Avatar,
-  Box,
-  Rating,
-  Stack,
-  styled,
-  type Breakpoints,
-} from "@mui/material";
+import { Box, Rating, Stack, styled, type Breakpoints } from "@mui/material";
 import SimpleBar from "simplebar-react";
 
+import { Avatar } from "@/components/ui/avatar";
 import { Paper } from "@/components/ui/paper";
 import { Typography } from "@/components/ui/typography";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -18,6 +12,8 @@ import type { Review } from "@/types/review";
 import { formatDateTime } from "@/utils/date";
 
 import "simplebar-react/dist/simplebar.min.css";
+
+import { getUserProfileUrl } from "@/utils/user";
 
 const StyledRating = styled(Rating)(({ theme }) => ({
   "& .MuiRating-iconEmpty": {
@@ -39,7 +35,7 @@ export const ReviewItem: FC<ReviewItemProps> = ({
   order: {
     orderItem: { name: itemName },
   },
-  creator: { avatarUrl, fullName },
+  creator: { userId, avatarUrl, fullName },
   rating,
   createDate,
   content,
@@ -63,6 +59,7 @@ export const ReviewItem: FC<ReviewItemProps> = ({
         <Avatar
           src={avatarUrl}
           sx={{ width: avatarSize, height: avatarSize }}
+          href={getUserProfileUrl(userId)}
         />
         <Stack spacing={{ xs: 0.5, md: 2 }} flexGrow={1}>
           <Typography variant={isDesktop ? "h3" : "h4"} as="p">

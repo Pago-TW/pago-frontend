@@ -1,8 +1,9 @@
 import type { FC } from "react";
 
-import { Avatar, Box, Rating, Stack, styled } from "@mui/material";
+import { Box, Rating, Stack, styled } from "@mui/material";
 import { signIn, useSession } from "next-auth/react";
 
+import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Paper } from "@/components/ui/paper";
 import { Typography } from "@/components/ui/typography";

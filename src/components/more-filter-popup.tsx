@@ -147,7 +147,7 @@ export const MoreFilterPopup = ({
             name="latestReceiveDate"
             sx={{ flexGrow: 1 }}
             disablePast
-            format="P 之後"
+            format="L 之後"
           />
           <IconButton onClick={() => setValue("latestReceiveDate", null)}>
             <Delete />
