@@ -22,7 +22,7 @@ export const BankAccountInfo = ({
   accountNumber,
 }: BankAccountInfoProps) => {
   return (
-    <Paper sx={{ p: 2 }}>
+    <Paper sx={{ p: 2, flex: 1 }}>
       <Stack spacing={3}>
         <Typography variant="h4" as="p">
           銀行帳戶資訊

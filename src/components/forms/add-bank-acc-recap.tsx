@@ -40,7 +40,7 @@ export const AddBankAccRecap = ({ onPrev, onSubmit }: AddBankRecapProps) => {
 
   return (
     <Box width="100%">
-      <Stack spacing={2}>
+      <Stack spacing={2} direction={{ xs: "column", md: "row" }}>
         <BankUserInfo
           legalName={legalName}
           birthDate={birthDate}
