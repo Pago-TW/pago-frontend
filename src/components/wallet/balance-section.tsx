@@ -24,11 +24,15 @@ export const BalanceSection = () => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Typography as="span" variant="h5">
+          <Typography as="span" variant={mdUp ? "h4" : "h5"}>
             餘額
           </Typography>
           <Stack direction="row" spacing={{ xs: 2, md: 4 }} alignItems="center">
-            <Typography as="span" variant="h3" weightPreset="bold">
+            <Typography
+              as="span"
+              variant={mdUp ? "h2" : "h3"}
+              weightPreset="bold"
+            >
               {!isLoading && !isError ? (
                 formatNumber(balance)
               ) : (
