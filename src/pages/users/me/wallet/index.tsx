@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import { Container, Stack } from "@mui/material";
+import { Container, Grid, Stack } from "@mui/material";
 
 import { BaseLayout } from "@/components/layouts/base-layout";
 import { PageTitle } from "@/components/page-title";
@@ -16,11 +16,19 @@ export default function WalletPage() {
       </Head>
       <BaseLayout>
         <PageTitle title="錢包" />
-        <Container maxWidth="xs">
+        <Container>
           <Stack spacing={2}>
-            <BalanceSection />
-            <BankAccountSection />
-            <TransactionSection />
+            <Grid container spacing={2} direction={{ xs: "column", md: "row" }}>
+              <Grid item xs>
+                <BalanceSection />
+              </Grid>
+              <Grid item xs>
+                <BankAccountSection />
+              </Grid>
+            </Grid>
+            <Container maxWidth="md" disableGutters>
+              <TransactionSection />
+            </Container>
           </Stack>
         </Container>
       </BaseLayout>
