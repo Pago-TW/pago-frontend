@@ -19,23 +19,25 @@ export default function UserBankAccountsPage() {
       <BaseLayout>
         <PageTitle title="銀行帳號" />
         <Container sx={{ display: "flex", justifyContent: "center" }}>
-          <Paper
-            component={Stack}
-            gap={3}
-            sx={{ p: 3, width: "100%", maxWidth: 336 }}
-          >
-            <AddBankCard />
-            {accounts?.map((acc) => (
-              <BankCard
-                key={acc.bankAccountId}
-                bankAccountId={acc.bankAccountId}
-                bankName={acc.bankName}
-                bankLogoUrl={acc.bankLogoUrl}
-                accountNumber={acc.accountNumber}
-                legalName={acc.legalName}
-                isDefault={acc.isDefault}
-              />
-            ))}
+          <Paper sx={{ p: 3 }}>
+            <Stack
+              direction={{ xs: "column", md: "row" }}
+              gap={3}
+              flexWrap="wrap"
+            >
+              <AddBankCard />
+              {accounts?.map((acc) => (
+                <BankCard
+                  key={acc.bankAccountId}
+                  bankAccountId={acc.bankAccountId}
+                  bankName={acc.bankName}
+                  bankLogoUrl={acc.bankLogoUrl}
+                  accountNumber={acc.accountNumber}
+                  legalName={acc.legalName}
+                  isDefault={acc.isDefault}
+                />
+              ))}
+            </Stack>
           </Paper>
         </Container>
       </BaseLayout>
