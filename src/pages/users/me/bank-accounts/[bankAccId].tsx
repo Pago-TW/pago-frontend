@@ -212,7 +212,7 @@ export default function UserBankAccountDetailPage() {
       <BaseLayout>
         <PageTitle title="銀行帳號" />
         <Container>
-          <Stack spacing={2}>
+          <Stack spacing={2} direction={{ xs: "column", md: "row" }}>
             <BankUserInfo
               legalName={legalName}
               birthDate={birthDate}
@@ -225,6 +225,8 @@ export default function UserBankAccountDetailPage() {
               accountHolderName={accountHolderName}
               accountNumber={accountNumber}
             />
+          </Stack>
+          <Stack mt={2} spacing={2}>
             <ConfirmProvider defaultOptions={defaultConfirmOptions}>
               <DeleteButton bankAccountId={bankAccId} />
               <SetDefaultButton
