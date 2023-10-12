@@ -3,19 +3,15 @@ import { useEffect, useState } from "react";
 import { ReceiptLong } from "@mui/icons-material";
 import { Grid, Stack } from "@mui/material";
 
-import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import { SectionWrapper } from "@/components/wallet/section-wrapper";
 import { TransactionMonthTabs } from "@/components/wallet/transaction-month-tabs";
 import { TransactionYearDropdown } from "@/components/wallet/transaction-year-dropdown";
 import { useTransactionQueries } from "@/hooks/api/use-transaction-queries";
-import { useMediaQuery } from "@/hooks/use-media-query";
 
 export const TransactionSection = () => {
   const [tab, setTab] = useState<string | undefined>(undefined);
   const [year, setYear] = useState<string | undefined>(undefined);
-
-  const mdUp = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
   const { data: queries, isLoading, isError } = useTransactionQueries();
 
@@ -53,27 +49,12 @@ export const TransactionSection = () => {
               </Typography>
             </Stack>
           </Grid>
-          <Grid item xs sx={{ display: "flex", justifyContent: "center" }}>
+          <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
             <TransactionYearDropdown
               queries={queries}
               year={year}
               onYearChange={handleYearChange}
             />
-          </Grid>
-          <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
-            <Button
-              size={mdUp ? "medium" : "small"}
-              variant="outlined"
-              sx={[
-                (theme) => ({
-                  [theme.breakpoints.down("md")]: {
-                    minWidth: 0,
-                  },
-                }),
-              ]}
-            >
-              搜尋
-            </Button>
           </Grid>
         </Grid>
         {!isQueriesEmpty ? (
