@@ -44,8 +44,9 @@ export const TransactionMonthTabs = ({
               borderBottom: 3,
               borderBottomStyle: "double",
               borderBottomColor: "pago.300",
-              minWidth: "33%",
-              maxWidth: 400,
+              minWidth: { xs: 110, md: 220 },
+              maxWidth: "100%",
+              width: "100%",
             },
           }}
         >
@@ -54,7 +55,6 @@ export const TransactionMonthTabs = ({
               key={idx}
               label={tabViewName}
               value={`${year}-${tabViewName}`}
-              sx={{ maxWidth: 400 }}
             />
           ))}
         </TabList>

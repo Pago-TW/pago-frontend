@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 
 import { ReceiptLong } from "@mui/icons-material";
-import { Stack } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 
-import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import { SectionWrapper } from "@/components/wallet/section-wrapper";
 import { TransactionMonthTabs } from "@/components/wallet/transaction-month-tabs";
@@ -34,29 +33,30 @@ export const TransactionSection = () => {
     !isLoading && !isError && Object.keys(queries).length === 0;
 
   return (
-    <SectionWrapper sx={{ pb: 0, px: 0 }}>
-      <Stack spacing={2}>
-        <Stack
-          direction="row"
+    <SectionWrapper sx={{ "&&": { p: 0 } }}>
+      <Stack>
+        <Grid
+          container
           justifyContent="space-between"
           alignItems="center"
-          sx={{ px: 2 }}
+          sx={{ p: { xs: 2, md: 3 } }}
         >
-          <Stack direction="row" gap={1}>
-            <ReceiptLong sx={{ color: "pago.main" }} />
-            <Typography as="span" variant="h5">
-              明細
-            </Typography>
-          </Stack>
-          <TransactionYearDropdown
-            queries={queries}
-            year={year}
-            onYearChange={handleYearChange}
-          />
-          <Button size="small" variant="outlined" sx={{ minWidth: 0 }}>
-            搜尋
-          </Button>
-        </Stack>
+          <Grid item xs>
+            <Stack direction="row" gap={1}>
+              <ReceiptLong sx={{ color: "pago.main" }} />
+              <Typography as="span" variant="h5">
+                明細
+              </Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
+            <TransactionYearDropdown
+              queries={queries}
+              year={year}
+              onYearChange={handleYearChange}
+            />
+          </Grid>
+        </Grid>
         {!isQueriesEmpty ? (
           <TransactionMonthTabs
             queries={queries}

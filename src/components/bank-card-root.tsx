@@ -12,7 +12,8 @@ export const BankCardRoot = ({
       component={Link}
       elevation={elevation}
       sx={{
-        width: "100%",
+        display: "block",
+        width: 336,
         height: 170,
         borderRadius: 1,
         overflow: "hidden",

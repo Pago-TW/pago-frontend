@@ -20,7 +20,7 @@ export const BankUserInfo = ({
   residentialDistrict,
 }: BankUserInfoProps) => {
   return (
-    <Paper sx={{ p: 2 }}>
+    <Paper sx={{ p: 2, flex: 1 }}>
       <Stack spacing={3}>
         <Typography variant="h4" as="p">
           使用者資訊

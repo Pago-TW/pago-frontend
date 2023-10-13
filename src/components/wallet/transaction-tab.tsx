@@ -12,6 +12,7 @@ import {
 
 import { Typography, type TypographyProps } from "@/components/ui/typography";
 import { useTransactions } from "@/hooks/api/use-transactions";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { robotoMono } from "@/styles/fonts";
 import type { Transaction } from "@/types/transaction";
 import { format } from "@/utils/date";
@@ -56,21 +57,27 @@ const TransactionSummary = ({
   description: Transaction["transactionDescription"];
   amount: Transaction["transactionAmount"];
 }) => {
+  const mdUp = useMediaQuery((theme) => theme.breakpoints.up("md"));
+
+  const typographyVariant = mdUp ? "h5" : "h6";
   const formattedDate = format(date, "M/D");
 
   return (
-    <AccordionSummary expandIcon={<ExpandMore sx={{ color: "pago.main" }} />}>
+    <AccordionSummary
+      expandIcon={<ExpandMore sx={{ color: "pago.main" }} />}
+      sx={{ px: { md: 4 } }}
+    >
       <Grid container sx={{ pr: 1 }}>
         <Grid item xs={2} sx={{ display: "flex", alignItems: "center" }}>
-          <Typography as="span" variant="h6">
+          <Typography as="span" variant={typographyVariant}>
             {formattedDate}
           </Typography>
         </Grid>
         <Grid item xs>
-          <Typography as="p" variant="h6">
+          <Typography as="p" variant={typographyVariant}>
             {title}
           </Typography>
-          <Typography as="p" variant="h6" color="base.500">
+          <Typography as="p" variant={typographyVariant} color="base.500">
             {description}
           </Typography>
         </Grid>
@@ -85,7 +92,7 @@ const TransactionSummary = ({
         >
           <Typography
             as="span"
-            variant="h6"
+            variant={typographyVariant}
             weightPreset="bold"
             color={amount > 0 ? "pagoGreen.800" : "currentcolor"}
           >
@@ -99,8 +106,11 @@ const TransactionSummary = ({
 
 const TransactionDetails = ({ children }: { children: ReactNode }) => {
   return (
-    <AccordionDetails>
-      <Stack spacing={1} sx={{ bgcolor: "base.50", borderRadius: 1, p: 1 }}>
+    <AccordionDetails sx={{ px: { md: 4 } }}>
+      <Stack
+        spacing={1}
+        sx={{ bgcolor: "base.50", borderRadius: 1, p: { xs: 1, md: 2 } }}
+      >
         {children}
       </Stack>
     </AccordionDetails>
@@ -112,7 +122,14 @@ const TransactionDetail = (props: StackProps) => {
 };
 
 const TransactionDetailText = (props: TypographyProps) => {
-  return <Typography as="span" color="base.500" fontSize={12} {...props} />;
+  return (
+    <Typography
+      as="span"
+      color="base.500"
+      fontSize={{ xs: 12, md: 16 }}
+      {...props}
+    />
+  );
 };
 
 const TransactionList = ({ transactions }: { transactions: Transaction[] }) => {
