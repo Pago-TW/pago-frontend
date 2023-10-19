@@ -19,6 +19,8 @@ const StepCardRoot = ({ sx, ...props }: StepCardRootProps) => {
   return (
     <Card
       sx={{
+        position: "relative",
+        overflow: "visible",
         display: "flex",
         height: { xs: 250, md: 300 },
         boxShadow: (theme) =>
@@ -44,7 +46,7 @@ const StepCardLabel = (props: StepCardLabelProps) => {
       style={{
         position: "absolute",
         transform: "scale(1.25)",
-        top: 5,
+        top: 12,
         left: -12,
       }}
       {...props}
