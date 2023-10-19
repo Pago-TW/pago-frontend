@@ -464,7 +464,7 @@ export const Navbar = () => {
             <Menu />
           </IconButton>
           <Collapse
-            in={!searchExpand}
+            in={!searchExpand || smUp}
             orientation="horizontal"
             timeout={100}
             easing="ease-in-out"
