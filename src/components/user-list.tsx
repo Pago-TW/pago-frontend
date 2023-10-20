@@ -8,4 +8,6 @@ export type UserListProps = Omit<StackProps, "children"> & {
   children: ReactElement<typeof UserItem>[];
 };
 
-export const UserList = (props: UserListProps) => <Stack gap={3} {...props} />;
+export const UserList = (props: UserListProps) => (
+  <Stack gap={{ xs: 3, md: 6 }} {...props} />
+);
