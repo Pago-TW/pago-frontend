@@ -49,7 +49,7 @@ export const Footer = ({ sx, ...props }: BoxProps) => {
                 <Link href="/users/me">會員中心</Link>
                 <Link href="/orders">我的委託</Link>
                 <Link href="/trips">旅途管理</Link>
-                <Link href="/users/me/setting">設定</Link>
+                <Link href="/users/me/settings">設定</Link>
                 <Link href="#">我的收藏</Link>
                 <Link href="/about-us">關於我們</Link>
               </Stack>

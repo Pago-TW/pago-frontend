@@ -20,6 +20,7 @@ const MemberCardRoot = ({ sx, ...props }: MemberCardRootProps) => {
   return (
     <Card
       sx={{
+        width: 336,
         display: "flex",
         boxShadow: (theme) =>
           `0 2px 4px ${alpha(theme.palette.pago.main, 0.5)}`,

@@ -6,6 +6,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  useTheme,
   type CardContentProps,
   type CardProps,
 } from "@mui/material";
@@ -19,6 +20,8 @@ const StepCardRoot = ({ sx, ...props }: StepCardRootProps) => {
   return (
     <Card
       sx={{
+        position: "relative",
+        overflow: "visible",
         display: "flex",
         height: { xs: 250, md: 300 },
         boxShadow: (theme) =>
@@ -36,6 +39,8 @@ StepCardRoot.displayName = "StepCardRoot";
 type StepCardLabelProps = Omit<ImageProps, "width" | "height" | "style">;
 
 const StepCardLabel = (props: StepCardLabelProps) => {
+  const theme = useTheme();
+
   return (
     // eslint-disable-next-line jsx-a11y/alt-text
     <NextImage
@@ -46,6 +51,9 @@ const StepCardLabel = (props: StepCardLabelProps) => {
         transform: "scale(1.25)",
         top: 5,
         left: -12,
+        [theme.breakpoints.up("md")]: {
+          top: 12,
+        },
       }}
       {...props}
     />
@@ -116,6 +124,10 @@ const StepCardImage = ({ style, ...props }: StepCardImageProps) => {
         width: "50%",
         height: "100%",
         position: "relative",
+        overflow: "hidden",
+        borderRadius: 2.5,
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0,
       }}
     >
       {/* eslint-disable-next-line jsx-a11y/alt-text */}

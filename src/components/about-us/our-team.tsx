@@ -37,7 +37,7 @@ const MEMBERS: Member[] = [
   },
   {
     name: "陳俊廷",
-    job: "負責職位: PM、後端開發",
+    job: "負責職位: 設計、行銷",
     image: {
       src: "/images/about-us/team/jack.svg",
       alt: "",

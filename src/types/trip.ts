@@ -27,6 +27,7 @@ export interface TripCollection {
   tripCollectionStatus: TripStatus;
   createDate: string;
   updateDate: string;
+  arrivalDate: string;
   trips: Trip[];
 }
 
