@@ -1,32 +1,10 @@
-import {
-  useCallback,
-  useRef,
-  type ChangeEvent,
-  type ReactNode,
-  type RefObject,
-} from "react";
+import { useCallback, useRef, type ChangeEvent } from "react";
 
 import { ClickAwayListener } from "@mui/base";
-import ClearIcon from "@mui/icons-material/Clear";
 import CloseIcon from "@mui/icons-material/Close";
-import HistoryIcon from "@mui/icons-material/History";
 import SearchIcon from "@mui/icons-material/Search";
-import {
-  alpha,
-  IconButton,
-  InputBase,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Modal,
-  Paper,
-  Stack,
-  styled,
-} from "@mui/material";
+import { alpha, IconButton, InputBase, Stack, styled } from "@mui/material";
 
-import { useAppbarHeight } from "@/hooks/use-appbar-height";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
 const SearchBase = styled("div")(({ theme }) => ({
@@ -172,99 +150,12 @@ export const Search = ({
             value={query}
             inputRef={inputRef}
           />
-          <SearchPopup open={expand} anchorEl={searchRef} />
+          {/* <SearchPopup open={expand} anchorEl={searchRef}>
+            TODO: a list of search histories & suggestions
+          </SearchPopup> */}
         </SearchBase>
       </ClickAwayListener>
     </Stack>
   );
 };
-
-const SearchPopup = ({
-  open,
-  anchorEl,
-}: {
-  open: boolean;
-  anchorEl: RefObject<HTMLElement>;
-}) => {
-  const navbarHeight = useAppbarHeight();
-  const smUp = useMediaQuery((theme) => theme.breakpoints.up("sm"));
-
-  return (
-    <Modal
-      open={open}
-      disableAutoFocus
-      disableEnforceFocus
-      hideBackdrop
-      disablePortal
-      disableScrollLock={smUp}
-      sx={{
-        mt: `${navbarHeight}px`,
-        position: "fixed",
-        top: 0,
-        left: { xs: 0, sm: anchorEl.current?.offsetLeft },
-      }}
-    >
-      <Paper
-        sx={{
-          width: { xs: "100%", sm: anchorEl.current?.clientWidth },
-          height: { xs: `calc(100vh - ${navbarHeight}px)`, sm: "auto" },
-          maxHeight: { sm: 400 },
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-          overflowY: "auto",
-        }}
-      >
-        {/* TODO: replace this with a list of search histories & suggestions */}
-        <SearchList>
-          {Array.from({ length: 20 }).map((_, i) => (
-            <SearchListItem
-              key={i}
-              content={i}
-              type={i <= 10 ? "suggestion" : "history"}
-            />
-          ))}
-        </SearchList>
-      </Paper>
-    </Modal>
-  );
-};
-
-const SearchList = List;
-
-const SearchListItem = ({
-  type,
-  content,
-}: {
-  type: "history" | "suggestion";
-  content: ReactNode;
-}) => {
-  return (
-    <ListItem
-      disablePadding
-      secondaryAction={
-        <IconButton sx={{ color: "pago.main", p: 0 }}>
-          <ClearIcon />
-        </IconButton>
-      }
-    >
-      <ListItemButton
-        sx={{
-          px: { xs: 6, sm: 2 },
-          "& ~ .MuiListItemSecondaryAction-root": {
-            right: {
-              xs: (theme) => theme.spacing(6),
-              sm: (theme) => theme.spacing(2),
-            },
-          },
-        }}
-      >
-        <ListItemIcon sx={{ minWidth: 40, color: "pago.main" }}>
-          {type === "suggestion" ? <SearchIcon /> : <HistoryIcon />}
-        </ListItemIcon>
-        <ListItemText primary={content} />
-      </ListItemButton>
-    </ListItem>
-  );
-};
-
 export default Search;
