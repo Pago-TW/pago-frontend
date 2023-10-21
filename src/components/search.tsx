@@ -1,4 +1,10 @@
-import { useCallback, useRef, type ChangeEvent } from "react";
+import {
+  useCallback,
+  useRef,
+  type ChangeEvent,
+  type KeyboardEvent,
+} from "react";
+import { useRouter } from "next/router";
 
 import { ClickAwayListener } from "@mui/base";
 import CloseIcon from "@mui/icons-material/Close";
@@ -77,6 +83,8 @@ export const Search = ({
   onQueryChange: (query: string) => void;
   onQueryClear: () => void;
 }) => {
+  const router = useRouter();
+
   const inputRef = useRef<HTMLInputElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
 
@@ -103,6 +111,10 @@ export const Search = ({
   const handleFocus = () => onExpand(true);
   const handleBlur = () => {
     if (smUp) onExpand(false);
+  };
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter")
+      void router.push({ pathname: "/search", query: { q: query } });
   };
 
   return (
@@ -147,6 +159,7 @@ export const Search = ({
             }
             onChange={handleChange}
             onFocus={handleFocus}
+            onKeyDown={handleKeyDown}
             value={query}
             inputRef={inputRef}
           />
