@@ -107,6 +107,7 @@ export default function SearchPage() {
                 variant={mdUp ? "h3" : "h5"}
                 component="p"
                 textAlign="center"
+                color="pago.main"
               >
                 查無符合「{q}」的結果
               </Typography>
