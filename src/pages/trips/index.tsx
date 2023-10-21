@@ -27,7 +27,7 @@ const TripsPage: NextPage = () => {
     hasNextPage,
     fetchNextPage,
   } = useTripCollections({
-    orderBy: "create_date",
+    orderBy: "arrival_date",
     sort: sort,
   });
 
