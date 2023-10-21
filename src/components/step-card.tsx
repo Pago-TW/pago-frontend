@@ -124,6 +124,10 @@ const StepCardImage = ({ style, ...props }: StepCardImageProps) => {
         width: "50%",
         height: "100%",
         position: "relative",
+        overflow: "hidden",
+        borderRadius: 2.5,
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0,
       }}
     >
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
