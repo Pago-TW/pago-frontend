@@ -77,10 +77,10 @@ const TripsPage: NextPage = () => {
               color="pago"
               exclusive
             >
-              <ToggleButton size="small" value="ASC">
+              <ToggleButton size="small" value="DESC">
                 最新
               </ToggleButton>
-              <ToggleButton size="small" value="DESC">
+              <ToggleButton size="small" value="ASC">
                 最舊
               </ToggleButton>
             </ToggleButtonGroup>
