@@ -3,7 +3,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { axios } from "@/libs/axios";
 import type { PaginatedResponse, PaginationParams } from "@/types/api";
 import type { Order } from "@/types/order";
-import type { Trip } from "@/types/trip";
+import type { SearchedTrip } from "@/types/trip";
 import type { User } from "@/types/user";
 import { getLastIndex } from "@/utils/api";
 
@@ -17,7 +17,7 @@ type Params<T extends SearchType> = PaginationParams & {
 type ResponseData<TSearchType extends SearchType> = TSearchType extends "order"
   ? PaginatedResponse<Order[]>
   : TSearchType extends "trip"
-  ? PaginatedResponse<Trip[]>
+  ? PaginatedResponse<SearchedTrip[]>
   : TSearchType extends "user"
   ? PaginatedResponse<User[]>
   : never;
@@ -44,7 +44,9 @@ export const useSearch = ({ params }: { params: Params<SearchType> }) => {
     queryKey: ["search", params],
     queryFn: ({ pageParam = 0 }) => search({ params, pageParam }),
     getNextPageParam: (lastPage) => {
-      const lastIndex = getLastIndex<Order[] | Trip[] | User[]>(lastPage);
+      const lastIndex = getLastIndex<Order[] | SearchedTrip[] | User[]>(
+        lastPage
+      );
       return lastIndex < lastPage.total ? lastIndex + 1 : undefined;
     },
   });

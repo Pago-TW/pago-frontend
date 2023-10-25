@@ -1,3 +1,5 @@
+import { type ReviewSummary } from "@/types/review";
+
 import type { User } from "./user";
 
 export interface Trip {
@@ -36,4 +38,8 @@ export interface Dashboard {
   requested: number;
   toBePurchased: number;
   toBeDelivered: number;
+}
+
+export interface SearchedTrip extends Trip {
+  userDetail: Pick<User, "avatarUrl" | "fullName"> & ReviewSummary;
 }
