@@ -8,15 +8,16 @@ import { useInView } from "react-intersection-observer";
 
 import { BaseLayout } from "@/components/layouts/base-layout";
 import OrderList from "@/components/order-list";
+import { SearchedTripItem } from "@/components/searched-trip-item";
+import { SearchedTripList } from "@/components/searched-trip-list";
 import { ShowMoreButton } from "@/components/show-more-button";
-import TripList from "@/components/trip-list";
 import { Typography } from "@/components/ui/typography";
 import { UserItem } from "@/components/user-item";
 import { UserList } from "@/components/user-list";
 import { useSearch, type SearchType } from "@/hooks/api/use-search";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import type { Order } from "@/types/order";
-import type { Trip } from "@/types/trip";
+import type { SearchedTrip } from "@/types/trip";
 import type { User } from "@/types/user";
 import { flattenInfinitePaginatedData } from "@/utils/api";
 
@@ -50,7 +51,7 @@ export default function SearchPage() {
   });
 
   const items = useMemo(
-    () => flattenInfinitePaginatedData<Order | Trip | User>(itemsData),
+    () => flattenInfinitePaginatedData<Order | SearchedTrip | User>(itemsData),
     [itemsData]
   );
 
@@ -92,7 +93,13 @@ export default function SearchPage() {
             {items.length !== 0 ? (
               <>
                 {type === "order" && <OrderList items={items as Order[]} />}
-                {type === "trip" && <TripList items={items as Trip[]} />}
+                {type === "trip" && (
+                  <SearchedTripList>
+                    {(items as SearchedTrip[]).map((item) => (
+                      <SearchedTripItem key={item.tripId} {...item} />
+                    ))}
+                  </SearchedTripList>
+                )}
                 {type === "user" && (
                   <UserList gap={4}>
                     {(items as User[]).map((item) => (
