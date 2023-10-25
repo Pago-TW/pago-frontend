@@ -1,3 +1,4 @@
+/** @type {import("eslint").Linter.Config} */
 module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -12,9 +13,11 @@ module.exports = {
     "plugin:storybook/recommended",
     "prettier",
   ],
+  ignorePatterns: [".eslintrc.cjs"],
   rules: {
     "@typescript-eslint/consistent-type-imports": "warn",
     "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/require-await": "off",
     "@typescript-eslint/no-misused-promises": [
       2,
       {

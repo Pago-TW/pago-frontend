@@ -104,6 +104,7 @@ export const TripItem = ({
         borderStyle: "solid",
         borderColor: "base.800",
         borderRadius: 1,
+        bgcolor: "white",
       }}
     >
       <Grid item xs md={6}>
