@@ -19,13 +19,17 @@ const TABS = [
   { label: "確認資訊", value: "CONFIRM_INFO" },
 ] as const;
 
+const defaultRedirectUrl = "/users/me/bank-accounts";
+
 export const AddBankAccForm = () => {
   const router = useRouter();
 
-  const redirectUrl = sanitize(
-    (router.query.redirectUrl as string | undefined) ??
-      "/users/me/bank-accounts"
-  );
+  const redirectUrl =
+    typeof window !== "undefined"
+      ? sanitize(
+          (router.query.redirectUrl as string | undefined) ?? defaultRedirectUrl
+        )
+      : defaultRedirectUrl;
 
   const { form, setForm } = useAddBankAccFormContext();
 
