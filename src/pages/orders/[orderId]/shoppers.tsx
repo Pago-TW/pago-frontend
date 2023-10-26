@@ -1,4 +1,4 @@
-import { useEffect, useMemo, type FC } from "react";
+import { useEffect, useMemo } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
@@ -10,54 +10,43 @@ import { useInView } from "react-intersection-observer";
 import { BaseLayout } from "@/components/layouts/base-layout";
 import { OrderItem } from "@/components/order-item";
 import { PageTitle } from "@/components/page-title";
-import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/components/ui/link";
-import { Paper } from "@/components/ui/paper";
 import { Typography } from "@/components/ui/typography";
+import { UserItem } from "@/components/user-item";
+import { UserList } from "@/components/user-list";
 import { useMatchingShoppers } from "@/hooks/api/use-matching-shoppers";
 import { useOrder } from "@/hooks/api/use-order";
 import { useChatroomStore } from "@/store/ui/use-chatroom-store";
 import type { OrderShopper } from "@/types/order";
 import { flattenInfinitePaginatedData } from "@/utils/api";
-import { getUserProfileUrl } from "@/utils/user";
 
-type ShopperChooserProps = Pick<
-  OrderShopper,
-  "userId" | "fullName" | "avatarUrl"
->;
+interface ShopperChooserProps {
+  shoppers: Pick<OrderShopper, "userId" | "fullName" | "avatarUrl">[];
+}
 
-const ShopperChooser: FC<ShopperChooserProps> = ({
-  userId,
-  fullName,
-  avatarUrl,
-}) => {
+const ShopperChooser = ({ shoppers }: ShopperChooserProps) => {
   const setOpen = useChatroomStore((state) => state.setOpen);
   const setChatWith = useChatroomStore((state) => state.setChatWith);
 
-  const handleSendMessageClick = () => {
+  const handleSendMessageClick = (userId: string) => () => {
     setOpen(true);
     setChatWith(userId);
   };
 
-  const userProfileUrl = getUserProfileUrl(userId);
-
   return (
-    <Paper sx={{ px: 1.5, py: 1 }}>
-      <Stack direction="row" spacing={2} alignItems="center">
-        <Avatar src={avatarUrl} href={userProfileUrl} />
-        <Typography variant="h5" flexGrow={1} noWrap>
-          <Link href={userProfileUrl}>{fullName}</Link>
-        </Typography>
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={handleSendMessageClick}
-        >
-          傳送訊息
-        </Button>
-      </Stack>
-    </Paper>
+    <UserList>
+      {shoppers.map((shopper) => (
+        <UserItem key={shopper.userId} {...shopper}>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={handleSendMessageClick(shopper.userId)}
+          >
+            傳送訊息
+          </Button>
+        </UserItem>
+      ))}
+    </UserList>
   );
 };
 
@@ -129,9 +118,7 @@ export default function OrderShoppersPage() {
                 以下代購者的旅途與您的委託相符
               </Typography>
               <Stack spacing={2} mt={3}>
-                {shoppers.map((shopper) => (
-                  <ShopperChooser key={shopper.userId} {...shopper} />
-                ))}
+                <ShopperChooser shoppers={shoppers} />
                 <Button
                   ref={ref}
                   variant="outlined"

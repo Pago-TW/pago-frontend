@@ -1,5 +1,12 @@
-import { useCallback, useRef, type ChangeEvent } from "react";
+import {
+  useCallback,
+  useRef,
+  type ChangeEvent,
+  type KeyboardEvent,
+} from "react";
+import { useRouter } from "next/router";
 
+import { ClickAwayListener } from "@mui/base";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 import { alpha, IconButton, InputBase, Stack, styled } from "@mui/material";
@@ -76,7 +83,10 @@ export const Search = ({
   onQueryChange: (query: string) => void;
   onQueryClear: () => void;
 }) => {
+  const router = useRouter();
+
   const inputRef = useRef<HTMLInputElement>(null);
+  const searchRef = useRef<HTMLDivElement>(null);
 
   const smUp = useMediaQuery((theme) => theme.breakpoints.up("sm"));
 
@@ -98,9 +108,14 @@ export const Search = ({
     inputRef.current?.focus();
   }, [onExpand]);
 
-  const handleBlur = useCallback(() => {
-    if (!hasQuery) onExpand(false);
-  }, [hasQuery, onExpand]);
+  const handleFocus = () => onExpand(true);
+  const handleBlur = () => {
+    if (smUp) onExpand(false);
+  };
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter")
+      void router.push({ pathname: "/search", query: { q: query } });
+  };
 
   return (
     <Stack direction="row" width="100%" justifyContent="end">
@@ -113,40 +128,47 @@ export const Search = ({
           <SearchIcon />
         </IconButton>
       ) : null}
-      <SearchBase
-        sx={[
-          showSearch && { marginRight: 1 },
-          !showSearch && { opacity: 0, width: 0 },
-        ]}
-      >
-        <StyledInputBase
-          placeholder="Search…"
-          inputProps={{ "aria-label": "search" }}
-          startAdornment={
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-          }
-          endAdornment={
-            hasQuery ? (
-              <ClearIconWrapper>
-                <CloseIcon
-                  onClick={handleClear}
-                  sx={{ cursor: "pointer" }}
-                  fontSize="inherit"
-                  color="inherit"
-                />
-              </ClearIconWrapper>
-            ) : null
-          }
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={query}
-          inputRef={inputRef}
-        />
-      </SearchBase>
+      <ClickAwayListener onClickAway={handleBlur}>
+        <SearchBase
+          sx={[
+            showSearch && { marginRight: 1 },
+            !showSearch && { opacity: 0, width: 0 },
+            { position: "relative" },
+          ]}
+          ref={searchRef}
+        >
+          <StyledInputBase
+            placeholder="Search…"
+            inputProps={{ "aria-label": "search" }}
+            startAdornment={
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+            }
+            endAdornment={
+              hasQuery ? (
+                <ClearIconWrapper>
+                  <CloseIcon
+                    onClick={handleClear}
+                    sx={{ cursor: "pointer" }}
+                    fontSize="inherit"
+                    color="inherit"
+                  />
+                </ClearIconWrapper>
+              ) : null
+            }
+            onChange={handleChange}
+            onFocus={handleFocus}
+            onKeyDown={handleKeyDown}
+            value={query}
+            inputRef={inputRef}
+          />
+          {/* <SearchPopup open={expand} anchorEl={searchRef}>
+            TODO: a list of search histories & suggestions
+          </SearchPopup> */}
+        </SearchBase>
+      </ClickAwayListener>
     </Stack>
   );
 };
-
 export default Search;

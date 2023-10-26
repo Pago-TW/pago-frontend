@@ -49,6 +49,7 @@ import { Paper } from "@/components/ui/paper";
 import { Typography } from "@/components/ui/typography";
 import { useChatrooms } from "@/hooks/api/use-chatrooms";
 import { useNotifications } from "@/hooks/api/use-notifications";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { useOpen } from "@/hooks/use-open";
 import { useChatroomStore } from "@/store/ui/use-chatroom-store";
 import { useNavbarStore } from "@/store/ui/use-navbar-store";
@@ -424,9 +425,17 @@ export const Navbar = () => {
   } = useOpen();
 
   const searchExpand = useNavbarStore((state) => state.searchExpand);
+  const setSearchExpand = useNavbarStore((state) => state.setSearchExpand);
+  const clearSearchQuery = useNavbarStore((state) => state.clearSearchQuery);
   const chatroomListOpen = useChatroomStore((state) => state.open);
   const setChatroomListOpen = useChatroomStore((state) => state.setOpen);
 
+  const smUp = useMediaQuery((theme) => theme.breakpoints.up("sm"));
+
+  const handleSearchClose = () => {
+    clearSearchQuery();
+    setSearchExpand(false);
+  };
   const handleRightChatroomOpen = () => {
     setChatroomListOpen(true);
   };
@@ -455,7 +464,7 @@ export const Navbar = () => {
             <Menu />
           </IconButton>
           <Collapse
-            in={!searchExpand}
+            in={!searchExpand || smUp}
             orientation="horizontal"
             timeout={100}
             easing="ease-in-out"
@@ -476,10 +485,21 @@ export const Navbar = () => {
             flexGrow={1}
           >
             <NavbarSearch />
-            <NavbarButtons
-              onMessageClick={handleRightChatroomOpen}
-              onNotificationClick={handleRightNotificationOpen}
-            />
+            {!searchExpand || smUp ? (
+              <NavbarButtons
+                onMessageClick={handleRightChatroomOpen}
+                onNotificationClick={handleRightNotificationOpen}
+              />
+            ) : (
+              <Button
+                variant="text"
+                size="small"
+                sx={{ color: "white", minWidth: "fit-content", ml: 0.5 }}
+                onClick={handleSearchClose}
+              >
+                取消
+              </Button>
+            )}
           </Stack>
         </Toolbar>
       </AppBar>
