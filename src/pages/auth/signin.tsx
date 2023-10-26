@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Stack, TextField } from "@mui/material";
+import { sanitize } from "dompurify";
 import { signIn } from "next-auth/react";
 import { useSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
@@ -36,10 +37,9 @@ const DEFAULT_VALUES: Partial<SignInFormValues> = {
 const SignInPage: NextPage = () => {
   const router = useRouter();
 
-  const queryCallbackUrl = router.query.callbackUrl as string | undefined;
-  const callbackUrl = queryCallbackUrl?.startsWith("/")
-    ? queryCallbackUrl
-    : "/";
+  const callbackUrl = sanitize(
+    (router.query.callbackUrl as string | undefined) ?? "/"
+  );
 
   const {
     register,

@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 
 import { TabContext } from "@mui/lab";
 import { Step } from "@mui/material";
+import { sanitize } from "dompurify";
 
 import { AddBankAccRecap } from "@/components/forms/add-bank-acc-recap";
 import { BankInfoForm } from "@/components/forms/bank-info-form";
@@ -21,10 +22,10 @@ const TABS = [
 export const AddBankAccForm = () => {
   const router = useRouter();
 
-  const queryRedirectUrl = router.query.redirectUrl as string | undefined;
-  const redirectUrl = queryRedirectUrl?.startsWith("/")
-    ? queryRedirectUrl
-    : "/users/me/bank-accounts";
+  const redirectUrl = sanitize(
+    (router.query.redirectUrl as string | undefined) ??
+      "/users/me/bank-accounts"
+  );
 
   const { form, setForm } = useAddBankAccFormContext();
 

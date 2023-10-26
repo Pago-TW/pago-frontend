@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Stack, TextField } from "@mui/material";
+import { sanitize } from "dompurify";
 import { useSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -60,10 +61,9 @@ const DEFAULT_VALUES: Partial<SignUpFormValues> = {
 const SignUpPage: NextPage = () => {
   const router = useRouter();
 
-  const queryCallbackUrl = router.query.callbackUrl as string | undefined;
-  const callbackUrl = queryCallbackUrl?.startsWith("/")
-    ? queryCallbackUrl
-    : "/";
+  const callbackUrl = sanitize(
+    (router.query.callbackUrl as string | undefined) ?? "/"
+  );
 
   const {
     register,
