@@ -20,8 +20,11 @@ const TABS = [
 
 export const AddBankAccForm = () => {
   const router = useRouter();
-  const redirectUrl =
-    (router.query.redirectUrl as string | undefined) ?? "/users/me/bank-accounts";
+
+  const queryRedirectUrl = router.query.redirectUrl as string | undefined;
+  const redirectUrl = queryRedirectUrl?.startsWith("/")
+    ? queryRedirectUrl
+    : "/users/me/bank-accounts";
 
   const { form, setForm } = useAddBankAccFormContext();
 
