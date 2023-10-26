@@ -113,8 +113,10 @@ export const Search = ({
     if (smUp) onExpand(false);
   };
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter")
-      void router.push({ pathname: "/search", query: { q: query } });
+    const trimmedQuery = query.trim();
+    if (e.key === "Enter" && trimmedQuery !== "") {
+      void router.push({ pathname: "/search", query: { q: trimmedQuery } });
+    }
   };
 
   return (
