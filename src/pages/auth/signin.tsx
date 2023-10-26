@@ -34,12 +34,17 @@ const DEFAULT_VALUES: Partial<SignInFormValues> = {
   password: "",
 };
 
+const defaultCallbackUrl = "/";
+
 const SignInPage: NextPage = () => {
   const router = useRouter();
 
-  const callbackUrl = sanitize(
-    (router.query.callbackUrl as string | undefined) ?? "/"
-  );
+  const callbackUrl =
+    typeof window !== "undefined"
+      ? sanitize(
+          (router.query.callbackUrl as string | undefined) ?? defaultCallbackUrl
+        )
+      : defaultCallbackUrl;
 
   const {
     register,
