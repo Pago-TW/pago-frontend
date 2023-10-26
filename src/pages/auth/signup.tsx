@@ -59,7 +59,11 @@ const DEFAULT_VALUES: Partial<SignUpFormValues> = {
 
 const SignUpPage: NextPage = () => {
   const router = useRouter();
-  const callbackUrl = (router.query.callbackUrl as string) ?? "/";
+
+  const queryCallbackUrl = router.query.callbackUrl as string | undefined;
+  const callbackUrl = queryCallbackUrl?.startsWith("/")
+    ? queryCallbackUrl
+    : "/";
 
   const {
     register,
