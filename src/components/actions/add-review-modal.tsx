@@ -108,9 +108,12 @@ const FileUpload = <T extends FieldValues>({
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
 
-    field.onChange([...e.target.files]);
+    const files = [...e.target.files].filter(
+      (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
+    );
+    field.onChange(files);
     setPreviews(
-      [...e.target.files].map(
+      files.map(
         (file) =>
           ({
             url: URL.createObjectURL(file),
