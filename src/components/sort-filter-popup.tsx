@@ -19,12 +19,19 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 
 export const sortFilterSchema = z.object({
   filter: z
-    .custom<`${"createDate" | "travelerFee" | "unitPrice"}-${"asc" | "desc"}`>(
+    .custom<
+      `${"createDate" | "travelerFee" | "unitPrice"}-${"asc" | "desc"}` | ""
+    >(
       (v) =>
-        !v || /(createDate|travelerFee|unitPrice)-(asc|desc)/.test(v as string)
+        v === "" ||
+        /(createDate|travelerFee|unitPrice)-(asc|desc)/.test(v as string)
     )
     .transform((v) => {
-      if (!v) return { orderBy: undefined, sort: undefined };
+      if (!v)
+        return {
+          orderBy: undefined,
+          sort: undefined,
+        };
 
       const [orderBy, sort] = v.split("-");
       return {
@@ -36,11 +43,8 @@ export const sortFilterSchema = z.object({
 
 export type SortFilterValues = z.infer<typeof sortFilterSchema>;
 
-export const DEFAULT_VALUES: SortFilterValues = {
-  filter: {
-    orderBy: undefined,
-    sort: undefined,
-  },
+export const DEFAULT_VALUES: z.input<typeof sortFilterSchema> = {
+  filter: "",
 };
 
 export interface SortFilterPopupProps {
@@ -58,8 +62,9 @@ export const SortFilterPopup = ({
 }: SortFilterPopupProps) => {
   const isTablet = useMediaQuery((theme) => theme.breakpoints.up("sm"));
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit } = useForm<SortFilterValues>({
     mode: "onChange",
+    // @ts-expect-error false positive
     defaultValues: DEFAULT_VALUES,
     resolver: zodResolver(sortFilterSchema),
   });
