@@ -42,7 +42,7 @@
     "million": "2.6.0-beta.12",
     "mui-one-time-password-input": "^1.2.5",
     "next": "^13.5.6",
-    "next-auth": "^4.24.3",
+    "next-auth": "^4.24.5",
     "notistack": "^3.0.1",
     "object-to-formdata": "^4.5.1",
     "plaiceholder": "^2.5.0",
