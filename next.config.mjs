@@ -29,6 +29,9 @@ const nextConfig = withBundleAnalyzer(
     },
     transpilePackages: ["@mui/system", "@mui/material", "@mui/icons-material"],
     modularizeImports: {
+      "@mui/material": {
+        transform: "@mui/material/{{member}}",
+      },
       "@mui/icons-material": {
         transform: "@mui/icons-material/{{member}}",
       },
@@ -43,4 +46,5 @@ const millionConfig = {
   auto: true,
 };
 
+// @ts-expect-error Test
 export default million.next(nextConfig, millionConfig);
