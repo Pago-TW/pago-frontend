@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 
 import { Add } from "@mui/icons-material";
-import { Container, Stack, ToggleButtonGroup } from "@mui/material";
+import { Container, Skeleton, Stack, ToggleButtonGroup } from "@mui/material";
 import { useInView } from "react-intersection-observer";
 
 import { BaseLayout } from "@/components/layouts/base-layout";
@@ -13,10 +13,12 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@/components/ui/link";
 import { ToggleButton } from "@/components/ui/toggle-button";
 import { useTripCollections } from "@/hooks/api/use-trip-collection";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import type { Sort } from "@/types/api";
 import { flattenInfinitePaginatedData } from "@/utils/api";
 
 const TripsPage: NextPage = () => {
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const [sort, setSort] = useState<Sort>("DESC");
 
   const { ref, inView } = useInView();
@@ -24,6 +26,7 @@ const TripsPage: NextPage = () => {
   const {
     data: tripCollectionsData,
     isFetching,
+    isLoading,
     hasNextPage,
     fetchNextPage,
   } = useTripCollections({
@@ -84,7 +87,21 @@ const TripsPage: NextPage = () => {
                 最舊
               </ToggleButton>
             </ToggleButtonGroup>
-            <TripCollectionList data={tripCollections} />
+            {isLoading ? (
+              <Stack spacing={3}>
+                {Array.from({ length: 5 }).map((_, idx) => (
+                  <Skeleton
+                    key={idx}
+                    variant="rounded"
+                    animation="wave"
+                    width="100%"
+                    height={isMobile ? 131 : 290}
+                  />
+                ))}
+              </Stack>
+            ) : (
+              <TripCollectionList data={tripCollections} />
+            )}
             {!isFetching && hasNextPage ? (
               <span
                 ref={ref}

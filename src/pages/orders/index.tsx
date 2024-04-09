@@ -4,7 +4,7 @@ import Head from "next/head";
 
 import { Add } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Container } from "@mui/material";
+import { Box, Container, Skeleton, Stack } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useInView } from "react-intersection-observer";
 
@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@/components/ui/link";
 import { Tab } from "@/components/ui/tab";
 import { useOrders } from "@/hooks/api/use-orders";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { flattenInfinitePaginatedData } from "@/utils/api";
 
 const TABS = [
@@ -30,6 +31,7 @@ const TABS = [
 type Tab = (typeof TABS)[number];
 
 const OrdersPage: NextPage = () => {
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const [currentTab, setCurrentTab] = useState<Tab["value"]>("ALL");
 
   const { data: session } = useSession();
@@ -39,6 +41,7 @@ const OrdersPage: NextPage = () => {
   const {
     data: ordersData,
     isFetching,
+    isLoading,
     fetchNextPage,
     hasNextPage,
   } = useOrders({ userId }, { enabled: !!userId });
@@ -101,7 +104,21 @@ const OrdersPage: NextPage = () => {
             {/* TabPanels */}
             {TABS.map((tab) => (
               <TabPanel key={tab.value} value={tab.value} sx={{ px: 0 }}>
-                <OrderList items={filterOrders(tab.value)} />
+                {isLoading ? (
+                  <Stack spacing={3}>
+                    {Array.from({ length: 5 }).map((_, idx) => (
+                      <Skeleton
+                        key={idx}
+                        variant="rounded"
+                        animation="wave"
+                        width="100%"
+                        height={isMobile ? 131 : 290}
+                      />
+                    ))}
+                  </Stack>
+                ) : (
+                  <OrderList items={filterOrders(tab.value)} />
+                )}
               </TabPanel>
             ))}
           </TabContext>

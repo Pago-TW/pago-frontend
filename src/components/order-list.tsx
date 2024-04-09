@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
 import { OrderItem, type OrderItemProps } from "@/components/order-item";
 import { Link } from "@/components/ui/link";
@@ -9,6 +9,13 @@ export type OrderListProps = Pick<OrderItemProps, "variant"> & {
 };
 
 export const OrderList = ({ variant, items }: OrderListProps) => {
+  if (items.length === 0)
+    return (
+      <Typography variant="body1" color="base.500" sx={{ textAlign: "center" }}>
+        沒有可顯示的委託
+      </Typography>
+    );
+
   return (
     <Stack spacing={2}>
       {items.map((item) => (
